@@ -40,16 +40,7 @@ class PublicNav extends React.Component {
           </div>
           <ul className="navigation float-right">
             <li className="menu-item">
-              <a onClick={() => this.scrollTo('#landing')}>Home</a>
-            </li>
-            <li className="menu-item show-for-medium">
-              <a onClick={() => this.scrollTo('#about-me')}>About</a>
-            </li>
-            <li className="menu-item">
-              <Link to="/projects">Portfolio</Link>
-            </li>
-            <li className="menu-item show-for-medium">
-              <a onClick={() => this.scrollTo('#contacts')}>Contacts</a>
+              <a href="/">Home</a>
             </li>
           </ul>
           <div className="social-icons float-right"></div>
