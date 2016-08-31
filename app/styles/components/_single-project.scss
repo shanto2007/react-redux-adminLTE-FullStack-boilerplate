@@ -1,0 +1,17 @@
+#public-project-signle{
+  padding-top: 75px;
+  padding-bottom: 75px;
+
+  .project-title{
+    font-size: 2rem;
+    color: $grey;
+  }
+  .project-description{
+    margin-top: 60px;
+    color: $grey;
+    font-size: .9rem;
+  }
+  .project-media{
+    margin: 15px 0;
+  }
+}

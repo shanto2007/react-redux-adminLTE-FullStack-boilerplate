@@ -1,0 +1,29 @@
+#project-editor{
+  #editor{
+    min-height: 500px;
+    padding: 15px;
+    border: 1px solid #555;
+    border-top: 0px;
+    margin-bottom: 25px;
+    &, &:focus{
+      outline:0px;
+      box-shadow: 0px;
+    }
+  }
+  #project-title{
+    background: transparent;
+    border: 0px;
+    border-bottom: 4px solid #555;
+    box-shadow: 0px !important;
+    margin-bottom: 0;
+    &, &:focus{
+      outline:0px !important;
+    }
+    &.valid{
+      border-bottom-color: green;
+    }
+    &.invalid{
+      border-bottom-color: red;
+    }
+  }
+}

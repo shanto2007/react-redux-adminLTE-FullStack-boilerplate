@@ -1,0 +1,13 @@
+node_modules/
+bower_components/
+npm-debug.log
+
+uploads/
+public/assets/
+
+.svg
+.eot
+.ttf
+
+stats.json
+

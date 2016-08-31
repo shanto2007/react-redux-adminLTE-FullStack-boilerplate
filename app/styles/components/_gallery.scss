@@ -1,0 +1,115 @@
+@keyframes hideItem{
+  0%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(0);
+  }
+}
+
+@keyframes showItem{
+  0%{
+    transform: scale(0);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+.gallery-categories{
+  width: 100%;
+  text-align: right;
+  margin: 40px 0;
+
+  .gallery-category{
+    display: inline-block;
+    margin: 0 20px;
+    text-transform: uppercase;
+    transition: all ease-out .25s;
+    cursor: pointer;
+
+  }
+}
+.grid-container{
+  .grid-item{
+    width: 25%;
+    cursor: pointer;
+    position: relative;
+
+    img{
+      width: 100%;
+    }
+
+    transition: all ease-out .5s;
+    &.show-item{
+      animation: showItem ease-out .5s;
+      animation-fill-mode: forward;
+      opacity: 1;
+      display: initial;
+    }
+    &.hide-item{
+      animation: hideItem ease-out .5s;
+      animation-fill-mode: forward;
+      opacity: 0;
+      display: none;
+    }
+
+    @media #{$md-only}{
+      width: 50%;
+    }
+
+    @media #{$sm}{
+      width: 100%;
+    }
+
+    &:nth-child(even){
+      .overlay{
+        background: fade-out($secondary, 0.15);
+      }
+    }
+
+    &:nth-child(odd){
+      .overlay{
+        background: fade-out($primary, 0.15);
+      }
+    }
+
+    .overlay{
+      z-index: 1;
+      position: absolute;
+      top:0;
+      left:0;
+      width: 90%;
+      height: 90%;
+      margin: 5%;
+      opacity: 0;
+      transition: all ease-out .25s;
+
+      .overlay-title, .overlay-category, .icon{
+        position: absolute;
+      }
+      .overlay-title{
+        max-width: 75%;
+        bottom:45px;
+        left:15px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .overlay-category{
+        bottom:15px;
+        left:15px;
+      }
+      .icon{
+        right:15px;
+        bottom: 25px;
+      }
+    }
+
+    &:hover{
+      .overlay{
+        opacity: 1;
+      }
+    }
+
+  }
+}

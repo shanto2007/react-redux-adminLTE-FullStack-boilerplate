@@ -1,0 +1,5 @@
+app/tests/**
+app/styles/**
+test/**/**
+webpack.config.js
+.eslintrc.js

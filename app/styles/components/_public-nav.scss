@@ -1,0 +1,54 @@
+nav#main-navigation{
+  height: 75px;
+  overflow: hidden;
+
+  transition: all ease-out .25s;
+
+  &.fixed{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 75px;
+    background: $white;
+    z-index: 10;
+  }
+
+  &.static{
+    position: static;
+  }
+
+  .row{
+    height: 100%;
+  }
+
+  .brand{
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+    img{
+      height: 65px;
+    }
+  }
+
+
+  ul.navigation{
+    list-style-type: none;
+    margin: 0;
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+
+    .menu-item{
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 15px;
+      &:hover{
+        @extend .bold;
+      }
+      a{
+        color: $black;
+      }
+    }
+  }
+}
