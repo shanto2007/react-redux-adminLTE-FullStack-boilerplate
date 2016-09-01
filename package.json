@@ -1,8 +1,8 @@
 {
-  "name": "react-redux-portfolio",
+  "name": "react-redux-adminlte-boilerplate",
   "version": "0.2.0",
   "description": "Simple react/redux Portfolio webapp Boilerplate",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "npm run test-server && npm run test-app",
     "test:server": "PORT=8282 NODE_ENV=test mocha test/test",
