@@ -10,6 +10,9 @@ const UserCtrl = require('./controllers/user.controller')
 const MediaCtrl = require('./controllers/media.controller')
 const SettingCtrl = require('./controllers/setting.controller')
 const EmailCtrl = require('./controllers/email.controller')
+const SeasonCtrl = require('./controllers/season.controller')
+const RoundCtrl = require('./controllers/round.controller')
+
 
 /**
  * middleware
@@ -57,6 +60,27 @@ module.exports = (express, app) => {
   api.patch('/media/:id?', AuthRequired(), MediaCtrl.edit)
   api.delete('/media/:id?', AuthRequired(), MediaCtrl.delete)
   api.post('/media/upload', AuthRequired(), upload.single('media'), MediaCtrl.upload)
+
+
+  /**
+   *  SEASONS
+   */
+  api.get('/admin/seasons', SeasonCtrl.indexAdmin)
+  api.post('/admin/season', SeasonCtrl.create)
+  api.patch('/admin/season', SeasonCtrl.edit)
+  api.delete('/admin/season', SeasonCtrl.delete)
+  //  public
+  api.get('/seasons', SeasonCtrl.indexPublic)
+
+  /**
+   *  SEASONS
+   */
+  api.get('/admin/rounds', RoundCtrl.indexAdmin)
+  api.post('/admin/round', RoundCtrl.create)
+  api.patch('/admin/round', RoundCtrl.edit)
+  api.delete('/admin/round', RoundCtrl.delete)
+  //  public
+  api.get('/rounds', RoundCtrl.indexPublic)
 
   /**
    * ACCOUNT
