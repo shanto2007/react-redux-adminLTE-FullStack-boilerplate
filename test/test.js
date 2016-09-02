@@ -1,14 +1,12 @@
+global.testenv = {}
 /**
  * SETUP
  */
 const path = require('path')
-const rootdir = path.join(__dirname, '../')
-const servermodule = path.join(rootdir, 'server.js')
-const serverdir = path.join(rootdir, 'server/')
+testenv.rootdir = path.join(__dirname, '../')
+testenv.servermodule = path.join(rootdir, 'server.js')
+testenv.serverdir = path.join(rootdir, 'server/')
 
-process.env.__rootdir = rootdir
-process.env.__server = servermodule
-process.env.__serverdir = serverdir
 
 /**
  * TESTS
