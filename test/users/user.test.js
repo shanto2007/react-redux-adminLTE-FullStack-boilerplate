@@ -18,6 +18,11 @@ describe('User', () => {
     admin: true,
   }
 
+  after(() => {
+    process.env.admin_token = admin_token
+    process.env.user_token = user_token
+  })
+
   /**
    * USER CREATION
    */

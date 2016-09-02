@@ -65,10 +65,10 @@ module.exports = (express, app) => {
   /**
    *  SEASONS
    */
-  api.get('/admin/seasons', SeasonCtrl.indexAdmin)
-  api.post('/admin/season', SeasonCtrl.create)
-  api.patch('/admin/season', SeasonCtrl.edit)
-  api.delete('/admin/season', SeasonCtrl.delete)
+  api.get('/admin/seasons', AuthRequired(), SeasonCtrl.indexAdmin)
+  api.post('/admin/season', AuthRequired(), SeasonCtrl.create)
+  api.patch('/admin/season', AuthRequired(), SeasonCtrl.edit)
+  api.delete('/admin/season', AuthRequired(), SeasonCtrl.delete)
   //  public
   api.get('/seasons', SeasonCtrl.indexPublic)
 

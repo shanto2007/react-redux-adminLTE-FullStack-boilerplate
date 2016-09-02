@@ -19,4 +19,6 @@ require('./medias/media.test.js')
 require('./emails/emailer.test.js')
 require('./settings/setting.test.js')
 
+require('./season/season.test.js')
+
 require('./cleanup')
