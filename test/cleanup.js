@@ -2,14 +2,12 @@ const { testenv } = global
 const User = require(testenv.serverdir + 'models/user.model')
 const Season = require(testenv.serverdir + 'models/season.model')
 const Round = require(testenv.serverdir + 'models/round.model')
+const Day = require(testenv.serverdir + 'models/day.model')
 
 
 describe('User Cleanup', () => {
   it('shoud cleanup the db users leftover', (done) => {
-    User.find({}, (err, users) => {
-      users.forEach((user) => {
-        user.remove()
-      })
+    User.remove({}, (err) => {
       done();
     })
   })
@@ -17,10 +15,7 @@ describe('User Cleanup', () => {
 
 describe('Season Cleanup', () => {
   it('shoud cleanup the db season leftover', (done) => {
-    Season.find({}, (err, seasons) => {
-      seasons.forEach((season) => {
-        season.remove()
-      })
+    Season.remove({}, (err) => {
       done();
     })
   })
@@ -28,11 +23,16 @@ describe('Season Cleanup', () => {
 
 describe('Round Cleanup', () => {
   it('shoud cleanup the db round leftover', (done) => {
-    Round.find({}, (err, rounds) => {
-      rounds.forEach((round) => {
-        round.remove()
-      })
+    Round.remove({}, (err) => {
       done();
     })
   })
 })
+
+// describe('Day Cleanup', () => {
+//   it('shoud cleanup the db day leftover', (done) => {
+//     Day.remove({}, (err) => {
+//       done();
+//     })
+//   })
+// })

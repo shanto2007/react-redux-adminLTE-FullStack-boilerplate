@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for globuscup-node/server/controllers/email.controller.js</title>
+    <title>Code coverage report for globuscup-node/server/models/day.model.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../index.html">all files</a> / <a href="index.html">globuscup-node/server/controllers/</a> email.controller.js
+      <a href="../../../index.html">all files</a> / <a href="index.html">globuscup-node/server/models/</a> day.model.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">90% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/10</span>
+        <span class='fraction'>18/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/10</span>
+        <span class='fraction'>18/18</span>
       </div>
     </div>
   </div>
@@ -71,25 +71,19 @@
 26
 27
 28
-29</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -99,34 +93,76 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const nodemailer = require('nodemailer')
-const sendmailTransport = require('nodemailer-sendmail-transport')
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose')
 &nbsp;
-const transporter = nodemailer.createTransport(sendmailTransport())
+const daySchema = mongoose.Schema({
+  round: { type: mongoose.Schema.ObjectId, ref: 'round', required: true },
+  season: { type: mongoose.Schema.ObjectId, ref: 'season', required: true },
+  lastday: { type: Boolean, default: false },
+  count: { type: Number, default: 0 }
+})
 &nbsp;
-module.exports = {
-  send: (req, res) =&gt; {
-    const mail = req.body
-    const mailOptions = {
-      from: `${mail.from}`,
-      to: process.env.EMAIL,
-      subject: mail.subject || <span class="branch-1 cbranch-no" title="branch not covered" >`Email from ${process.env.APP_NAME}`,</span>
-      text: mail.message,
-    }
-    return transporter.sendMail(mailOptions, (error, info) =&gt; {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {
-<span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
-          success: false,
+/**
+ * Update lastday attribute per round
+ * @return Promise
+ */
+daySchema.statics.roundUpdateLastDay = function roundUpdateLastDay(dayId, roundId) {
+  const { Promise } = global
+  const Day = this
+  return new Promise((resolve, reject) =&gt; {
+    return Day.update({ round: roundId }, { $set: { lastday: false } }, (err) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-no" title="statement not covered" >return reject(err)</span>
+      return Day.findOneAndUpdate({ _id: dayId }, { $set: { lastday: true } }, { new: true }, (err, updated) =&gt; {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-no" title="statement not covered" >return reject(err)</span>
+        return resolve({
+          success: true,
+          updated,
         })
-      }
-      return res.json({
-        success: true,
-        message: 'Email sent!',
-        info,
       })
-    });
-  },
+    })
+  })
 }
+&nbsp;
+daySchema.pre('save', function incrementDayCounter(next){
+  const day = this
+  console.log("&gt;&gt;&gt;&gt;", day.round);
+  day.model('day').find({ round: day.round }, (err, res) =&gt; {
+    res.count = res.length
+    next()
+  })
+})
+&nbsp;
+module.exports = mongoose.model('day', daySchema, 'days')
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->

@@ -12,6 +12,7 @@ const SettingCtrl = require('./controllers/setting.controller')
 const EmailCtrl = require('./controllers/email.controller')
 const SeasonCtrl = require('./controllers/season.controller')
 const RoundCtrl = require('./controllers/round.controller')
+const DayCtrl = require('./controllers/day.controller')
 
 
 /**
@@ -73,7 +74,7 @@ module.exports = (express, app) => {
   api.get('/seasons', SeasonCtrl.indexPublic)
 
   /**
-   *  SEASONS
+   *  ROUNDS
    */
   api.get('/admin/rounds', AuthRequired(), RoundCtrl.indexAdmin)
   api.post('/admin/round', AuthRequired(), RoundCtrl.create)
@@ -81,6 +82,16 @@ module.exports = (express, app) => {
   api.delete('/admin/round', AuthRequired(), RoundCtrl.delete)
   //  public
   api.get('/rounds', RoundCtrl.indexPublic)
+
+  /**
+   *  DAYS
+   */
+  api.get('/admin/days', AuthRequired(), DayCtrl.indexAdmin)
+  api.post('/admin/day', AuthRequired(), DayCtrl.create)
+  api.patch('/admin/day', AuthRequired(), DayCtrl.edit)
+  api.delete('/admin/day', AuthRequired(), DayCtrl.delete)
+  //  public
+  api.get('/days', DayCtrl.indexPublic)
 
   /**
    * ACCOUNT
