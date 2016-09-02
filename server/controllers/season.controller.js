@@ -53,13 +53,14 @@ module.exports = {
   },
   edit: (req, res) => {
     const seasonId = req.body.id || req.body._id
+    const editedSeason = req.body
     if (!seasonId) {
       return res.status(400).json({
         success: false,
         message: 'Season id is required',
       })
     }
-    return Season.findOneAndUpdate({ _id: seasonId }, req.body, { new: true }, (err, season) => {
+    return Season.findOneAndUpdate({ _id: seasonId }, editedSeason, { new: true }, (err, season) => {
       if (err) {
         return res.status(500).json({
           success: false,

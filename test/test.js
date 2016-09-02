@@ -20,7 +20,8 @@ require('./settings/setting.test.js')
 /**
  * PER PROJECTS MODELS
  */
-require('./season/season.test.js')
+require('./season/season.admin.test.js')
+require('./round/round.admin.test.js')
 
 /**
  * CLEANUPS

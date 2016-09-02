@@ -30,20 +30,26 @@ module.exports = {
     })
   },
   create: (req, res) => {
-    const round = req.body
-    if (!round) {
+    const newRoundRequest = req.body
+    if (!newRoundRequest) {
       return res.status(400).json({
         success: false,
         message: 'No data provided',
       })
     }
-    if (!round.season) {
+    if (!newRoundRequest.season) {
       return res.status(400).json({
         success: false,
         message: 'No Season Id Provided',
       })
     }
-    const newRound = new Round(round)
+    if (!newRoundRequest.label) {
+      return res.status(400).json({
+        success: false,
+        message: 'No Round Label Provided',
+      })
+    }
+    const newRound = new Round(newRoundRequest)
     return newRound.save((err, round) => {
       if (err) {
         return res.status(500).json({
@@ -58,14 +64,15 @@ module.exports = {
     })
   },
   edit: (req, res) => {
-    const editRound = req.body
-    if (!editRound || !editRound._id) {
+    const editRoundRequest = req.body
+    const roundId = editRoundRequest.id || editRoundRequest._id
+    if (!roundId) {
       return res.status(400).json({
         success: false,
         message: 'No data or id provided',
       })
     }
-    return Round.findOneAndUpdate({ _id: editRound._id }, editRound, { new: true }, (err, round) => {
+    return Round.findOneAndUpdate({ _id: roundId }, editRoundRequest, { new: true }, (err, round) => {
       if (err) {
         return res.status(500).json({
           success: false,

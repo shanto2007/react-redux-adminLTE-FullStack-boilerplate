@@ -75,10 +75,10 @@ module.exports = (express, app) => {
   /**
    *  SEASONS
    */
-  api.get('/admin/rounds', RoundCtrl.indexAdmin)
-  api.post('/admin/round', RoundCtrl.create)
-  api.patch('/admin/round', RoundCtrl.edit)
-  api.delete('/admin/round', RoundCtrl.delete)
+  api.get('/admin/rounds', AuthRequired(), RoundCtrl.indexAdmin)
+  api.post('/admin/round', AuthRequired(), RoundCtrl.create)
+  api.patch('/admin/round', AuthRequired(), RoundCtrl.edit)
+  api.delete('/admin/round', AuthRequired(), RoundCtrl.delete)
   //  public
   api.get('/rounds', RoundCtrl.indexPublic)
 

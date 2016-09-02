@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "npm run test-server && npm run test-app",
-    "test:server": "PORT=8282 NODE_ENV=test mocha test/test",
+    "test:server": "PORT=8282 NODE_ENV=test istanbul cover _mocha test/test",
     "test:app": "NODE_ENV=test karma start",
     "start": "node server.js",
     "build": "NODE_ENV=dev webpack -p",
