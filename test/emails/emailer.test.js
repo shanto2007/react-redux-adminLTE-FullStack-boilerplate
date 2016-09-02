@@ -1,4 +1,5 @@
-const app = require(process.env.__server)
+const { testenv } = global
+const app = require(testenv.app)
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const expect = require('expect')

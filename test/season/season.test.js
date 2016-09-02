@@ -1,16 +1,10 @@
-var app = require(process.env.__server)
+const { testenv } = global
+var app = require(testenv.app)
 var chai = require('chai')
 var chaiHttp = require('chai-http')
 var expect = require('expect')
 
 describe('Season ADMIN', () => {
-  let admin_token, user_token, season_id
-
-  before(() => {
-    admin_token = process.env.admin_token
-    user_token = process.env.user_token
-    console.log(global.testUtils);
-  })
 
   /**
    *  CREATION
@@ -19,7 +13,7 @@ describe('Season ADMIN', () => {
   it('shoud not create without year attribute', (done) => {
     chai.request(app)
     .post('/api/admin/season')
-    .set('Authorization', user_token)
+    .set('Authorization', testenv.userAuthToken)
     .end((err, res) => {
       expect(res).toExist()
       expect(res.status).toNotBe(200)
@@ -29,7 +23,7 @@ describe('Season ADMIN', () => {
   it('shoud create unique year field 2016', (done) => {
     chai.request(app)
     .post('/api/admin/season')
-    .set('Authorization', user_token)
+    .set('Authorization', testenv.userAuthToken)
     .send({
       year: 2016,
     })
@@ -45,7 +39,7 @@ describe('Season ADMIN', () => {
   it('shoud create unique year field 2017', (done) => {
     chai.request(app)
     .post('/api/admin/season')
-    .set('Authorization', user_token)
+    .set('Authorization', testenv.userAuthToken)
     .send({
       year: 2017,
     })
@@ -60,7 +54,7 @@ describe('Season ADMIN', () => {
   it('shoud not create with existing unique year field', (done) => {
     chai.request(app)
     .post('/api/admin/season')
-    .set('Authorization', user_token)
+    .set('Authorization', testenv.userAuthToken)
     .send({
       year: 2016,
     })

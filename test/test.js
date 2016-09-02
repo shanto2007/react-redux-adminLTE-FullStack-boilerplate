@@ -4,8 +4,8 @@ global.testenv = {}
  */
 const path = require('path')
 testenv.rootdir = path.join(__dirname, '../')
-testenv.servermodule = path.join(rootdir, 'server.js')
-testenv.serverdir = path.join(rootdir, 'server/')
+testenv.app = path.join(testenv.rootdir, 'server.js')
+testenv.serverdir = path.join(testenv.rootdir, 'server/')
 
 
 /**

@@ -1,5 +1,7 @@
-const User = require(process.env.__serverdir + 'models/user.model')
-const Season = require(process.env.__serverdir + 'models/season.model')
+const { testenv } = global
+const User = require(testenv.serverdir + 'models/user.model')
+const Season = require(testenv.serverdir + 'models/season.model')
+
 
 describe('User Cleanup', () => {
   it('shoud cleanup the db users leftover', (done) => {

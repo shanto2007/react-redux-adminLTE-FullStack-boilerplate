@@ -1,5 +1,6 @@
-const app      = require(process.env.__server)
-const Media    = require(process.env.__serverdir + 'models/media.model')
+const { testenv } = global
+const app      = require(testenv.app)
+const Media    = require(testenv.serverdir + 'models/media.model')
 const fs       = require('fs')
 const path     = require('path')
 const chai     = require('chai')
@@ -62,7 +63,7 @@ describe('Media', () => {
       let media_file = path.join( __dirname, './media/test.jpeg' )
       chai.request(app)
       .post('/api/media/upload')
-      .set('Authorization', process.env.AUTH_TOKEN)
+      .set('Authorization', testenv.userAuthToken)
       .attach('media', fs.readFileSync(media_file), 'test.jpeg')
       .end((err, res) => {
         if (err) throw err
@@ -78,7 +79,7 @@ describe('Media', () => {
     it('shoud get single media', ( done ) => {
       chai.request(app)
       .get('/api/media/' + media_id )
-      .set('Authorization', process.env.AUTH_TOKEN)
+      .set('Authorization', testenv.userAuthToken)
       .end((err, res) => {
         expect(res).toExist()
         expect(res.status).toBe(200)
@@ -104,7 +105,7 @@ describe('Media', () => {
     it('shoud edit single element', ( done ) => {
       chai.request(app)
       .patch('/api/media/' + media_id)
-      .set('Authorization', process.env.AUTH_TOKEN)
+      .set('Authorization', testenv.userAuthToken)
       .send({
         filename: '123.jpg',
       })
@@ -131,7 +132,7 @@ describe('Media', () => {
     it('shoud delete the single media', (done) => {
       chai.request(app)
       .delete('/api/media/' + media_id )
-      .set('Authorization', process.env.AUTH_TOKEN)
+      .set('Authorization', testenv.userAuthToken)
       .end((err, res) => {
         expect(res).toExist()
         expect(res.status).toBe(200)

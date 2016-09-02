@@ -1,8 +1,9 @@
-var app = require(process.env.__server)
-var chai = require('chai')
-var chaiHttp = require('chai-http')
-var expect = require('expect')
-var User = require(process.env.__serverdir + 'models/user.model')
+const { testenv } = global
+const app = require(testenv.app)
+const chai = require('chai')
+const chaiHttp = require('chai-http')
+const expect = require('expect')
+const User = require(testenv.serverdir + 'models/user.model')
 
 chai.use(chaiHttp)
 
@@ -19,8 +20,8 @@ describe('User', () => {
   }
 
   after(() => {
-    process.env.admin_token = admin_token
-    process.env.user_token = user_token
+    testenv.adminAuthToken = admin_token
+    testenv.userAuthToken = user_token
   })
 
   /**
@@ -97,7 +98,6 @@ describe('User', () => {
         expect(res.status).toBe(200)
         expect(res.body.token).toExist()
         user_token = res.body.token
-        process.env.AUTH_TOKEN = user_token
         done()
       })
     })

@@ -1,5 +1,6 @@
-const app = require(process.env.__server)
-const Setting = require(process.env.__serverdir + 'models/setting.model')
+const { testenv } = global
+const app = require(testenv.app)
+const Setting = require(testenv.serverdir + 'models/setting.model')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const expect = require('expect')
@@ -36,7 +37,7 @@ describe('Setting', () => {
       chai
         .request(app)
         .get('/api/setting')
-        .set('Authorization', process.env.AUTH_TOKEN)
+        .set('Authorization', testenv.userAuthToken)
         .end((err, res) => {
           expect(res).toExist()
           expect(res.status).toBe(200)
@@ -48,7 +49,7 @@ describe('Setting', () => {
       chai
         .request(app)
         .patch('/api/setting')
-        .set('Authorization', process.env.AUTH_TOKEN)
+        .set('Authorization', testenv.userAuthToken)
         .send({
           sitename: 'TestEdit',
           mailContact: 'test@myedit.com',
