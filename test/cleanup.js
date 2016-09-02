@@ -29,10 +29,10 @@ describe('Round Cleanup', () => {
   })
 })
 
-// describe('Day Cleanup', () => {
-//   it('shoud cleanup the db day leftover', (done) => {
-//     Day.remove({}, (err) => {
-//       done();
-//     })
-//   })
-// })
+describe('Day Cleanup', () => {
+  it('shoud cleanup the db day leftover', (done) => {
+    Day.remove({}, (err) => {
+      done();
+    })
+  })
+})

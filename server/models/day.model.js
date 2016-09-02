@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const daySchema = mongoose.Schema({
-  round: { type: mongoose.Schema.ObjectId, ref: 'round', required: true },
-  season: { type: mongoose.Schema.ObjectId, ref: 'season', required: true },
+  round: { type: mongoose.Schema.ObjectId, ref: 'round', required: [true, 'No round ID provided'] },
+  season: { type: mongoose.Schema.ObjectId, ref: 'season', required: [true, 'No season ID provided'] },
   lastday: { type: Boolean, default: false },
 })
 
