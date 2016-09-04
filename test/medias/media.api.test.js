@@ -13,7 +13,7 @@ chai.use(chaiHttp)
  * API
  */
 describe.only('Media - API', () => {
-  let media_id, userAuthToken
+  let mediaId, userAuthToken, storedMediaPath, preUploadMediaStat
 
   // generate a auth dummy token
   before(() => {
@@ -24,11 +24,14 @@ describe.only('Media - API', () => {
   })
 
   it('shoud NOT upload a media without an authToken', (done) => {
-    let media_file = path.join( __dirname, './media/test.jpeg' )
+    let mediaFile = path.join( __dirname, './media/test.jpeg' )
+    fs.stat(mediaFile, (err, stat) => {
+      preUploadMediaStat = stat
+    })
     chai
       .request(app)
       .post('/api/media/upload')
-      .attach('media', fs.readFileSync(media_file), 'test.jpeg')
+      .attach('media', fs.readFileSync(mediaFile), 'test.jpeg')
       .end((err, res) => {
         expect(res).toExist()
         expect(res.status).toBe(400)
@@ -37,38 +40,49 @@ describe.only('Media - API', () => {
   })
 
   it('shoud upload a media', (done) => {
-    let media_file = path.join( __dirname, './media/test.jpeg' )
+    let mediaFile = path.join( __dirname, './media/test.jpeg' )
     chai.request(app)
     .post('/api/media/upload')
     .set('Authorization', userAuthToken)
-    .attach('media', fs.readFileSync(media_file), 'test.jpeg')
+    .attach('media', fs.readFileSync(mediaFile), 'test.jpeg')
     .end((err, res) => {
       if (err) throw err
       let {body} = res
       expect(res.status).toBe(200)
       expect(body.success).toBe(true)
       expect(body.media).toExist()
-      media_id = String(res.body.media._id)
+      mediaId = String(res.body.media._id)
+      storedMediaPath = body.media.path
+      done()
+    })
+  })
+
+  it('shoud check that file has been stored', (done) => {
+    const filePath = path.join(testenv.rootdir, storedMediaPath)
+    fs.stat(filePath, (err, stat) => {
+      console.log(stat);
+      expect(stat).toExist()
+      expect(stat.size).toEqual(preUploadMediaStat.size)
       done()
     })
   })
 
   it('shoud get single media', ( done ) => {
     chai.request(app)
-    .get('/api/media/' + media_id )
+    .get('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
     .end((err, res) => {
       expect(res).toExist()
       expect(res.status).toBe(200)
       let {body} = res
-      expect( String(body.media._id) ).toEqual( String(media_id) )
+      expect( String(body.media._id) ).toEqual( String(mediaId) )
       done()
     })
   })
 
-  it('shoud NOT edit single element', ( done ) => {
+  it('shoud NOT edit single element without auth token', ( done ) => {
     chai.request(app)
-    .patch('/api/media/' + media_id)
+    .patch('/api/media/' + mediaId)
     .send({
       filename: 'testChange.jpg'
     })
@@ -81,7 +95,7 @@ describe.only('Media - API', () => {
 
   it('shoud edit single element', ( done ) => {
     chai.request(app)
-    .patch('/api/media/' + media_id)
+    .patch('/api/media/' + mediaId)
     .set('Authorization', userAuthToken)
     .send({
       filename: '123.jpg',
@@ -96,9 +110,9 @@ describe.only('Media - API', () => {
   })
 
 
-  it('shoud NOT delete the single media', (done) => {
+  it('shoud NOT delete the single media without authToken', (done) => {
     chai.request(app)
-    .delete('/api/media/' + media_id )
+    .delete('/api/media/' + mediaId )
     .end((err, res) => {
       expect(res).toExist()
       expect(res.status).toBe(400)
@@ -108,7 +122,7 @@ describe.only('Media - API', () => {
 
   it('shoud delete the single media', (done) => {
     chai.request(app)
-    .delete('/api/media/' + media_id )
+    .delete('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
     .end((err, res) => {
       expect(res).toExist()
