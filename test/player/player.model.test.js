@@ -7,7 +7,7 @@ const Player = require(testenv.serverdir + 'models/player.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe.only('Player - Model', () => {
+describe('Player - Model', () => {
   let seasonId, roundId, dayId, dummyPlayer
 
   before((done) => {
