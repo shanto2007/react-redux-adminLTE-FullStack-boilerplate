@@ -1,7 +1,7 @@
 const { testenv } = global
-var Season = require(testenv.serverdir + 'models/season.model')
-var chai = require('chai')
-var expect = require('expect')
+const Season = require(testenv.serverdir + 'models/season.model')
+const chai = require('chai')
+const expect = require('expect')
 
 describe('Season - Model', () => {
   let firstCreatedId

@@ -1,9 +1,9 @@
 const { testenv, Promise } = global
-var Day = require(testenv.serverdir + 'models/day.model')
-var Season = require(testenv.serverdir + 'models/season.model')
-var Round = require(testenv.serverdir + 'models/round.model')
-var chai = require('chai')
-var expect = require('expect')
+const Day = require(testenv.serverdir + 'models/day.model')
+const Season = require(testenv.serverdir + 'models/season.model')
+const Round = require(testenv.serverdir + 'models/round.model')
+const chai = require('chai')
+const expect = require('expect')
 
 describe('Day - Model', () => {
   let dayToEditId, dummy_day, originalLastDayId, newLastDayId, roundId, seasonId

@@ -1,11 +1,11 @@
 const { testenv, getRandomInt, Promise } = global
-var Team = require(testenv.serverdir + 'models/team.model')
-var Season = require(testenv.serverdir + 'models/season.model')
-var Round = require(testenv.serverdir + 'models/round.model')
-var Day = require(testenv.serverdir + 'models/day.model')
-var Match = require(testenv.serverdir + 'models/match.model')
-var chai = require('chai')
-var expect = require('expect')
+const Team = require(testenv.serverdir + 'models/team.model')
+const Season = require(testenv.serverdir + 'models/season.model')
+const Round = require(testenv.serverdir + 'models/round.model')
+const Day = require(testenv.serverdir + 'models/day.model')
+const Match = require(testenv.serverdir + 'models/match.model')
+const chai = require('chai')
+const expect = require('expect')
 
 describe('Match - Model', () => {
   let seasonId, roundId, dayId, teamAId, teamBId
@@ -146,7 +146,6 @@ describe('Match - Model', () => {
     }, (err, match) => {
       expect(err).toNotExist()
       expect(match).toExist()
-      console.log(match);
       done()
     })
   })

@@ -1,10 +1,10 @@
 const { testenv, getRandomInt, Promise } = global
-var Team = require(testenv.serverdir + 'models/team.model')
-var Season = require(testenv.serverdir + 'models/season.model')
-var Round = require(testenv.serverdir + 'models/round.model')
-var Media = require(testenv.serverdir + 'models/media.model')
-var chai = require('chai')
-var expect = require('expect')
+const Team = require(testenv.serverdir + 'models/team.model')
+const Season = require(testenv.serverdir + 'models/season.model')
+const Round = require(testenv.serverdir + 'models/round.model')
+const Media = require(testenv.serverdir + 'models/media.model')
+const chai = require('chai')
+const expect = require('expect')
 
 describe('Team - Model', () => {
   let seasonId, roundId
