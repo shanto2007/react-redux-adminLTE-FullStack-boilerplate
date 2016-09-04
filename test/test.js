@@ -23,7 +23,7 @@ require('./settings/setting.test.js')
 require('./season/season.model.test.js')
 require('./season/season.admin.test.js')
 
-// require('./round/round.model.test.js')
+require('./round/round.model.test.js')
 require('./round/round.admin.test.js')
 
 require('./day/day.model.test.js')

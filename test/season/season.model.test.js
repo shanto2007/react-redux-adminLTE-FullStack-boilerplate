@@ -49,9 +49,7 @@ describe('Season - Model', () => {
     })
   })
 
-  after(() => {
-    Season.remove({}, (err) => {
-      if (err) throw err
-    })
+  after((done) => {
+    Season.remove({}).then(done()).catch(done)
   })
 })
