@@ -44,10 +44,20 @@ describe('Day - Model', () => {
     Day
     .roundSetLastDay(dayToEditId)
     .then((res) => {
+      expect(res).toExist()
       done()
     })
     .catch((err) => {
       throw err
+    })
+  })
+
+  it('shoud throw error if id is invalid', (done) => {
+    Day
+    .roundSetLastDay("dayToEditId")
+    .catch((err) => {
+      expect(err).toExist()
+      done()
     })
   })
 
@@ -58,6 +68,12 @@ describe('Day - Model', () => {
       expect(String(days[0]._id)).toBe(String(newLastDayId))
       expect(String(days[0]._id)).toNotBe(String(originalLastDayId))
       done()
+    })
+  })
+
+  after(() => {
+    Day.remove({}, (err) => {
+      if (err) throw err
     })
   })
 })

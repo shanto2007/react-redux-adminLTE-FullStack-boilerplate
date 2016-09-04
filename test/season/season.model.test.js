@@ -49,16 +49,9 @@ describe('Season - Model', () => {
     })
   })
 
-  it('shoud set one season as the current', (done) => {
-    Season.findOne({ year: 4716 }, (err, doc) => {
+  after(() => {
+    Season.remove({}, (err) => {
       if (err) throw err
-      doc.current = true
-      doc.save(function(err, updated) {
-        expect(err).toNotExist()
-        expect(updated).toExist()
-        done()
-      })
     })
   })
-  
 })
