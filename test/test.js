@@ -40,6 +40,9 @@ require('./team/team.model.test.js')
 require('./match/match.model.test.js')
 // require('./match/match.admin.test.js')
 
+require('./player/player.model.test.js')
+// require('./player/player.admin.test.js')
+
 /**
  * CLEANUPS
  */

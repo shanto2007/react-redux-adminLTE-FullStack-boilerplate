@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 
 const playerSchema = mongoose.Schema({
-  team: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'team',
-    required: [true, 'Player\'s Team id not provided'],
-  },
   season: {
     type: mongoose.Schema.ObjectId,
     ref: 'season',
@@ -16,9 +11,20 @@ const playerSchema = mongoose.Schema({
     ref: 'round',
     required: [true, 'Player\'s Round id not provided'],
   },
+  team: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'team',
+    required: [true, 'Player\'s Team id not provided'],
+  },
   name: {
     type: String,
+    trim: true,
     required: [true, 'Player name not provided'],
+  },
+  surname: {
+    type: String,
+    trim: true,
+    required: [true, 'Player surname not provided'],
   },
   avatar: {
     type: mongoose.Schema.ObjectId,
@@ -36,6 +42,13 @@ const playerSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+})
+
+playerSchema.set('toObject', { virtuals: true });
+playerSchema.set('toJSON', { virtuals: true });
+
+playerSchema.virtual('fullname').get(function fullNameVirtualGenerator() {
+  return `${this.name} ${this.surname}`
 })
 
 module.exports = mongoose.model('player', playerSchema, 'players')
