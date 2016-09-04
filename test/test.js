@@ -7,6 +7,11 @@ testenv.rootdir = path.join(__dirname, '../')
 testenv.app = path.join(testenv.rootdir, 'server.js')
 testenv.serverdir = path.join(testenv.rootdir, 'server/')
 
+global.getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 /**
  * TESTS

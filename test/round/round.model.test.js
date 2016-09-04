@@ -1,16 +1,10 @@
-const { testenv } = global
+const { testenv, getRandomInt } = global
 var app = require(testenv.app)
 var Round = require(testenv.serverdir + 'models/round.model')
 var Season = require(testenv.serverdir + 'models/season.model')
 var chai = require('chai')
 var chaiHttp = require('chai-http')
 var expect = require('expect')
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
 
 describe('Round - Model', () => {
   let seasonId
