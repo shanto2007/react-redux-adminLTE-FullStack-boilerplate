@@ -18,7 +18,8 @@ daySchema.statics.roundSetLastDay = function roundSetLastDay(dayId) {
       $set: {
         lastday: true,
       },
-    }, { new: true }, (err, updatedDay) => {
+    }, { new: true }, (updateDayError, updatedDay) => {
+      if (updateDayError)
       return Day.update({
         round: updatedDay.round,
         _id: { $ne: updatedDay._id },
@@ -26,8 +27,8 @@ daySchema.statics.roundSetLastDay = function roundSetLastDay(dayId) {
         $set: {
           lastday: false,
         },
-      }, (err) => {
-        if (err) return reject(err)
+      }, (updateBulkError) => {
+        if (updateBulkError) return reject(err)
         return resolve(updatedDay)
       })
     })
