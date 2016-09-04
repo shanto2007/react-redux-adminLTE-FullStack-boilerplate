@@ -23,7 +23,7 @@ describe.only('Media - API', () => {
     }, process.env.APP_KEY )
   })
 
-  it('shoud NOT upload a media and create db record', (done) => {
+  it('shoud NOT upload a media without an authToken', (done) => {
     let media_file = path.join( __dirname, './media/test.jpeg' )
     chai
       .request(app)
@@ -36,7 +36,7 @@ describe.only('Media - API', () => {
       })
   })
 
-  it('shoud upload a media and create db record', (done) => {
+  it('shoud upload a media', (done) => {
     let media_file = path.join( __dirname, './media/test.jpeg' )
     chai.request(app)
     .post('/api/media/upload')
@@ -115,5 +115,9 @@ describe.only('Media - API', () => {
       expect(res.status).toBe(200)
       done()
     })
+  })
+
+  after((done) => {
+    Media.remove({}).then(done()).catch(done)
   })
 })
