@@ -10,7 +10,7 @@ const daySchema = mongoose.Schema({
  * MODEL METHOD - Update lastday attribute per round
  * @return Promise
  */
-daySchema.statics.roundSetLastDay = function roundSetLastDay(dayId) {
+daySchema.statics.setLastDay = function roundSetLastDay(dayId) {
   const { Promise } = global
   const Day = this
   return new Promise((resolve, reject) => {

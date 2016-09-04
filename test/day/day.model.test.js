@@ -40,9 +40,9 @@ describe('Day - Model', () => {
     })
   })
 
-  it('[Model Method] roundUpdateLastDay shoud edit the new lastday, unique per round', (done) => {
+  it('[Method setLastDay] should set a last day and keep it unique per round', (done) => {
     Day
-    .roundSetLastDay(dayToEditId)
+    .setLastDay(dayToEditId)
     .then((res) => {
       expect(res).toExist()
       done()
@@ -54,7 +54,7 @@ describe('Day - Model', () => {
 
   it('shoud throw error if id is invalid', (done) => {
     Day
-    .roundSetLastDay("dayToEditId")
+    .setLastDay("dayToEditId")
     .catch((err) => {
       expect(err).toExist()
       done()
