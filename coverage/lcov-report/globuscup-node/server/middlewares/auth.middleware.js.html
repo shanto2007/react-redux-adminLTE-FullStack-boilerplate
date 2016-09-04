@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.19% </span>
+        <span class="strong">22.22% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>23/27</span>
+        <span class='fraction'>6/27</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85% </span>
+        <span class="strong">20% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>17/20</span>
+        <span class='fraction'>4/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">84.62% </span>
+        <span class="strong">23.08% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>22/26</span>
+        <span class='fraction'>6/26</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -106,17 +106,17 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">22×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,37 +124,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20×</span>
-<span class="cline-any cline-yes">41×</span>
-<span class="cline-any cline-yes">41×</span>
-<span class="cline-any cline-yes">41×</span>
-<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">30×</span>
-<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">30×</span>
-<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const secrets = require('../config/secrets')
@@ -163,17 +163,17 @@ const jwt = require('jsonwebtoken')
 module.exports = (role) =&gt; {
   if (role &amp;&amp; role === 'admin') {
     return (req, res, next) =&gt; {
-      let decoded
-      const token = req.body.token || req.query.token || req.header('Authorization')
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (!token) {
+<span class="cstat-no" title="statement not covered" >      let decoded</span>
+<span class="cstat-no" title="statement not covered" >      const token = req.body.token || req.query.token || req.header('Authorization')</span>
+<span class="cstat-no" title="statement not covered" >      if (!token) {</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(400).json({</span>
           success: false,
           message: 'No token provided',
         })
       }
 &nbsp;
-      try {
-        decoded = jwt.verify(token, secrets.APP_KEY)
+<span class="cstat-no" title="statement not covered" >      try {</span>
+<span class="cstat-no" title="statement not covered" >        decoded = jwt.verify(token, secrets.APP_KEY)</span>
       } catch (err) {
 <span class="cstat-no" title="statement not covered" >        return res.status(403).json({</span>
           success: false,
@@ -181,37 +181,37 @@ module.exports = (role) =&gt; {
         })
       }
 &nbsp;
-      req.user = decoded
+<span class="cstat-no" title="statement not covered" >      req.user = decoded</span>
 &nbsp;
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (!req.user || !req.user.admin) {
+<span class="cstat-no" title="statement not covered" >      if (!req.user || !req.user.admin) {</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(403).json({</span>
           success: false,
           status: 401,
           message: 'Unauthorized.',
         })
       }
-      return next()
+<span class="cstat-no" title="statement not covered" >      return next()</span>
     }
   }
   return (req, res, next) =&gt; {
-    let decoded
-    const token = req.body.token || req.query.token || req.header('Authorization')
-    if (!token) {
-      return res.status(400).json({
+<span class="cstat-no" title="statement not covered" >    let decoded</span>
+<span class="cstat-no" title="statement not covered" >    const token = req.body.token || req.query.token || req.header('Authorization')</span>
+<span class="cstat-no" title="statement not covered" >    if (!token) {</span>
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({</span>
         success: false,
         message: 'No token provided',
       })
     }
-    try {
-      decoded = jwt.verify(token, secrets.APP_KEY)
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      decoded = jwt.verify(token, secrets.APP_KEY)</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      return res.status(403).json({</span>
         success: false,
         message: 'Failed to authenticate token',
       })
     }
-    req.user = decoded
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (decoded) return next()
+<span class="cstat-no" title="statement not covered" >    req.user = decoded</span>
+<span class="cstat-no" title="statement not covered" >    if (decoded) <span class="cstat-no" title="statement not covered" >return next()</span></span>
   }
 }
 &nbsp;</pre></td></tr>
@@ -220,7 +220,7 @@ module.exports = (role) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 18:11:24 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 18:25:55 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.86% </span>
+        <span class="strong">28.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/14</span>
+        <span class='fraction'>4/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/12</span>
+        <span class='fraction'>4/12</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -94,16 +94,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -111,8 +111,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,17 +131,17 @@ const daySchema = mongoose.Schema({
  * MODEL METHOD - Update lastday attribute per round
  * @return Promise
  */
-daySchema.statics.setLastDay = function roundSetLastDay(dayId) {
-  const { Promise } = global
-  const Day = this
-  return new Promise((resolve, reject) =&gt; {
-    return Day.findOneAndUpdate({ _id: dayId }, {
+daySchema.statics.setLastDay = <span class="fstat-no" title="function not covered" >function roundSetLastDay(dayId) {</span>
+<span class="cstat-no" title="statement not covered" >  const { Promise } = global</span>
+<span class="cstat-no" title="statement not covered" >  const Day = this</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return Day.findOneAndUpdate({ _id: dayId }, {</span>
       $set: {
         lastday: true,
       },
     }, { new: true }, (updateDayError, updatedDay) =&gt; {
-      if (updateDayError) return reject(updateDayError)
-      return Day.update({
+<span class="cstat-no" title="statement not covered" >      if (updateDayError) <span class="cstat-no" title="statement not covered" >return reject(updateDayError)</span></span>
+<span class="cstat-no" title="statement not covered" >      return Day.update({</span>
         round: updatedDay.round,
         _id: { $ne: updatedDay._id },
       }, {
@@ -149,8 +149,8 @@ daySchema.statics.setLastDay = function roundSetLastDay(dayId) {
           lastday: false,
         },
       }, (updateBulkError) =&gt; {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (updateBulkError) <span class="cstat-no" title="statement not covered" >return reject(updateBulkError)</span>
-        return resolve(updatedDay)
+<span class="cstat-no" title="statement not covered" >        if (updateBulkError) <span class="cstat-no" title="statement not covered" >return reject(updateBulkError)</span></span>
+<span class="cstat-no" title="statement not covered" >        return resolve(updatedDay)</span>
       })
     })
   })
@@ -163,7 +163,7 @@ module.exports = mongoose.model('day', daySchema, 'days')
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 18:11:24 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 18:25:55 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

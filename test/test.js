@@ -34,6 +34,9 @@ require('./round/round.admin.test.js')
 require('./day/day.model.test.js')
 // require('./day/day.admin.test.js')
 
+require('./team/team.model.test.js')
+// require('./team/team.admin.test.js')
+
 /**
  * CLEANUPS
  */
