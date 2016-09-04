@@ -19,21 +19,6 @@ UserSchema.pre('save', function userPreSave(next) {
   next()
 })
 
-// UserSchema.statics.checkPassword = function checkPassword(username, hash, done) {
-//   this.findOne({ username }, (err, usr) => {
-//     if (err) {
-//       err.status = 500
-//       return done(err)
-//     }
-//     if (!usr) {
-//       return done({ message: 'User Not Found', status: 404 })
-//     }
-//     return bcrypt.compare(hash, usr.password, (error, res) => {
-//       if (res) return done(null, true)
-//       return done({ message: 'Wrong Password!', status: 401 })
-//     })
-//   })
-// }
 
 UserSchema.methods.checkPassword = function checkPassword(hash, done) {
   const { password } = this

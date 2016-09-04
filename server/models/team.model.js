@@ -45,7 +45,7 @@ const teamSchema = mongoose.Schema({
     trim: true,
     unique: [true, 'Team name must be unique'],
     required: [true, 'Team name is required'],
-  }
+  },
 })
 
 module.exports = mongoose.model('team', teamSchema, 'teams')

@@ -6,8 +6,6 @@ const mongoose = require('mongoose')
 const MediaSchema = mongoose.Schema({
   filename: { type: String },
   path: { type: String },
-  parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
-  created: { type: Date, default: Date.now() },
 })
 
 MediaSchema.pre('save', function preSave(done) {
