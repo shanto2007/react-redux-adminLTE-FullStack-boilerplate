@@ -60,7 +60,6 @@ describe.only('Media - API', () => {
   it('shoud check that file has been stored', (done) => {
     const filePath = path.join(testenv.rootdir, storedMediaPath)
     fs.stat(filePath, (err, stat) => {
-      console.log(stat);
       expect(stat).toExist()
       expect(stat.size).toEqual(preUploadMediaStat.size)
       done()
