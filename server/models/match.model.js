@@ -9,7 +9,7 @@ const matchSchema = mongoose.Schema({
   winner: { type: mongoose.Schema.ObjectId, ref: 'team' },
   loser: { type: mongoose.Schema.ObjectId, ref: 'team' },
   played: { type: Boolean, default: false },
-  date: { type: Date },
+  date: { type: Date, required: [true, 'Match date is required'] },
 })
 
 module.exports = mongoose.model('match', matchSchema, 'matchs')

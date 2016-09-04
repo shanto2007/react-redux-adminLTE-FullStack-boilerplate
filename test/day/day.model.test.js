@@ -1,18 +1,33 @@
-const { testenv } = global
-var app = require(testenv.app)
+const { testenv, Promise } = global
 var Day = require(testenv.serverdir + 'models/day.model')
+var Season = require(testenv.serverdir + 'models/season.model')
+var Round = require(testenv.serverdir + 'models/round.model')
 var chai = require('chai')
-var chaiHttp = require('chai-http')
 var expect = require('expect')
 
 describe('Day - Model', () => {
-  let dayToEditId, dummy_day, originalLastDayId, newLastDayId
-  before(() => {
-    dummy_day = {
-      season: testenv.seasonId,
-      round: testenv.roundId,
-    }
+  let dayToEditId, dummy_day, originalLastDayId, newLastDayId, roundId, seasonId
+
+  before((done) => {
+    Promise.resolve(Season.create({ year: getRandomInt(3999,9999) }))
+    .then((season) => {
+      seasonId = season._id
+      return Round.create({
+        season: season._id,
+        label: 'Z',
+      })
+    })
+    .then((round) => {
+      roundId = round._id
+      dummy_day = {
+        season: seasonId,
+        round: roundId,
+      }
+      done()
+    })
+    .catch(done)
   })
+
   it('shoud create a day document', (done) => {
     firstDay = Object.assign({}, dummy_day)
     firstDay.lastday = true
@@ -63,7 +78,7 @@ describe('Day - Model', () => {
 
   it('shoud check that there is only one lastday per round', (done) => {
     Day
-    .find({ round: testenv.roundId, lastday: true }, (err, days) => {
+    .find({ round: roundId, lastday: true }, (err, days) => {
       expect(days.length).toBe(1)
       expect(String(days[0]._id)).toBe(String(newLastDayId))
       expect(String(days[0]._id)).toNotBe(String(originalLastDayId))
@@ -71,9 +86,13 @@ describe('Day - Model', () => {
     })
   })
 
-  after(() => {
-    Day.remove({}, (err) => {
-      if (err) throw err
-    })
+  after((done) => {
+    Promise.all([
+      Day.remove({}),
+      Round.remove({ _id: roundId }),
+      Season.remove({ _id: seasonId }),
+    ])
+    .then(done())
+    .catch(done)
   })
 })

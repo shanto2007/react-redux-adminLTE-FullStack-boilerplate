@@ -1,9 +1,7 @@
 const { testenv, getRandomInt } = global
-var app = require(testenv.app)
 var Round = require(testenv.serverdir + 'models/round.model')
 var Season = require(testenv.serverdir + 'models/season.model')
 var chai = require('chai')
-var chaiHttp = require('chai-http')
 var expect = require('expect')
 
 describe('Round - Model', () => {

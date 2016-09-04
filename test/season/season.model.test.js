@@ -1,8 +1,6 @@
 const { testenv } = global
-var app = require(testenv.app)
 var Season = require(testenv.serverdir + 'models/season.model')
 var chai = require('chai')
-var chaiHttp = require('chai-http')
 var expect = require('expect')
 
 describe('Season - Model', () => {

@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">42.86% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/21</span>
+        <span class='fraction'>21/21</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/3</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">45% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/20</span>
+        <span class='fraction'>20/20</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -117,13 +117,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,23 +137,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,12 +176,12 @@ const UserSchema = mongoose.Schema({
 })
 &nbsp;
 &nbsp;
-UserSchema.pre('save', <span class="fstat-no" title="function not covered" >function userPreSave(next) {</span>
-<span class="cstat-no" title="statement not covered" >  const user = this</span>
-<span class="cstat-no" title="statement not covered" >  if (user.isModified('password')) {</span>
-<span class="cstat-no" title="statement not covered" >    user.password = bcrypt.hashSync(user.password)</span>
+UserSchema.pre('save', function userPreSave(next) {
+  const user = this
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (user.isModified('password')) {
+    user.password = bcrypt.hashSync(user.password)
   }
-<span class="cstat-no" title="statement not covered" >  next()</span>
+  next()
 })
 &nbsp;
 // UserSchema.statics.checkPassword = function checkPassword(username, hash, done) {
@@ -200,22 +200,22 @@ UserSchema.pre('save', <span class="fstat-no" title="function not covered" >func
 //   })
 // }
 &nbsp;
-UserSchema.methods.checkPassword = <span class="fstat-no" title="function not covered" >function checkPassword(hash, done) {</span>
-<span class="cstat-no" title="statement not covered" >  const { password } = this</span>
-<span class="cstat-no" title="statement not covered" >  bcrypt.compare(hash, password, (passwordError, res) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (res) <span class="cstat-no" title="statement not covered" >return done(null, true)</span></span>
-<span class="cstat-no" title="statement not covered" >    return done({ message: 'Wrong Password!' })</span>
+UserSchema.methods.checkPassword = function checkPassword(hash, done) {
+  const { password } = this
+  bcrypt.compare(hash, password, (passwordError, res) =&gt; {
+    if (res) return done(null, true)
+    return done({ message: 'Wrong Password!' })
   })
 }
 &nbsp;
-UserSchema.methods.auth = <span class="fstat-no" title="function not covered" >function auth(done) {</span>
-<span class="cstat-no" title="statement not covered" >  const usr = this</span>
-<span class="cstat-no" title="statement not covered" >  const token = jwt.sign({</span>
+UserSchema.methods.auth = function auth(done) {
+  const usr = this
+  const token = jwt.sign({
     _id: usr._id,
     username: usr.username,
     admin: usr.admin,
   }, secrets.APP_KEY)
-<span class="cstat-no" title="statement not covered" >  done(null, {</span>
+  done(null, {
     message: 'Authorization token',
     token,
   })
@@ -229,7 +229,7 @@ module.exports = mongoose.model('user', UserSchema, 'users')
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 18:25:55 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 19:06:21 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

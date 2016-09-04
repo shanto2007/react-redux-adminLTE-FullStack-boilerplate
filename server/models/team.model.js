@@ -25,7 +25,7 @@ const teamSchema = mongoose.Schema({
   },
   goalTaken: {
     type: Number,
-    default: 0
+    default: 0,
   },
   wins: {
     type: Number,
@@ -39,6 +39,13 @@ const teamSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  name: {
+    type: String,
+    default: '',
+    trim: true,
+    unique: [true, 'Team name must be unique'],
+    required: [true, 'Team name is required'],
+  }
 })
 
 module.exports = mongoose.model('team', teamSchema, 'teams')
