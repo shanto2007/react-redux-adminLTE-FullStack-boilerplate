@@ -17,6 +17,7 @@ MediaSchema.pre('save', function preSave(done) {
 })
 
 MediaSchema.post('remove', (media, done) => {
+  console.log("REMOVING");
   const projectRoot = path.join(__dirname, '../../')
   const uploadDir = path.join(projectRoot, `/${secrets.UPLOAD_DIRNAME}`)
   const file = `${uploadDir}/${media.filename}`
