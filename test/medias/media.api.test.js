@@ -12,7 +12,7 @@ chai.use(chaiHttp)
 /**
  * API
  */
-describe.only('Media - API', () => {
+describe('Media - API', () => {
   let mediaId, userAuthToken, storedMediaPath, preUploadMediaStat
 
   // generate a auth dummy token
@@ -79,31 +79,16 @@ describe.only('Media - API', () => {
     })
   })
 
-  it('shoud NOT edit single element without auth token', ( done ) => {
+  it('shoud get media index', ( done ) => {
     chai.request(app)
-    .patch('/api/media/' + mediaId)
-    .send({
-      filename: 'testChange.jpg'
-    })
-    .end((err, res) => {
-      expect(res).toExist()
-      expect(res.status).toBe(400)
-      done()
-    })
-  })
-
-  it('shoud edit single element', ( done ) => {
-    chai.request(app)
-    .patch('/api/media/' + mediaId)
+    .get('/api/medias')
     .set('Authorization', userAuthToken)
-    .send({
-      filename: '123.jpg',
-    })
     .end((err, res) => {
-      if(err) throw err
+      let { body } = res
       expect(res).toExist()
       expect(res.status).toBe(200)
-      expect(res.body.media.filename).toBe('123.jpg')
+      expect(body.medias).toExist()
+      expect(body.medias).toBeA('array')
       done()
     })
   })
@@ -126,6 +111,14 @@ describe.only('Media - API', () => {
     .end((err, res) => {
       expect(res).toExist()
       expect(res.status).toBe(200)
+      done()
+    })
+  })
+
+  it('shoud check that file has been unlinked after remove', (done) => {
+    const filePath = path.join(testenv.rootdir, storedMediaPath)
+    fs.stat(filePath, (err, stat) => {
+      expect(stat).toNotExist()
       done()
     })
   })

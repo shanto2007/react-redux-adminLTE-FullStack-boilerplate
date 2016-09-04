@@ -68,30 +68,30 @@ module.exports = MediaCtrl = {
     })
   },
 
-  edit: (req, res) => {
-    const mediaId = req.body.id || req.params.id || req.query.id
-    const newMedia = req.body
-    Media.findByIdAndUpdate(mediaId, { $set: newMedia }, { new: true }, (err, media) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          err,
-        })
-      }
-
-      if (!media) {
-        return res.status(404).json({
-          success: false,
-          message: 'Media not found!',
-        })
-      }
-
-      return res.json({
-        success: true,
-        media,
-      })
-    })
-  },
+  // edit: (req, res) => {
+  //   const mediaId = req.body.id || req.params.id || req.query.id
+  //   const newMedia = req.body
+  //   Media.findByIdAndUpdate(mediaId, { $set: newMedia }, { new: true }, (err, media) => {
+  //     if (err) {
+  //       return res.status(500).json({
+  //         success: false,
+  //         err,
+  //       })
+  //     }
+  //
+  //     if (!media) {
+  //       return res.status(404).json({
+  //         success: false,
+  //         message: 'Media not found!',
+  //       })
+  //     }
+  //
+  //     return res.json({
+  //       success: true,
+  //       media,
+  //     })
+  //   })
+  // },
 
   delete: (req, res) => {
     const mediaId = req.body.id || req.params.id || req.query.id
