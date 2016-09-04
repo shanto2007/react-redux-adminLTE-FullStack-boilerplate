@@ -4,7 +4,6 @@ const Season = require(testenv.serverdir + 'models/season.model')
 const Round = require(testenv.serverdir + 'models/round.model')
 const Day = require(testenv.serverdir + 'models/day.model')
 
-
 describe('User Cleanup', () => {
   it('shoud cleanup the db users leftover', (done) => {
     User.remove({}, (err) => {

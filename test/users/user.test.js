@@ -88,7 +88,21 @@ describe('User', () => {
   })
 
 
+
   describe('Authentication', () => {
+    it('shoud return auth error if password wrong', (done) => {
+      wrongUser = Object.assign({}, normal_user)
+      wrongUser.password = 'SomeRandomWrongPass'
+      chai.request(app)
+      .post('/api/user/auth')
+      .send(wrongUser)
+      .end((err, res) => {
+        expect(res.status).toNotBe(200)
+        expect(err).toExist()
+        expect(res.body.message).toExist()
+        done()
+      })
+    })
     it('shoud authenticate user', (done) => {
       chai.request(app)
       .post('/api/user/auth')

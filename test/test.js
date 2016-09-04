@@ -18,11 +18,16 @@ require('./emails/emailer.test.js')
 require('./settings/setting.test.js')
 
 /**
- * PER PROJECTS MODELS
+ * MODELS and API calls
  */
+require('./season/season.model.test.js')
 require('./season/season.admin.test.js')
+
+// require('./round/round.model.test.js')
 require('./round/round.admin.test.js')
+
 require('./day/day.model.test.js')
+// require('./day/day.admin.test.js')
 
 /**
  * CLEANUPS

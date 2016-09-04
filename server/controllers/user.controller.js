@@ -29,9 +29,7 @@ module.exports = {
       if (!usr) return res.status(404).json({ message: 'User not found!', success: false })
 
       return usr.checkPassword(user.password, (passWordError) => {
-        if (passWordError) {
-          return res.status(passWordError.status).json(passWordError)
-        }
+        if (passWordError) return res.status(401).json(passWordError)
         return usr.auth((authError, token) => {
           token.success = true
           token.status = 200

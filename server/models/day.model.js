@@ -7,21 +7,28 @@ const daySchema = mongoose.Schema({
 })
 
 /**
- * Update lastday attribute per round
+ * MODEL METHOD - Update lastday attribute per round
  * @return Promise
  */
-daySchema.statics.roundUpdateLastDay = function roundUpdateLastDay(dayId, roundId) {
+daySchema.statics.roundSetLastDay = function roundSetLastDay(dayId) {
   const { Promise } = global
   const Day = this
   return new Promise((resolve, reject) => {
-    return Day.update({ round: roundId }, { $set: { lastday: false } }, (err) => {
-      if (err) return reject(err)
-      return Day.findOneAndUpdate({ _id: dayId }, { $set: { lastday: true } }, { new: true }, (err, updated) => {
+    return Day.findOneAndUpdate({ _id: dayId }, {
+      $set: {
+        lastday: true,
+      },
+    }, { new: true }, (err, updatedDay) => {
+      return Day.update({
+        round: updatedDay.round,
+        _id: { $ne: updatedDay._id },
+      }, {
+        $set: {
+          lastday: false,
+        },
+      }, (err) => {
         if (err) return reject(err)
-        return resolve({
-          success: true,
-          updated,
-        })
+        return resolve(updatedDay)
       })
     })
   })

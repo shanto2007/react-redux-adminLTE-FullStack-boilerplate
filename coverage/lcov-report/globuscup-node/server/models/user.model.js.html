@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">65.63% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>21/32</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">20% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>2/10</span>
+        <span class='fraction'>21/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">75% </span>
-        <span class="quiet">Functions</span>
+        <span class="quiet">Branches</span>
         <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>20/30</span>
+        <span class='fraction'>20/20</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -124,27 +124,27 @@
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,27 +184,27 @@ UserSchema.pre('save', function userPreSave(next) {
   next()
 })
 &nbsp;
-UserSchema.statics.checkPassword = <span class="fstat-no" title="function not covered" >function checkPassword(username, hash, done) {</span>
-<span class="cstat-no" title="statement not covered" >  this.findOne({ username }, (err, usr) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (err) {</span>
-<span class="cstat-no" title="statement not covered" >      err.status = 500</span>
-<span class="cstat-no" title="statement not covered" >      return done(err)</span>
-    }
-<span class="cstat-no" title="statement not covered" >    if (!usr) {</span>
-<span class="cstat-no" title="statement not covered" >      return done({ message: 'User Not Found', status: 404 })</span>
-    }
-<span class="cstat-no" title="statement not covered" >    return bcrypt.compare(hash, usr.password, (error, res) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (res) <span class="cstat-no" title="statement not covered" >return done(null, true)</span></span>
-<span class="cstat-no" title="statement not covered" >      return done({ message: 'Wrong Password!', status: 401 })</span>
-    })
-  })
-}
+// UserSchema.statics.checkPassword = function checkPassword(username, hash, done) {
+//   this.findOne({ username }, (err, usr) =&gt; {
+//     if (err) {
+//       err.status = 500
+//       return done(err)
+//     }
+//     if (!usr) {
+//       return done({ message: 'User Not Found', status: 404 })
+//     }
+//     return bcrypt.compare(hash, usr.password, (error, res) =&gt; {
+//       if (res) return done(null, true)
+//       return done({ message: 'Wrong Password!', status: 401 })
+//     })
+//   })
+// }
 &nbsp;
 UserSchema.methods.checkPassword = function checkPassword(hash, done) {
   const { password } = this
   bcrypt.compare(hash, password, (passwordError, res) =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (res) return done(null, true)
-<span class="cstat-no" title="statement not covered" >    return done({ message: 'Wrong Password!', status: 401 })</span>
+    if (res) return done(null, true)
+    return done({ message: 'Wrong Password!' })
   })
 }
 &nbsp;
@@ -229,7 +229,7 @@ module.exports = mongoose.model('user', UserSchema, 'users')
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 02 2016 17:47:02 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 17:01:39 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

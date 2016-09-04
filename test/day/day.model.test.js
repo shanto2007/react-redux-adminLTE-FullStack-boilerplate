@@ -5,7 +5,7 @@ var chai = require('chai')
 var chaiHttp = require('chai-http')
 var expect = require('expect')
 
-describe('Round - Model', () => {
+describe('Day - Model', () => {
   let dayToEditId, dummy_day, originalLastDayId, newLastDayId
   before(() => {
     dummy_day = {
@@ -40,10 +40,10 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud edit lastday attribute, keeping only one true value per roundID', (done) => {
+  it('[Model Method] roundUpdateLastDay shoud edit the new lastday, unique per round', (done) => {
     Day
-    .roundUpdateLastDay(dayToEditId, testenv.roundId)
-    .then(() => {
+    .roundSetLastDay(dayToEditId)
+    .then((res) => {
       done()
     })
     .catch((err) => {
@@ -60,5 +60,4 @@ describe('Round - Model', () => {
       done()
     })
   })
-
 })

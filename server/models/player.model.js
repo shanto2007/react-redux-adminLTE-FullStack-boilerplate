@@ -4,7 +4,7 @@ const playerSchema = mongoose.Schema({
   team: { type: mongoose.Schema.ObjectId, ref: 'team' },
   season: { type: mongoose.Schema.ObjectId, ref: 'season' },
   round: { type: mongoose.Schema.ObjectId, ref: 'round' },
-  name: { type: String, require: true },
+  name: { type: String, require: [true, 'Player name not provided'] },
   goalsCount: { type: Number },
   warnsCount: { type: Number },
   expulsionsCoutt: { type: Number },
