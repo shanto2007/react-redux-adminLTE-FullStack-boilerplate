@@ -8,7 +8,7 @@ const chai = require('chai')
 const expect = require('expect')
 
 describe.only('Player - Model', () => {
-  let seasonId, roundId, dayId, dummyPlayer, teamIstance
+  let seasonId, roundId, dayId, dummyPlayer, playerTemplate
 
   before((done) => {
     Promise
@@ -108,6 +108,11 @@ describe.only('Player - Model', () => {
       expect(err).toNotExist()
       expect(player).toExist()
       dummyPlayer = player
+      playerTemplate = {
+        season: seasonId,
+        round: roundId,
+        team: teamId,
+      }
       done()
     })
   })
@@ -139,6 +144,15 @@ describe.only('Player - Model', () => {
       expect(team.players.length).toBe(0)
       done()
     })
+  })
+
+  it('shoud create a bunch of players', (done) => {
+    let players = []
+    for (var i = 0; i < 10; i++) {
+      players.push(Object.assign({ name: 'MyPlayer' + i }, playerTemplate))
+    }
+    console.log(players);
+    done()
   })
 
   /**
