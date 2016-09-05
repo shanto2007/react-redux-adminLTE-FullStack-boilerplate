@@ -1,19 +1,17 @@
-const { Promise } = global
-const db = require('../config/database')
-const Player = require('../models/player.model')
-const Score = require('../models/score.model')
-const Warn = require('../models/warn.model')
-const Expulsion = require('../models/expulsion.model')
-const Attendance = require('../models/attendance.model')
-// const Team = require('../models/team.model')
-
 process.on('message', (score) => {
+  const { Promise } = global
+  const db = require('../config/database')
+  const Player = require('../models/player.model')
+  const Score = require('../models/score.model')
+  const Warn = require('../models/warn.model')
+  const Expulsion = require('../models/expulsion.model')
+  const Attendance = require('../models/attendance.model')
   db.connect()
   let playerInstance
   Promise
     .resolve(Player.findById(score.player))
     .then((player) => {
-      if (!player) throw new Error('player.stats fork exited with Player not found')
+      if (!player) process.send('updated_player_stats:fail')
       playerInstance = player
       return Promise.all([
         Score.count({ player: player._id }),
@@ -23,7 +21,7 @@ process.on('message', (score) => {
       ])
     })
     .then((data) => {
-      if (!data) throw new Error('player.stats fork exited with Data not found!')
+      if (!data) process.send('updated_player_stats:fail')
       return playerInstance.update({
         goals: data[0],
         warns: data[1],

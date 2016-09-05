@@ -5,11 +5,11 @@ function forkChildPlayerStatsUpdate(score, done) {
   child.send(score)
   child.on('message', (m) => {
     if (m.split(':')[1] !== 'success') {
-      child.kill()
+      child.kill('SIGINT')
       console.log('relaunching child');
       forkChildPlayerStatsUpdate(score, done)
     } else {
-      child.kill()
+      child.kill('SIGINT')
       if (done) {
         done()
       }
@@ -24,11 +24,11 @@ function forkChildTeamStatsUpdate(match, done) {
   child.send(match)
   child.on('message', (m) => {
     if (m.split(':')[1] !== 'success') {
-      child.kill()
+      child.kill('SIGINT')
       console.log('relaunching child');
       forkChildTeamStatsUpdate(match, done)
     } else {
-      child.kill()
+      child.kill('SIGINT')
       if (done) {
         done()
       }

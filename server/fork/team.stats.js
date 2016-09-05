@@ -1,10 +1,9 @@
-const { Promise } = global
-const db = require('../config/database')
-const Score = require('../models/score.model')
-const Team = require('../models/team.model')
-const Match = require('../models/match.model')
-
 process.on('message', (match) => {
+  const { Promise } = global
+  const db = require('../config/database')
+  const Score = require('../models/score.model')
+  const Team = require('../models/team.model')
+  const Match = require('../models/match.model')
   db.connect() // to fix can't create a new connection everytime
 
   let winnerInstance, loserInstance
@@ -21,7 +20,7 @@ process.on('message', (match) => {
      * [0] WINNER
      * [1] LOSER
      */
-    if (!teams && !teams[0] && !teams[1]) throw new Error('team.stats fork exited with Teams not found')
+    if (!teams && !teams[0] && !teams[1]) process.send('updated_team_stats:fail')
 
     winnerInstance = teams[0]
     loserInstance = teams[1]
