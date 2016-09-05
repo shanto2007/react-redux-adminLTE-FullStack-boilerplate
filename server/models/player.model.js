@@ -30,15 +30,15 @@ const playerSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'media',
   },
-  goalsCount: {
+  goals: {
     type: Number,
     default: 0,
   },
-  warnsCount: {
+  warns: {
     type: Number,
     default: 0,
   },
-  expulsionsCoutt: {
+  expulsions: {
     type: Number,
     default: 0,
   },
