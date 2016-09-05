@@ -51,4 +51,28 @@ playerSchema.virtual('fullname').get(function fullNameVirtualGenerator() {
   return `${this.name} ${this.surname}`
 })
 
+/**
+ * ADD TO TEAM ARRAY OF REFERENCE
+ */
+playerSchema.post('save', (player) => {
+  player.model('team').findById(player.team, (err, team) => {
+    if (err) throw err
+    team.players.addToSet(player)
+    team.save()
+  })
+})
+
+/**
+ * REMOVE TO TEAM ARRAY OF REFERENCE
+ * work only on document istance not on Model methods
+ */
+playerSchema.post('remove', (player) => {
+  player.model('team').findById(player.team, (err, team) => {
+    if (err) throw err
+    team.players.pull(player)
+    team.save()
+  })
+})
+
+
 module.exports = mongoose.model('player', playerSchema, 'players')

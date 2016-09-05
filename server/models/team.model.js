@@ -11,6 +11,10 @@ const teamSchema = mongoose.Schema({
     ref: 'season',
     required: [true, 'Season id is required!'],
   },
+  players: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'players',
+  }],
   avatar: {
     type: mongoose.Schema.ObjectId,
     ref: 'media',

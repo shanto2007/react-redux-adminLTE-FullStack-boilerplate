@@ -7,8 +7,8 @@ const Player = require(testenv.serverdir + 'models/player.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe('Player - Model', () => {
-  let seasonId, roundId, dayId, dummyPlayer
+describe.only('Player - Model', () => {
+  let seasonId, roundId, dayId, dummyPlayer, teamIstance
 
   before((done) => {
     Promise
@@ -114,6 +114,31 @@ describe('Player - Model', () => {
 
   it('shoud have create a virtual field for the full name', () => {
     expect(dummyPlayer.fullname).toEqual(`${dummyPlayer.name} ${dummyPlayer.surname}`)
+  })
+
+  it('should have added the player to the team array of reference', (done) => {
+    Team.findById(teamId, (err, team) => {
+      if (err) throw err
+      expect(dummyPlayer._id.equals(team.players[0])).toBe(true)
+      done()
+    })
+  })
+
+  it('shoud remove the player', (done) => {
+    Player.findById(dummyPlayer._id, (err, player) => {
+      player.remove((err, removed) => {
+        expect(removed).toExist()
+        done()
+      })
+    })
+  })
+
+  it('shoud have removed the player to team\'s array of reference', (done) => {
+    Team.findById(teamId, (err, team) => {
+      if (err) throw err
+      expect(team.players.length).toBe(0)
+      done()
+    })
   })
 
   /**
