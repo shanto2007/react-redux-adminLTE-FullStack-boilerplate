@@ -53,6 +53,7 @@ playerSchema.virtual('fullname').get(function fullNameVirtualGenerator() {
 
 /**
  * ADD TO TEAM ARRAY OF REFERENCE
+ * document
  */
 playerSchema.post('save', (player) => {
   player.model('team').findById(player.team, (err, team) => {
@@ -72,6 +73,21 @@ playerSchema.post('remove', (player) => {
     team.players.pull(player)
     team.save()
   })
+})
+
+playerSchema.post('insertMany', function insertManyPostHook(players, done) {
+  if (players.length) {
+    this.model('team').findById(players[0].team, (err, team) => {
+      if (err) throw err
+      for (let i = 0; i < players.length; i++) {
+        team.players.addToSet(players[i])
+      }
+      team.save((err) => {
+        if (err) throw err
+        done()
+      })
+    })
+  }
 })
 
 

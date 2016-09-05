@@ -8,7 +8,7 @@ const chai = require('chai')
 const expect = require('expect')
 
 describe.only('Player - Model', () => {
-  let seasonId, roundId, dayId, dummyPlayer, playerTemplate
+  let seasonId, roundId, dayId, dummyPlayer, playerTemplate, arrayOfPlayers = []
 
   before((done) => {
     Promise
@@ -138,7 +138,7 @@ describe.only('Player - Model', () => {
     })
   })
 
-  it('shoud have removed the player to team\'s array of reference', (done) => {
+  it('shoud have removed the player from team\'s array of reference', (done) => {
     Team.findById(teamId, (err, team) => {
       if (err) throw err
       expect(team.players.length).toBe(0)
@@ -147,13 +147,29 @@ describe.only('Player - Model', () => {
   })
 
   it('shoud create a bunch of players', (done) => {
-    let players = []
     for (var i = 0; i < 10; i++) {
-      players.push(Object.assign({ name: 'MyPlayer' + i }, playerTemplate))
+      arrayOfPlayers.push(Object.assign({ name: 'MyPlayer' + i, surname: 'MySurname' + i }, playerTemplate))
     }
-    console.log(players);
-    done()
+    Player.insertMany(arrayOfPlayers, (err, insertedPlayer) => {
+      if (err) throw err
+      expect(insertedPlayer).toExist()
+      expect(insertedPlayer).toBeA('array')
+      expect(insertedPlayer.length).toEqual(arrayOfPlayers.length)
+      done()
+    })
   })
+
+  it('shoud have added all the player to team array', (done) => {
+    //  wait the db to update
+    Team.findById(teamId, (err, team) => {
+      if (err) throw err
+      expect(team).toExist()
+      expect(team.players).toBeA('array')
+      expect(team.players.length).toBe(10)
+      done()
+    })
+  })
+
 
   /**
    * CLEANUP
