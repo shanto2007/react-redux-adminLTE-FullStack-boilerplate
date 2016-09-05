@@ -9,8 +9,8 @@ const Warn = require(testenv.serverdir + 'models/warn.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe('Warn - Model', () => {
-  let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId
+describe.only('Warn - Model', () => {
+  let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId, warnId
 
   before((done) => {
     Promise
@@ -110,8 +110,36 @@ describe('Warn - Model', () => {
       player: playerId
     }).then((warn) => {
       expect(warn).toExist()
+      warnId = warn._id
       done()
     }).catch(done)
+  })
+
+  it('shoud check that the child_process have updated the player stats', (done) => {
+    Player.findById(playerId, (err, player) => {
+      if (err) throw err
+      expect(player.warns).toBe(1)
+      done()
+    })
+  })
+
+  it('shoud remove the expulsion', (done) => {
+    Warn.findById(warnId, (err, warn) => {
+      if (err) done(err)
+      warn.remove((err, removed) => {
+        if (err) done(err)
+        expect(removed).toExist()
+        done()
+      })
+    })
+  })
+
+  it('shoud check that the child_process have updated the data', (done) => {
+    Player.findById(playerId, (err, player) => {
+      if (err) done(err)
+      expect(player.warns).toBe(0)
+      done()
+    })
   })
 
   /**

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const forkHandlers = require('../fork/fork.handlers')
 
 const warnSchema = mongoose.Schema({
   match: {
@@ -17,5 +18,24 @@ const warnSchema = mongoose.Schema({
     required: [true, 'Player ID is required'],
   },
 })
+
+/**
+ * ok with NODE_ENV=test keep an eye for dev&producion
+ */
+if (process.env.NODE_ENV === 'test') {
+  warnSchema.post('save', (score, done) => {
+    return forkHandlers.forkChildStatsUpdate(score, done)
+  })
+  warnSchema.post('remove', (score, done) => {
+    return forkHandlers.forkChildStatsUpdate(score, done)
+  })
+} else {
+  warnSchema.post('save', (score) => {
+    return forkHandlers.forkChildStatsUpdate(score)
+  })
+  warnSchema.post('remove', (score) => {
+    return forkHandlers.forkChildStatsUpdate(score)
+  })
+}
 
 module.exports = mongoose.model('warn', warnSchema, 'warns')
