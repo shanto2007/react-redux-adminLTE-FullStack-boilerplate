@@ -9,7 +9,7 @@ const Score = require(testenv.serverdir + 'models/score.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe.only('Score - Model', () => {
+describe('Score - Model', () => {
   let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId
 
   before((done) => {

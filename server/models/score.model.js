@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const forkHandlers = require('../fork/fork.handlers')
 
 const scoreSchema = mongoose.Schema({
   season: {
@@ -51,11 +52,11 @@ function forkChildStatsUpdate(score, done) {
  */
 if (process.env.NODE_ENV === 'test') {
   scoreSchema.post('save', (score, done) => {
-    forkChildStatsUpdate(score, done)
+    forkHandlers.forkChildStatsUpdate(score, done)
   })
 } else {
   scoreSchema.post('save', (score) => {
-    forkChildStatsUpdate(score)
+    forkHandlers.forkChildStatsUpdate(score)
   })
 }
 

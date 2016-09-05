@@ -58,6 +58,9 @@ require('./warn/warn.model.test.js')
 require('./expulsion/expulsion.model.test.js')
 // require('./expulsion/expulsion.admin.test.js')
 
+require('./attendance/attendance.model.test.js')
+// require('./attendance/attendance.admin.test.js')
+
 /**
  * CLEANUPS
  */

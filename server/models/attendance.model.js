@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const forkHandlers = require('../fork/fork.handlers')
 
 const attendanceSchema = mongoose.Schema({
   season: {
@@ -18,36 +19,19 @@ const attendanceSchema = mongoose.Schema({
   },
 })
 
-// function forkChildStatsUpdate(score, done) {
-//   const fork = require('child_process').fork
-//
-//   const child = fork('server/fork/player.stats')
-//   child.send(score)
-//   child.on('message', (m) => {
-//     if (m.split(':')[1] !== 'success') {
-//       child.kill()
-//       forkChildStatsUpdate(score, done)
-//     } else {
-//       child.kill()
-//       if (done) {
-//         done()
-//       }
-//     }
-//   })
-// }
-//
-// /**
-//  * OK IN TEST KEEP AN EYE FOR NO TEST ENV
-//  */
-// if (process.env.NODE_ENV === 'test') {
-//   scoreSchema.post('save', (score, done) => {
-//     forkChildStatsUpdate(score, done)
-//   })
-// } else {
-//   scoreSchema.post('save', (score) => {
-//     forkChildStatsUpdate(score)
-//   })
-// }
+
+/**
+ * ok with NODE_ENV=test keep an eye for dev&producion
+ */
+if (process.env.NODE_ENV === 'test') {
+  attendanceSchema.post('save', (score, done) => {
+    forkHandlers.forkChildStatsUpdate(score, done)
+  })
+} else {
+  attendanceSchema.post('save', (score) => {
+    forkHandlers.forkChildStatsUpdate(score)
+  })
+}
 
 
 module.exports = mongoose.model('attendance', attendanceSchema, 'attendances')

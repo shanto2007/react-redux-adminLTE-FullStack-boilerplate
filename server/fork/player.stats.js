@@ -4,7 +4,8 @@ const Player = require('../models/player.model')
 const Score = require('../models/score.model')
 const Warn = require('../models/warn.model')
 const Expulsion = require('../models/expulsion.model')
-const Team = require('../models/team.model')
+const Attendance = require('../models/attendance.model')
+// const Team = require('../models/team.model')
 
 process.on('message', (score) => {
   db.connect()
@@ -18,6 +19,7 @@ process.on('message', (score) => {
         Score.count({ player: player._id }),
         Warn.count({ player: player._id }),
         Expulsion.count({ player: player._id }),
+        Attendance.count({ player: player._id }),
       ])
     })
     .then((data) => {
@@ -26,6 +28,7 @@ process.on('message', (score) => {
         goals: data[0],
         warns: data[1],
         expulsions: data[2],
+        attendance: data[3],
       })
     })
     .then((status) => {

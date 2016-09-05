@@ -42,6 +42,10 @@ const playerSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  attendance: {
+    type: Number,
+    default: 0,
+  },
 })
 
 playerSchema.set('toObject', { virtuals: true });

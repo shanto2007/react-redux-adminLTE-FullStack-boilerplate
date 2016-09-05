@@ -5,11 +5,11 @@ const Round = require(testenv.serverdir + 'models/round.model')
 const Day = require(testenv.serverdir + 'models/day.model')
 const Match = require(testenv.serverdir + 'models/match.model')
 const Player = require(testenv.serverdir + 'models/player.model')
-const Score = require(testenv.serverdir + 'models/score.model')
+const Attendance = require(testenv.serverdir + 'models/attendance.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe.only('Score - Model', () => {
+describe('Attendance - Model', () => {
   let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId
 
   before((done) => {
@@ -74,16 +74,16 @@ describe.only('Score - Model', () => {
   })
 
 
-  it('should NOT create a score without season id', (done) => {
-    Score.create({}).catch((err) => {
+  it('should NOT create an attendance entry without season id', (done) => {
+    Attendance.create({}).catch((err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
       done()
     })
   })
 
-  it('should NOT create a score without match id', (done) => {
-    Score.create({
+  it('should NOT create an attendance entry without match id', (done) => {
+    Attendance.create({
       season: seasonId,
     }).catch((err) => {
       expect(err).toExist()
@@ -92,35 +92,10 @@ describe.only('Score - Model', () => {
     })
   })
 
-  it('should NOT create a score without teamScorer id', (done) => {
-    Score.create({
+  it('should NOT create an attendance entry without player id', () => {
+    Attendance.create({
       season: seasonId,
       match: matchId,
-    }).catch((err) => {
-      expect(err).toExist()
-      expect(err.errors.teamScorer).toExist()
-      done()
-    })
-  })
-
-  it('should NOT create a score without teamTaker id', (done) => {
-    Score.create({
-      season: seasonId,
-      match: matchId,
-      teamScorer: teamAId,
-    }).catch((err) => {
-      expect(err).toExist()
-      expect(err.errors.teamTaker).toExist()
-      done()
-    })
-  })
-
-  it('should NOT create a score without player id', () => {
-    Score.create({
-      season: seasonId,
-      match: matchId,
-      teamScorer: teamAId,
-      teamTaker: teamBId,
     }).catch((err) => {
       expect(err).toExist()
       expect(err.errors.player).toExist()
@@ -128,23 +103,21 @@ describe.only('Score - Model', () => {
     })
   })
 
-  it('should create a score', (done) => {
-    Score.create({
+  it('should create an attendance entry', (done) => {
+    Attendance.create({
       season: seasonId,
       match: matchId,
-      teamScorer: teamAId,
-      teamTaker: teamBId,
       player: playerId
-    }).then((score) => {
-      expect(score).toExist()
+    }).then((attendance) => {
+      expect(attendance).toExist()
       done()
     }).catch(done)
   })
 
-  it('shoud check that the child_process have updated the data', (done) => {
+  it('shoud check that the child_process have updated the player stats', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) throw err
-      expect(player.goals).toBe(1)
+      expect(player.attendance).toBe(1)
       done()
     })
   })
@@ -160,7 +133,7 @@ describe.only('Score - Model', () => {
       Team.remove({ _id: { $in: [teamAId, teamBId] } }),
       Match.remove({ _id: matchId }),
       Player.remove({ _id: playerId }),
-      Score.remove({}),
+      Attendance.remove({}),
     ]).then(done()).catch(done)
   })
 })
