@@ -30,7 +30,7 @@ const scoreSchema = mongoose.Schema({
 })
 
 /**
- * OK IN TEST KEEP AN EYE FOR NO TEST ENV
+ * ok with NODE_ENV=test keep an eye for dev&producion
  */
 if (process.env.NODE_ENV === 'test') {
   scoreSchema.post('save', (score, done) => {

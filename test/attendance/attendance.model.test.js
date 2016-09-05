@@ -10,7 +10,7 @@ const chai = require('chai')
 const expect = require('expect')
 
 describe('Attendance - Model', () => {
-  let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId
+  let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId, attendanceId
 
   before((done) => {
     Promise
@@ -110,6 +110,7 @@ describe('Attendance - Model', () => {
       player: playerId
     }).then((attendance) => {
       expect(attendance).toExist()
+      attendanceId = attendance._id
       done()
     }).catch(done)
   })
@@ -118,6 +119,25 @@ describe('Attendance - Model', () => {
     Player.findById(playerId, (err, player) => {
       if (err) throw err
       expect(player.attendance).toBe(1)
+      done()
+    })
+  })
+
+  it('shoud remove the attendance', (done) => {
+    Attendance.findById(attendanceId, (err, attendance) => {
+      if (err) done(err)
+      attendance.remove((err, removed) => {
+        if (err) done(err)
+        expect(removed).toExist()
+        done()
+      })
+    })
+  })
+
+  it('shoud check that the child_process have updated the data', (done) => {
+    Player.findById(playerId, (err, player) => {
+      if (err) done(err)
+      expect(player.attendance).toBe(0)
       done()
     })
   })
