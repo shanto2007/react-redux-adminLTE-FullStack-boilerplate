@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const forkHandlers = require('../fork/fork.handlers')
 
 const expulsionSchema = mongoose.Schema({
   match: {
@@ -17,5 +18,24 @@ const expulsionSchema = mongoose.Schema({
     required: [true, 'player ID is required'],
   },
 })
+
+/**
+ * ok with NODE_ENV=test keep an eye for dev&producion
+ */
+if (process.env.NODE_ENV === 'test') {
+  expulsionSchema.post('save', (score, done) => {
+    return forkHandlers.forkChildStatsUpdate(score, done)
+  })
+  expulsionSchema.post('remove', (score, done) => {
+    return forkHandlers.forkChildStatsUpdate(score, done)
+  })
+} else {
+  expulsionSchema.post('save', (score) => {
+    return forkHandlers.forkChildStatsUpdate(score)
+  })
+  expulsionSchema.post('remove', (score) => {
+    return forkHandlers.forkChildStatsUpdate(score)
+  })
+}
 
 module.exports = mongoose.model('expulsion', expulsionSchema, 'expulsions')
