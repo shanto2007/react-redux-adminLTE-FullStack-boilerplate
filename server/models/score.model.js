@@ -29,34 +29,22 @@ const scoreSchema = mongoose.Schema({
   },
 })
 
-function forkChildStatsUpdate(score, done) {
-  const fork = require('child_process').fork
-
-  const child = fork('server/fork/player.stats')
-  child.send(score)
-  child.on('message', (m) => {
-    if (m.split(':')[1] !== 'success') {
-      child.kill()
-      forkChildStatsUpdate(score, done)
-    } else {
-      child.kill()
-      if (done) {
-        done()
-      }
-    }
-  })
-}
-
 /**
  * OK IN TEST KEEP AN EYE FOR NO TEST ENV
  */
 if (process.env.NODE_ENV === 'test') {
   scoreSchema.post('save', (score, done) => {
-    forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildStatsUpdate(score, done)
+  })
+  scoreSchema.post('remove', (score, done) => {
+    return forkHandlers.forkChildStatsUpdate(score, done)
   })
 } else {
   scoreSchema.post('save', (score) => {
-    forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildStatsUpdate(score)
+  })
+  scoreSchema.post('remove', (score) => {
+    return forkHandlers.forkChildStatsUpdate(score)
   })
 }
 

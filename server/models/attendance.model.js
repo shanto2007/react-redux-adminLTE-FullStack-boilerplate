@@ -27,8 +27,14 @@ if (process.env.NODE_ENV === 'test') {
   attendanceSchema.post('save', (score, done) => {
     forkHandlers.forkChildStatsUpdate(score, done)
   })
+  attendanceSchema.post('remove', (score, done) => {
+    forkHandlers.forkChildStatsUpdate(score, done)
+  })
 } else {
   attendanceSchema.post('save', (score) => {
+    forkHandlers.forkChildStatsUpdate(score)
+  })
+  attendanceSchema.post('remove', (score) => {
     forkHandlers.forkChildStatsUpdate(score)
   })
 }
