@@ -25,17 +25,17 @@ const attendanceSchema = mongoose.Schema({
  */
 if (process.env.NODE_ENV === 'test') {
   attendanceSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
   attendanceSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
 } else {
   attendanceSchema.post('save', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
   attendanceSchema.post('remove', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
 }
 

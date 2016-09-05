@@ -10,6 +10,9 @@ module.exports = {
     db.once('open', () => {
       console.log('--DB CONNECTED--')
     })
+    db.on('close', () => {
+      console.log('--DB CLOSED--')
+    })
     if (process.env.NODE_ENV === 'test') {
       mongoose.connect(secrets.TEST_DB_URI)
     } else {

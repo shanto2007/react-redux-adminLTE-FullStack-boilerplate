@@ -34,17 +34,17 @@ const scoreSchema = mongoose.Schema({
  */
 if (process.env.NODE_ENV === 'test') {
   scoreSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
   scoreSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
 } else {
   scoreSchema.post('save', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
   scoreSchema.post('remove', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
 }
 

@@ -13,7 +13,7 @@ process.on('message', (score) => {
   Promise
     .resolve(Player.findById(score.player))
     .then((player) => {
-      if (!player) throw 'player.stats fork exited with Player not found'
+      if (!player) throw new Error('player.stats fork exited with Player not found')
       playerInstance = player
       return Promise.all([
         Score.count({ player: player._id }),
@@ -23,7 +23,7 @@ process.on('message', (score) => {
       ])
     })
     .then((data) => {
-      if (!data) throw 'player.stats fork exited with Data not found!'
+      if (!data) throw new Error('player.stats fork exited with Data not found!')
       return playerInstance.update({
         goals: data[0],
         warns: data[1],
@@ -31,12 +31,16 @@ process.on('message', (score) => {
         attendance: data[3],
       })
     })
-    .then((status) => {
-      if (!status) if (!data) throw 'player.stats fork exited with Stats not found!'
+    .then(() => {
+      setTimeout(() => {
+        process.exit()
+      }, 150)
       process.send('updated_player_stats:success')
     })
-    .catch((err) => {
+    .catch(() => {
+      setTimeout(() => {
+        process.exit()
+      }, 150)
       process.send('updated_player_stats:fail')
-      throw err
     })
 })

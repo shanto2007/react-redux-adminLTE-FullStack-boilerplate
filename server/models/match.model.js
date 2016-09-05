@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const forkHandlers = require('../fork/fork.handlers')
 
 const matchSchema = mongoose.Schema({
   season: {
@@ -56,5 +57,50 @@ matchSchema.pre('validate', function matchPreValidation(next) {
   }
   next()
 })
+
+matchSchema.pre('save', function preSaveHookMatch(next) {
+  const match = this
+  if (this.isModified('played') && this.isModified('winner')) {
+    match.loser = match.winner.equals(match.teamHome) ? match.teamAway : match.teamHome
+  }
+  next()
+})
+
+if (process.env.NODE_ENV === 'test') {
+  matchSchema.post('save', (match, done) => {
+    if (match.played) {
+      forkHandlers.forkChildTeamStatsUpdate(match, done)
+    } else {
+      done()
+    }
+  })
+  matchSchema.post('remove', (match, done) => {
+    Promise.all([
+      match.model('score').find({ match: match._id }),
+      match.model('warn').find({ match: match._id }),
+      match.model('expulsion').find({ match: match._id }),
+      match.model('attendance').find({ match: match._id }),
+    ]).then((data) => {
+      data[0].forEach((el) => el.remove())
+      data[1].forEach((el) => el.remove())
+      data[2].forEach((el) => el.remove())
+      data[3].forEach((el) => el.remove())
+      forkHandlers.forkChildTeamStatsUpdate(match, done)
+    })
+    .catch((err) => {
+      done(err)
+      throw new Error('Error updating stats after match remove')
+    })
+  })
+} else {
+  matchSchema.post('save', (match) => {
+    if (match.played) {
+      forkHandlers.forkChildTeamStatsUpdate(match)
+    }
+  })
+  matchSchema.post('remove', (match) => {
+    forkHandlers.forkChildTeamStatsUpdate(match)
+  })
+}
 
 module.exports = mongoose.model('match', matchSchema, 'matchs')

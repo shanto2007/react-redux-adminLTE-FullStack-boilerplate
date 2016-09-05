@@ -9,7 +9,7 @@ const Warn = require(testenv.serverdir + 'models/warn.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe.only('Warn - Model', () => {
+describe('Warn - Model', () => {
   let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId, warnId
 
   before((done) => {

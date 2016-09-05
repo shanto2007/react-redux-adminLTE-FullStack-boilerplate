@@ -24,17 +24,17 @@ const warnSchema = mongoose.Schema({
  */
 if (process.env.NODE_ENV === 'test') {
   warnSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
   warnSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
 } else {
   warnSchema.post('save', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
   warnSchema.post('remove', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
 }
 

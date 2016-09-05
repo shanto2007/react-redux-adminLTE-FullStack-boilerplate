@@ -24,17 +24,17 @@ const expulsionSchema = mongoose.Schema({
  */
 if (process.env.NODE_ENV === 'test') {
   expulsionSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
   expulsionSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildStatsUpdate(score, done)
+    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
   })
 } else {
   expulsionSchema.post('save', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
   expulsionSchema.post('remove', (score) => {
-    return forkHandlers.forkChildStatsUpdate(score)
+    return forkHandlers.forkChildPlayerStatsUpdate(score)
   })
 }
 
