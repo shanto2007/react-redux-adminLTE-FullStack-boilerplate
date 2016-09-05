@@ -82,8 +82,8 @@ playerSchema.post('insertMany', function insertManyPostHook(players, done) {
       for (let i = 0; i < players.length; i++) {
         team.players.addToSet(players[i])
       }
-      team.save((err) => {
-        if (err) throw err
+      team.save((saveError) => {
+        if (saveError) throw saveError
         done()
       })
     })

@@ -160,7 +160,6 @@ describe.only('Player - Model', () => {
   })
 
   it('shoud have added all the player to team array', (done) => {
-    //  wait the db to update
     Team.findById(teamId, (err, team) => {
       if (err) throw err
       expect(team).toExist()
