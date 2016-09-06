@@ -30,6 +30,9 @@ process.on('message', (media) => {
         .write(thumbPath + mediaInstance.filename);
     })
     .then((i) => {
+      setTimeout(() => {
+        process.exit()
+      }, 10)
       process.send('thumb_gen:success')
     })
     .catch((err) => {
