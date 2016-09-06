@@ -177,28 +177,26 @@ describe('Match - Model', () => {
       if (err) done(err)
       match.played = true
       match.winner = teamAId
-      match.save((err, match) => {
-        expect(match).toExist()
-        expect(match.winner).toExist()
-        expect(match.loser).toExist()
-        expect(match.winner.equals(teamAId)).toBe(true)
-        expect(match.loser.equals(teamBId)).toBe(true)
-        const promiseQueries = []
-        /**
-         * 2-1 for TeamA
-         */
-        promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamAId, teamTaker: teamBId, player: playerTeamA, }))
-        promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamAId, teamTaker: teamBId, player: playerTeamA, }))
-        promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamBId, teamTaker: teamAId, player: playerTeamB, }))
-        Promise.all(promiseQueries).then((scores) => {
-          expect(scores).toExist()
-          expect(scores.length).toBe(3)
-          match.save((err) => {
-            if (err) done(err)
-            done()
-          })
-        }).catch(done)
-      })
+      const promiseQueries = []
+      /**
+      * 2-1 for TeamA
+      */
+      promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamAId, teamTaker: teamBId, player: playerTeamA, }))
+      promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamAId, teamTaker: teamBId, player: playerTeamA, }))
+      promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamBId, teamTaker: teamAId, player: playerTeamB, }))
+      Promise.all(promiseQueries).then((scores) => {
+        expect(scores).toExist()
+        expect(scores.length).toBe(3)
+        match.save((err, match) => {
+          if (err) done(err)
+          expect(match).toExist()
+          expect(match.winner).toExist()
+          expect(match.loser).toExist()
+          expect(match.winner.equals(teamAId)).toBe(true)
+          expect(match.loser.equals(teamBId)).toBe(true)
+          done()
+        })
+      }).catch(done)
     })
   })
 
