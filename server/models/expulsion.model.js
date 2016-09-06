@@ -19,23 +19,22 @@ const expulsionSchema = mongoose.Schema({
   },
 })
 
-/**
- * ok with NODE_ENV=test keep an eye for dev&producion
- */
-if (process.env.NODE_ENV === 'test') {
-  expulsionSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
-  })
-  expulsionSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
-  })
-} else {
-  expulsionSchema.post('save', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-  expulsionSchema.post('remove', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-}
+expulsionSchema.post('save', (expulsion, done) => {
+ forkHandlers.playerExpulsionUpdate(expulsion).then(() => {
+   done()
+ }).catch((err) => {
+   throw err
+   done()
+ })
+})
+expulsionSchema.post('remove', (expulsion, done) => {
+ forkHandlers.playerExpulsionUpdate(expulsion).then(() => {
+   done()
+ }).catch((err) => {
+   throw err
+   done()
+ })
+})
+
 
 module.exports = mongoose.model('expulsion', expulsionSchema, 'expulsions')

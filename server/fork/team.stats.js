@@ -74,13 +74,13 @@ process.on('message', (match) => {
   .then(() => {
     setTimeout(() => {
       process.exit()
-    }, 150)
+    }, 10)
     process.send('updated_team_stats:success')
   })
   .catch(() => {
     setTimeout(() => {
       process.exit()
-    }, 150)
+    }, 10)
     process.send('updated_team_stats:fail')
   })
 })

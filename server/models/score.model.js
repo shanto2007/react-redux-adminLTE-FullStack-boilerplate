@@ -29,24 +29,21 @@ const scoreSchema = mongoose.Schema({
   },
 })
 
-/**
- * ok with NODE_ENV=test keep an eye for dev&producion
- */
-if (process.env.NODE_ENV === 'test') {
-  scoreSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
+scoreSchema.post('save', (score, done) => {
+  forkHandlers.playerScoreUpdate(score).then(() => {
+    done()
+  }).catch((err) => {
+    console.log(err);
+    done()
   })
-  scoreSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
+})
+scoreSchema.post('remove', (score, done) => {
+  forkHandlers.playerScoreUpdate(score).then(() => {
+    done()
+  }).catch((err) => {
+    console.log(err);
+    done()
   })
-} else {
-  scoreSchema.post('save', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-  scoreSchema.post('remove', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-}
-
+})
 
 module.exports = mongoose.model('score', scoreSchema, 'scores')

@@ -20,24 +20,25 @@ const attendanceSchema = mongoose.Schema({
 })
 
 
-/**
- * ok with NODE_ENV=test keep an eye for dev&producion
- */
-if (process.env.NODE_ENV === 'test') {
-  attendanceSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
+
+attendanceSchema.post('save', (attendance, done) => {
+  return forkHandlers.playerAttendanceUpdate(attendance).then(() => {
+    done()
+  }).catch((err) => {
+    throw err
+    done()
   })
-  attendanceSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
+})
+attendanceSchema.post('remove', (attendance, done) => {
+  return forkHandlers.playerAttendanceUpdate(attendance).then(() => {
+    done()
+  }).catch((err) => {
+    throw err
+    done()
   })
-} else {
-  attendanceSchema.post('save', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-  attendanceSchema.post('remove', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-}
+})
+
+
 
 
 module.exports = mongoose.model('attendance', attendanceSchema, 'attendances')

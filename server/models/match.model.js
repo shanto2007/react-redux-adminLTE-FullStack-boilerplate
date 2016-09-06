@@ -66,41 +66,43 @@ matchSchema.pre('save', function preSaveHookMatch(next) {
   next()
 })
 
-if (process.env.NODE_ENV === 'test') {
-  matchSchema.post('save', (match, done) => {
-    if (match.played) {
-      forkHandlers.forkChildTeamStatsUpdate(match, done)
-    } else {
-      done()
-    }
+matchSchema.post('save', (match, done) => {
+  if (!match.played) done()
+  forkHandlers.teamStatsUpdate(match).then(() => {
+    done()
   })
-  // Remove data linked to the match >>>> MAYBE FORK A PROCESS FOR THAT
-  matchSchema.post('remove', (match, done) => {
-    Promise.all([
-      match.model('score').find({ match: match._id }),
-      match.model('warn').find({ match: match._id }),
-      match.model('expulsion').find({ match: match._id }),
-      match.model('attendance').find({ match: match._id }),
-    ]).then((data) => {
-      data[0].forEach((el) => el.remove())
-      data[1].forEach((el) => el.remove())
-      data[2].forEach((el) => el.remove())
-      data[3].forEach((el) => el.remove())
-      forkHandlers.forkChildTeamStatsUpdate(match, done)
-    })
-    .catch((err) => {
-      done(err)
-    })
+  .catch((err) => {
+    throw err
+    done()
   })
-} else {
-  matchSchema.post('save', (match) => {
-    if (match.played) {
-      forkHandlers.forkChildTeamStatsUpdate(match)
-    }
+})
+
+matchSchema.post('remove', (match, done) => {
+  console.time('removeData')
+  forkHandlers
+  .cascadeRemoveMatchData(match)
+  .then((res) => {
+    console.timeEnd('removeData')
+    return done()
   })
-  matchSchema.post('remove', (match) => {
-    forkHandlers.forkChildTeamStatsUpdate(match)
+  .catch((err) => {
+    throw err
+    return done()
   })
-}
+})
+
+matchSchema.post('remove', (match, done) => {
+  console.time('update')
+  forkHandlers.teamStatsUpdate(match)
+  .then((res) => {
+    console.timeEnd('update')
+    return done()
+  })
+  .catch((err) => {
+    throw err
+    return done()
+  })
+})
+
 
 module.exports = mongoose.model('match', matchSchema, 'matchs')

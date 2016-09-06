@@ -33,11 +33,11 @@ describe('Score - Model', () => {
         dayId = day._id
         return Team.insertMany([
           {
-            name: 'TeamA',
+            name: 'TeamA' + Math.random(),
             season: seasonId,
             round: roundId,
           },{
-            name: 'TeamB',
+            name: 'TeamB' + Math.random(),
             season: seasonId,
             round: roundId,
           },
@@ -144,13 +144,13 @@ describe('Score - Model', () => {
 
   it('shoud check that the child_process have updated the data', (done) => {
     Player.findById(playerId, (err, player) => {
-      if (err) throw err
+      if (err) done(err)
       expect(player.goals).toBe(1)
       done()
     })
   })
 
-  it('shoud remove the score', (done) => {
+  it('should remove the score', (done) => {
     Score.findById(scoreId, (err, score) => {
       if (err) done(err)
       score.remove((err, removed) => {

@@ -19,23 +19,22 @@ const warnSchema = mongoose.Schema({
   },
 })
 
-/**
- * ok with NODE_ENV=test keep an eye for dev&producion
- */
-if (process.env.NODE_ENV === 'test') {
-  warnSchema.post('save', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
-  })
-  warnSchema.post('remove', (score, done) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score, done)
-  })
-} else {
-  warnSchema.post('save', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-  warnSchema.post('remove', (score) => {
-    return forkHandlers.forkChildPlayerStatsUpdate(score)
-  })
-}
+warnSchema.post('save', (warn, done) => {
+ forkHandlers.playerWarnUpdate(warn).then(() => {
+   done()
+ }).catch((err) => {
+   throw err
+   done()
+ })
+})
+warnSchema.post('remove', (warn, done) => {
+ forkHandlers.playerWarnUpdate(warn).then(() => {
+   done()
+ }).catch((err) => {
+   throw err
+   done()
+ })
+})
+
 
 module.exports = mongoose.model('warn', warnSchema, 'warns')
