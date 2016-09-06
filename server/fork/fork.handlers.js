@@ -154,7 +154,32 @@ function cascadeRemoveMatchData(match) {
   })
 }
 
+function generateThumbnail(media) {
+  const { Promise } = global
+  const fork = require('child_process').fork
+  return new Promise((resolve, reject) => {
+    const child = fork('server/fork/thumb.generator')
+    child.send(media)
+    child.on('message', (m) => {
+      if (m.split(':')[1] !== 'success') {
+        child.kill('SIGINT')
+        return reject({
+          success: false,
+          message: 'Error generating thumbnail',
+        })
+      } else {
+        child.kill('SIGINT')
+        return resolve({
+          success: true,
+          message: 'Thumbnail generated',
+        })
+      }
+    })
+  })
+}
+
 module.exports = {
+  generateThumbnail,
   cascadeRemoveMatchData,
   teamStatsUpdate,
   playerScoreUpdate,

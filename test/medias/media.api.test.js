@@ -12,7 +12,7 @@ chai.use(chaiHttp)
 /**
  * API
  */
-describe('Media - API', () => {
+describe.only('Media - API', () => {
   let mediaId, userAuthToken, storedMediaPath, preUploadMediaStat
 
   // generate a auth dummy token
