@@ -12,7 +12,7 @@ const MediaSchema = mongoose.Schema({
 MediaSchema.set('toObject', { virtuals: true });
 MediaSchema.set('toJSON', { virtuals: true });
 
-MediaSchema.virtual('thumb').get(function() {
+MediaSchema.virtual('thumbnail').get(function() {
   return `/${secrets.UPLOAD_DIRNAME}/thumbnail/${this.filename}`
 })
 
@@ -36,9 +36,13 @@ MediaSchema.post('remove', (media, done) => {
   const projectRoot = path.join(__dirname, '../../')
   const uploadDir = path.join(projectRoot, `/${secrets.UPLOAD_DIRNAME}`)
   const file = `${uploadDir}/${media.filename}`
+  const thumb = `${uploadDir}/thumbnail/${media.filename}`
   fs.exists(file, (exist) => {
     if (exist) fs.unlinkSync(file)
-  }) // DELETE THUMBNAIL TOO
+  })
+  fs.exists(thumb, (exist) => {
+    if (exist) fs.unlinkSync(thumb)
+  })
   done()
 })
 

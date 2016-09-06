@@ -13,7 +13,7 @@ chai.use(chaiHttp)
  * API
  */
 describe.only('Media - API', () => {
-  let mediaId, userAuthToken, storedMediaPath, preUploadMediaStat
+  let mediaId, userAuthToken, storedMediaPath, storedThumbPath, preUploadMediaStat
 
   // generate a auth dummy token
   before(() => {
@@ -51,8 +51,11 @@ describe.only('Media - API', () => {
       expect(res.status).toBe(200)
       expect(body.success).toBe(true)
       expect(body.media).toExist()
+      expect(body.media.thumbnail).toExist()
+      expect(body.media.path).toExist()
       mediaId = String(res.body.media._id)
       storedMediaPath = body.media.path
+      storedThumbPath = body.media.thumbnail
       done()
     })
   })
@@ -115,8 +118,16 @@ describe.only('Media - API', () => {
     })
   })
 
-  it('shoud check that file has been unlinked after remove', (done) => {
+  it('shoud check that file has been unlinked file after remove', (done) => {
     const filePath = path.join(testenv.rootdir, storedMediaPath)
+    fs.stat(filePath, (err, stat) => {
+      expect(stat).toNotExist()
+      done()
+    })
+  })
+
+  it('shoud check that file has been unlinked the thumbnail after remove', (done) => {
+    const filePath = path.join(testenv.rootdir, storedThumbPath)
     fs.stat(filePath, (err, stat) => {
       expect(stat).toNotExist()
       done()

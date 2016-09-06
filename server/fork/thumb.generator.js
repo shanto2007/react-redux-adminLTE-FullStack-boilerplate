@@ -23,13 +23,13 @@ process.on('message', (media) => {
       return Jimp.read(fsPath)
     })
     .then(function (image) {
-      // GEN THUMBNAIL
+      // original extension poi boh ch'o sonno
       return image
         .resize(250, 250)
         .quality(50)
         .write(thumbPath + mediaInstance.filename);
     })
-    .then(() => {
+    .then((i) => {
       process.send('thumb_gen:success')
     })
     .catch((err) => {
