@@ -147,26 +147,46 @@ describe('Player - Model', () => {
   })
 
   it('shoud create a bunch of players', (done) => {
+    let promises = []
     for (var i = 0; i < 10; i++) {
-      arrayOfPlayers.push(Object.assign({ name: 'MyPlayer' + i, surname: 'MySurname' + i }, playerTemplate))
+      let player = Object.assign({ name: 'MyPlayer' + i, surname: 'MySurname' + i }, playerTemplate)
+      promises.push(Player.create(player))
     }
-    Player.insertMany(arrayOfPlayers, (err, insertedPlayer) => {
-      if (err) throw err
+    Promise.all(promises).then((insertedPlayer) => {
       expect(insertedPlayer).toExist()
       expect(insertedPlayer).toBeA('array')
-      expect(insertedPlayer.length).toEqual(arrayOfPlayers.length)
+      expect(insertedPlayer.length).toEqual(promises.length)
       done()
-    })
+    }).catch(done)
   })
 
   it('shoud have added all the player to team array', (done) => {
     Team.findById(teamId, (err, team) => {
-      if (err) throw err
+      if (err) done(err)
       expect(team).toExist()
       expect(team.players).toBeA('array')
       expect(team.players.length).toBe(10)
+      arrayOfPlayers = team.players
       done()
     })
+  })
+
+  it('shoud remove the bunch of players', (done) => {
+    let promises = []
+    Player.find({ _id: { $in: arrayOfPlayers }}).then((players) => {
+      players.forEach((player) => {
+        player.remove()
+      })
+      done()
+    })
+    .catch(done)
+  })
+
+  it('shoud have removed the players from the team document', (done) => {
+    Team.findOne(teamId).then((team) => {
+      expect(team.players.length).toBe(0)
+      done()
+    }).catch(done)
   })
 
 

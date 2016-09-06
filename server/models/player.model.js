@@ -59,11 +59,14 @@ playerSchema.virtual('fullname').get(function fullNameVirtualGenerator() {
  * ADD TO TEAM ARRAY OF REFERENCE
  * document
  */
-playerSchema.post('save', (player) => {
-  player.model('team').findById(player.team, (err, team) => {
-    if (err) throw err
-    team.players.addToSet(player)
-    team.save()
+playerSchema.post('save', (player, done) => {
+  player.model('team').update({ _id: player.team}, {
+    $addToSet: {
+      players: player
+    },
+  }, (err, stats) => {
+    if (err) done(err)
+    done()
   })
 })
 
@@ -71,28 +74,15 @@ playerSchema.post('save', (player) => {
  * REMOVE TO TEAM ARRAY OF REFERENCE
  * work only on document istance not on Model methods
  */
-playerSchema.post('remove', (player) => {
-  player.model('team').findById(player.team, (err, team) => {
-    if (err) throw err
-    team.players.pull(player)
-    team.save()
+playerSchema.post('remove', (player, done) => {
+  player.model('team').update({ _id: player.team }, {
+    $pull: {
+      players: player._id,
+    },
+  }, (err, status) => {
+    if (err) done(err)
+    done()
   })
 })
-
-playerSchema.post('insertMany', function insertManyPostHook(players, done) {
-  if (players.length) {
-    this.model('team').findById(players[0].team, (err, team) => {
-      if (err) throw err
-      for (let i = 0; i < players.length; i++) {
-        team.players.addToSet(players[i])
-      }
-      team.save((saveError) => {
-        if (saveError) throw saveError
-        done()
-      })
-    })
-  }
-})
-
 
 module.exports = mongoose.model('player', playerSchema, 'players')

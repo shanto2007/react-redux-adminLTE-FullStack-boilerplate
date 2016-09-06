@@ -74,6 +74,7 @@ if (process.env.NODE_ENV === 'test') {
       done()
     }
   })
+  // Remove data linked to the match >>>> MAYBE FORK A PROCESS FOR THAT
   matchSchema.post('remove', (match, done) => {
     Promise.all([
       match.model('score').find({ match: match._id }),
@@ -89,7 +90,6 @@ if (process.env.NODE_ENV === 'test') {
     })
     .catch((err) => {
       done(err)
-      throw new Error('Error updating stats after match remove')
     })
   })
 } else {
