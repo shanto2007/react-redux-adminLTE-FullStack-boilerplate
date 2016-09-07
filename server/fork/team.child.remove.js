@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (match) => {
   const { Promise } = global
   const db = require('../config/database')
@@ -23,12 +24,16 @@ process.on('message', (match) => {
     setTimeout(() => {
       process.exit()
     }, 10)
-    process.send('removed_team_child:success')
+    process.send('success::' + JSON.stringify(res))
   })
-  .catch(() => {
+  .catch((err) => {
     setTimeout(() => {
       process.exit()
     }, 10)
-    process.send('removed_team_child:fail')
+    process.send('fail::' + JSON.stringify(err))
   })
+})
+
+process.on(process.title + ' uncaughtException', function (err) {
+  console.log('Caught exception: ' + err)
 })

@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (match) => {
   const { Promise } = global
   const db = require('../config/database')
@@ -20,7 +21,10 @@ process.on('message', (match) => {
      * [0] WINNER
      * [1] LOSER
      */
-    if (!teams && !teams[0] && !teams[1]) process.send('updated_team_stats:fail')
+    if (!teams && !teams[0] && !teams[1]) {
+      const err = { err: 'No teams provided' }
+      process.send('fail::' + JSON.stringify(err))
+    }
 
     winnerInstance = teams[0]
     loserInstance = teams[1]
@@ -71,16 +75,20 @@ process.on('message', (match) => {
     })
     return Promise.all([winnerQuery, loserQuery])
   })
-  .then(() => {
+  .then((res) => {
     setTimeout(() => {
       process.exit()
     }, 10)
-    process.send('updated_team_stats:success')
+    process.send('success::' + JSON.stringify(res))
   })
-  .catch(() => {
+  .catch((err) => {
     setTimeout(() => {
       process.exit()
     }, 10)
-    process.send('updated_team_stats:fail')
+    process.send('fail::' + JSON.stringify(err))
   })
+})
+
+process.on(process.title + ' uncaughtException', function (err) {
+  console.log('Caught exception: ' + err)
 })

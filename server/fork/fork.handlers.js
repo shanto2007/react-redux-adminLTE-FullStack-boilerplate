@@ -1,104 +1,30 @@
 const AppForkedChild = []
 /**
- * Update player score count
+ * Main Handler of fork worker, return promise
  * @return Promise
  */
-function playerScoreUpdate(score){
+function MainHandler(childPath, childName, data) {
   const { Promise } = global
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
-    const child = fork('server/fork/player.scores')
+    const child = fork(childPath, [process.title, childName])
     AppForkedChild.push(child)
-    child.send(score)
+    child.send(data)
     child.on('message', (m) => {
-      let message = m.split(':')
-      if (message[1] !== 'success') {
+      let message = m.split('::')
+      if (message[0] !== 'success') {
         child.kill('SIGINT')
         return reject({
           success: false,
-          message: 'Child process "player.scores" failed: ' + message[0]
+          status: `Child process ${childName}: ${message[0]}`,
+          error: JSON.parse(message[1])
         })
       } else {
         child.kill('SIGINT')
         return resolve({
           success: true,
-          message: 'Player stat update, child process exit gracefully'
-        })
-      }
-    })
-  })
-}
-function playerWarnUpdate(warns){
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/player.warns')
-    AppForkedChild.push(child)
-    child.send(warns)
-    child.on('message', (m) => {
-      let message = m.split(':')
-      if (message[1] !== 'success') {
-        child.kill('SIGINT')
-        return reject({
-          success: false,
-          message: 'Child process "player.warns" failed: ' + message[0]
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Player stat update, child process exit gracefully'
-        })
-      }
-    })
-  })
-}
-
-function playerExpulsionUpdate(expulsion){
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/player.expulsions')
-    AppForkedChild.push(child)
-    child.send(expulsion)
-    child.on('message', (m) => {
-      let message = m.split(':')
-      if (message[1] !== 'success') {
-        child.kill('SIGINT')
-        return reject({
-          success: false,
-          message: 'Child process "player.expulsion" failed: ' + message[0]
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Player stat update, child process exit gracefully'
-        })
-      }
-    })
-  })
-}
-function playerAttendanceUpdate(attendance) {
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/player.attendance')
-    AppForkedChild.push(child)
-    child.send(attendance)
-    child.on('message', (m) => {
-      let message = m.split(':')
-      if (message[1] !== 'success') {
-        child.kill('SIGINT')
-        return reject({
-          success: false,
-          message: 'Child process "player.attendance" failed: ' + message[0]
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Player stat update, child process exit gracefully'
+          status: `Child process ${childName} ${message[0]}`,
+          message: JSON.parse(message[1])
         })
       }
     })
@@ -106,87 +32,9 @@ function playerAttendanceUpdate(attendance) {
 }
 
 /**
- * Update match statistics
- * @return Promise
+ * Create an array of child to kill incase of bad application exit
+ * @return {[type]} [description]
  */
-function teamStatsUpdate(match) {
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/team.stats')
-    AppForkedChild.push(child)
-    child.send(match)
-    child.on('message', (m) => {
-      if (m.split(':')[1] !== 'success') {
-        child.kill('SIGINT')
-        // forkChildTeamStatsUpdate(match)
-        return reject({
-          success: false,
-          message: 'Error updating team statistics, try again',
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Team statistics updated',
-        })
-      }
-    })
-  })
-}
-
-function cascadeRemoveMatchData(match) {
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/team.child.remove')
-    AppForkedChild.push(child)
-    child.send(match)
-    child.on('message', (m) => {
-      if (m.split(':')[1] !== 'success') {
-        child.kill('SIGINT')
-        // cascadeRemoveMatchData(match)
-        return reject({
-          success: false,
-          message: 'Error removing team childs, try again',
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Team unlinked child remove',
-        })
-      }
-    })
-  })
-}
-
-function generateThumbnail(media) {
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/thumb.generator')
-    AppForkedChild.push(child)
-    child.send(media)
-    child.on('message', (m) => {
-      if (m.split(':')[1] !== 'success') {
-        child.kill('SIGINT')
-        return reject({
-          success: false,
-          message: 'Error generating thumbnail',
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Thumbnail generated',
-        })
-      }
-    })
-  })
-}
-
-
 function killForkedChilds() {
   if (AppForkedChild.length) {
     for (var i = 0; i < AppForkedChild.length; i++) {
@@ -198,6 +46,34 @@ function killForkedChilds() {
   } else {
     console.log('No forked child to kill');
   }
+}
+
+function generateThumbnail(media) {
+  return MainHandler('server/fork/thumb.generator', 'thumb.generator', media)
+}
+
+function teamStatsUpdate(match) {
+  return MainHandler('server/fork/team.stats', 'team.stats', match)
+}
+
+function cascadeRemoveMatchData(match) {
+  return MainHandler('server/fork/team.child.remove', 'team.child.remove', match)
+}
+
+function playerScoreUpdate(score){
+  return MainHandler('server/fork/player.score', 'player.score', score)
+}
+
+function playerWarnUpdate(warn){
+  return MainHandler('server/fork/player.warn', 'player.warn', warn)
+}
+
+function playerExpulsionUpdate(expulsion){
+  return MainHandler('server/fork/player.expulsion', 'player.expulsion', expulsion)
+}
+
+function playerAttendanceUpdate(attendance){
+  return MainHandler('server/fork/player.attendance', 'player.attendance', attendance)
 }
 
 module.exports = {

@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (score) => {
   const { Promise } = global
   const db = require('../config/database')
@@ -8,7 +9,11 @@ process.on('message', (score) => {
   Promise
     .resolve(Player.findById(score.player))
     .then((player) => {
-      if (!player) process.send('no_player_found:fail')
+      if (!player) {
+        process.send('fail::' + JSON.stringify({
+          error: 'No player found',
+        }))
+      }
       playerInstance = player
       return Attendance.count({ player: player._id })
     })
@@ -17,16 +22,20 @@ process.on('message', (score) => {
         attendance: count,
       })
     })
-    .then((status) => {
+    .then((res) => {
       setTimeout(() => {
         process.exit()
       }, 10)
-      process.send('update_player_scores:success')
+      process.send('success::' + JSON.stringify(res))
     })
-    .catch(() => {
+    .catch((err) => {
       setTimeout(() => {
         process.exit()
       }, 10)
-      process.send('update_player_scores:fail')
+      process.send('fail::' + JSON.stringify(err))
     })
+})
+
+process.on(process.title + ' uncaughtException', function (err) {
+  console.log('Caught exception: ' + err)
 })

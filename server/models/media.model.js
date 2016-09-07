@@ -29,7 +29,8 @@ MediaSchema.post('save', (media, done) => {
     fork.generateThumbnail(media).then(() => {
       done()
     }).catch((err) => {
-      done(new Error(err.message))
+      console.error('generateThumbnail', err)
+      done()
     })
   }
   done()
