@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (match) => {
   const { Promise } = global
   const db = require('../config/database')

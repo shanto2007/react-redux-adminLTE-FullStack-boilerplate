@@ -109,57 +109,57 @@ function playerAttendanceUpdate(attendance) {
  * Update match statistics
  * @return Promise
  */
-function teamStatsUpdate(match) {
-  const { Promise } = global
-  const fork = require('child_process').fork
-  return new Promise((resolve, reject) => {
-    const child = fork('server/fork/team.stats')
-    AppForkedChild.push(child)
-    child.send(match)
-    child.on('message', (m) => {
-      if (m.split(':')[1] !== 'success') {
-        child.kill('SIGINT')
-        // forkChildTeamStatsUpdate(match)
-        return reject({
-          success: false,
-          message: 'Error updating team statistics, try again',
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          message: 'Team statistics updated',
-        })
-      }
-    })
-  })
-}
-
-// function cascadeRemoveMatchData(match) {
+// function teamStatsUpdate(match) {
 //   const { Promise } = global
 //   const fork = require('child_process').fork
 //   return new Promise((resolve, reject) => {
-//     const child = fork('server/fork/team.child.remove')
+//     const child = fork('server/fork/team.stats')
 //     AppForkedChild.push(child)
 //     child.send(match)
 //     child.on('message', (m) => {
 //       if (m.split(':')[1] !== 'success') {
 //         child.kill('SIGINT')
-//         // cascadeRemoveMatchData(match)
+//         // forkChildTeamStatsUpdate(match)
 //         return reject({
 //           success: false,
-//           message: 'Error removing team childs, try again',
+//           message: 'Error updating team statistics, try again',
 //         })
 //       } else {
 //         child.kill('SIGINT')
 //         return resolve({
 //           success: true,
-//           message: 'Team unlinked child remove',
+//           message: 'Team statistics updated',
 //         })
 //       }
 //     })
 //   })
 // }
+
+function cascadeRemoveMatchData(match) {
+  const { Promise } = global
+  const fork = require('child_process').fork
+  return new Promise((resolve, reject) => {
+    const child = fork('server/fork/team.child.remove')
+    AppForkedChild.push(child)
+    child.send(match)
+    child.on('message', (m) => {
+      if (m.split(':')[1] !== 'success') {
+        child.kill('SIGINT')
+        // cascadeRemoveMatchData(match)
+        return reject({
+          success: false,
+          message: 'Error removing team childs, try again',
+        })
+      } else {
+        child.kill('SIGINT')
+        return resolve({
+          success: true,
+          message: 'Team unlinked child remove',
+        })
+      }
+    })
+  })
+}
 
 // function generateThumbnail(media) {
 //   const { Promise } = global
@@ -186,26 +186,28 @@ function teamStatsUpdate(match) {
 //   })
 // }
 
-function MainHandler(childPath, childName) {
+function MainHandler(childPath, childName, data) {
   const { Promise } = global
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
-    const child = fork(childPath)
+    const child = fork(childPath, [process.title, childName])
     AppForkedChild.push(child)
-    child.send(score)
+    child.send(data)
     child.on('message', (m) => {
-      let message = m.split(':')
+      let message = m.split('::')
       if (message[1] !== 'success') {
         child.kill('SIGINT')
         return reject({
           success: false,
-          message: `Child process ${childName} failed: ${message[0]}`
+          status: `Child process ${childName}: ${message[0]}`,
+          error: JSON.parse(message[1])
         })
-      } else {
+      } else {d
         child.kill('SIGINT')
         return resolve({
           success: true,
-          message: `Child process ${childName} success: ${message[0]}`
+          status: `Child process ${childName} ${message[0]}`,
+          status: JSON.parse(message[1])
         })
       }
     })
@@ -225,13 +227,17 @@ function killForkedChilds() {
   }
 }
 
-function generateThumbnail() {
-  return MainHandler('server/fork/player.scores', 'player.scores')
+function generateThumbnail(media) {
+  return MainHandler('server/fork/player.scores', 'player.scores', media)
 }
 
-function cascadeRemoveMatchData(match) {
-  return MainHandler('server/fork/team.child.remove', 'team.child.remove')
+function teamStatsUpdate(match) {
+  return MainHandler('server/fork/team.stats', 'team.stats', match)
 }
+
+// function cascadeRemoveMatchData(match) {
+//   return MainHandler('server/fork/team.child.remove', 'team.child.remove')
+// }
 
 
 module.exports = {

@@ -68,11 +68,12 @@ matchSchema.pre('save', function preSaveHookMatch(next) {
 
 matchSchema.post('save', (match, done) => {
   if (!match.played) done()
-  forkHandlers.teamStatsUpdate(match).then(() => {
+  forkHandlers.teamStatsUpdate(match).then((res) => {
+    // console.log(">", res);
     done()
   })
   .catch((err) => {
-    throw err
+    // console.log(">>>>", err);
     done()
   })
 })

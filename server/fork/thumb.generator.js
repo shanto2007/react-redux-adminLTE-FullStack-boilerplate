@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (media) => {
   const { Promise } = global
   const Jimp = require('jimp')
@@ -24,6 +25,7 @@ process.on('message', (media) => {
     })
     .then(function (image) {
       // original extension poi boh ch'o sonno
+      console.log(process.title);
       return image
         .resize(250, 250)
         .quality(50)
@@ -36,7 +38,6 @@ process.on('message', (media) => {
       process.send('thumb_gen:success')
     })
     .catch((err) => {
-      console.log(err);
       setTimeout(() => {
         process.exit()
       }, 10)

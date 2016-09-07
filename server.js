@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-process.title = process.env.NODE_TITLE
+process.title = `node.${process.env.NODE_TITLE}`
 
 const path = require('path')
 const express = require('express')
@@ -48,7 +48,10 @@ app.use(`/${secrets.UPLOAD_DIRNAME}`, express.static(`${secrets.UPLOAD_DIRNAME}/
 
 routes(express, app)
 
-app.listen(PORT, () => console.log('Server started on ' + PORT))
+app.listen(PORT, () => {
+  console.log('Server started on ' + PORT)
+  console.log('Node App process named: ' + process.title);
+})
 
 
 /**
