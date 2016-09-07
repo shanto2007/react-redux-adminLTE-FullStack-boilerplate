@@ -44,3 +44,8 @@ process.on('message', (media) => {
       process.send('thumb_gen:fail')
     })
 })
+
+
+process.on(process.title + ' uncaughtException', function (err) {
+  console.log('Caught exception: ' + err)
+})

@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (match) => {
   const { Promise } = global
   const db = require('../config/database')
@@ -81,10 +82,13 @@ process.on('message', (match) => {
     process.send('success::' + JSON.stringify(res))
   })
   .catch((err) => {
-    console.log(">>>", err);
     setTimeout(() => {
       process.exit()
     }, 10)
     process.send('fail::' + JSON.stringify(err))
   })
+})
+
+process.on(process.title + ' uncaughtException', function (err) {
+  console.log('Caught exception: ' + err)
 })
