@@ -47,9 +47,12 @@ const teamSchema = mongoose.Schema({
     type: String,
     default: '',
     trim: true,
-    unique: [true, 'Team name must be unique'],
+    // unique: [true, 'Team name must be unique'],
     required: [true, 'Team name is required'],
   },
 })
+
+//  TEAM NAME ARE UNIQUE PER SEASON
+teamSchema.index({ name:1, season: 1 }, { unique: true });
 
 module.exports = mongoose.model('team', teamSchema, 'teams')

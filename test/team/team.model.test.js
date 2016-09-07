@@ -7,7 +7,7 @@ const chai = require('chai')
 const expect = require('expect')
 
 describe('Team - Model', () => {
-  let seasonId, roundId
+  let seasonId, roundId, anotherSeasonId
 
   before((done) => {
     Promise.resolve(Season.create({ year: getRandomInt(3999,9999) }))
@@ -20,12 +20,15 @@ describe('Team - Model', () => {
     })
     .then((round) => {
       roundId = round._id
+      return Season.create({ year: getRandomInt(3999,9999) })
+    }).then((season) => {
+      anotherSeasonId = season._id
       done()
     })
     .catch(done)
   })
 
-  it('shoud not create a team without a season id', (done) => {
+  it('shoud NOT create a team without a season id', (done) => {
     Team.create({}, (err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
@@ -33,7 +36,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud not create a team without a round id', (done) => {
+  it('shoud NOT create a team without a round id', (done) => {
     Team.create({
       season: seasonId
     }, (err) => {
@@ -43,7 +46,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud not create a team without a name', (done) => {
+  it('shoud NOT create a team without a name', (done) => {
     Team.create({
       season: seasonId
     }, (err) => {
@@ -66,7 +69,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud create a team with duplicate name', (done) => {
+  it('shoud NOT create a team with duplicate name', (done) => {
     Team.create({
       season: seasonId,
       round: roundId,
@@ -75,6 +78,19 @@ describe('Team - Model', () => {
       expect(err).toExist()
       expect(err.toJSON()).toExist()
       expect(err.toJSON().code).toBe(11000)
+      done()
+    })
+  })
+
+  it('shoud create a team with the same name but within another season', (done) => {
+    Team.create({
+      season: anotherSeasonId,
+      round: roundId,
+      name: 'Team Name Test  ', // space intended for trim to test
+    }, (err, team) => {
+      expect(err).toNotExist()
+      expect(team).toExist()
+      expect(team.name).toBe('Team Name Test')
       done()
     })
   })

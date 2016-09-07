@@ -1,22 +1,23 @@
-const { testenv, getRandomInt } = global
+const { testenv, getRandomInt, Promise } = global
 const Round = require(testenv.serverdir + 'models/round.model')
 const Season = require(testenv.serverdir + 'models/season.model')
 const chai = require('chai')
 const expect = require('expect')
 
 describe('Round - Model', () => {
-  let seasonId
+  let seasonId,anotherSeasonId
   before((done) => {
-    Season.create({
-      year: getRandomInt(2999, 9999)
-    }, (err, res) => {
-      if (err) throw err
-      seasonId = res._id
+    Promise.all([
+      Season.create({ year: getRandomInt(2999, 9999) }),
+      Season.create({ year: getRandomInt(2999, 9999) })
+    ]).then((seasons) => {
+      seasonId = seasons[0]._id
+      anotherSeasonId = seasons[1]._id
       done()
-    })
+    }).catch(done)
   })
 
-  it('shoud not create a round without a season id', (done) => {
+  it('shoud NOT create a round without a season id', (done) => {
     Round.create({}, (err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
@@ -24,7 +25,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud not create a round without a label', (done) => {
+  it('shoud NOT create a round without a label', (done) => {
     Round.create({
       season: seasonId
     }, (err) => {
@@ -45,7 +46,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud not create a round with duplicate label', (done) => {
+  it('shoud NOT create a round with duplicate label', (done) => {
     Round.create({
       season: seasonId,
       label: 'A'
@@ -56,10 +57,21 @@ describe('Round - Model', () => {
     })
   })
 
+  it('shoud create a round with duplicate label but for another season, ensure unique compound indexes', (done) => {
+    Round.create({
+      season: anotherSeasonId,
+      label: 'A'
+    }, (err, round) => {
+      expect(err).toNotExist()
+      expect(round.label).toEqual('A') // trimmed and uppercase in model
+      done()
+    })
+  })
+
   after((done) => {
     const { Promise } = global
     Promise.all([
-      Season.remove({ _id: seasonId }),
+      Season.remove({ _id: { $in: [seasonId, anotherSeasonId] } }),
       Round.remove({}),
     ]).then((a) => {
       done()

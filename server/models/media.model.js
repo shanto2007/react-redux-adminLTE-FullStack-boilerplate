@@ -25,10 +25,14 @@ MediaSchema.pre('save', function preSave(done) {
 })
 
 MediaSchema.post('save', (media, done) => {
-  fork.generateThumbnail(media).then(() => {
-    console.log("postsavedone");
-    done()
-  }).catch(done)
+  if (!process.env.MEDIA_MODEL_TEST) {
+    fork.generateThumbnail(media).then(() => {
+      done()
+    }).catch((err) => {
+      done(new Error(err.message))
+    })
+  }
+  done()
 })
 
 MediaSchema.post('remove', (media, done) => {

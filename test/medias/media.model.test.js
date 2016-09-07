@@ -9,6 +9,7 @@ describe('Media - Model', () => {
  let dummyMedia
 
  it('shoud create a media', (done) => {
+   process.env.MEDIA_MODEL_TEST = "true"
    Media.create({
      filename: 'mymedia.jpg',
    })
@@ -26,6 +27,7 @@ describe('Media - Model', () => {
   })
 
  after((done) => {
+   process.env.MEDIA_MODEL_TEST = null
    return Media.remove({}).then(done()).catch(done)
  })
 

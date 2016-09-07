@@ -20,8 +20,9 @@ const roundSchema = mongoose.Schema({
     trim: true,
     uppercase: true,
     required: [true, 'Round label not provided'],
-    unique: [true, 'Round label must be unique value'],
   },
 })
+
+roundSchema.index({ label:1, season: 1 }, { unique: true });
 
 module.exports = mongoose.model('round', roundSchema, 'rounds')
