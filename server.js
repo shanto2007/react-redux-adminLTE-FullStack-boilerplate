@@ -1,6 +1,7 @@
+require('dotenv').config()
+
 process.title = process.env.NODE_TITLE
 
-require('dotenv').config()
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -9,6 +10,7 @@ const secrets = require('./server/config/secrets')
 const database = require('./server/config/database')
 const routes = require('./server/routes')
 const fs = require('fs')
+const fork = require('./server/fork/fork.handlers')
 
 const app = express()
 
@@ -47,5 +49,20 @@ app.use(`/${secrets.UPLOAD_DIRNAME}`, express.static(`${secrets.UPLOAD_DIRNAME}/
 routes(express, app)
 
 app.listen(PORT, () => console.log('Server started on ' + PORT))
+
+
+/**
+ * CLEANUP FORK CHILD BEFORE EXITs
+ */
+
+process.on ('exit', function (code) {
+  fork.killForkedChilds()
+  process.exit (code)
+})
+// Catch CTRL+C
+process.on ('SIGINT', function () {
+  fork.killForkedChilds()
+  process.exit (0)
+})
 
 module.exports = app

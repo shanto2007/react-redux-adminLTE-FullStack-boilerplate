@@ -1,3 +1,4 @@
+const AppForkedChild = []
 /**
  * Update player score count
  * @return Promise
@@ -7,6 +8,7 @@ function playerScoreUpdate(score){
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/player.scores')
+    AppForkedChild.push(child)
     child.send(score)
     child.on('message', (m) => {
       let message = m.split(':')
@@ -31,6 +33,7 @@ function playerWarnUpdate(warns){
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/player.warns')
+    AppForkedChild.push(child)
     child.send(warns)
     child.on('message', (m) => {
       let message = m.split(':')
@@ -56,6 +59,7 @@ function playerExpulsionUpdate(expulsion){
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/player.expulsions')
+    AppForkedChild.push(child)
     child.send(expulsion)
     child.on('message', (m) => {
       let message = m.split(':')
@@ -80,6 +84,7 @@ function playerAttendanceUpdate(attendance) {
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/player.attendance')
+    AppForkedChild.push(child)
     child.send(attendance)
     child.on('message', (m) => {
       let message = m.split(':')
@@ -109,6 +114,7 @@ function teamStatsUpdate(match) {
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/team.stats')
+    AppForkedChild.push(child)
     child.send(match)
     child.on('message', (m) => {
       if (m.split(':')[1] !== 'success') {
@@ -134,6 +140,7 @@ function cascadeRemoveMatchData(match) {
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/team.child.remove')
+    AppForkedChild.push(child)
     child.send(match)
     child.on('message', (m) => {
       if (m.split(':')[1] !== 'success') {
@@ -159,6 +166,7 @@ function generateThumbnail(media) {
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
     const child = fork('server/fork/thumb.generator')
+    AppForkedChild.push(child)
     child.send(media)
     child.on('message', (m) => {
       if (m.split(':')[1] !== 'success') {
@@ -178,7 +186,21 @@ function generateThumbnail(media) {
   })
 }
 
+function killForkedChilds() {
+  if (AppForkedChild.length) {
+    for (var i = 0; i < AppForkedChild.length; i++) {
+      if (!AppForkedChild[i].killed) {
+        AppForkedChild[i].kill()
+        console.log('fork' + AppForkedChild[i].spawnargs[1] + ' killed');
+      }
+    }
+  } else {
+    console.log('No forked child to kill');
+  }
+}
+
 module.exports = {
+  killForkedChilds,
   generateThumbnail,
   cascadeRemoveMatchData,
   teamStatsUpdate,

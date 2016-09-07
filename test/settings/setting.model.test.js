@@ -31,7 +31,9 @@ describe('Setting - MODEL', () => {
   })
 
   after((done) => {
-    Setting.remove({})
-    done()
+    Promise
+      .resolve(Setting.remove({}))
+      .then(done())
+      .catch(done)
   })
 })
