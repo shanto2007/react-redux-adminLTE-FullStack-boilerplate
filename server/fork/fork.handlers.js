@@ -135,82 +135,57 @@ function teamStatsUpdate(match) {
   })
 }
 
-// function cascadeRemoveMatchData(match) {
-//   const { Promise } = global
-//   const fork = require('child_process').fork
-//   return new Promise((resolve, reject) => {
-//     const child = fork('server/fork/team.child.remove')
-//     AppForkedChild.push(child)
-//     child.send(match)
-//     child.on('message', (m) => {
-//       if (m.split(':')[1] !== 'success') {
-//         child.kill('SIGINT')
-//         // cascadeRemoveMatchData(match)
-//         return reject({
-//           success: false,
-//           message: 'Error removing team childs, try again',
-//         })
-//       } else {
-//         child.kill('SIGINT')
-//         return resolve({
-//           success: true,
-//           message: 'Team unlinked child remove',
-//         })
-//       }
-//     })
-//   })
-// }
-
-// function generateThumbnail(media) {
-//   const { Promise } = global
-//   const fork = require('child_process').fork
-//   return new Promise((resolve, reject) => {
-//     const child = fork('server/fork/thumb.generator')
-//     AppForkedChild.push(child)
-//     child.send(media)
-//     child.on('message', (m) => {
-//       if (m.split(':')[1] !== 'success') {
-//         child.kill('SIGINT')
-//         return reject({
-//           success: false,
-//           message: 'Error generating thumbnail',
-//         })
-//       } else {
-//         child.kill('SIGINT')
-//         return resolve({
-//           success: true,
-//           message: 'Thumbnail generated',
-//         })
-//       }
-//     })
-//   })
-// }
-
-function MainHandler(childPath, childName) {
+function cascadeRemoveMatchData(match) {
   const { Promise } = global
   const fork = require('child_process').fork
   return new Promise((resolve, reject) => {
-    const child = fork(childPath)
+    const child = fork('server/fork/team.child.remove')
     AppForkedChild.push(child)
-    child.send(score)
+    child.send(match)
     child.on('message', (m) => {
-      let message = m.split(':')
-      if (message[1] !== 'success') {
+      if (m.split(':')[1] !== 'success') {
         child.kill('SIGINT')
+        // cascadeRemoveMatchData(match)
         return reject({
           success: false,
-          message: `Child process ${childName} failed: ${message[0]}`
+          message: 'Error removing team childs, try again',
         })
       } else {
         child.kill('SIGINT')
         return resolve({
           success: true,
-          message: `Child process ${childName} success: ${message[0]}`
+          message: 'Team unlinked child remove',
         })
       }
     })
   })
 }
+
+function generateThumbnail(media) {
+  const { Promise } = global
+  const fork = require('child_process').fork
+  return new Promise((resolve, reject) => {
+    const child = fork('server/fork/thumb.generator')
+    AppForkedChild.push(child)
+    child.send(media)
+    child.on('message', (m) => {
+      if (m.split(':')[1] !== 'success') {
+        child.kill('SIGINT')
+        return reject({
+          success: false,
+          message: 'Error generating thumbnail',
+        })
+      } else {
+        child.kill('SIGINT')
+        return resolve({
+          success: true,
+          message: 'Thumbnail generated',
+        })
+      }
+    })
+  })
+}
+
 
 function killForkedChilds() {
   if (AppForkedChild.length) {
@@ -224,15 +199,6 @@ function killForkedChilds() {
     console.log('No forked child to kill');
   }
 }
-
-function generateThumbnail() {
-  return MainHandler('server/fork/player.scores', 'player.scores')
-}
-
-function cascadeRemoveMatchData(match) {
-  return MainHandler('server/fork/team.child.remove', 'team.child.remove')
-}
-
 
 module.exports = {
   killForkedChilds,
