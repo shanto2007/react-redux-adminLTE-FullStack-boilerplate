@@ -39,6 +39,18 @@ describe('Media - API', () => {
       })
   })
 
+  it('shoud NOT upload, return error if file not provided', (done) => {
+    let mediaFile = path.join( __dirname, './media/test.jpeg' )
+    chai.request(app)
+    .post('/api/media/upload')
+    .set('Authorization', userAuthToken)
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toBe(400)
+      done()
+    })
+  })
+
   it('shoud upload a media', (done) => {
     let mediaFile = path.join( __dirname, './media/test.jpeg' )
     chai.request(app)
@@ -69,7 +81,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud get single media', ( done ) => {
+  it('shoud GET single media', ( done ) => {
     chai.request(app)
     .get('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
@@ -82,7 +94,18 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud get media index', ( done ) => {
+  it('shoud NOT GET single media', ( done ) => {
+    chai.request(app)
+    .get('/api/media/' + "mediaId" )
+    .set('Authorization', userAuthToken)
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toNotBe(200)
+      done()
+    })
+  })
+
+  it('shoud GET media index', ( done ) => {
     chai.request(app)
     .get('/api/medias')
     .set('Authorization', userAuthToken)
@@ -114,6 +137,28 @@ describe('Media - API', () => {
     .end((err, res) => {
       expect(res).toExist()
       expect(res.status).toBe(200)
+      done()
+    })
+  })
+
+  it('shoud return error on delete of not existing media', (done) => {
+    chai.request(app)
+    .delete('/api/media/' + mediaId )
+    .set('Authorization', userAuthToken)
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toBe(404)
+      done()
+    })
+  })
+
+  it('shoud return 404 on GET single deleted media', ( done ) => {
+    chai.request(app)
+    .get('/api/media/' + mediaId )
+    .set('Authorization', userAuthToken)
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toBe(404)
       done()
     })
   })

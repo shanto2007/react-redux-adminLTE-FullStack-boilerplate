@@ -10,6 +10,7 @@ const chai = require('chai')
 const expect = require('expect')
 
 describe('Match - Model', () => {
+  this.timeout = 10000
   let seasonId, roundId, dayId, teamAId, teamBId, matchId
 
   before((done) => {

@@ -26,7 +26,8 @@ require('./medias/media.api.test.js')
 
 require('./emails/emailer.test.js')
 
-require('./settings/setting.test.js')
+require('./settings/setting.model.test.js')
+require('./settings/setting.api.test.js')
 
 /**
  * Projects
