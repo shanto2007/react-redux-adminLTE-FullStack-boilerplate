@@ -2,8 +2,13 @@ const Team = require('../models/team.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
-    const round = req.params
-    const query = round ? { round } : {}
+    const query = {}
+    if (req.params.round || req.body.round) {
+      query.round = req.params.round || req.body.round
+    }
+    if (req.params.season || req.body.season) {
+      query.season = req.params.season || req.body.season
+    }
     return Team.find(query, (err, teams) => {
       if (err) {
         return res.status(500).json({
@@ -18,8 +23,13 @@ module.exports = {
     })
   },
   indexPublic: (req, res) => {
-    const round = req.params
-    const query = round ? { round } : {}
+    const query = {}
+    if (req.params.round || req.body.round) {
+      query.round = req.params.round || req.body.round
+    }
+    if (req.params.season || req.body.season) {
+      query.season = req.params.season || req.body.season
+    }
     return Team.find(query, (err, teams) => {
       if (err) {
         return res.status(500).json({
