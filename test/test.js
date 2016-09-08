@@ -39,7 +39,7 @@ require('./round/round.model.test.js')
 require('./round/round.api.test.js')
 
 require('./day/day.model.test.js')
-// require('./day/day.api.test.js')
+require('./day/day.api.test.js')
 
 require('./team/team.model.test.js')
 // require('./team/team.api.test.js')
