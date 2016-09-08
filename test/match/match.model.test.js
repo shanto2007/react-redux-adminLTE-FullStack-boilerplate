@@ -229,7 +229,8 @@ describe('Match - Model', () => {
   })
 
   //TODO
-  it('shoud remove the match', (done) => {
+  it('shoud remove the match', function(done) {
+    this.timeout(5000)
     Match.findById(matchId, (err, match) => {
       match.remove((err) => {
         if (err) done(err)
@@ -238,7 +239,8 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud have removed all scores of the match', (done) => {
+  it('shoud have removed all scores of the match', function(done) {
+    this.timeout(5000)
     Score.find({ match: matchId }, (err, scores) => {
       if (err) done(err)
       expect(scores.length).toBe(0)

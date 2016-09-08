@@ -8,7 +8,7 @@ const Round       = require(testenv.serverdir + 'models/round.model')
 const Day       = require(testenv.serverdir + 'models/day.model')
 const jwt         = require('jsonwebtoken')
 
-describe.only('Day - API', () => {
+describe('Day - API', () => {
   let userAuthToken, seasonId, roundId, dayId, anotherDayId
 
   before((done) => {

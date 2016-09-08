@@ -19,26 +19,19 @@ const attendanceSchema = mongoose.Schema({
   },
 })
 
-
-
 attendanceSchema.post('save', (attendance, done) => {
   return forkHandlers.playerAttendanceUpdate(attendance).then(() => {
-    done()
+    return done()
   }).catch((err) => {
-    throw err
-    done()
+    return done(err)
   })
 })
 attendanceSchema.post('remove', (attendance, done) => {
   return forkHandlers.playerAttendanceUpdate(attendance).then(() => {
-    done()
+    return done()
   }).catch((err) => {
-    throw err
-    done()
+    return done(err)
   })
 })
-
-
-
 
 module.exports = mongoose.model('attendance', attendanceSchema, 'attendances')

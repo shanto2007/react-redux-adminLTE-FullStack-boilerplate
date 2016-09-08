@@ -68,37 +68,36 @@ matchSchema.pre('save', function preSaveHookMatch(next) {
 
 matchSchema.post('save', (match, done) => {
   if (match.played) {
-    return forkHandlers.teamStatsUpdate(match).then((res) => {
-      done()
+    return forkHandlers.teamStatsUpdate(match).then(() => {
+      return done()
     })
     .catch((err) => {
-      done()
+      return done(err)
     })
-  } else {
-    done()
   }
+  return done()
 })
 
 matchSchema.post('remove', (match, done) => {
   forkHandlers
   .cascadeRemoveMatchData(match)
-  .then((res) => {
+  .then(() => {
     return done()
   })
   .catch((err) => {
     console.error('cascadeRemoveMatchData', err);
-    return done()
+    return done(err)
   })
 })
 
 matchSchema.post('remove', (match, done) => {
-  forkHandlers.teamStatsUpdate(match)
-  .then((res) => {
+  return forkHandlers.teamStatsUpdate(match)
+  .then(() => {
     return done()
   })
   .catch((err) => {
     console.error('teamStatsUpdate', err);
-    return done()
+    return done(err)
   })
 })
 

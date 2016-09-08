@@ -20,20 +20,18 @@ const expulsionSchema = mongoose.Schema({
 })
 
 expulsionSchema.post('save', (expulsion, done) => {
- forkHandlers.playerExpulsionUpdate(expulsion).then(() => {
-   done()
- }).catch((err) => {
-   throw err
-   done()
- })
+  return forkHandlers.playerExpulsionUpdate(expulsion).then(() => {
+    return done()
+  }).catch((err) => {
+    return done(err)
+  })
 })
 expulsionSchema.post('remove', (expulsion, done) => {
- forkHandlers.playerExpulsionUpdate(expulsion).then(() => {
-   done()
- }).catch((err) => {
-   throw err
-   done()
- })
+  return forkHandlers.playerExpulsionUpdate(expulsion).then(() => {
+    return done()
+  }).catch((err) => {
+    return done(err)
+  })
 })
 
 

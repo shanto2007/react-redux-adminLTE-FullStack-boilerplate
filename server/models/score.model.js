@@ -30,19 +30,17 @@ const scoreSchema = mongoose.Schema({
 })
 
 scoreSchema.post('save', (score, done) => {
-  forkHandlers.playerScoreUpdate(score).then(() => {
-    done()
+  return forkHandlers.playerScoreUpdate(score).then(() => {
+    return done()
   }).catch((err) => {
-    console.log(err);
-    done()
+    return done(err)
   })
 })
 scoreSchema.post('remove', (score, done) => {
-  forkHandlers.playerScoreUpdate(score).then(() => {
-    done()
+  return forkHandlers.playerScoreUpdate(score).then(() => {
+    return done()
   }).catch((err) => {
-    console.log(err);
-    done()
+    return done(err)
   })
 })
 
