@@ -237,6 +237,89 @@ describe('Day - API', () => {
     })
   })
 
+  it('should NOT get a single day without auth token - admin route', (done) => {
+    chai.request(app)
+    .get('/api/admin/day')
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toBe(400)
+      done()
+    })
+  })
+
+  it('should NOT get a single day without a valid id - admin route', (done) => {
+    chai.request(app)
+    .get('/api/admin/day/FAKEID')
+    .set('Authorization', userAuthToken)
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toBe(500)
+      done()
+    })
+  })
+
+  it('should get a single day by route param id - admin route', (done) => {
+    chai.request(app)
+    .get('/api/admin/day/' + dayId )
+    .set('Authorization', userAuthToken)
+    .end((err, res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.day).toExist()
+      expect(res.body.day._id).toEqual(dayId)
+      done()
+    })
+  })
+
+  it('should get a single day id passed by json - admin route', (done) => {
+    chai.request(app)
+    .get('/api/admin/day')
+    .set('Authorization', userAuthToken)
+    .send({
+      id: dayId,
+    })
+    .end((err, res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.day).toExist()
+      expect(res.body.day._id).toEqual(dayId)
+      done()
+    })
+  })
+
+  it('should NOT get a single day without a valid id', (done) => {
+    chai.request(app)
+    .get('/api/day/FAKEID')
+    .end((err, res) => {
+      expect(err).toExist()
+      expect(res.status).toBe(500)
+      done()
+    })
+  })
+
+  it('should get a single day, passing id by json', (done) => {
+    chai.request(app)
+    .get('/api/day')
+    .send({
+      id: dayId,
+    })
+    .end((err, res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.day).toExist()
+      expect(res.body.day._id).toEqual(dayId)
+      done()
+    })
+  })
+
+  it('should get a single day, passing id by param', (done) => {
+    chai.request(app)
+    .get('/api/day/' + dayId)
+    .end((err, res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.day).toExist()
+      expect(res.body.day._id).toEqual(dayId)
+      done()
+    })
+  })
+
   it('should NOT delete a day without auth token', (done) => {
     chai.request(app)
     .delete('/api/admin/day/')
@@ -283,6 +366,7 @@ describe('Day - API', () => {
       done()
     })
   })
+
 
   after((done) => {
     Promise.all([

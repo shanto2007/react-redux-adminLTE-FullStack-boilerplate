@@ -31,6 +31,48 @@ module.exports = {
       })
     })
   },
+  getPublic: (req, res) => {
+    const id = req.body.id || req.params.id
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'No Day id provided',
+      })
+    }
+    return Day.findById(id, (err, day) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: err,
+        })
+      }
+      return res.json({
+        success: true,
+        day,
+      })
+    })
+  },
+  getAdmin: (req, res) => {
+    const dayId = req.body.id || req.params.id
+    if (!dayId) {
+      return res.status(400).json({
+        success: false,
+        message: 'No Day id provided',
+      })
+    }
+    return Day.findById(dayId, (err, day) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: err,
+        })
+      }
+      return res.json({
+        success: true,
+        day,
+      })
+    })
+  },
   create: (req, res) => {
     const newDayRequest = req.body
     if (!newDayRequest) {

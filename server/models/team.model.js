@@ -53,6 +53,6 @@ const teamSchema = mongoose.Schema({
 })
 
 //  TEAM NAME ARE UNIQUE PER SEASON
-teamSchema.index({ name:1, season: 1 }, { unique: true });
+teamSchema.index({ name: 1, season: 1 }, { unique: true })
 
 module.exports = mongoose.model('team', teamSchema, 'teams')
