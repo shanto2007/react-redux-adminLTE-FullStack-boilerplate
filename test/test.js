@@ -33,34 +33,34 @@ require('./settings/setting.api.test.js')
  * Projects
  */
 require('./season/season.model.test.js')
-require('./season/season.admin.test.js')
+require('./season/season.api.test.js')
 
 require('./round/round.model.test.js')
-require('./round/round.admin.test.js')
+require('./round/round.api.test.js')
 
 require('./day/day.model.test.js')
-// require('./day/day.admin.test.js')
+// require('./day/day.api.test.js')
 
 require('./team/team.model.test.js')
-// require('./team/team.admin.test.js')
+// require('./team/team.api.test.js')
 
 require('./match/match.model.test.js')
-// require('./match/match.admin.test.js')
+// require('./match/match.api.test.js')
 
 require('./player/player.model.test.js')
-// require('./player/player.admin.test.js')
+// require('./player/player.api.test.js')
 
 require('./score/score.model.test.js')
-// require('./score/score.admin.test.js')
+// require('./score/score.api.test.js')
 
 require('./warn/warn.model.test.js')
-// require('./warn/warn.admin.test.js')
+// require('./warn/warn.api.test.js')
 
 require('./expulsion/expulsion.model.test.js')
-// require('./expulsion/expulsion.admin.test.js')
+// require('./expulsion/expulsion.api.test.js')
 
 require('./attendance/attendance.model.test.js')
-// require('./attendance/attendance.admin.test.js')
+// require('./attendance/attendance.api.test.js')
 
 /**
  * CLEANUPS

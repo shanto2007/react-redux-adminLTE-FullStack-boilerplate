@@ -1,12 +1,12 @@
 const { testenv } = global
-const app      = require(testenv.app)
-const Media    = require(testenv.serverdir + 'models/media.model')
-const fs       = require('fs')
-const path     = require('path')
-const chai     = require('chai')
-const chaiHttp = require('chai-http')
-const expect   = require('expect')
-const jwt = require('jsonwebtoken')
+const app         = require(testenv.app)
+const Media       = require(testenv.serverdir + 'models/media.model')
+const fs          = require('fs')
+const path        = require('path')
+const chai        = require('chai')
+const chaiHttp    = require('chai-http')
+const expect      = require('expect')
+const jwt         = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 /**
