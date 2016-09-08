@@ -32,14 +32,14 @@ module.exports = {
     })
   },
   getPublic: (req, res) => {
-    const id = req.body.id || req.params.id
-    if (!id) {
+    const dayId = req.body.id || req.params.id
+    if (!dayId) {
       return res.status(400).json({
         success: false,
         message: 'No Day id provided',
       })
     }
-    return Day.findById(id, (err, day) => {
+    return Day.findById(dayId, (err, day) => {
       if (err) {
         return res.status(500).json({
           success: false,
