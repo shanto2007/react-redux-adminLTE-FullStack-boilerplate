@@ -16,7 +16,9 @@ module.exports = {
     })
   },
   indexPublic: (req, res) => {
-    return Day.find({}, (err, days) => {
+    const round = req.params.round
+    const query = round ? { round } : {}
+    return Day.find(query, (err, days) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -63,30 +65,28 @@ module.exports = {
       })
     })
   },
-  edit: (req, res) => {
-    const editDayRequest = req.body
-    const dayId = editDayRequest.id || editDayRequest._id
+  setLastDay: (req, res) => {
+    const dayId = req.body.id || req.params.id
     if (!dayId) {
       return res.status(400).json({
         success: false,
-        message: 'No data or id provided',
+        message: 'No day Id Provided',
       })
     }
-    return Day.findOneAndUpdate({ _id: dayId }, editDayRequest, { new: true }, (err, day) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
-        })
-      }
+    return Day.setLastDay(dayId).then((day) => {
       return res.json({
         success: true,
         day,
       })
+    }).catch((err) => {
+      return res.status(400).json({
+        success: false,
+        message: err,
+      })
     })
   },
   delete: (req, res) => {
-    const id = req.body.id || req.body._id
+    const id = req.body.id || req.params.id
     if (!id) {
       return res.status(400).json({
         success: false,

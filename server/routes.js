@@ -12,7 +12,7 @@ const SettingCtrl = require('./controllers/setting.controller')
 const EmailCtrl = require('./controllers/email.controller')
 const SeasonCtrl = require('./controllers/season.controller')
 const RoundCtrl = require('./controllers/round.controller')
-// const DayCtrl = require('./controllers/day.controller')
+const DayCtrl = require('./controllers/day.controller')
 
 
 /**
@@ -86,12 +86,12 @@ module.exports = (express, app) => {
   /**
    *  DAYS
    */
-  // api.get('/admin/days', AuthRequired(), DayCtrl.indexAdmin)
-  // api.post('/admin/day', AuthRequired(), DayCtrl.create)
-  // api.patch('/admin/day', AuthRequired(), DayCtrl.edit)
-  // api.delete('/admin/day', AuthRequired(), DayCtrl.delete)
+  api.get('/admin/days', AuthRequired(), DayCtrl.indexAdmin)
+  api.post('/admin/day', AuthRequired(), DayCtrl.create)
+  api.patch('/admin/day/setlastday/:id?', AuthRequired(), DayCtrl.setLastDay)
+  api.delete('/admin/day/:id?', AuthRequired(), DayCtrl.delete)
   // //  public
-  // api.get('/days', DayCtrl.indexPublic)
+  api.get('/days/:round?', DayCtrl.indexPublic)
 
   /**
    * ACCOUNT
