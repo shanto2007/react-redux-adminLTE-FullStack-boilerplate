@@ -2,7 +2,9 @@ const Day = require('../models/day.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
-    return Day.find({}, (err, days) => {
+    const round = req.params.round || req.body.round
+    const query = round ? { round } : {}
+    return Day.find(query, (err, days) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -16,7 +18,7 @@ module.exports = {
     })
   },
   indexPublic: (req, res) => {
-    const round = req.params.round
+    const round = req.params.round || req.body.round
     const query = round ? { round } : {}
     return Day.find(query, (err, days) => {
       if (err) {
