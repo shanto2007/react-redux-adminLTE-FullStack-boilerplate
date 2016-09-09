@@ -142,7 +142,7 @@ describe('Score - Model', () => {
     }).catch(done)
   })
 
-  it('shoud check that the child_process have updated the data', (done) => {
+  it('should check that the child_process have updated the data', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) done(err)
       expect(player.goals).toBe(1)
@@ -161,7 +161,7 @@ describe('Score - Model', () => {
     })
   })
 
-  it('shoud check that the child_process have updated the data', (done) => {
+  it('should check that the child_process have updated the data', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) done(err)
       expect(player.goals).toBe(0)

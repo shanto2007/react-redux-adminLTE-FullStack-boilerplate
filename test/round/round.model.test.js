@@ -17,7 +17,7 @@ describe('Round - Model', () => {
     }).catch(done)
   })
 
-  it('shoud NOT create a round without a season id', (done) => {
+  it('should NOT create a round without a season id', (done) => {
     Round.create({}, (err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
@@ -25,7 +25,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud NOT create a round without a label', (done) => {
+  it('should NOT create a round without a label', (done) => {
     Round.create({
       season: seasonId
     }, (err) => {
@@ -35,7 +35,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud create a round', (done) => {
+  it('should create a round', (done) => {
     Round.create({
       season: seasonId,
       label: 'a ', // << lowercase/space intended
@@ -46,7 +46,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud NOT create a round with duplicate label', (done) => {
+  it('should NOT create a round with duplicate label', (done) => {
     Round.create({
       season: seasonId,
       label: 'A'
@@ -57,7 +57,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('shoud create a round with duplicate label but for another season, ensure unique compound indexes', (done) => {
+  it('should create a round with duplicate label but for another season, ensure unique compound indexes', (done) => {
     Round.create({
       season: anotherSeasonId,
       label: 'A'

@@ -7,7 +7,7 @@ const expect = require('expect')
 describe('Setting - MODEL', () => {
 
   describe('Model', () => {
-    it('shoud create the setting', (done) => {
+    it('should create the setting', (done) => {
       var setting = new Setting({
         sitename: 'TestSite',
         mailContact: 'test@mymail.com',
@@ -22,7 +22,7 @@ describe('Setting - MODEL', () => {
         done()
       })
     })
-    it('shoud remove it', (done) => {
+    it('should remove it', (done) => {
       Setting.findOne({}, (err, doc) => {
         if (err) throw err
         if (doc) doc.remove(done)

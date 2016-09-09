@@ -7,7 +7,7 @@ var expect = require('expect')
 chai.use(chaiHttp)
 
 describe('Server', () => {
-  it('shoud bootstrap testing suite', (done) => {
+  it('should bootstrap testing suite', (done) => {
     chai
     .request(app)
     .get('/api')
@@ -16,7 +16,7 @@ describe('Server', () => {
       done()
     })
   })
-  it('shoud return api root', (done) => {
+  it('should return api root', (done) => {
     chai
     .request(app)
     .get('/api')

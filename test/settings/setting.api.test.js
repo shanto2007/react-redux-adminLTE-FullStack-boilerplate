@@ -18,7 +18,7 @@ describe('Setting - API', () => {
     }, process.env.APP_KEY )
   })
 
-  it('shoud create the setting', (done) => {
+  it('should create the setting', (done) => {
     chai
     .request(app)
     .patch('/api/setting')
@@ -36,7 +36,7 @@ describe('Setting - API', () => {
     })
   })
 
-  it('shoud edit the setting', (done) => {
+  it('should edit the setting', (done) => {
     chai
     .request(app)
     .patch('/api/setting')
@@ -58,7 +58,7 @@ describe('Setting - API', () => {
   })
 
 
-  it('shoud get setting', (done) => {
+  it('should get setting', (done) => {
     chai
       .request(app)
       .get('/api/setting')

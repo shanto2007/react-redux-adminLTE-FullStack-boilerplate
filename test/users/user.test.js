@@ -28,7 +28,7 @@ describe('User', () => {
    * USER CREATION
    */
   describe('Create', () => {
-    it('shoud create admin user', (done) => {
+    it('should create admin user', (done) => {
       chai.request(app)
       .post('/api/user')
       .send(admin_user)
@@ -42,7 +42,7 @@ describe('User', () => {
         done()
       })
     })
-    it('shoud create a normal user', (done) => {
+    it('should create a normal user', (done) => {
       chai.request(app)
       .post('/api/user')
       .send(normal_user)
@@ -55,7 +55,7 @@ describe('User', () => {
         done()
       })
     })
-    it('shoud return error if username exist', (done) => {
+    it('should return error if username exist', (done) => {
       chai.request(app)
       .post('/api/user')
       .send(normal_user)
@@ -65,7 +65,7 @@ describe('User', () => {
         done()
       })
     })
-    it('shoud return error if password not provided', (done) => {
+    it('should return error if password not provided', (done) => {
       chai.request(app)
       .post('/api/user')
       .send({ username: 'TEST' })
@@ -75,7 +75,7 @@ describe('User', () => {
         done()
       })
     })
-    it('shoud given an username check if exists', (done) => {
+    it('should given an username check if exists', (done) => {
       chai.request(app)
       .get(`/api/user/${normal_user.username}/exist`)
       .end((err,res) => {
@@ -90,7 +90,7 @@ describe('User', () => {
 
 
   describe('Authentication', () => {
-    it('shoud return auth error if password wrong', (done) => {
+    it('should return auth error if password wrong', (done) => {
       wrongUser = Object.assign({}, normal_user)
       wrongUser.password = 'SomeRandomWrongPass'
       chai.request(app)
@@ -103,7 +103,7 @@ describe('User', () => {
         done()
       })
     })
-    it('shoud authenticate user', (done) => {
+    it('should authenticate user', (done) => {
       chai.request(app)
       .post('/api/user/auth')
       .send(normal_user)
@@ -118,7 +118,7 @@ describe('User', () => {
   })
 
   describe('Restricted Routes', () => {
-    it('shoud fetch personal data', (done) => {
+    it('should fetch personal data', (done) => {
       chai.request(app)
       .get('/api/me')
       .set('Authorization', user_token)
@@ -128,7 +128,7 @@ describe('User', () => {
         done()
       })
     })
-    it('shoud get admin only route', (done) => {
+    it('should get admin only route', (done) => {
       chai.request(app)
       .get('/api/users')
       .set('Authorization', admin_token)

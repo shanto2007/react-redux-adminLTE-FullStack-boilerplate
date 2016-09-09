@@ -32,7 +32,7 @@ describe('Round - API', () => {
     *   required: season(id), label(string)
     *   unique: label
     */
-    it('shoud not create without auth token', (done) => {
+    it('should not create without auth token', (done) => {
       chai.request(app)
       .post('/api/admin/round')
       .end((err, res) => {
@@ -42,7 +42,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud not create without season (id) attribute', (done) => {
+    it('should not create without season (id) attribute', (done) => {
       chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -52,7 +52,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud not create without label attribute', (done) => {
+    it('should not create without label attribute', (done) => {
       chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -65,7 +65,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud create a round', (done) => {
+    it('should create a round', (done) => {
       chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -81,7 +81,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud not create a round with duplicate [label] attribute', (done) => {
+    it('should not create a round with duplicate [label] attribute', (done) => {
       chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -97,7 +97,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud create a round with another [label] attribute', (done) => {
+    it('should create a round with another [label] attribute', (done) => {
       chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -121,7 +121,7 @@ describe('Round - API', () => {
   */
   describe('Edit', () => {
 
-    it('shoud not edit without token', (done) => {
+    it('should not edit without token', (done) => {
       chai.request(app)
       .patch('/api/admin/round')
       .end((err, res) => {
@@ -133,7 +133,7 @@ describe('Round - API', () => {
       })
     })
 
-    it('shoud return error if no round id provided', (done) => {
+    it('should return error if no round id provided', (done) => {
       chai.request(app)
       .patch('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -146,7 +146,7 @@ describe('Round - API', () => {
       })
     })
 
-    it('shoud not edit/duplicate a unique field', (done) => {
+    it('should not edit/duplicate a unique field', (done) => {
       const host = 'My Torunament Host'
       chai.request(app)
       .patch('/api/admin/round')
@@ -164,7 +164,7 @@ describe('Round - API', () => {
       })
     })
 
-    it('shoud edit a round', (done) => {
+    it('should edit a round', (done) => {
       const host = 'My Torunament Host'
       chai.request(app)
       .patch('/api/admin/round')
@@ -187,7 +187,7 @@ describe('Round - API', () => {
   *  DELETE
   */
   describe('Delete', () => {
-    it('shoud not delete without token', (done) => {
+    it('should not delete without token', (done) => {
       chai.request(app)
       .delete('/api/admin/round')
       .end((err, res) => {
@@ -198,7 +198,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud return error if no round id provided', (done) => {
+    it('should return error if no round id provided', (done) => {
       chai.request(app)
       .delete('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -210,7 +210,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud delete', (done) => {
+    it('should delete', (done) => {
       chai.request(app)
       .delete('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -224,7 +224,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud return error if not exist', (done) => {
+    it('should return error if not exist', (done) => {
       chai.request(app)
       .delete('/api/admin/round')
       .set('Authorization', userAuthToken)
@@ -245,7 +245,7 @@ describe('Round - API', () => {
   *  GET
   */
   describe('Get', () => {
-    it('shoud not GET without token', (done) => {
+    it('should not GET without token', (done) => {
       chai.request(app)
       .get('/api/admin/rounds')
       .end((err, res) => {
@@ -256,7 +256,7 @@ describe('Round - API', () => {
         done()
       })
     })
-    it('shoud GET', (done) => {
+    it('should GET', (done) => {
       chai.request(app)
       .get('/api/admin/rounds')
       .set('Authorization', userAuthToken)

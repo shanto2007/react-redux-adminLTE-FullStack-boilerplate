@@ -115,7 +115,7 @@ describe('Warn - Model', () => {
     }).catch(done)
   })
 
-  it('shoud check that the child_process have updated the player stats', (done) => {
+  it('should check that the child_process have updated the player stats', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) throw err
       expect(player.warns).toBe(1)
@@ -123,7 +123,7 @@ describe('Warn - Model', () => {
     })
   })
 
-  it('shoud remove the expulsion', (done) => {
+  it('should remove the expulsion', (done) => {
     Warn.findById(warnId, (err, warn) => {
       if (err) done(err)
       warn.remove((err, removed) => {
@@ -134,7 +134,7 @@ describe('Warn - Model', () => {
     })
   })
 
-  it('shoud check that the child_process have updated the data', (done) => {
+  it('should check that the child_process have updated the data', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) done(err)
       expect(player.warns).toBe(0)

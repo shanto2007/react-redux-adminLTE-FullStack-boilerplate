@@ -21,7 +21,7 @@ describe('Season - API', () => {
     *  CREATION
     *  field required|unique: year
     */
-    it('shoud not create without auth token', (done) => {
+    it('should not create without auth token', (done) => {
       chai.request(app)
       .post('/api/admin/season')
       .end((err, res) => {
@@ -31,7 +31,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud not create without year attribute', (done) => {
+    it('should not create without year attribute', (done) => {
       chai.request(app)
       .post('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -41,7 +41,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud create unique year field 2016', (done) => {
+    it('should create unique year field 2016', (done) => {
       chai.request(app)
       .post('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -56,7 +56,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud create unique year field 2017', (done) => {
+    it('should create unique year field 2017', (done) => {
       chai.request(app)
       .post('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -72,7 +72,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud not create with existing unique year field', (done) => {
+    it('should not create with existing unique year field', (done) => {
       chai.request(app)
       .post('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -92,7 +92,7 @@ describe('Season - API', () => {
   *  field required|unique: year
   */
   describe('Edit', () => {
-    it('shoud not edit without token', (done) => {
+    it('should not edit without token', (done) => {
       chai.request(app)
       .patch('/api/admin/season')
       .end((err, res) => {
@@ -103,7 +103,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud return error if no season id provided', (done) => {
+    it('should return error if no season id provided', (done) => {
       chai.request(app)
       .patch('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -115,7 +115,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud edit', (done) => {
+    it('should edit', (done) => {
       chai.request(app)
       .patch('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -131,7 +131,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud not edit unique field', (done) => {
+    it('should not edit unique field', (done) => {
       chai.request(app)
       .patch('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -151,7 +151,7 @@ describe('Season - API', () => {
   *  EDIT
   */
   describe('Delete', () => {
-    it('shoud not delete without token', (done) => {
+    it('should not delete without token', (done) => {
       chai.request(app)
       .delete('/api/admin/season')
       .end((err, res) => {
@@ -162,7 +162,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud return error if no season id provided', (done) => {
+    it('should return error if no season id provided', (done) => {
       chai.request(app)
       .delete('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -174,7 +174,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud delete', (done) => {
+    it('should delete', (done) => {
       chai.request(app)
       .delete('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -188,7 +188,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud return error if not exist', (done) => {
+    it('should return error if not exist', (done) => {
       chai.request(app)
       .delete('/api/admin/season')
       .set('Authorization', userAuthToken)
@@ -209,7 +209,7 @@ describe('Season - API', () => {
   *  GET
   */
   describe('Get', () => {
-    it('shoud not GET without token', (done) => {
+    it('should not GET without token', (done) => {
       chai.request(app)
       .get('/api/admin/seasons')
       .end((err, res) => {
@@ -220,7 +220,7 @@ describe('Season - API', () => {
         done()
       })
     })
-    it('shoud GET', (done) => {
+    it('should GET', (done) => {
       chai.request(app)
       .get('/api/admin/seasons')
       .set('Authorization', userAuthToken)

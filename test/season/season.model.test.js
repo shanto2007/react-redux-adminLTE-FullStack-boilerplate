@@ -6,7 +6,7 @@ const expect = require('expect')
 describe('Season - Model', () => {
   let firstCreatedId
 
-  it('shoud not create a season without require year field', (done) => {
+  it('should not create a season without require year field', (done) => {
     Season.create({
     }, (err, doc) => {
       expect(err).toExist()
@@ -15,7 +15,7 @@ describe('Season - Model', () => {
     })
   })
 
-  it('shoud create a season', (done) => {
+  it('should create a season', (done) => {
     Season.create({
       year: 4716,
     }, (err, doc) => {
@@ -26,7 +26,7 @@ describe('Season - Model', () => {
     })
   })
 
-  it('shoud no create a duplicate year field', (done) => {
+  it('should no create a duplicate year field', (done) => {
     Season.create({
       year: 4716,
     }, (err, doc) => {
@@ -36,7 +36,7 @@ describe('Season - Model', () => {
     })
   })
 
-  it('shoud create another unique season', (done) => {
+  it('should create another unique season', (done) => {
     Season.create({
       year: 4717,
     }, (err, doc) => {

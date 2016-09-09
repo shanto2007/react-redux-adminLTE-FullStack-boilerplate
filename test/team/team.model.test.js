@@ -29,7 +29,7 @@ describe('Team - Model', () => {
     .catch(done)
   })
 
-  it('shoud NOT create a team without a season id', (done) => {
+  it('should NOT create a team without a season id', (done) => {
     Team.create({}, (err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
@@ -37,7 +37,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud NOT create a team without a round id', (done) => {
+  it('should NOT create a team without a round id', (done) => {
     Team.create({
       season: seasonId
     }, (err) => {
@@ -47,7 +47,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud NOT create a team without a name', (done) => {
+  it('should NOT create a team without a name', (done) => {
     Team.create({
       season: seasonId
     }, (err) => {
@@ -57,7 +57,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud create a team', (done) => {
+  it('should create a team', (done) => {
     Team.create({
       season: seasonId,
       round: roundId,
@@ -71,7 +71,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud NOT create a team with duplicate name', (done) => {
+  it('should NOT create a team with duplicate name', (done) => {
     Team.create({
       season: seasonId,
       round: roundId,
@@ -84,7 +84,7 @@ describe('Team - Model', () => {
     })
   })
 
-  it('shoud create a team with the same name but within another season', (done) => {
+  it('should create a team with the same name but within another season', (done) => {
     Team.create({
       season: anotherSeasonId,
       round: roundId,
@@ -101,7 +101,7 @@ describe('Team - Model', () => {
    * DELETE TEAM AND CASCADE
    * test cascade delete on player and players' scores, attendance, warns, expulsions
    */
-  it('shoud create some dummy players for tests', (done) => {
+  it('should create some dummy players for tests', (done) => {
     dummyPlayers = [
       {
         season: seasonId,
@@ -128,7 +128,7 @@ describe('Team - Model', () => {
     }).catch(done)
   })
 
-  it('shoud remove the team', (done) => {
+  it('should remove the team', (done) => {
     Team.findById( teamId ).then((team) => {
       expect(team).toExist()
       expect(team.players).toExist()
@@ -141,7 +141,7 @@ describe('Team - Model', () => {
     }).catch(done)
   })
 
-  it('shoud have cascade removed the players', (done) => {
+  it('should have cascade removed the players', (done) => {
     Player
       .find({ _id: { $in: [ dummyPlayers[0]._id, dummyPlayers[1]._id ] } })
       .then((players) => {
