@@ -173,7 +173,8 @@ describe('Match - Model', () => {
     })
   })
 
-  it('should update a match [set played and a winner to trigger hook update use .save()]', (done) => {
+  it('should update a match [set played and a winner to trigger hook update use .save()]', function(done) {
+    this.timeout(10000)
     Match.findById(matchId ,(err, match) => {
       if (err) done(err)
       match.played = true

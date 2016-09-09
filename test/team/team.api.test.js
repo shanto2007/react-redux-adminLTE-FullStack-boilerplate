@@ -10,7 +10,7 @@ const Team     = require(testenv.serverdir + 'models/team.model')
 
 chai.use(chaiHttp)
 
-describe.only('Team - API', () => {
+describe('Team - API', () => {
   let userAuthToken, seasonId, roundId, dayId, teamId
 
   before((done) => {
