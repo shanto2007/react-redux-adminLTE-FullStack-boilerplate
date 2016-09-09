@@ -11,6 +11,12 @@ const teamSchema = mongoose.Schema({
     ref: 'season',
     required: [true, 'Season id is required!'],
   },
+  name: {
+    type: String,
+    default: '',
+    trim: true,
+    required: [true, 'Team name is required'],
+  },
   players: [{
     type: mongoose.Schema.ObjectId,
     ref: 'players',
@@ -42,13 +48,6 @@ const teamSchema = mongoose.Schema({
   losts: {
     type: Number,
     default: 0,
-  },
-  name: {
-    type: String,
-    default: '',
-    trim: true,
-    // unique: [true, 'Team name must be unique'],
-    required: [true, 'Team name is required'],
   },
 })
 

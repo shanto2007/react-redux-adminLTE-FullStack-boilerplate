@@ -15,6 +15,7 @@ module.exports = {
       })
     })
   },
+
   indexPublic: (req, res) => {
     return Team.find(req.query, (err, teams) => {
       if (err) {
@@ -29,6 +30,7 @@ module.exports = {
       })
     })
   },
+
   getPublic: (req, res) => {
     const teamId = req.body.id || req.params.id
     if (!teamId) {
@@ -37,11 +39,13 @@ module.exports = {
         message: 'No Team id provided',
       })
     }
-    return Team.findById(teamId, (err, team) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
+    return Team.findById(teamId)
+    .then((team) => {
+      if (!team) {
+        return res.status(404).json({
+          success: true,
+          action: 'delete',
+          message: 'Team not found, maybe already removed',
         })
       }
       return res.json({
@@ -49,7 +53,14 @@ module.exports = {
         team,
       })
     })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: err,
+      })
+    })
   },
+
   getAdmin: (req, res) => {
     const teamId = req.body.id || req.params.id
     if (!teamId) {
@@ -58,11 +69,13 @@ module.exports = {
         message: 'No Team id provided',
       })
     }
-    return Team.findById(teamId, (err, team) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
+    return Team.findById(teamId)
+    .then((team) => {
+      if (!team) {
+        return res.status(404).json({
+          success: true,
+          action: 'delete',
+          message: 'Team not found, maybe already removed',
         })
       }
       return res.json({
@@ -70,45 +83,130 @@ module.exports = {
         team,
       })
     })
-  },
-  create: (req, res) => {
-    const newTeam = req.body
-    if (!req.body.season) {
+    .catch((err) => {
       return res.status(500).json({
         success: false,
+        message: err,
+      })
+    })
+  },
+
+  create: (req, res) => {
+    const newTeam = req.body
+    if (!newTeam.season) {
+      return res.status(400).json({
+        success: false,
+        action: 'create',
         message: 'Team season not provided',
       })
     }
-    if (!req.body.round) {
-      return res.status(500).json({
+    if (!newTeam.round) {
+      return res.status(400).json({
         success: false,
+        action: 'create',
         message: 'Team round not provided',
       })
     }
-    if (!req.body.name) {
-      return res.status(500).json({
+    if (!newTeam.name) {
+      return res.status(400).json({
         success: false,
+        action: 'create',
         message: 'Team name not provided',
       })
     }
-    Team.create(newTeam, (err, team) => {
+    return Team.create(newTeam, (err, team) => {
       if (err) {
         return res.status(500).json({
           success: false,
+          action: 'create',
           message: err,
         })
       }
       return res.json({
         success: true,
+        action: 'create',
         team,
       })
     })
-    return res.send('ok')
   },
+
   edit: (req, res) => {
-    return res.send('ok')
+    const teamToEdit = req.body
+    const teamId = teamToEdit.id || req.params.id
+    if (!teamId) {
+      return res.status(400).json({
+        success: false,
+        action: 'edit',
+        message: 'Team id not provided',
+      })
+    }
+    if (!teamToEdit.name) {
+      return res.status(400).json({
+        success: false,
+        action: 'edit',
+        message: 'Team name not provided',
+      })
+    }
+    return Team.findById(teamId)
+    .then((team) => {
+      if (!team) {
+        return res.status(404).json({
+          success: true,
+          action: 'delete',
+          message: 'Team not found, maybe already removed',
+        })
+      }
+      team.name = teamToEdit.name
+      return team.save()
+    })
+    .then((team) => {
+      return res.json({
+        success: true,
+        action: 'edit',
+        team,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'edit',
+        message: err,
+      })
+    })
   },
+
   delete: (req, res) => {
-    return res.send('ok')
+    const teamId = req.params.id
+    if (!teamId) {
+      return res.status(400).json({
+        success: false,
+        action: 'delete',
+        message: 'Team id not provided',
+      })
+    }
+    return Team.findById(teamId).then((team) => {
+      if (!team) {
+        return res.status(404).json({
+          success: true,
+          action: 'delete',
+          message: 'Team not found, maybe already removed',
+        })
+      }
+      return team.remove()
+    })
+    .then((team) => {
+      return res.json({
+        success: true,
+        action: 'delete',
+        team,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'delete',
+        message: err,
+      })
+    })
   },
 }

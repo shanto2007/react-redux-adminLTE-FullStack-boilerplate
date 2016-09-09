@@ -42,7 +42,7 @@ require('./day/day.model.test.js')
 require('./day/day.api.test.js')
 
 require('./team/team.model.test.js')
-// require('./team/team.api.test.js')
+require('./team/team.api.test.js')
 
 require('./match/match.model.test.js')
 // require('./match/match.api.test.js')

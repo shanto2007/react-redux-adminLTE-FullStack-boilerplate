@@ -3,7 +3,6 @@ const Team = require(testenv.serverdir + 'models/team.model')
 const Season = require(testenv.serverdir + 'models/season.model')
 const Round = require(testenv.serverdir + 'models/round.model')
 const Player = require(testenv.serverdir + 'models/player.model')
-const chai = require('chai')
 const expect = require('expect')
 
 describe('Team - Model', () => {
