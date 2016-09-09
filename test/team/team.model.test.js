@@ -6,7 +6,7 @@ const Player = require(testenv.serverdir + 'models/player.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe('Team - Model', () => {
+describe.only('Team - Model', () => {
   this.timeout = 10000
   let seasonId, roundId, anotherSeasonId, teamId, dummyPlayers
 

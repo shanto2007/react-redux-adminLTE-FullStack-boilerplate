@@ -92,6 +92,7 @@ playerSchema.post('remove', (player, done) => {
     .find({ player: player._id })
     .then((attendances) => {
       const promises = []
+      console.log('cascading removing player data');
       for (let i = 0; i < attendances.length; i++) {
         promises.push(attendances[i].remove())
       }
@@ -107,6 +108,7 @@ playerSchema.post('remove', (player, done) => {
     .find({ player: player._id })
     .then((scores) => {
       const promises = []
+      console.log('cascading removing player data');
       for (let i = 0; i < scores.length; i++) {
         promises.push(scores[i].remove())
       }
@@ -122,6 +124,7 @@ playerSchema.post('remove', (player, done) => {
     .find({ player: player._id })
     .then((warns) => {
       const promises = []
+      console.log('cascading removing player data');
       for (let i = 0; i < warns.length; i++) {
         promises.push(warns[i].remove())
       }
@@ -137,6 +140,7 @@ playerSchema.post('remove', (player, done) => {
     .find({ player: player._id })
     .then((expulsions) => {
       const promises = []
+      console.log('cascading removing player data');
       for (let i = 0; i < expulsions.length; i++) {
         promises.push(expulsions[i].remove())
       }
