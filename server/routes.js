@@ -13,6 +13,7 @@ const EmailCtrl = require('./controllers/email.controller')
 const SeasonCtrl = require('./controllers/season.controller')
 const RoundCtrl = require('./controllers/round.controller')
 const DayCtrl = require('./controllers/day.controller')
+const TeamCtrl = require('./controllers/team.controller')
 
 
 /**
@@ -41,6 +42,17 @@ module.exports = (express, app) => {
       success: true,
       message: 'Api Route',
     })
+  })
+
+  /**
+   * MONGIFY REQ.QUERY
+   */
+  api.use((req, res, next) => {
+    if (req.query.id) {
+      req.query._id = req.query.id
+      delete req.query.id
+    }
+    next()
   })
 
   /**
@@ -92,8 +104,20 @@ module.exports = (express, app) => {
   api.patch('/admin/day/setlastday/:id?', AuthRequired(), DayCtrl.setLastDay)
   api.delete('/admin/day/:id?', AuthRequired(), DayCtrl.delete)
   //  public
-  api.get('/days/:round?', DayCtrl.indexPublic)
+  api.get('/days', DayCtrl.indexPublic)
   api.get('/day/:id?', DayCtrl.getPublic)
+
+  /**
+   *  TEAM
+   */
+  api.get('/admin/teams', AuthRequired(), TeamCtrl.indexAdmin)
+  api.get('/admin/team/:id?', AuthRequired(), TeamCtrl.getAdmin)
+  api.post('/admin/team', AuthRequired(), TeamCtrl.create)
+  api.patch('/admin/team/:id?', AuthRequired(), TeamCtrl.edit)
+  api.delete('/admin/team/:id?', AuthRequired(), TeamCtrl.delete)
+  //  public
+  api.get('/teams', TeamCtrl.indexPublic)
+  api.get('/team/:id?', TeamCtrl.getPublic)
 
   /**
    * ACCOUNT

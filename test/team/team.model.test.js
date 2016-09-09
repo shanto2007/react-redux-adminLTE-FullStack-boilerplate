@@ -2,13 +2,13 @@ const { testenv, getRandomInt, Promise } = global
 const Team = require(testenv.serverdir + 'models/team.model')
 const Season = require(testenv.serverdir + 'models/season.model')
 const Round = require(testenv.serverdir + 'models/round.model')
-const Media = require(testenv.serverdir + 'models/media.model')
+const Player = require(testenv.serverdir + 'models/player.model')
 const chai = require('chai')
 const expect = require('expect')
 
 describe('Team - Model', () => {
   this.timeout = 10000
-  let seasonId, roundId, anotherSeasonId
+  let seasonId, roundId, anotherSeasonId, teamId, dummyPlayers
 
   before((done) => {
     Promise.resolve(Season.create({ year: getRandomInt(3999,9999) }))
@@ -66,6 +66,7 @@ describe('Team - Model', () => {
       expect(err).toNotExist()
       expect(team).toExist()
       expect(team.name).toBe('Team Name Test')
+      teamId = team._id
       done()
     })
   })
@@ -96,11 +97,67 @@ describe('Team - Model', () => {
     })
   })
 
+  /**
+   * DELETE TEAM AND CASCADE
+   * test cascade delete on player and players' scores, attendance, warns, expulsions
+   */
+  it('shoud create some dummy players for tests', (done) => {
+    dummyPlayers = [
+      {
+        season: seasonId,
+        round: roundId,
+        team: teamId,
+        name: 'MyName' + getRandomInt(1, 99),
+        surname: 'Susurname' + getRandomInt(1, 99),
+      }, {
+        season: seasonId,
+        round: roundId,
+        team: teamId,
+        name: 'MyName' + getRandomInt(1, 99),
+        surname: 'Susurname' + getRandomInt(1, 99),
+      },
+    ]
+    let promises = []
+    for (var i = 0; i < dummyPlayers.length; i++) {
+      promises.push(Player.create(dummyPlayers[i]))
+    }
+    Promise.all(promises).then((players) => {
+      expect(players).toExist()
+      expect(players.length).toBe(2)
+      done()
+    }).catch(done)
+  })
+
+  it('shoud remove the team', (done) => {
+    Team.findById( teamId ).then((team) => {
+      expect(team).toExist()
+      expect(team.players).toExist()
+      expect(team.players.length).toBe(2)
+      team.remove((err, removed) => {
+        if (err) done(err)
+        expect(removed).toExist()
+        done()
+      })
+    }).catch(done)
+  })
+
+  it('shoud have cascade removed the players', (done) => {
+    Player
+      .find({ _id: { $in: [ dummyPlayers[0]._id, dummyPlayers[1]._id ] } })
+      .then((players) => {
+        expect(players).toExist()
+        expect(players.length).toBe(0)
+        done()
+      })
+      .catch(done)
+  })
+
   after((done) => {
     Promise.all([
       Season.remove({ _id: seasonId }),
       Round.remove({ _id: roundId }),
       Team.remove({}),
+      Player.remove({}),
     ]).then(done()).catch(done)
   })
 })

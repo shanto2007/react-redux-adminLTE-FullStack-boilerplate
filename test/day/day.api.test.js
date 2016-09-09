@@ -189,7 +189,7 @@ describe('Day - API', () => {
 
   it('should get public day index passing round id', (done) => {
     chai.request(app)
-    .get(`/api/days/${roundId}`)
+    .get(`/api/days?round=${roundId}`)
     .end((err, res) => {
       const { body } = res
       expect(res.status).toBe(200)
@@ -202,7 +202,7 @@ describe('Day - API', () => {
 
   it('should return error if round id is invalid', (done) => {
     chai.request(app)
-    .get(`/api/days/roundId`)
+    .get(`/api/days?round=123`)
     .end((err, res) => {
       const { body } = res
       expect(err).toExist()

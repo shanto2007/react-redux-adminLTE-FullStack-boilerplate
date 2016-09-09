@@ -55,4 +55,16 @@ const teamSchema = mongoose.Schema({
 //  TEAM NAME ARE UNIQUE PER SEASON
 teamSchema.index({ name: 1, season: 1 }, { unique: true })
 
+teamSchema.post('remove', (team, done) => {
+  team.model('player').find({ team: team._id }).then((players) => {
+    const promises = []
+    for (let i = 0; i < players.length; i++) {
+      promises.push(players[i].remove())
+    }
+    return Promise.all(promises)
+  })
+  .then(done())
+  .catch(done)
+})
+
 module.exports = mongoose.model('team', teamSchema, 'teams')

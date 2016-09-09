@@ -2,14 +2,7 @@ const Team = require('../models/team.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
-    const query = {}
-    if (req.params.round || req.body.round) {
-      query.round = req.params.round || req.body.round
-    }
-    if (req.params.season || req.body.season) {
-      query.season = req.params.season || req.body.season
-    }
-    return Team.find(query, (err, teams) => {
+    return Team.find(req.query , (err, teams) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -23,18 +16,11 @@ module.exports = {
     })
   },
   indexPublic: (req, res) => {
-    const query = {}
-    if (req.params.round || req.body.round) {
-      query.round = req.params.round || req.body.round
-    }
-    if (req.params.season || req.body.season) {
-      query.season = req.params.season || req.body.season
-    }
-    return Team.find(query, (err, teams) => {
+    return Team.find(req.query, (err, teams) => {
       if (err) {
         return res.status(500).json({
           success: false,
-          message: err,
+          message: 'Invalid query.',
         })
       }
       return res.json({
@@ -86,6 +72,37 @@ module.exports = {
     })
   },
   create: (req, res) => {
+    const newTeam = req.body
+    if (!req.body.season) {
+      return res.status(500).json({
+        success: false,
+        message: 'Team season not provided',
+      })
+    }
+    if (!req.body.round) {
+      return res.status(500).json({
+        success: false,
+        message: 'Team round not provided',
+      })
+    }
+    if (!req.body.name) {
+      return res.status(500).json({
+        success: false,
+        message: 'Team name not provided',
+      })
+    }
+    Team.create(newTeam, (err, team) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: err,
+        })
+      }
+      return res.json({
+        success: true,
+        team,
+      })
+    })
     return res.send('ok')
   },
   edit: (req, res) => {
