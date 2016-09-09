@@ -487,6 +487,8 @@ describe.only('Team - API', () => {
     })
   }) // DELETE
 
+  // TODO team media upload
+
   after((done) => {
     Promise.all([
       Season.remove({}),

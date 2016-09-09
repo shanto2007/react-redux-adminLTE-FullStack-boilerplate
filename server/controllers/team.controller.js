@@ -209,4 +209,12 @@ module.exports = {
       })
     })
   },
+
+  teamPhotoUpload: (req, res) => {
+    return res.send('ok')
+  },
+
+  teamAvatarUpload: (req, res) => {
+    return res.send('ok')
+  },
 }
