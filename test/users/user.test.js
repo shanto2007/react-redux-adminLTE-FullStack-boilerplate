@@ -154,4 +154,10 @@ describe('User', () => {
     })
   })
 
+  after((done) => {
+    Promise.resolve(
+      User.remove({})
+    ).then(done()).catch(done)
+  })
+
 })

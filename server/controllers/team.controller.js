@@ -2,7 +2,7 @@ const Team = require('../models/team.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
-    return Team.find(req.query , (err, teams) => {
+    return Team.find(req.query, (err, teams) => {
       if (err) {
         return res.status(500).json({
           success: false,

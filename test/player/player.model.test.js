@@ -367,10 +367,10 @@ describe('Player - Model', () => {
    */
   after((done) => {
     Promise.all([
-      Season.remove({ _id: seasonId }),
-      Round.remove({ _id: roundId }),
-      Day.remove({ _id: dayId }),
-      Team.remove({ _id: teamId }),
+      Season.remove({}),
+      Round.remove({}),
+      Day.remove({}),
+      Team.remove({}),
       Player.remove({}),
       Score.remove({}),
       Attendance.remove({}),
