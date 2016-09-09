@@ -23,7 +23,7 @@ describe('Media - API', () => {
     }, process.env.APP_KEY )
   })
 
-  it('shoud NOT upload a media without an authToken', (done) => {
+  it('should NOT upload a media without an authToken', (done) => {
     let mediaFile = path.join( __dirname, './media/test.jpeg' )
     fs.stat(mediaFile, (err, stat) => {
       preUploadMediaStat = stat
@@ -39,7 +39,7 @@ describe('Media - API', () => {
       })
   })
 
-  it('shoud NOT upload, return error if file not provided', (done) => {
+  it('should NOT upload, return error if file not provided', (done) => {
     let mediaFile = path.join( __dirname, './media/test.jpeg' )
     chai.request(app)
     .post('/api/media/upload')
@@ -51,7 +51,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud upload a media', (done) => {
+  it('should upload a media', (done) => {
     let mediaFile = path.join( __dirname, './media/test.jpeg' )
     chai.request(app)
     .post('/api/media/upload')
@@ -72,7 +72,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud check that file has been stored', (done) => {
+  it('should check that file has been stored', (done) => {
     const filePath = path.join(testenv.rootdir, storedMediaPath)
     fs.stat(filePath, (err, stat) => {
       expect(stat).toExist()
@@ -81,7 +81,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud GET single media', ( done ) => {
+  it('should GET single media', ( done ) => {
     chai.request(app)
     .get('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
@@ -94,7 +94,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud NOT GET single media', ( done ) => {
+  it('should NOT GET single media', ( done ) => {
     chai.request(app)
     .get('/api/media/' + "mediaId" )
     .set('Authorization', userAuthToken)
@@ -105,7 +105,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud GET media index', ( done ) => {
+  it('should GET media index', ( done ) => {
     chai.request(app)
     .get('/api/medias')
     .set('Authorization', userAuthToken)
@@ -120,7 +120,7 @@ describe('Media - API', () => {
   })
 
 
-  it('shoud NOT delete the single media without authToken', (done) => {
+  it('should NOT delete the single media without authToken', (done) => {
     chai.request(app)
     .delete('/api/media/' + mediaId )
     .end((err, res) => {
@@ -130,7 +130,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud delete the single media', (done) => {
+  it('should delete the single media', (done) => {
     chai.request(app)
     .delete('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
@@ -141,7 +141,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud return error on delete of not existing media', (done) => {
+  it('should return error on delete of not existing media', (done) => {
     chai.request(app)
     .delete('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
@@ -152,7 +152,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud return 404 on GET single deleted media', ( done ) => {
+  it('should return 404 on GET single deleted media', ( done ) => {
     chai.request(app)
     .get('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
@@ -163,7 +163,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud check that file has been unlinked file after remove', (done) => {
+  it('should check that file has been unlinked file after remove', (done) => {
     const filePath = path.join(testenv.rootdir, storedMediaPath)
     fs.stat(filePath, (err, stat) => {
       expect(stat).toNotExist()
@@ -171,7 +171,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('shoud check that file has been unlinked the thumbnail after remove', (done) => {
+  it('should check that file has been unlinked the thumbnail after remove', (done) => {
     const filePath = path.join(testenv.rootdir, storedThumbPath)
     fs.stat(filePath, (err, stat) => {
       expect(stat).toNotExist()

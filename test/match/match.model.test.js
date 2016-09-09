@@ -157,7 +157,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud finally create a match :)', (done) => {
+  it('should finally create a match :)', (done) => {
     Match.create({
       date: Date.now(),
       season: seasonId,
@@ -173,7 +173,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud update a match [set played and a winner to trigger hook update use .save()]', (done) => {
+  it('should update a match [set played and a winner to trigger hook update use .save()]', (done) => {
     Match.findById(matchId ,(err, match) => {
       if (err) done(err)
       match.played = true
@@ -201,7 +201,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud have updated the teams stats', (done) => {
+  it('should have updated the teams stats', (done) => {
     Team.find({ _id: { $in: [teamAId, teamBId] } } ,(err, teams) => {
       if (err) done(err)
       expect(teams[0].wins).toBe(1)
@@ -219,7 +219,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud have updated player stats', (done) => {
+  it('should have updated player stats', (done) => {
     Player.findById(playerTeamA ,(err, player) => {
       if (err) done(err)
       expect(player).toExist()
@@ -229,7 +229,7 @@ describe('Match - Model', () => {
   })
 
   //TODO
-  it('shoud remove the match', function(done) {
+  it('should remove the match', function(done) {
     this.timeout(5000)
     Match.findById(matchId, (err, match) => {
       match.remove((err) => {
@@ -239,7 +239,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud have removed all scores of the match', function(done) {
+  it('should have removed all scores of the match', function(done) {
     this.timeout(5000)
     Score.find({ match: matchId }, (err, scores) => {
       if (err) done(err)
@@ -248,7 +248,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud have updated the teams stats', (done) => {
+  it('should have updated the teams stats', (done) => {
     Team.find({ _id: { $in: [teamAId, teamBId] } } ,(err, teams) => {
       if (err) done(err)
       expect(teams[0].wins).toBe(0)
@@ -266,7 +266,7 @@ describe('Match - Model', () => {
     })
   })
 
-  it('shoud have updated the players stats', (done) => {
+  it('should have updated the players stats', (done) => {
     Player.find({ _id: { $in: [playerTeamA, playerTeamB] } }, (err, players) => {
       expect(players[0].goals).toBe(0)
       expect(players[0].expulsions).toBe(0)

@@ -115,7 +115,7 @@ describe('Expulsion - Model', () => {
     }).catch(done)
   })
 
-  it('shoud check that the child_process have updated the player stats', (done) => {
+  it('should check that the child_process have updated the player stats', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) throw err
       expect(player.expulsions).toBe(1)
@@ -123,7 +123,7 @@ describe('Expulsion - Model', () => {
     })
   })
 
-  it('shoud remove the expulsion', (done) => {
+  it('should remove the expulsion', (done) => {
     Expulsion.findById(expulsionId, (err, expulsion) => {
       if (err) done(err)
       expulsion.remove((err, removed) => {
@@ -134,7 +134,7 @@ describe('Expulsion - Model', () => {
     })
   })
 
-  it('shoud check that the child_process have updated the data', (done) => {
+  it('should check that the child_process have updated the data', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) done(err)
       expect(player.expulsions).toBe(0)

@@ -28,7 +28,7 @@ describe('Day - Model', () => {
     .catch(done)
   })
 
-  it('shoud create a day document', (done) => {
+  it('should create a day document', (done) => {
     firstDay = Object.assign({}, dummy_day)
     firstDay.lastday = true
     let day = new Day(firstDay)
@@ -44,7 +44,7 @@ describe('Day - Model', () => {
     })
   })
 
-  it('shoud create a bunch of documents', (done) => {
+  it('should create a bunch of documents', (done) => {
     Day.insertMany([dummy_day, dummy_day, dummy_day, dummy_day], (err, days) => {
       if (err) {
         throw err
@@ -67,7 +67,7 @@ describe('Day - Model', () => {
     })
   })
 
-  it('shoud throw error if id is invalid', (done) => {
+  it('should throw error if id is invalid', (done) => {
     Day
     .setLastDay("dayToEditId")
     .catch((err) => {
@@ -76,7 +76,7 @@ describe('Day - Model', () => {
     })
   })
 
-  it('shoud check that there is only one lastday per round', (done) => {
+  it('should check that there is only one lastday per round', (done) => {
     Day
     .find({ round: roundId, lastday: true }, (err, days) => {
       expect(days.length).toBe(1)

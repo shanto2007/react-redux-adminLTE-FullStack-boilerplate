@@ -105,7 +105,7 @@ describe('Day - API', () => {
     })
   })
 
-  it('shoud create a bunch of days just for the next test', (done) => {
+  it('should create a bunch of days just for the next test', (done) => {
     let item = {
       season: seasonId,
       round: roundId,
@@ -148,7 +148,7 @@ describe('Day - API', () => {
     })
   })
 
-  it('shoud set another day as last day of the round', (done) => {
+  it('should set another day as last day of the round', (done) => {
     chai.request(app)
     .patch('/api/admin/day/setlastday')
     .set('Authorization', userAuthToken)
@@ -164,7 +164,7 @@ describe('Day - API', () => {
     })
   })
 
-  it('shoud have kept only 1 lastday per round', (done) => {
+  it('should have kept only 1 lastday per round', (done) => {
     Day.find({ lastday: true }, (err, day) => {
       if (err) done(err)
       expect(day).toExist()

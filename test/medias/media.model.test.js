@@ -8,7 +8,7 @@ const expect   = require('expect')
 describe('Media - Model', () => {
  let dummyMedia
 
- it('shoud create a media', (done) => {
+ it('should create a media', (done) => {
    process.env.MEDIA_MODEL_TEST = "true"
    Media.create({
      filename: 'mymedia.jpg',
@@ -21,7 +21,7 @@ describe('Media - Model', () => {
    .catch(done)
  })
 
-  it('shoud have generated the path field', () => {
+  it('should have generated the path field', () => {
     expect(dummyMedia.path).toExist()
     expect(dummyMedia.path).toEqual(`/${process.env.UPLOAD_DIRNAME}/${dummyMedia.filename}`)
   })

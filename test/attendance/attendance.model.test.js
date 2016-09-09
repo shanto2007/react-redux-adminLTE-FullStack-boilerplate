@@ -115,7 +115,7 @@ describe('Attendance - Model', () => {
     }).catch(done)
   })
 
-  it('shoud check that the child_process have updated the player stats', (done) => {
+  it('should check that the child_process have updated the player stats', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) throw err
       expect(player.attendance).toBe(1)
@@ -123,7 +123,7 @@ describe('Attendance - Model', () => {
     })
   })
 
-  it('shoud remove the attendance', (done) => {
+  it('should remove the attendance', (done) => {
     Attendance.findById(attendanceId, (err, attendance) => {
       if (err) done(err)
       attendance.remove((err, removed) => {
@@ -134,7 +134,7 @@ describe('Attendance - Model', () => {
     })
   })
 
-  it('shoud check that the child_process have updated the data', (done) => {
+  it('should check that the child_process have updated the data', (done) => {
     Player.findById(playerId, (err, player) => {
       if (err) done(err)
       expect(player.attendance).toBe(0)
