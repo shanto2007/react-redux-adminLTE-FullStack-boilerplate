@@ -52,4 +52,4 @@ MediaSchema.post('remove', (media, done) => {
 })
 
 
-module.exports = mongoose.model('Media', MediaSchema, 'medias')
+module.exports = mongoose.model('media', MediaSchema, 'medias')

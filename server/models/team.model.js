@@ -55,10 +55,19 @@ const teamSchema = mongoose.Schema({
 teamSchema.index({ name: 1, season: 1 }, { unique: true })
 
 teamSchema.post('remove', (team, done) => {
-  team.model('player').find({ team: team._id }).then((players) => {
-    const promises = []
+  const promises = []
+  team
+  .model('player')
+  .find({ team: team._id })
+  .then((players) => {
     for (let i = 0; i < players.length; i++) {
       promises.push(players[i].remove())
+    }
+    return team.model('media').find({ _id: { $in: [team.groupPhoto, team.avatar] } })
+  })
+  .then((medias) => {
+    for (let i = 0; i < medias.length; i++) {
+      promises.push(medias[i].remove())
     }
     return Promise.all(promises)
   })
