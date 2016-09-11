@@ -27,4 +27,13 @@ describe('Server', () => {
       done()
     })
   })
+  it('should return 404 on unknown route api', (done) => {
+    chai
+    .request(app)
+    .get('/api/random404')
+    .end((err, res) => {
+      expect(res.status).toBe(404)
+      done()
+    })
+  })
 })

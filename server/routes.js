@@ -140,6 +140,13 @@ module.exports = (express, app) => {
 
   api.post('/email', EmailCtrl.send)
 
+  api.all('*', (req, res) => {
+    return res.status(404).json({
+      success: false,
+      error: 'The route your are looking for doesn\'t exist!',
+    })
+  })
+
   app.use('/api', api)
 
   app.get(/^\/(login|join)/, (req, res) => {
