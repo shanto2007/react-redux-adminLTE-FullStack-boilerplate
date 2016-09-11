@@ -27,6 +27,14 @@ const matchSchema = mongoose.Schema({
     ref: 'team',
     required: [true, 'Team Away id is required'],
   },
+  teamHomeScores: {
+    type: Number,
+    default: 0,
+  },
+  teamAwayScores: {
+    type: Number,
+    default: 0,
+  },
   winner: {
     type: mongoose.Schema.ObjectId,
     ref: 'team',

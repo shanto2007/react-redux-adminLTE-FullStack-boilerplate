@@ -147,6 +147,10 @@ module.exports = (express, app) => {
     })
   })
 
+  /**
+   * APP
+   */
+
   app.use('/api', api)
 
   app.get(/^\/(login|join)/, (req, res) => {
