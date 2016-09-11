@@ -1,4 +1,6 @@
 const { testenv, Promise } = global
+const fs       = require('fs')
+const path     = require('path')
 const app      = require(testenv.app)
 const chai     = require('chai')
 const chaiHttp = require('chai-http')
@@ -7,10 +9,11 @@ const jwt      = require('jsonwebtoken')
 const Season   = require(testenv.serverdir + 'models/season.model')
 const Round    = require(testenv.serverdir + 'models/round.model')
 const Team     = require(testenv.serverdir + 'models/team.model')
+const Media     = require(testenv.serverdir + 'models/media.model')
 
 chai.use(chaiHttp)
 
-describe('Team - API', () => {
+describe.only('Team - API', () => {
   let userAuthToken, seasonId, roundId, dayId, teamId
 
   before((done) => {
@@ -297,6 +300,30 @@ describe('Team - API', () => {
         done()
       })
     })
+
+    it('should upload a group photo of the team', (done) => {
+      let mediaFile = path.join( __dirname, './media/test.jpeg' )
+      chai.request(app)
+      .post(`/api/admin/team/${teamId}/photo`)
+      .set('Authorization', userAuthToken)
+      .attach('teamPhoto', fs.readFileSync(mediaFile), 'test.jpeg')
+      .end((err, res) => {
+        expect(res.body.team.groupPhoto).toExist()
+        done()
+      })
+    })
+
+    it('should upload a team avatar photo', (done) => {
+      let mediaFile = path.join( __dirname, './media/test.jpeg' )
+      chai.request(app)
+      .post(`/api/admin/team/${teamId}/avatar`)
+      .set('Authorization', userAuthToken)
+      .attach('teamAvatar', fs.readFileSync(mediaFile), 'test.jpeg')
+      .end((err, res) => {
+        expect(res.body.team.avatar).toExist()
+        done()
+      })
+    })
   }) // EDIT
 
   describe('GET - public', () => {
@@ -487,13 +514,12 @@ describe('Team - API', () => {
     })
   }) // DELETE
 
-  // TODO team media upload
-
   after((done) => {
     Promise.all([
       Season.remove({}),
       Round.remove({}),
       Team.remove({}),
+      Media.remove({}),
     ]).then(done()).catch(done)
   })
 

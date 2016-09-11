@@ -7,12 +7,13 @@ const fork = require('../fork/fork.handlers')
 const MediaSchema = mongoose.Schema({
   filename: { type: String },
   path: { type: String },
+  type: { type: String, default: null },
 })
 
 MediaSchema.set('toObject', { virtuals: true });
 MediaSchema.set('toJSON', { virtuals: true });
 
-MediaSchema.virtual('thumbnail').get(function() {
+MediaSchema.virtual('thumbnail').get(function mediaThumbPathVirtual() {
   return `/${secrets.UPLOAD_DIRNAME}/thumbnail/${this.filename}`
 })
 
@@ -37,7 +38,6 @@ MediaSchema.post('save', (media, done) => {
 })
 
 MediaSchema.post('remove', (media, done) => {
-  console.log("remove");
   const projectRoot = path.join(__dirname, '../../')
   const uploadDir = path.join(projectRoot, `/${secrets.UPLOAD_DIRNAME}`)
   const file = `${uploadDir}/${media.filename}`

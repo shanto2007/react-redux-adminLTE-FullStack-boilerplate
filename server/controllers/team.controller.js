@@ -1,4 +1,5 @@
 const Team = require('../models/team.model')
+const Media = require('../models/media.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
@@ -211,10 +212,80 @@ module.exports = {
   },
 
   teamPhotoUpload: (req, res) => {
-    return res.send('ok')
+    const { file } = req
+    const { id } = req.params
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file provided',
+      })
+    }
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'No Team Id provided',
+      })
+    }
+    const type = 'groupPhoto'
+    const filename = req.body.filename || req.file.filename
+    return Media.create({
+      filename,
+      type,
+    }).then((media) => {
+      return Team.findByIdAndUpdate(id, { groupPhoto: media._id }, { new: true })
+    })
+    .then((team) => {
+      return res.json({
+        success: true,
+        action: 'update',
+        team,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: 'Error uploading team photo, try again.',
+        error: err,
+      })
+    })
   },
 
   teamAvatarUpload: (req, res) => {
-    return res.send('ok')
+    const { file } = req
+    const { id } = req.params
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file provided',
+      })
+    }
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'No Team Id provided',
+      })
+    }
+    const type = 'avatar'
+    const filename = req.body.filename || req.file.filename
+    return Media.create({
+      filename,
+      type,
+    }).then((media) => {
+      return Team.findByIdAndUpdate(id, { avatar: media._id }, { new: true })
+    })
+    .then((team) => {
+      return res.json({
+        success: true,
+        action: 'update',
+        team,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: 'Error uploading team photo, try again.',
+        error: err,
+      })
+    })
   },
 }
