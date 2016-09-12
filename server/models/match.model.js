@@ -53,6 +53,8 @@ const matchSchema = mongoose.Schema({
   },
 })
 
+matchSchema.index({ teamHome: 1, teamAway: 1, day: 1 }, { unique: true })
+
 // TODO  I NEED A SCORE COUNTER FOR BOOT TEAM, MAYBE IN A VIRTUAL OR PRE FIND/FINDONE
 
 matchSchema.pre('validate', function matchPreValidation(next) {
