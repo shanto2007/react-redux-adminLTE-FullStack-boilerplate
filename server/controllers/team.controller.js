@@ -74,7 +74,7 @@ module.exports = {
     .then((team) => {
       if (!team) {
         return res.status(404).json({
-          success: true,
+          success: false,
           action: 'delete',
           message: 'Team not found, maybe already removed',
         })
@@ -188,7 +188,7 @@ module.exports = {
     return Team.findById(teamId).then((team) => {
       if (!team) {
         return res.status(404).json({
-          success: true,
+          success: false,
           action: 'delete',
           message: 'Team not found, maybe already removed',
         })

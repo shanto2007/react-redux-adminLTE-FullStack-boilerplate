@@ -44,11 +44,12 @@ require('./day/day.api.test.js')
 require('./team/team.model.test.js')
 require('./team/team.api.test.js')
 
+require('./player/player.model.test.js')
+require('./player/player.api.test.js')
+
 require('./match/match.model.test.js')
 // require('./match/match.api.test.js')
 
-require('./player/player.model.test.js')
-// require('./player/player.api.test.js')
 
 require('./score/score.model.test.js')
 // require('./score/score.api.test.js')

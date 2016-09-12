@@ -72,7 +72,7 @@ playerSchema.post('save', (player, done) => {
 })
 
 /**
- * REMOVE TO TEAM ARRAY OF REFERENCE
+ * REMOVE FROM TEAM ARRAY OF REFERENCE
  * work only on document istance not on Model methods
  */
 playerSchema.post('remove', (player, done) => {
@@ -99,6 +99,13 @@ playerSchema.post('remove', (player, done) => {
     })
     .then(done())
     .catch(done)
+})
+
+playerSchema.post('remove', (player, done) => {
+  return player.model('media').findOne({ _id: player.avatar }).then((media) => {
+    if (media) media.remove()
+    done()
+  }).catch(done)
 })
 
 playerSchema.post('remove', (player, done) => {

@@ -14,6 +14,7 @@ const SeasonCtrl = require('./controllers/season.controller')
 const RoundCtrl = require('./controllers/round.controller')
 const DayCtrl = require('./controllers/day.controller')
 const TeamCtrl = require('./controllers/team.controller')
+const PlayerCtrl = require('./controllers/player.controller')
 
 
 /**
@@ -121,6 +122,20 @@ module.exports = (express, app) => {
   //  public
   api.get('/teams', TeamCtrl.indexPublic)
   api.get('/team/:id?', TeamCtrl.getPublic)
+
+  /**
+   *  PLAYER
+   */
+  // api.get('/admin/players', AuthRequired(), PlayerCtrl.indexAdmin)
+  // api.get('/admin/player/:id?', AuthRequired(), PlayerCtrl.getAdmin)
+  api.post('/admin/player', AuthRequired(), PlayerCtrl.create)
+  api.patch('/admin/player/:id?', AuthRequired(), PlayerCtrl.edit)
+  api.delete('/admin/player/:id?', AuthRequired(), PlayerCtrl.delete)
+  // PLAYER MEDIAs
+  api.post('/admin/player/:id/avatar', AuthRequired(), upload.single('playerAvatar'), PlayerCtrl.avatarUpload)
+  //  public
+  // api.get('/players', TeamCtrl.indexPublic)
+  // api.get('/player/:id?', TeamCtrl.getPublic)
 
   /**
    * ACCOUNT
