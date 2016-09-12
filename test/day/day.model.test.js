@@ -5,7 +5,7 @@ const Round = require(testenv.serverdir + 'models/round.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe('Day - Model', () => {
+describe.only('Day - Model', () => {
   let dayToEditId, dummy_day, originalLastDayId, newLastDayId, roundId, seasonId
 
   before((done) => {
