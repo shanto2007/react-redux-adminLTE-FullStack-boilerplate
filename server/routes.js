@@ -15,6 +15,7 @@ const RoundCtrl = require('./controllers/round.controller')
 const DayCtrl = require('./controllers/day.controller')
 const TeamCtrl = require('./controllers/team.controller')
 const PlayerCtrl = require('./controllers/player.controller')
+const MatchCtrl = require('./controllers/match.controller')
 
 
 /**
@@ -136,6 +137,19 @@ module.exports = (express, app) => {
   //  public
   // api.get('/players', TeamCtrl.indexPublic)
   // api.get('/player/:id?', TeamCtrl.getPublic)
+
+  /**
+   *  DAYS
+   */
+  // api.get('/admin/matchs', AuthRequired(), DayCtrl.indexAdmin)
+  // api.get('/admin/match/:id', AuthRequired(), DayCtrl.getAdmin)
+  api.post('/admin/match', AuthRequired(), MatchCtrl.create)
+  api.patch('/admin/match/:id', AuthRequired(), MatchCtrl.edit)
+  api.delete('/admin/match/:id', AuthRequired(), MatchCtrl.delete)
+  //  public
+  // api.get('/matchs', MatchCtrl.indexPublic)
+  // api.get('/match/:id?', MatchCtrl.getPublic)
+
 
   /**
    * ACCOUNT
