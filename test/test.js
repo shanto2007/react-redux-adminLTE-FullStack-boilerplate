@@ -48,7 +48,7 @@ require('./player/player.model.test.js')
 require('./player/player.api.test.js')
 
 require('./match/match.model.test.js')
-// require('./match/match.api.test.js')
+require('./match/match.api.test.js')
 
 
 require('./score/score.model.test.js')
