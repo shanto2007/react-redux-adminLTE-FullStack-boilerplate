@@ -14,7 +14,7 @@ const Media     = require(testenv.serverdir + 'models/media.model')
 chai.use(chaiHttp)
 
 describe('Team - API', () => {
-  let userAuthToken, seasonId, roundId, dayId, teamId
+  let userAuthToken, seasonId, roundId, dayId, teamId, groupPhotoId, avatarId
 
   before((done) => {
     userAuthToken = jwt.sign({
@@ -309,6 +309,7 @@ describe('Team - API', () => {
       .attach('teamPhoto', fs.readFileSync(mediaFile), 'test.jpeg')
       .end((err, res) => {
         expect(res.body.team.groupPhoto).toExist()
+        groupPhotoId = res.body.team.groupPhoto._id
         done()
       })
     })
@@ -321,6 +322,7 @@ describe('Team - API', () => {
       .attach('teamAvatar', fs.readFileSync(mediaFile), 'test.jpeg')
       .end((err, res) => {
         expect(res.body.team.avatar).toExist()
+        avatarId = res.body.team.avatar._id
         done()
       })
     })
@@ -511,6 +513,12 @@ describe('Team - API', () => {
         expect(res.body.team).toNotExist()
         done()
       })
+    })
+    it('should have deleted team medias', (done) => {
+      Media.find({ _id: { $in: [avatarId, groupPhotoId] } }).then((medias) => {
+        expect(medias.length).toBe(0)
+        done()
+      }).catch(done)
     })
   }) // DELETE
 
