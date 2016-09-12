@@ -173,6 +173,20 @@ describe('Match - Model', () => {
     })
   })
 
+  it('should NOT create the same match in the same day, ensure index is unique per teams & day', (done) => {
+    Match.create({
+      date: Date.now(),
+      season: seasonId,
+      round: roundId,
+      day: dayId,
+      teamHome: teamAId,
+      teamAway: teamBId,
+    }, (err, match) => {
+      expect(err).toExist()
+      done()
+    })
+  })
+
   it('should update a match [set played and a winner to trigger hook update use .save()]', function(done) {
     this.timeout(10000)
     Match.findById(matchId ,(err, match) => {
