@@ -79,14 +79,14 @@ matchSchema.pre('save', function preSaveHookMatch(next) {
 })
 
 matchSchema.post('save', (match, done) => {
-  if (match.played) {
-    return forkHandlers.teamStatsUpdate(match).then(() => {
-      return done()
-    })
-    .catch((err) => {
-      return done(err)
-    })
-  }
+  return forkHandlers.teamStatsUpdate(match).then(() => {
+    return done()
+  })
+  .catch((err) => {
+    return done(err)
+  })
+  // if (match.played) {
+  // }
   return done()
 })
 

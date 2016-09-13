@@ -7,14 +7,14 @@ process.on('message', (match) => {
   const Match = require('../models/match.model')
   db.connect() // to fix can't create a new connection everytime
 
-  let winnerInstance, loserInstance
+  let teamHomeInstance, teamAwayInstance
 
   /**
    * GET WINNER AND LOSER INSTANCES
    */
   Promise.all([
-    Team.findById(match.winner),
-    Team.findById(match.loser),
+    Team.findById(match.teamHome),
+    Team.findById(match.teamAway),
   ])
   .then((teams) => {
     /**
@@ -26,8 +26,8 @@ process.on('message', (match) => {
       process.send('fail::' + JSON.stringify(err))
     }
 
-    winnerInstance = teams[0]
-    loserInstance = teams[1]
+    teamHomeInstance = teams[0]
+    teamAwayInstance = teams[1]
 
     /**
      * COUNT WINNER's WINS and LOOSER LOSTS
@@ -59,21 +59,21 @@ process.on('message', (match) => {
      * UPDATE TEAMS STATS
      * @return Promise
      */
-    const winnerQuery = winnerInstance.update({
+    const teamHomeQuery = teamHomeInstance.update({
       wins: stats[0],
       losts: stats[1],
       draws: stats[2],
       goalScored: stats[3],
       goalTaken: stats[4],
     })
-    const loserQuery = loserInstance.update({
+    const teamAwayQuery = teamAwayInstance.update({
       wins: stats[5],
       losts: stats[6],
       draws: stats[7],
       goalScored: stats[8],
       goalTaken: stats[9],
     })
-    return Promise.all([winnerQuery, loserQuery])
+    return Promise.all([teamHomeQuery, teamAwayQuery])
   })
   .then((res) => {
     setTimeout(() => {

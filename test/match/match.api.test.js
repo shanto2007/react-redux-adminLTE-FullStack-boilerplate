@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe.only('Match - API', () => {
+describe('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,
@@ -415,7 +415,7 @@ describe.only('Match - API', () => {
         expect(player.expulsions).toEqual(1)
         expect(player.attendance).toEqual(1)
         done()
-      })
+      }).catch(done)
     })
   })
 
@@ -474,7 +474,7 @@ describe.only('Match - API', () => {
         expect(player.warns).toBe(0)
         expect(player.expulsions).toBe(0)
         done()
-      })
+      }).catch(done)
     })
     it('should have updated player B stats', function(done) {
       this.timeout(10000)
@@ -486,19 +486,36 @@ describe.only('Match - API', () => {
         expect(player.warns).toBe(0)
         expect(player.expulsions).toBe(0)
         done()
-      })
+      }).catch(done)
     })
     // BECAUSE IT THE CHILD USE WINNER AND LOSER ID TO GENERATE STATS IT WONT WORK
     // NEED TO BE REWRITED.
-    // it('should have updated player A stats', function(done) {
-    //   this.timeout(10000)
-    //   return Team.findById(teamAId)
-    //   .then((team) => {
-    //     expect(team).toExist()
-    //     console.log(team)
-    //     done()
-    //   })
-    // })
+    it('should have updated player A stats', function(done) {
+      this.timeout(10000)
+      return Team.findById(teamAId)
+      .then((team) => {
+        expect(team).toExist()
+        expect(team.wins).toBe(0)
+        expect(team.losts).toBe(0)
+        expect(team.draws).toBe(0)
+        expect(team.goalTaken).toBe(0)
+        expect(team.goalScored).toBe(0)
+        done()
+      }).catch(done)
+    })
+    it('should have updated player A stats', function(done) {
+      this.timeout(10000)
+      return Team.findById(teamBId)
+      .then((team) => {
+        expect(team).toExist()
+        expect(team.wins).toBe(0)
+        expect(team.losts).toBe(0)
+        expect(team.draws).toBe(0)
+        expect(team.goalTaken).toBe(0)
+        expect(team.goalScored).toBe(0)
+        done()
+      }).catch(done)
+    })
   })
 
   /**
