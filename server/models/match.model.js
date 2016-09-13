@@ -72,7 +72,7 @@ matchSchema.pre('validate', function matchPreValidation(next) {
 
 matchSchema.pre('save', function preSaveHookMatch(next) {
   const match = this
-  if (this.isModified('played') && this.isModified('winner')) {
+  if (this.isModified('played') && this.isModified('winner') && this.played) {
     match.loser = match.winner.equals(match.teamHome) ? match.teamAway : match.teamHome
   }
   next()

@@ -21,7 +21,7 @@ process.on('message', (match) => {
      * [0] WINNER
      * [1] LOSER
      */
-    if (!teams && !teams[0] && !teams[1]) {
+    if (!teams[0] && !teams[1]) {
       const err = { err: 'No teams provided' }
       process.send('fail::' + JSON.stringify(err))
     }
@@ -82,6 +82,7 @@ process.on('message', (match) => {
     process.send('success::' + JSON.stringify(res))
   })
   .catch((err) => {
+    console.log(">>", err)
     setTimeout(() => {
       process.exit()
     }, 10)

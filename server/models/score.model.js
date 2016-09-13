@@ -29,6 +29,19 @@ const scoreSchema = mongoose.Schema({
   },
 })
 
+scoreSchema.pre('validate', function matchPreValidation(next) {
+  const match = this;
+  if (match.isModified('teamScorer') || match.isModified('teamTaker')) {
+    if (match.teamScorer && match.teamTaker) {
+      if (match.teamScorer.equals(match.teamTaker)) {
+        const err = new Error('score.model validation: teamScorer and teamTaker ids must be different!')
+        next(err)
+      }
+    }
+  }
+  next()
+})
+
 scoreSchema.post('save', (score, done) => {
   return forkHandlers.playerScoreUpdate(score).then(() => {
     return done()
