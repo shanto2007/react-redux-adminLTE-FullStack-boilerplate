@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe('Match - API', () => {
+describe.only('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,
@@ -522,7 +522,42 @@ describe('Match - API', () => {
    * Delete
    */
   describe('Delete', () => {
-
+    it('should NOT delete without auth token', (done) => {
+      chai.request(app)
+      .delete(`/api/admin/match/${matchId}`)
+      .end((err, res) => {
+        expect(res.status).toBe(400)
+        done()
+      })
+    })
+    it('should RETURN 404 if not found', (done) => {
+      chai.request(app)
+      .delete(`/api/admin/match/${seasonId}`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(404)
+        done()
+      })
+    })
+    it('should RETURN 500 if invalid id', (done) => {
+      chai.request(app)
+      .delete(`/api/admin/match/matchId`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(500)
+        done()
+      })
+    })
+    it('should delete', (done) => {
+      chai.request(app)
+      .delete(`/api/admin/match/${matchId}`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        console.log(res.body)
+        done()
+      })
+    })
   })
 
   /**

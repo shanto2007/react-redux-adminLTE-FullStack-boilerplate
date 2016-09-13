@@ -156,14 +156,9 @@ module.exports = {
   /**
    * Edit
    * How to structure body data
-   * array of players:
-   * player: { attend: Bool, warn: Bool, expulsion: Bool, score: Number }
-   * controller flow:
-   *  - Fetch all existent data of this match and bulk remove()
-   *  - For each player create the new data
-   *  - Count score per team and set winner attribute of the match
-   *  - set played attribute to true
-   *  - save match
+   * takes an array of player with their standings in the match as body
+   * player attach : { attend: Bool, warned: Bool, expelled: Bool, scored: Number, ...player original object }
+   *
    */
   edit: (req, res) => {
     const { Promise } = global
@@ -177,6 +172,7 @@ module.exports = {
         message: 'No Match Id provided',
       })
     }
+    // Get Match
     return Match.findById(matchId)
       .then((match) => {
         if (!match) {
@@ -196,9 +192,7 @@ module.exports = {
         ])
       })
       .then(() => {
-        /**
-         * GENERATE MATCH DATA
-         */
+        //  GENERATE MATCH DATA
         const promises = []
         for (let i = 0; i < matchPlayersData.length; i++) {
           if (matchPlayersData[i].attended) {
@@ -238,23 +232,18 @@ module.exports = {
         return Promise.all(promises);
       })
       .then(() => {
-        /**
-         * Count Scores set winner
-         */
+        // Count Scores and set winner
+        // could avoid a query maybe? //TODO refactor this to not call the DB
         return Promise.all([
           Score.count({ match: fetchedMatch._id, teamScorer: fetchedMatch.teamHome }),
           Score.count({ match: fetchedMatch._id, teamScorer: fetchedMatch.teamAway }),
         ])
       })
       .then((scoresCount) => {
-        /**
-         * [0] = teamHome
-         * [0] = teamAway
-         */
-
+        // [0] = teamHome
+        // [0] = teamAway
         fetchedMatch.teamHomeScores = scoresCount[0]
         fetchedMatch.teamAwayScores = scoresCount[1]
-
         if (scoresCount[0] !== scoresCount[1]) {
           fetchedMatch.winner = scoresCount[0] > scoresCount[1] ? fetchedMatch.teamHome : fetchedMatch.teamAway
           fetchedMatch.played = true
@@ -262,6 +251,7 @@ module.exports = {
         return fetchedMatch.save()
       })
       .then((savedMatch) => {
+        //  GET SAVED MATCH
         return res.json({
           success: true,
           action: 'edit match result',
@@ -295,31 +285,31 @@ module.exports = {
       Attendance
       .find({ match: match._id })
       .then((attendance) => {
-        attendance.forEach(function($attendance){
+        attendance.forEach(($attendance) => {
           promises.push($attendance.remove())
         })
         return Score.find({ match: match._id })
       })
       .then((score) => {
-        score.forEach(function($score){
+        score.forEach(($score) => {
           promises.push($score.remove())
         })
         return Warn.find({ match: match._id })
       })
       .then((warn) => {
-        warn.forEach(function($warn){
+        warn.forEach(($warn) => {
           promises.push($warn.remove())
         })
         return Expulsion.find({ match: match._id })
       })
       .then((expulsion) => {
-        expulsion.forEach(function($expulsion){
+        expulsion.forEach(($expulsion) => {
           promises.push($expulsion.remove())
         })
       })
       return Promise.all(promises)
     })
-    .then((removed) => {
+    .then(() => {
       fetchedMatch.played = false
       fetchedMatch.winner = undefined
       fetchedMatch.loser = undefined
@@ -345,6 +335,32 @@ module.exports = {
   },
 
   delete: (req, res) => {
-    return res.send(200)
+    const matchId = req.params.id
+    return Match.findById(matchId).then((match) => {
+      if (!match) {
+        return Promise.reject({
+          status: 404,
+          success: false,
+          action: 'remove',
+          message: 'Match not found, maybe have been deleted.',
+        })
+      }
+      return match.remove()
+    })
+    .then((removed) => {
+      return res.json({
+        success: true,
+        action: 'remove',
+        match: removed,
+      })
+    })
+    .catch((err) => {
+      const status = err.status ? err.status : 500
+      return res.status(status).json({
+        success: false,
+        action: 'remove',
+        message: err.message ? err.message : err,
+      })
+    })
   },
 }
