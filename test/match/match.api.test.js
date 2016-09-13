@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe.only('Match - API', () => {
+describe('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,
@@ -96,7 +96,6 @@ describe.only('Match - API', () => {
       done()
     })
     .catch((err) => {
-      console.log(err)
       done()
     })
   })
@@ -311,7 +310,9 @@ describe.only('Match - API', () => {
         matchData[1].attended = true
         matchData[1].scored = 1
         done()
-      }).catch(done)
+      }).catch((err) => {
+        done()
+      })
     })
     it('should NOT edit without auth token' ,(done) => {
       chai.request(app)
@@ -448,7 +449,6 @@ describe.only('Match - API', () => {
       .end((err, res) => {
         expect(res.status).toBe(200)
         expect(res.body.match).toExist()
-        console.log(res.body)
         done()
       })
     })
@@ -457,13 +457,14 @@ describe.only('Match - API', () => {
   /**
    * SHOULD HAVE CASCADE UPDATED THINGS
    */
-  describe('Check fork child updates', () => {
-    before((done) => {
+  describe('Check fork child updates', function() {
+    this.timeout(5000)
+    before(function(done) {
+      this.timeout(5000)
       // It Should wait for forked to do their jobs
       setTimeout(() => {
-        console.log('-- wait forked process to finish to test --')
         done()
-      },5000)
+      },4500)
     })
     it('should have updated player A stats', function(done) {
       return Player.findById(playerAId)
@@ -554,7 +555,6 @@ describe.only('Match - API', () => {
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toBe(200)
-        console.log(res.body)
         done()
       })
     })
