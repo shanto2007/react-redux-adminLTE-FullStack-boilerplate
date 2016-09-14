@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 const jwt = require('jsonwebtoken')
 const secrets = require('../config/secrets')
 const bcrypt = require('bcrypt-nodejs')

@@ -1,11 +1,8 @@
 process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (score) => {
   const Promise = require('bluebird')
-  const db = require('../config/database')
   const Player = require('../models/player.model')
   const Attendance = require('../models/attendance.model')
-
-  db.connect()
 
   let playerInstance
 

@@ -4,12 +4,9 @@ process.on('message', (media) => {
   const Jimp = require('jimp')
   const fs = require('fs')
   const path = require('path')
-  const db = require('../config/database')
   const Media = require('../models/media.model')
+
   const thumbPath = path.join(process.cwd(), `${process.env.UPLOAD_DIRNAME}/thumbnail/`)
-
-  db.connect()
-
   let mediaInstance
 
   Promise

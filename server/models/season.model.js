@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 
 const seasonSchema = mongoose.Schema({
   year: {

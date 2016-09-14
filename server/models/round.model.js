@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 
 const roundSchema = mongoose.Schema({
   season: {

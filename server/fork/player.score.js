@@ -1,11 +1,8 @@
 process.on('message', (score) => {
   const Promise = require('bluebird')
-  const db = require('../config/database')
   const Player = require('../models/player.model')
   const Score = require('../models/score.model')
 
-  db.connect()
-  
   let playerInstance
   Promise
     .resolve(Player.findById(score.player))

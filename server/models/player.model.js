@@ -1,5 +1,5 @@
 const { Promise } = global
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 
 const playerSchema = mongoose.Schema({
   season: {

@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 
 const postSchema = mongoose.Schema({
   media: { type: mongoose.Schema.ObjectId, ref: 'media' },

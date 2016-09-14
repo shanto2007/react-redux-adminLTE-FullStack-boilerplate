@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 
 const prizeSchema = mongoose.Schema({
   season: { type: mongoose.Schema.ObjectId, ref: 'season' },

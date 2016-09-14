@@ -8,7 +8,6 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const secrets = require('./server/config/secrets')
-const database = require('./server/config/database')
 const routes = require('./server/routes')
 const fork = require('./server/fork/fork.handlers')
 
@@ -18,7 +17,6 @@ const parseSettings = require('./server/middlewares/settings.middleware')(app)
 
 const PORT = process.env.PORT || 3000
 
-database.connect()
 if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'))
 } else {

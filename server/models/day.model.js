@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 
 const daySchema = mongoose.Schema({
   round: { type: mongoose.Schema.ObjectId, ref: 'round', required: [true, 'No round ID provided'] },

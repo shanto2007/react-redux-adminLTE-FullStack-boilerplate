@@ -1,10 +1,7 @@
 process.on('message', (score) => {
   const Promise = require('bluebird')
-  const db = require('../config/database')
   const Player = require('../models/player.model')
   const Warn = require('../models/warn.model')
-
-  db.connect()
 
   let playerInstance
   Promise

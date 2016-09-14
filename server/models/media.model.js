@@ -1,4 +1,4 @@
-const mongoose = require('../config/database').mongoose
+const mongoose = require('../config/database')
 const path = require('path')
 const fs = require('fs')
 const secrets = require('./../config/secrets')
