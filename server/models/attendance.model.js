@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../config/database').mongoose
 const forkHandlers = require('../fork/fork.handlers')
 
 const attendanceSchema = mongoose.Schema({

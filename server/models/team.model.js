@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../config/database').mongoose
 
 const teamSchema = mongoose.Schema({
   round: {

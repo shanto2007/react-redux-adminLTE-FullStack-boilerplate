@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../config/database').mongoose
 
 const SettingShema = mongoose.Schema({
   sitename: { type: String, default: 'MyReactReduxPortfolio' },

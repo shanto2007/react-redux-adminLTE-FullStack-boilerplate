@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const secrets = require('./secrets')
-
 mongoose.Promise = require('bluebird')
+
 const db = mongoose.connection
 
 module.exports = {
+  mongoose,
   connect: (who) => {
     db.on('error', console.error.bind(console, 'MongoDB Connection Error. Please make sure that MongoDB is running.'))
     db.once('open', () => {
