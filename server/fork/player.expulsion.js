@@ -2,7 +2,7 @@ process.on('message', (score) => {
   const Promise = require('bluebird')
   const Player = require('../models/player.model')
   const Exp = require('../models/expulsion.model')
-  
+
   let playerInstance
   Promise
     .resolve(Player.findById(score.player))
@@ -23,15 +23,9 @@ process.on('message', (score) => {
       })
     })
     .then((res) => {
-      setTimeout(() => {
-        process.exit()
-      }, 10)
       process.send(`success::${JSON.stringify(res)}`)
     })
     .catch((err) => {
-      setTimeout(() => {
-        process.exit()
-      }, 10)
       process.send(`fail::${JSON.stringify(err)}`)
     })
 })

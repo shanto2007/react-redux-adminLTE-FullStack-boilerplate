@@ -1,3 +1,4 @@
+// require('events').EventEmitter.defaultMaxListeners = Infinity;
 require('dotenv').config()
 global.Promise = require('bluebird')
 
@@ -10,6 +11,8 @@ const bodyParser = require('body-parser')
 const secrets = require('./server/config/secrets')
 const routes = require('./server/routes')
 const fork = require('./server/fork/fork.handlers')
+
+fork.ForkChildBootstrap()
 
 const app = express()
 
@@ -57,12 +60,12 @@ app.listen(PORT, () => {
  */
 
 process.on ('exit', function (code) {
-  fork.killForkedChilds()
+  fork.ForkChildKiller()
   process.exit (code)
 })
 // Catch CTRL+C
 process.on ('SIGINT', function () {
-  fork.killForkedChilds()
+  fork.ForkChildKiller()
   process.exit (0)
 })
 

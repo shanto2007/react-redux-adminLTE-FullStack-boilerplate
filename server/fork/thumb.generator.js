@@ -12,7 +12,7 @@ process.on('message', (media) => {
   Promise
     .resolve(Media.findById(media._id))
     .then((media) => {
-      if (!media) process.send('no_media_found:fail')
+      if (!media) process.send('fail::' + JSON.stringify({ status: 'fail' }))
       mediaInstance = media
       const fsPath = path.join(process.cwd(), media.path)
       fs.stat(thumbPath, (err, stat) => {
@@ -29,16 +29,10 @@ process.on('message', (media) => {
         .write(thumbPath + mediaInstance.filename);
     })
     .then((i) => {
-      setTimeout(() => {
-        process.exit()
-      }, 10)
-      process.send('thumb_gen:success')
+      process.send('success::' + JSON.stringify({ status: 'succes' }))
     })
     .catch((err) => {
-      setTimeout(() => {
-        process.exit()
-      }, 10)
-      process.send('thumb_gen:fail')
+      process.send('fail::' + JSON.stringify({ status: 'fail' }))
     })
 })
 

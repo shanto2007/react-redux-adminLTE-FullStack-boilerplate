@@ -9,7 +9,7 @@ const Attendance = require(testenv.serverdir + 'models/attendance.model')
 const chai = require('chai')
 const expect = require('expect')
 
-describe.only('Attendance - Model', () => {
+describe('Attendance - Model', () => {
   let seasonId, roundId, dayId, teamAId, teamBId, matchId, playerId, attendanceId
 
   before((done) => {

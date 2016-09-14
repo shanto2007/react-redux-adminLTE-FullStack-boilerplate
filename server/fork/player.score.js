@@ -23,15 +23,9 @@ process.on('message', (score) => {
       })
     })
     .then((res) => {
-      setTimeout(() => {
-        process.exit()
-      }, 10)
       process.send(`success::${JSON.stringify(res)}`)
     })
     .catch((err) => {
-      setTimeout(() => {
-        process.exit()
-      }, 10)
       process.send(`fail::${JSON.stringify(err)}`)
     })
 })
