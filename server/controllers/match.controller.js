@@ -276,59 +276,25 @@ module.exports = {
         return Promise.reject({
           status: 404,
           success: false,
-          action: 'reset match data',
+          action: 'reset',
           message: 'Match not found, maybe have been deleted.',
         })
       }
-      fetchedMatch = match
-      const promises = []
-      Attendance
-      .find({ match: match._id })
-      .then((attendance) => {
-        attendance.forEach(($attendance) => {
-          promises.push($attendance.remove())
-        })
-        return Score.find({ match: match._id })
-      })
-      .then((score) => {
-        score.forEach(($score) => {
-          promises.push($score.remove())
-        })
-        return Warn.find({ match: match._id })
-      })
-      .then((warn) => {
-        warn.forEach(($warn) => {
-          promises.push($warn.remove())
-        })
-        return Expulsion.find({ match: match._id })
-      })
-      .then((expulsion) => {
-        expulsion.forEach(($expulsion) => {
-          promises.push($expulsion.remove())
-        })
-      })
-      return Promise.all(promises)
+      return match.reset()
     })
-    .then(() => {
-      fetchedMatch.played = false
-      fetchedMatch.winner = undefined
-      fetchedMatch.loser = undefined
-      fetchedMatch.teamHomeScores = undefined
-      fetchedMatch.teamAwayScores = undefined
-      return fetchedMatch.save()
-    })
-    .then((savedMatch) => {
+    .then((match) => {
+      console.log(">>", match)
       return res.json({
         success: true,
-        action: 'edit match result',
-        match: savedMatch,
+        action: 'reset',
+        match,
       })
     })
     .catch((err) => {
       const status = err.status ? err.status : 500
       return res.status(status).json({
         success: false,
-        action: 'edit match result',
+        action: 'result',
         message: err.message ? err.message : err,
       })
     })
@@ -347,6 +313,9 @@ module.exports = {
         })
       }
       return match.cascadeRemove()
+    })
+    .then((match) => {
+      return match.remove()
     })
     .then((removed) => {
       return res.json({

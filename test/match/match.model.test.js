@@ -258,6 +258,9 @@ describe('Match - Model', () => {
       Match.findById(matchId).then((match) => {
         return match.cascadeRemove()
       })
+      .then((match) => {
+        return match.remove()
+      })
       .then((matchRemoved) => {
         expect(matchRemoved).toExist()
         done()
@@ -301,6 +304,94 @@ describe('Match - Model', () => {
         expect(players[1].goals).toBe(0)
         expect(players[1].expulsions).toBe(0)
         expect(players[1].warns).toBe(0)
+        done()
+      })
+    })
+  })
+
+  describe('Reset', () => {
+    it('should finally create a match :)', (done) => {
+      Match.create({
+        date: Date.now(),
+        season: seasonId,
+        round: roundId,
+        day: dayId,
+        teamHome: teamAId,
+        teamAway: teamBId,
+      })
+      .then((match) => {
+        expect(match).toExist()
+        matchId = match._id
+        done()
+      }).catch(done)
+    })
+    it('should update a match [set played and a winner to trigger hook update use .save()]', function(done) {
+      this.timeout(10000)
+      Match.findById(matchId ,(err, match) => {
+        if (err) done(err)
+        match.played = true
+        match.winner = teamAId
+        const promiseQueries = []
+        /**
+        * 2-1 for TeamA
+        */
+        promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamAId, teamTaker: teamBId, player: playerTeamA, }))
+        promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamAId, teamTaker: teamBId, player: playerTeamA, }))
+        promiseQueries.push( Score.create({ season: match.season, match: match._id, teamScorer: teamBId, teamTaker: teamAId, player: playerTeamB, }))
+        Promise.all(promiseQueries).then((scores) => {
+          expect(scores).toExist()
+          expect(scores.length).toBe(3)
+          match.save((err, match) => {
+            if (err) done(err)
+            expect(match).toExist()
+            expect(match.winner).toExist()
+            expect(match.loser).toExist()
+            expect(match.winner.equals(teamAId)).toBe(true)
+            expect(match.loser.equals(teamBId)).toBe(true)
+            done()
+          })
+        }).catch(done)
+      })
+    })
+
+    it('should reset the match to initial unplayed state', (done) => {
+      return Match.findById(matchId).exec()
+      .then((match) => {
+        return match.reset()
+      })
+      .then((resetted) => {
+        expect(resetted).toExist()
+        expect(resetted.played).toBe(false)
+        done()
+      }).catch(done)
+    })
+
+    it('should have updated the teams stats', (done) => {
+      Team.find({ _id: { $in: [teamAId, teamBId] } } ,(err, teams) => {
+        if (err) done(err)
+        expect(teams[0].wins).toBe(0)
+        expect(teams[0].draws).toBe(0)
+        expect(teams[0].losts).toBe(0)
+        expect(teams[0].goalScored).toBe(0)
+        expect(teams[0].goalTaken).toBe(0)
+
+        expect(teams[1].wins).toBe(0)
+        expect(teams[1].draws).toBe(0)
+        expect(teams[1].losts).toBe(0)
+        expect(teams[1].goalScored).toBe(0)
+        expect(teams[1].goalTaken).toBe(0)
+        done()
+      })
+    })
+
+    it('should have updated player stats', (done) => {
+      Player.findById(playerTeamA ,(err, player) => {
+        if (err) done(err)
+        expect(player).toExist()
+        expect(player.goals).toBe(0)
+        expect(player.attendance).toBe(0)
+        expect(player.warns).toBe(0)
+        expect(player.expulsions).toBe(0)
         done()
       })
     })

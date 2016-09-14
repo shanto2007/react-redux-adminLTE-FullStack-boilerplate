@@ -79,12 +79,15 @@ matchSchema.pre('save', function preSaveHookMatch(next) {
 })
 
 matchSchema.post('save', (match, done) => {
-  return forkHandlers.teamStatsUpdate(match).then(() => {
-    return done()
-  })
-  .catch((err) => {
-    return done(err)
-  })
+  if (match.played) {
+    return forkHandlers.teamStatsUpdate(match).then(() => {
+      return done()
+    })
+    .catch((err) => {
+      return done(err)
+    })
+  }
+  return done()
 })
 
 matchSchema.post('remove', (match, done) => {
@@ -119,7 +122,24 @@ matchSchema.methods.cascadeRemove = function cascadeRemove() {
     return Promise.all(promises)
   })
   .then(() => {
-    return match.remove()
+    return Promise.resolve(match)
+  })
+}
+
+matchSchema.methods.reset = function reset() {
+  return this.cascadeRemove()
+  .then((match) => {
+    match.played = false
+    match.winner = undefined
+    match.loser = undefined
+    match.teamHomeScores = undefined
+    match.teamAwayScores = undefined
+    return match.save()
+  })
+  .then((match) => {
+    return forkHandlers.teamStatsUpdate(match).then(() => {
+      return Promise.resolve(match)
+    })
   })
 }
 
