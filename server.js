@@ -1,4 +1,3 @@
-// require('events').EventEmitter.defaultMaxListeners = Infinity;
 require('dotenv').config()
 global.Promise = require('bluebird')
 
@@ -12,6 +11,9 @@ const secrets = require('./server/config/secrets')
 const routes = require('./server/routes')
 const fork = require('./server/fork/fork.handlers')
 
+/**
+ * BOOTSTRAP CHILD PROCESS FOR DB TASK UNDER THE HOOD
+ */
 fork.ForkChildBootstrap()
 
 const app = express()
@@ -50,8 +52,8 @@ app.use(`/${secrets.UPLOAD_DIRNAME}`, express.static(`${secrets.UPLOAD_DIRNAME}/
 routes(express, app)
 
 app.listen(PORT, () => {
-  console.log('Server started on ' + PORT)
-  console.log('Node App process named: ' + process.title);
+  console.log(`Server started on ${PORT}`)
+  console.log(`Node App process named: ${process.title}`);
 })
 
 
@@ -59,14 +61,14 @@ app.listen(PORT, () => {
  * CLEANUP FORK CHILD BEFORE EXITs
  */
 
-process.on ('exit', function (code) {
+process.on('exit', (code) => {
   fork.ForkChildKiller()
-  process.exit (code)
+  process.exit(code)
 })
 // Catch CTRL+C
-process.on ('SIGINT', function () {
+process.on('SIGINT', () => {
   fork.ForkChildKiller()
-  process.exit (0)
+  process.exit(0)
 })
 
 module.exports = app

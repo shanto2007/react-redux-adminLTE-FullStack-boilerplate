@@ -1,3 +1,4 @@
+process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (score) => {
   const Promise = require('bluebird')
   const Player = require('../models/player.model')
@@ -28,8 +29,4 @@ process.on('message', (score) => {
     .catch((err) => {
       process.send(`fail::${JSON.stringify(err)}`)
     })
-})
-
-process.on(`${process.title} uncaughtException`, (err) => {
-  console.log(`Caught exception: ${err}`)
 })

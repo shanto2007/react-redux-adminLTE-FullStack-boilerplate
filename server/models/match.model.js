@@ -85,9 +85,6 @@ matchSchema.post('save', (match, done) => {
   .catch((err) => {
     return done(err)
   })
-  // if (match.played) {
-  // }
-  return done()
 })
 
 matchSchema.post('remove', (match, done) => {

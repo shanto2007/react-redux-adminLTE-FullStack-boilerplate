@@ -35,19 +35,20 @@ const Childs = {
  * STARTUP FORKER
  */
 function ForkChildBootstrap() {
-  for (let childName in Childs) {
-    if (Childs.hasOwnProperty(childName)) {
-      Childs[childName].instance = fork(Childs[childName].path, [process.title, childName])
-    }
+  const keys = Object.keys(Childs)
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    Childs[key].instance = fork(Childs[key].path, [process.title, key])
   }
+  Object.freeze(Childs)
 }
 
 function ForkChildKiller() {
-  for (let childName in Childs) {
-    if (Childs.hasOwnProperty(childName)) {
-      Childs[childName].instance.kill()
-      console.log(`fork ${Childs[childName].instance.spawnargs[1]} killed`);
-    }
+  const keys = Object.keys(Childs)
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    Childs[key].instance.kill()
+    console.log(`fork ${Childs[key].instance.spawnargs[1]} killed`);
   }
 }
 
@@ -58,7 +59,6 @@ function ForkChildKiller() {
 function MainHandler(childName, data) {
   const { Promise } = global
   return new Promise((resolve, reject) => {
-    console.log(`send work to: ${childName}`)
     const child = Childs[childName].instance
     child.send(data)
     child.once('message', (m) => {

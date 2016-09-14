@@ -5,7 +5,6 @@ process.on('message', (match) => {
   const Warn = require('../models/warn.model')
   const Expulsion = require('../models/expulsion.model')
   const Attendance = require('../models/attendance.model')
-
   Promise.all([
     Score.find({ match: match._id }),
     Warn.find({ match: match._id }),
@@ -25,8 +24,4 @@ process.on('message', (match) => {
   .catch((err) => {
     process.send(`fail::${JSON.stringify(err)}`)
   })
-})
-
-process.on(`${process.title} uncaughtException`, (err) => {
-  console.log(`Caught exception: ${err}`)
 })
