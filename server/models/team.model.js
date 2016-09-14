@@ -49,6 +49,10 @@ const teamSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  points: {
+    type: Number,
+    default: 0,
+  },
 })
 
 //  TEAM NAME ARE UNIQUE PER SEASON

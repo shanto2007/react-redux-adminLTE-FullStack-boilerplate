@@ -227,12 +227,14 @@ describe('Match - Model', () => {
     it('should have updated the teams stats', (done) => {
       Team.find({ _id: { $in: [teamAId, teamBId] } } ,(err, teams) => {
         if (err) done(err)
+        expect(teams[0].points).toBe(3)
         expect(teams[0].wins).toBe(1)
         expect(teams[0].draws).toBe(0)
         expect(teams[0].losts).toBe(0)
         expect(teams[0].goalScored).toBe(2)
         expect(teams[0].goalTaken).toBe(1)
 
+        expect(teams[1].points).toBe(0)
         expect(teams[1].wins).toBe(0)
         expect(teams[1].draws).toBe(0)
         expect(teams[1].losts).toBe(1)

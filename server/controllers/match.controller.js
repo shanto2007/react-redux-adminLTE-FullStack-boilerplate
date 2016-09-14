@@ -241,7 +241,7 @@ module.exports = {
       })
       .then((scoresCount) => {
         // [0] = teamHome
-        // [0] = teamAway
+        // [1] = teamAway
         fetchedMatch.teamHomeScores = scoresCount[0]
         fetchedMatch.teamAwayScores = scoresCount[1]
         if (scoresCount[0] !== scoresCount[1]) {
@@ -251,7 +251,7 @@ module.exports = {
         return fetchedMatch.save()
       })
       .then((savedMatch) => {
-        //  GET SAVED MATCH
+        //  SEND SAVED MATCH
         return res.json({
           success: true,
           action: 'edit match result',
@@ -270,7 +270,6 @@ module.exports = {
 
   reset: (req, res) => {
     const matchId = req.params.id
-    let fetchedMatch
     return Match.findById(matchId).then((match) => {
       if (!match) {
         return Promise.reject({
@@ -283,7 +282,6 @@ module.exports = {
       return match.reset()
     })
     .then((match) => {
-      console.log(">>", match)
       return res.json({
         success: true,
         action: 'reset',

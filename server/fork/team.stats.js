@@ -61,6 +61,7 @@ process.on('message', (match) => {
       wins: stats[0],
       losts: stats[1],
       draws: stats[2],
+      points: (stats[0] * 3) + stats[2],
       goalScored: stats[3],
       goalTaken: stats[4],
     })
@@ -68,6 +69,7 @@ process.on('message', (match) => {
       wins: stats[5],
       losts: stats[6],
       draws: stats[7],
+      points: (stats[5] * 3) + stats[7],
       goalScored: stats[8],
       goalTaken: stats[9],
     })
