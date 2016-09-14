@@ -6,27 +6,22 @@ const AppForkedChild = []
 function MainHandler(childPath, childName, data) {
   const { Promise } = global
   const fork = require('child_process').fork
+
   return new Promise((resolve, reject) => {
     const child = fork(childPath, [process.title, childName])
     AppForkedChild.push(child)
     child.send(data)
     child.on('message', (m) => {
-      let message = m.split('::')
+      const message = m.split('::')
       if (message[0] !== 'success') {
         child.kill('SIGINT')
-        return reject({
-          success: false,
-          status: `Child process ${childName}: ${message[0]}`,
-          error: JSON.parse(message[1])
-        })
-      } else {
-        child.kill('SIGINT')
-        return resolve({
-          success: true,
-          status: `Child process ${childName} ${message[0]}`,
-          message: JSON.parse(message[1])
-        })
+        return reject(new Error(message[1], childName))
       }
+      child.kill('SIGINT')
+      return resolve({
+        process: `Child process ${childName} ${message[0]}`,
+        message: JSON.parse(message[1]),
+      })
     })
   })
 }
@@ -37,10 +32,10 @@ function MainHandler(childPath, childName, data) {
  */
 function killForkedChilds() {
   if (AppForkedChild.length) {
-    for (var i = 0; i < AppForkedChild.length; i++) {
+    for (let i = 0; i < AppForkedChild.length; i++) {
       if (!AppForkedChild[i].killed) {
         AppForkedChild[i].kill()
-        console.log('fork' + AppForkedChild[i].spawnargs[1] + ' killed');
+        console.log(`fork ${AppForkedChild[i].spawnargs[1]} killed`);
       }
     }
   } else {
@@ -60,19 +55,19 @@ function cascadeRemoveMatchData(match) {
   return MainHandler('server/fork/team.child.remove', 'team.child.remove', match)
 }
 
-function playerScoreUpdate(score){
+function playerScoreUpdate(score) {
   return MainHandler('server/fork/player.score', 'player.score', score)
 }
 
-function playerWarnUpdate(warn){
+function playerWarnUpdate(warn) {
   return MainHandler('server/fork/player.warn', 'player.warn', warn)
 }
 
-function playerExpulsionUpdate(expulsion){
+function playerExpulsionUpdate(expulsion) {
   return MainHandler('server/fork/player.expulsion', 'player.expulsion', expulsion)
 }
 
-function playerAttendanceUpdate(attendance){
+function playerAttendanceUpdate(attendance) {
   return MainHandler('server/fork/player.attendance', 'player.attendance', attendance)
 }
 
