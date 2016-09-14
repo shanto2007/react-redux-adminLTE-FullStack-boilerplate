@@ -1,5 +1,4 @@
 process.title = `${process.argv[2]}.${process.argv[3]}`
-console.log(`Fork: ${process.title}`)
 process.on('message', (score) => {
   const Promise = require('bluebird')
   const Player = require('../models/player.model')
