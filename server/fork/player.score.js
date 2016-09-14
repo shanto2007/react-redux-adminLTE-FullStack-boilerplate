@@ -27,6 +27,7 @@ process.on('message', (score) => {
       process.send(`success::${JSON.stringify(res)}`)
     })
     .catch((err) => {
+      console.log(err)
       process.send(`fail::${JSON.stringify(err)}`)
     })
 })
