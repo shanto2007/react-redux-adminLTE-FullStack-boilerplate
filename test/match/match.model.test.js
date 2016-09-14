@@ -10,7 +10,6 @@ const chai = require('chai')
 const expect = require('expect')
 
 describe('Match - Model', () => {
-  this.timeout = 10000
   let seasonId, roundId, dayId, teamAId, teamBId, matchId
 
   before((done) => {
@@ -253,60 +252,59 @@ describe('Match - Model', () => {
     })
   })
 
-  // describe('Delete', () => {
-  //   //TODO
-  //   it('should remove the match', function(done) {
-  //     this.timeout(5000)
-  //     Match.findById(matchId).then((match) => {
-  //       return match.remove()
-  //     })
-  //     .then((removed) => {
-  //       // TODO expects
-  //       done()
-  //     })
-  //     .catch(done)
-  //   })
-  //
-  //   it('should have removed all scores of the match', function(done) {
-  //     this.timeout(5000)
-  //     Score.find({ match: matchId }, (err, scores) => {
-  //       if (err) done(err)
-  //       expect(scores.length).toBe(0)
-  //       done()
-  //     })
-  //   })
-  //
-  //   it('should have updated the teams stats', (done) => {
-  //     Team.find({ _id: { $in: [teamAId, teamBId] } } ,(err, teams) => {
-  //       if (err) done(err)
-  //       expect(teams[0].wins).toBe(0)
-  //       expect(teams[0].draws).toBe(0)
-  //       expect(teams[0].losts).toBe(0)
-  //       expect(teams[0].goalScored).toBe(0)
-  //       expect(teams[0].goalTaken).toBe(0)
-  //
-  //       expect(teams[1].wins).toBe(0)
-  //       expect(teams[1].draws).toBe(0)
-  //       expect(teams[1].losts).toBe(0)
-  //       expect(teams[1].goalScored).toBe(0)
-  //       expect(teams[1].goalTaken).toBe(0)
-  //       done()
-  //     })
-  //   })
-  //
-  //   it('should have updated the players stats', (done) => {
-  //     Player.find({ _id: { $in: [playerTeamA, playerTeamB] } }, (err, players) => {
-  //       expect(players[0].goals).toBe(0)
-  //       expect(players[0].expulsions).toBe(0)
-  //       expect(players[0].warns).toBe(0)
-  //
-  //       expect(players[1].goals).toBe(0)
-  //       expect(players[1].expulsions).toBe(0)
-  //       expect(players[1].warns).toBe(0)
-  //       done()
-  //     })
-  //   })
-  // })
+  describe('Delete', () => {
+    it('should remove the match', function(done) {
+      this.timeout(5000)
+      Match.findById(matchId).then((match) => {
+        return match.cascadeRemove()
+      })
+      .then((matchRemoved) => {
+        expect(matchRemoved).toExist()
+        done()
+      })
+      .catch(done)
+    })
+
+    it('should have removed all scores of the match', function(done) {
+      this.timeout(5000)
+      Score.find({ match: matchId }, (err, scores) => {
+        if (err) done(err)
+        expect(scores.length).toBe(0)
+        done()
+      })
+    })
+
+    it('should have updated the teams stats', (done) => {
+      Team.find({ _id: { $in: [teamAId, teamBId] } } ,(err, teams) => {
+        if (err) done(err)
+        expect(teams[0].wins).toBe(0)
+        expect(teams[0].draws).toBe(0)
+        expect(teams[0].losts).toBe(0)
+        expect(teams[0].goalScored).toBe(0)
+        expect(teams[0].goalTaken).toBe(0)
+
+        expect(teams[1].wins).toBe(0)
+        expect(teams[1].draws).toBe(0)
+        expect(teams[1].losts).toBe(0)
+        expect(teams[1].goalScored).toBe(0)
+        expect(teams[1].goalTaken).toBe(0)
+        done()
+      })
+    })
+
+    it('should have updated the players stats', (done) => {
+      Player.find({ _id: { $in: [playerTeamA, playerTeamB] } }, (err, players) => {
+        expect(players[0].goals).toBe(0)
+        expect(players[0].expulsions).toBe(0)
+        expect(players[0].warns).toBe(0)
+
+        expect(players[1].goals).toBe(0)
+        expect(players[1].expulsions).toBe(0)
+        expect(players[1].warns).toBe(0)
+        done()
+      })
+    })
+  })
 
   /**
    * CLEANUP

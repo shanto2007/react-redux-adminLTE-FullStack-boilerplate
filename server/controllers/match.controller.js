@@ -336,7 +336,8 @@ module.exports = {
 
   delete: (req, res) => {
     const matchId = req.params.id
-    return Match.findById(matchId).then((match) => {
+    return Match.findById(matchId)
+    .then((match) => {
       if (!match) {
         return Promise.reject({
           status: 404,
@@ -345,7 +346,7 @@ module.exports = {
           message: 'Match not found, maybe have been deleted.',
         })
       }
-      return match.remove()
+      return match.cascadeRemove()
     })
     .then((removed) => {
       return res.json({

@@ -9,10 +9,6 @@ const Childs = {
     path: 'server/fork/team.stats',
     instance: undefined,
   },
-  'team.child.remove': {
-    path: 'server/fork/team.child.remove',
-    instance: undefined,
-  },
   'player.score': {
     path: 'server/fork/player.score',
     instance: undefined,
@@ -83,10 +79,6 @@ function teamStatsUpdate(match) {
   return MainHandler('team.stats', match)
 }
 
-function cascadeRemoveMatchData(match) {
-  return MainHandler('team.child.remove', match)
-}
-
 function playerScoreUpdate(score) {
   return MainHandler('player.score', score)
 }
@@ -108,7 +100,6 @@ module.exports = {
   ForkChildBootstrap,
   ForkChildKiller,
   generateThumbnail,
-  cascadeRemoveMatchData,
   teamStatsUpdate,
   playerScoreUpdate,
   playerWarnUpdate,

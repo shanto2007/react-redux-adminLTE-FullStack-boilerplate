@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe.only('Match - API', () => {
+describe('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,
@@ -600,14 +600,20 @@ describe.only('Match - API', () => {
     it('should have updated player A stats', (done) => {
       Player.findById(playerAId).exec()
       .then((player) => {
-        console.log(player)
+        expect(player.attendance).toBe(0)
+        expect(player.warns).toBe(0)
+        expect(player.expulsions).toBe(0)
+        expect(player.goals).toBe(0)
         done()
       }).catch(done)
     })
     it('should have updated player B stats', (done) => {
       Player.findById(playerBId).exec()
       .then((player) => {
-
+        expect(player.attendance).toBe(0)
+        expect(player.warns).toBe(0)
+        expect(player.expulsions).toBe(0)
+        expect(player.goals).toBe(0)
         done()
       }).catch(done)
     })
