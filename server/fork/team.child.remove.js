@@ -1,6 +1,6 @@
 process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (match) => {
-  const { Promise } = global
+  const Promise = require('bluebird')
   const db = require('../config/database')
   const Score = require('../models/score.model')
   const Warn = require('../models/warn.model')
@@ -24,16 +24,16 @@ process.on('message', (match) => {
     setTimeout(() => {
       process.exit()
     }, 10)
-    process.send('success::' + JSON.stringify(res))
+    process.send(`success::${JSON.stringify(res)}`)
   })
   .catch((err) => {
     setTimeout(() => {
       process.exit()
     }, 10)
-    process.send('fail::' + JSON.stringify(err))
+    process.send(`fail::${JSON.stringify(err)}`)
   })
 })
 
-process.on(process.title + ' uncaughtException', function (err) {
-  console.log('Caught exception: ' + err)
+process.on(`${process.title} uncaughtException`, (err) => {
+  console.log(`Caught exception: ${err}`)
 })

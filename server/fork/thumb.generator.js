@@ -1,6 +1,6 @@
 process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (media) => {
-  const { Promise } = global
+  const Promise = require('bluebird')
   const Jimp = require('jimp')
   const fs = require('fs')
   const path = require('path')
@@ -46,6 +46,6 @@ process.on('message', (media) => {
 })
 
 
-process.on(process.title + ' uncaughtException', function (err) {
-  console.log('Caught exception: ' + err)
+process.on(`${process.title} uncaughtException`, (err) => {
+  console.log(`Caught exception: ${err}`)
 })

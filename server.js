@@ -1,4 +1,5 @@
 require('dotenv').config()
+global.Promise = require('bluebird')
 
 process.title = `node.${process.env.NODE_TITLE}`
 
@@ -9,7 +10,6 @@ const bodyParser = require('body-parser')
 const secrets = require('./server/config/secrets')
 const database = require('./server/config/database')
 const routes = require('./server/routes')
-const fs = require('fs')
 const fork = require('./server/fork/fork.handlers')
 
 const app = express()

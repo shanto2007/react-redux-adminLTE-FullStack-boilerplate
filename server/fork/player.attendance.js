@@ -1,18 +1,20 @@
 process.title = `${process.argv[2]}.${process.argv[3]}`
 process.on('message', (score) => {
-  const { Promise } = global
+  const Promise = require('bluebird')
   const db = require('../config/database')
   const Player = require('../models/player.model')
   const Attendance = require('../models/attendance.model')
+
   db.connect()
+
   let playerInstance
+
   Promise
     .resolve(Player.findById(score.player))
     .then((player) => {
       if (!player) {
-        process.send('fail::' + JSON.stringify({
-          error: 'No player found',
-        }))
+        const err = JSON.stringify({ error: 'No player found', origin: process.title })
+        process.send(`fail::${err}`)
       }
       playerInstance = player
       return Attendance.count({ player: player._id })
@@ -26,16 +28,16 @@ process.on('message', (score) => {
       setTimeout(() => {
         process.exit()
       }, 10)
-      process.send('success::' + JSON.stringify(res))
+      process.send(`success::${JSON.stringify(res)}`)
     })
     .catch((err) => {
       setTimeout(() => {
         process.exit()
       }, 10)
-      process.send('fail::' + JSON.stringify(err))
+      process.send(`fail::${JSON.stringify(err)}`)
     })
 })
 
-process.on(process.title + ' uncaughtException', function (err) {
-  console.log('Caught exception: ' + err)
+process.on(`${process.title} uncaughtException`, (err) => {
+  console.log(`Caught exception: ${err}`)
 })
