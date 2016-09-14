@@ -39,6 +39,7 @@ function ForkChildBootstrap() {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i]
     Childs[key].instance = fork(Childs[key].path, [process.title, key])
+    console.log(`fork ${Childs[key].instance.spawnargs[1]} bootstrapped`)
   }
   Object.freeze(Childs)
 }
@@ -48,7 +49,7 @@ function ForkChildKiller() {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i]
     Childs[key].instance.kill()
-    console.log(`fork ${Childs[key].instance.spawnargs[1]} killed`);
+    console.log(`fork ${Childs[key].instance.spawnargs[1]} killed`)
   }
 }
 

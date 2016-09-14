@@ -3,7 +3,6 @@ process.on('message', (score) => {
   const Promise = require('bluebird')
   const Player = require('../models/player.model')
   const Score = require('../models/score.model')
-
   let playerInstance
   Promise
     .resolve(Player.findById(score.player))
@@ -21,13 +20,12 @@ process.on('message', (score) => {
     .then((count) => {
       return playerInstance.update({
         goals: count,
-      })
+      }).exec()
     })
     .then((res) => {
       process.send(`success::${JSON.stringify(res)}`)
     })
     .catch((err) => {
-      console.log(err)
       process.send(`fail::${JSON.stringify(err)}`)
     })
 })

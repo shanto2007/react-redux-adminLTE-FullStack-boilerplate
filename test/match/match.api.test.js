@@ -554,11 +554,64 @@ describe.only('Match - API', () => {
       .delete(`/api/admin/match/${matchId}`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
-        console.log(res.body)
         expect(res.status).toBe(200)
         done()
       })
     })
+
+    it('should have cascade removed the data', (done) => {
+      Promise.all([
+        Score.find({ match: matchId }).exec(),
+        Attendance.find({ match: matchId }).exec(),
+        Warn.find({ match: matchId }).exec(),
+        Expulsion.find({ match: matchId }).exec(),
+      ]).then((data) => {
+        expect(data[0].length).toBe(0)
+        expect(data[1].length).toBe(0)
+        expect(data[2].length).toBe(0)
+        expect(data[3].length).toBe(0)
+        done()
+      }).catch(done)
+    })
+
+    it('should have updated team A stats', (done) => {
+      Team.findById(teamAId).exec()
+      .then((team) => {
+        expect(team.wins).toBe(0)
+        expect(team.losts).toBe(0)
+        expect(team.draws).toBe(0)
+        expect(team.goalTaken).toBe(0)
+        expect(team.goalScored).toBe(0)
+        done()
+      }).catch(done)
+    })
+    it('should have updated team B stats', (done) => {
+      Team.findById(teamBId).exec()
+      .then((team) => {
+        expect(team.wins).toBe(0)
+        expect(team.losts).toBe(0)
+        expect(team.draws).toBe(0)
+        expect(team.goalTaken).toBe(0)
+        expect(team.goalScored).toBe(0)
+        done()
+      }).catch(done)
+    })
+
+    it('should have updated player A stats', (done) => {
+      Player.findById(playerAId).exec()
+      .then((player) => {
+        console.log(player)
+        done()
+      }).catch(done)
+    })
+    it('should have updated player B stats', (done) => {
+      Player.findById(playerBId).exec()
+      .then((player) => {
+
+        done()
+      }).catch(done)
+    })
+
   })
 
   /**
