@@ -115,8 +115,8 @@ module.exports = (express, app) => {
   api.get('/admin/teams', AuthRequired(), TeamCtrl.indexAdmin)
   api.get('/admin/team/:id?', AuthRequired(), TeamCtrl.getAdmin)
   api.post('/admin/team', AuthRequired(), TeamCtrl.create)
-  api.patch('/admin/team/:id?', AuthRequired(), TeamCtrl.edit)
-  api.delete('/admin/team/:id?', AuthRequired(), TeamCtrl.delete)
+  api.patch('/admin/team/:id', AuthRequired(), TeamCtrl.edit)
+  api.delete('/admin/team/:id', AuthRequired(), TeamCtrl.delete)
   // TEAM MEDIAs
   api.post('/admin/team/:id/photo', AuthRequired(), upload.single('teamPhoto'), TeamCtrl.teamPhotoUpload)
   api.post('/admin/team/:id/avatar', AuthRequired(), upload.single('teamAvatar'), TeamCtrl.teamAvatarUpload)

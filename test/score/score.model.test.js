@@ -115,7 +115,7 @@ describe('Score - Model', () => {
     })
   })
 
-  it('should NOT create a score without player id', () => {
+  it('should NOT create a score without player id', (done) => {
     Score.create({
       season: seasonId,
       match: matchId,

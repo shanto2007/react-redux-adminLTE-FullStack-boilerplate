@@ -92,7 +92,7 @@ describe('Attendance - Model', () => {
     })
   })
 
-  it('should NOT create an attendance entry without player id', () => {
+  it('should NOT create an attendance entry without player id', (done) => {
     Attendance.create({
       season: seasonId,
       match: matchId,

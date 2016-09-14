@@ -18,7 +18,8 @@ describe('Round - Model', () => {
   })
 
   it('should NOT create a round without a season id', (done) => {
-    Round.create({}, (err) => {
+    Round.create({})
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
       done()
@@ -28,7 +29,8 @@ describe('Round - Model', () => {
   it('should NOT create a round without a label', (done) => {
     Round.create({
       season: seasonId
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.label).toExist()
       done()
@@ -50,7 +52,8 @@ describe('Round - Model', () => {
     Round.create({
       season: seasonId,
       label: 'A'
-    }, (err, round) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.toJSON().code).toBe(11000)
       done()

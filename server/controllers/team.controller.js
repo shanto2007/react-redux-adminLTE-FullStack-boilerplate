@@ -115,32 +115,26 @@ module.exports = {
         message: 'Team name not provided',
       })
     }
-    return Team.create(newTeam, (err, team) => {
-      if (err) {
+    return Team.create(newTeam)
+      .then((team) => {
+        return res.json({
+          success: true,
+          action: 'create',
+          team,
+        })
+      })
+      .catch((err) => {
         return res.status(500).json({
           success: false,
           action: 'create',
           message: err,
         })
-      }
-      return res.json({
-        success: true,
-        action: 'create',
-        team,
       })
-    })
   },
 
   edit: (req, res) => {
     const teamToEdit = req.body
-    const teamId = teamToEdit.id || req.params.id
-    if (!teamId) {
-      return res.status(400).json({
-        success: false,
-        action: 'edit',
-        message: 'Team id not provided',
-      })
-    }
+    const teamId = req.params.id
     if (!teamToEdit.name) {
       return res.status(400).json({
         success: false,
@@ -151,9 +145,8 @@ module.exports = {
     return Team.findById(teamId)
     .then((team) => {
       if (!team) {
-        return res.status(404).json({
-          success: true,
-          action: 'delete',
+        return Promise.reject({
+          status: 404,
           message: 'Team not found, maybe already removed',
         })
       }
@@ -168,28 +161,21 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.status ? err.status : 500).json({
         success: false,
         action: 'edit',
-        message: err,
+        message: err.message ? err.message : err,
       })
     })
   },
 
   delete: (req, res) => {
     const teamId = req.params.id
-    if (!teamId) {
-      return res.status(400).json({
-        success: false,
-        action: 'delete',
-        message: 'Team id not provided',
-      })
-    }
-    return Team.findById(teamId).then((team) => {
+    return Team.findById(teamId)
+    .then((team) => {
       if (!team) {
-        return res.status(404).json({
-          success: false,
-          action: 'delete',
+        return Promise.reject({
+          status: 404,
           message: 'Team not found, maybe already removed',
         })
       }
@@ -203,10 +189,10 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.status ? err.status : 500).json({
         success: false,
         action: 'delete',
-        message: err,
+        message: err.message ? err.message : err,
       })
     })
   },

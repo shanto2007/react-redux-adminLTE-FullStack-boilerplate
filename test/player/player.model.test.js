@@ -52,28 +52,33 @@ describe('Player - Model', () => {
    */
   describe('CREATION', () => {
     it('should no create a player without a season id', (done) => {
-      Player.create({}, (err) => {
-        expect(err).toExist()
-        expect(err.errors.season).toExist()
-        done()
-      })
+      Player
+        .create({})
+        .catch((err) => {
+          expect(err).toExist()
+          expect(err.errors.season).toExist()
+          done()
+        })
     })
 
     it('should no create a player without a round id', (done) => {
-      Player.create({
-        season: seasonId,
-      }, (err) => {
-        expect(err).toExist()
-        expect(err.errors.round).toExist()
-        done()
-      })
+      Player
+        .create({
+          season: seasonId,
+        })
+        .catch((err) => {
+          expect(err).toExist()
+          expect(err.errors.round).toExist()
+          done()
+        })
     })
 
     it('should no create a player without a team id', (done) => {
       Player.create({
         season: seasonId,
         round: roundId,
-      }, (err) => {
+      })
+      .catch((err) => {
         expect(err).toExist()
         expect(err.errors.team).toExist()
         done()
@@ -85,7 +90,8 @@ describe('Player - Model', () => {
         season: seasonId,
         round: roundId,
         team: teamId,
-      }, (err) => {
+      })
+      .catch((err) => {
         expect(err).toExist()
         expect(err.errors.name).toExist()
         done()
@@ -98,7 +104,8 @@ describe('Player - Model', () => {
         round: roundId,
         team: teamId,
         name: 'John',
-      }, (err) => {
+      })
+      .catch((err) => {
         expect(err).toExist()
         expect(err.errors.surname).toExist()
         done()
@@ -112,8 +119,8 @@ describe('Player - Model', () => {
         team: teamId,
         name: 'John   ', // space intended for trim test
         surname: '   Doe   ', // space intended for trim test
-      }, (err, player) => {
-        expect(err).toNotExist()
+      })
+      .then((player) => {
         expect(player).toExist()
         dummyPlayer = player
         playerTemplate = {
@@ -122,7 +129,7 @@ describe('Player - Model', () => {
           team: teamId,
         }
         done()
-      })
+      }).catch(done)
     })
 
     it('should have create a virtual field for the full name', () => {
@@ -130,11 +137,12 @@ describe('Player - Model', () => {
     })
 
     it('should have added the player to the team array of reference', (done) => {
-      Team.findById(teamId, (err, team) => {
-        if (err) throw err
+      Team
+      .findById(teamId)
+      .then((team) => {
         expect(dummyPlayer._id.equals(team.players[0])).toBe(true)
         done()
-      })
+      }).catch(done)
     })
   })
 

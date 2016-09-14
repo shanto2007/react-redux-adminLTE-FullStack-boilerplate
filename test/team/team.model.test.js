@@ -29,7 +29,8 @@ describe('Team - Model', () => {
   })
 
   it('should NOT create a team without a season id', (done) => {
-    Team.create({}, (err) => {
+    return Team.create({})
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
       done()
@@ -37,9 +38,10 @@ describe('Team - Model', () => {
   })
 
   it('should NOT create a team without a round id', (done) => {
-    Team.create({
+    return Team.create({
       season: seasonId
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.round).toExist()
       done()
@@ -47,9 +49,10 @@ describe('Team - Model', () => {
   })
 
   it('should NOT create a team without a name', (done) => {
-    Team.create({
+    return Team.create({
       season: seasonId
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.name).toExist()
       done()
@@ -61,13 +64,13 @@ describe('Team - Model', () => {
       season: seasonId,
       round: roundId,
       name: 'Team Name Test  ', // space intended for trim to test
-    }, (err, team) => {
-      expect(err).toNotExist()
+    })
+    .then((team) => {
       expect(team).toExist()
       expect(team.name).toBe('Team Name Test')
       teamId = team._id
       done()
-    })
+    }).catch(done)
   })
 
   it('should NOT create a team with duplicate name', (done) => {
@@ -75,7 +78,8 @@ describe('Team - Model', () => {
       season: seasonId,
       round: roundId,
       name: 'Team Name Test  ', // space intended for trim to test
-    }, (err, team) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.toJSON()).toExist()
       expect(err.toJSON().code).toBe(11000)

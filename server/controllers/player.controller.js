@@ -1,4 +1,3 @@
-const Team = require('../models/team.model')
 const Player = require('../models/player.model')
 const Media = require('../models/media.model')
 
@@ -75,9 +74,8 @@ module.exports = {
     return Player.findById(playerId)
     .then((player) => {
       if (!player) {
-        return res.status(404).json({
-          success: false,
-          action: 'delete',
+        return Promise.reject({
+          status: 404,
           message: 'Team not found, maybe already removed',
         })
       }
@@ -93,29 +91,30 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.status ? err.status : 500).json({
         success: false,
         action: 'edit',
-        message: err,
+        message: err.message ? err.message : err,
       })
     })
   },
 
   delete: (req, res) => {
     const playerId = req.params.id
-    if (!playerId) {
-      return res.status(400).json({
-        success: false,
-        action: 'delete',
-        message: 'Player id not provided',
-      })
-    }
     return Player.findById(playerId).then((player) => {
-      if (!player) {
-        return res.status(404).json({
+      if (!player && playerId) {
+        return Promise.reject({
+          status: 404,
           success: false,
           action: 'delete',
           message: 'Team not found, maybe already removed',
+        })
+      } else if (!player && !playerId) {
+        return Promise.reject({
+          status: 400,
+          success: false,
+          action: 'delete',
+          message: 'No player id provided.',
         })
       }
       return player.remove()
@@ -128,10 +127,10 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.status ? err.status : 500).json({
         success: false,
         action: 'delete',
-        message: err,
+        message: err.message ? err.message : err,
       })
     })
   },

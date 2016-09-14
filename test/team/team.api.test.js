@@ -224,7 +224,7 @@ describe('Team - API', () => {
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
+        expect(res.status).toBe(404)
         done()
       })
     })
@@ -474,7 +474,7 @@ describe('Team - API', () => {
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
+        expect(res.status).toBe(404)
         done()
       })
     })

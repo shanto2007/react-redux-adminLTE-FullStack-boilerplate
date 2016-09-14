@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const secrets = require('./secrets')
 
-mongoose.Promise = global.Promise
+mongoose.Promise = require('bluebird')
 const db = mongoose.connection
 
 module.exports = {

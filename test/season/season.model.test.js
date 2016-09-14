@@ -7,10 +7,9 @@ describe('Season - Model', () => {
   let firstCreatedId
 
   it('should not create a season without require year field', (done) => {
-    Season.create({
-    }, (err, doc) => {
+    Season.create({})
+    .catch((err) => {
       expect(err).toExist()
-      expect(doc).toNotExist()
       done();
     })
   })
@@ -18,20 +17,19 @@ describe('Season - Model', () => {
   it('should create a season', (done) => {
     Season.create({
       year: 4716,
-    }, (err, doc) => {
-      if (err) throw err
-      expect(doc).toExist()
-      expect(err).toNotExist()
-      done()
     })
+    .then((doc) => {
+      expect(doc).toExist()
+      done()
+    }).catch(done)
   })
 
-  it('should no create a duplicate year field', (done) => {
+  it('should NOT create a duplicate year field', (done) => {
     Season.create({
       year: 4716,
-    }, (err, doc) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
-      expect(doc).toNotExist()
       done()
     })
   })
@@ -39,12 +37,11 @@ describe('Season - Model', () => {
   it('should create another unique season', (done) => {
     Season.create({
       year: 4717,
-    }, (err, doc) => {
-      if (err) throw err
-      expect(doc).toExist()
-      expect(err).toNotExist()
-      done()
     })
+    .then((doc) => {
+      expect(doc).toExist()
+      done()
+    }).catch(done)
   })
 
   after((done) => {

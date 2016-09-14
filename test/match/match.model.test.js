@@ -74,7 +74,7 @@ describe('Match - Model', () => {
 
 
   it('should not create a match without a date', (done) => {
-    Match.create({}, (err) => {
+    Match.create({}).catch((err) => {
       expect(err).toExist()
       expect(err.errors.date).toExist()
       done()
@@ -84,7 +84,8 @@ describe('Match - Model', () => {
   it('should not create a match without season id', (done) => {
     Match.create({
       date: Date.now(),
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.season).toExist()
       done()
@@ -95,7 +96,8 @@ describe('Match - Model', () => {
     Match.create({
       date: Date.now(),
       season: seasonId,
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.round).toExist()
       done()
@@ -107,7 +109,8 @@ describe('Match - Model', () => {
       date: Date.now(),
       season: seasonId,
       round: roundId
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.day).toExist()
       done()
@@ -121,7 +124,8 @@ describe('Match - Model', () => {
       round: roundId,
       day: dayId,
       teamAway: teamBId,
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.teamHome).toExist()
       done()
@@ -135,7 +139,8 @@ describe('Match - Model', () => {
       round: roundId,
       day: dayId,
       teamHome: teamAId,
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.errors.teamAway).toExist()
       done()
@@ -150,7 +155,8 @@ describe('Match - Model', () => {
       day: dayId,
       teamHome: teamAId,
       teamAway: teamAId,
-    }, (err) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       expect(err.message).toExist()
       done()
@@ -165,12 +171,12 @@ describe('Match - Model', () => {
       day: dayId,
       teamHome: teamAId,
       teamAway: teamBId,
-    }, (err, match) => {
-      expect(err).toNotExist()
+    })
+    .then((match) => {
       expect(match).toExist()
       matchId = match._id
       done()
-    })
+    }).catch(done)
   })
 
   it('should NOT create the same match in the same day, ensure index is unique per teams & day', (done) => {
@@ -181,7 +187,8 @@ describe('Match - Model', () => {
       day: dayId,
       teamHome: teamAId,
       teamAway: teamBId,
-    }, (err, match) => {
+    })
+    .catch((err) => {
       expect(err).toExist()
       done()
     })

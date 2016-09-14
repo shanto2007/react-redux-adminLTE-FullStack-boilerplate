@@ -1,3 +1,4 @@
+global.Promise = require('bluebird')
 global.testenv = {}
 /**
  * SETUP
