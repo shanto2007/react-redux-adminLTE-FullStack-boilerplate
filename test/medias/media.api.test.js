@@ -81,7 +81,15 @@ describe('Media - API', () => {
     })
   })
 
-  it('should GET single media', ( done ) => {
+  it('should check that thumbnail has been generated', (done) => {
+    const filePath = path.join(testenv.rootdir, storedThumbPath)
+    fs.stat(filePath, (err, stat) => {
+      expect(stat).toExist()
+      done()
+    })
+  })
+
+  it('should GET single media', (done) => {
     chai.request(app)
     .get('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)
@@ -94,7 +102,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('should NOT GET single media', ( done ) => {
+  it('should NOT GET single media', (done) => {
     chai.request(app)
     .get('/api/media/' + "mediaId" )
     .set('Authorization', userAuthToken)
@@ -105,7 +113,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('should GET media index', ( done ) => {
+  it('should GET media index', (done) => {
     chai.request(app)
     .get('/api/medias')
     .set('Authorization', userAuthToken)
@@ -152,7 +160,7 @@ describe('Media - API', () => {
     })
   })
 
-  it('should return 404 on GET single deleted media', ( done ) => {
+  it('should return 404 on GET single deleted media', (done) => {
     chai.request(app)
     .get('/api/media/' + mediaId )
     .set('Authorization', userAuthToken)

@@ -8,8 +8,11 @@ const expect   = require('expect')
 describe('Media - Model', () => {
  let dummyMedia
 
+ before(() => {
+   process.env.MEDIA_MODEL_TEST_SUITE = true
+ })
+
  it('should create a media', (done) => {
-   process.env.MEDIA_MODEL_TEST = "true"
    Media.create({
      filename: 'mymedia.jpg',
    })
@@ -27,7 +30,7 @@ describe('Media - Model', () => {
   })
 
  after((done) => {
-   process.env.MEDIA_MODEL_TEST = null
+   process.env.MEDIA_MODEL_TEST_SUITE = null
    return Media.remove({}).then(done()).catch(done)
  })
 

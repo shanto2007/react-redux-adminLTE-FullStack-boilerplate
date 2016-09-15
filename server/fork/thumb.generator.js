@@ -10,7 +10,7 @@ process.on('message', (media) => {
   let mediaInstance
 
   Promise
-    .resolve(Media.findById(media._id))
+    .resolve(Media.findById(media._id).exec())
     .then((media) => {
       if (!media) {
         const err = JSON.stringify({ error: 'No Media found', origin: process.title })
@@ -25,16 +25,18 @@ process.on('message', (media) => {
     })
     .then(function (image) {
       // original extension poi boh ch'o sonno
-      console.log(process.title);
-      return image
+      return Promise.resolve(
+        image
         .resize(250, 250)
         .quality(50)
-        .write(thumbPath + mediaInstance.filename);
+        .write(thumbPath + mediaInstance.filename)
+      )
     })
     .then((res) => {
-      process.send(`success::${JSON.stringify(res)}`)
+      process.send(`success::${JSON.stringify({ success: true, action: 'upload'})}`)
     })
     .catch((err) => {
+      console.log(err)
       process.send(`fail::${JSON.stringify(err)}`)
     })
 })

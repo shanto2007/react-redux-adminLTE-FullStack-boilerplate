@@ -26,15 +26,14 @@ MediaSchema.pre('save', function preSave(done) {
 })
 
 MediaSchema.post('save', (media, done) => {
-  if (!process.env.MEDIA_MODEL_TEST) {
-    fork.generateThumbnail(media).then(() => {
-      done()
+  if (process.env.MEDIA_MODEL_TEST_SUITE !== 'true') {
+    return fork.generateThumbnail(media).then(() => {
+      return done()
     }).catch((err) => {
-      console.error('generateThumbnail', err)
-      done()
+      return done(err)
     })
   }
-  done()
+  return done()
 })
 
 MediaSchema.post('remove', (media, done) => {
@@ -44,11 +43,11 @@ MediaSchema.post('remove', (media, done) => {
   const thumb = `${uploadDir}/thumbnail/${media.filename}`
   fs.exists(file, (exist) => {
     if (exist) fs.unlinkSync(file)
+    fs.exists(thumb, (exist) => {
+      if (exist) fs.unlinkSync(thumb)
+      return done()
+    })
   })
-  fs.exists(thumb, (exist) => {
-    if (exist) fs.unlinkSync(thumb)
-  })
-  done()
 })
 
 
