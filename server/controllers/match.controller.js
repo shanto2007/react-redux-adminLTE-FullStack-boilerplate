@@ -109,50 +109,6 @@ module.exports = {
     })
   },
 
-  setPlayed: (req, res) => {
-    const matchId = req.params.id
-    const played = req.body.played
-    if (!matchId) {
-      return res.status(400).json({
-        success: false,
-        action: 'edit',
-        message: 'Match id not provided',
-      })
-    }
-    if (!played) {
-      return res.status(400).json({
-        success: false,
-        action: 'edit',
-        message: 'Match played state not provided',
-      })
-    }
-    return Match.findById(matchId).then((match) => {
-      if (!match) {
-        return res.status(404).json({
-          success: false,
-          action: 'edit',
-          message: 'Match not found',
-        })
-      }
-      match.played = played
-      return match.save()
-    })
-    .then((updatedMatch) => {
-      return res.json({
-        success: true,
-        action: 'edit',
-        match: updatedMatch,
-      })
-    })
-    .catch((err) => {
-      return res.status(500).json({
-        success: false,
-        action: 'edit',
-        message: err,
-      })
-    })
-  },
-
   /**
    * Edit
    * How to structure body data

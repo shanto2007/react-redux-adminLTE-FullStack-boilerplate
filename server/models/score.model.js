@@ -43,14 +43,14 @@ scoreSchema.pre('validate', function matchPreValidation(next) {
 })
 
 scoreSchema.post('save', (score, done) => {
-  return forkHandlers.playerScoreUpdate(score).then(() => {
+  return forkHandlers.playerStatsUpdate(score).then(() => {
     return done()
   }).catch((err) => {
     return done(err)
   })
 })
 scoreSchema.post('remove', (score, done) => {
-  return forkHandlers.playerScoreUpdate(score).then(() => {
+  return forkHandlers.playerStatsUpdate(score).then(() => {
     return done()
   }).catch((err) => {
     return done(err)

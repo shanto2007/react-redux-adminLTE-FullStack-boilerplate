@@ -20,14 +20,14 @@ const attendanceSchema = mongoose.Schema({
 })
 
 attendanceSchema.post('save', (attendance, done) => {
-  return forkHandlers.playerAttendanceUpdate(attendance).then(() => {
+  return forkHandlers.playerStatsUpdate(attendance).then(() => {
     return done()
   }).catch((err) => {
     return done(err)
   })
 })
 attendanceSchema.post('remove', (attendance, done) => {
-  return forkHandlers.playerAttendanceUpdate(attendance).then(() => {
+  return forkHandlers.playerStatsUpdate(attendance).then(() => {
     return done()
   }).catch((err) => {
     return done(err)

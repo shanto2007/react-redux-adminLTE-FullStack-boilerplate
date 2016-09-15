@@ -9,20 +9,8 @@ const Childs = {
     path: 'server/fork/team.stats',
     instance: undefined,
   },
-  'player.score': {
-    path: 'server/fork/player.score',
-    instance: undefined,
-  },
-  'player.warn': {
-    path: 'server/fork/player.warn',
-    instance: undefined,
-  },
-  'player.expulsion': {
-    path: 'server/fork/player.expulsion',
-    instance: undefined,
-  },
-  'player.attendance': {
-    path: 'server/fork/player.attendance',
+  'player.stats': {
+    path: 'server/fork/player.stats',
     instance: undefined,
   },
 }
@@ -79,30 +67,14 @@ function teamStatsUpdate(match) {
   return MainHandler('team.stats', match)
 }
 
-function playerScoreUpdate(score) {
-  return MainHandler('player.score', score)
+function playerStatsUpdate(stat) {
+  return MainHandler('player.stats', stat)
 }
-
-function playerWarnUpdate(warn) {
-  return MainHandler('player.warn', warn)
-}
-
-function playerExpulsionUpdate(expulsion) {
-  return MainHandler('player.expulsion', expulsion)
-}
-
-function playerAttendanceUpdate(attendance) {
-  return MainHandler('player.attendance', attendance)
-}
-
 
 module.exports = {
   ForkChildBootstrap,
   ForkChildKiller,
   generateThumbnail,
   teamStatsUpdate,
-  playerScoreUpdate,
-  playerWarnUpdate,
-  playerExpulsionUpdate,
-  playerAttendanceUpdate,
+  playerStatsUpdate,
 }

@@ -71,6 +71,9 @@ describe('Match - Model', () => {
       .catch(done)
   })
 
+  /**
+   * CREATE
+   */
   describe('Create', () => {
     it('should not create a match without a date', (done) => {
       Match.create({}).catch((err) => {
@@ -194,6 +197,9 @@ describe('Match - Model', () => {
     })
   })
 
+  /**
+   * UPDATE
+   */
   describe('Update', () => {
     it('should update a match [set played and a winner to trigger hook update use .save()]', function(done) {
       this.timeout(10000)
@@ -245,15 +251,18 @@ describe('Match - Model', () => {
     })
 
     it('should have updated player stats', (done) => {
-      Player.findById(playerTeamA ,(err, player) => {
-        if (err) done(err)
+      Player.findById(playerTeamA).exec()
+      .then((player) => {
         expect(player).toExist()
         expect(player.goals).toBe(2)
         done()
-      })
+      }).catch(done)
     })
   })
 
+  /**
+   * DELETE
+   */
   describe('Delete', () => {
     it('should remove the match', function(done) {
       this.timeout(5000)
@@ -311,6 +320,9 @@ describe('Match - Model', () => {
     })
   })
 
+  /**
+   * RESET
+   */
   describe('Reset', () => {
     it('should finally create a match :)', (done) => {
       Match.create({

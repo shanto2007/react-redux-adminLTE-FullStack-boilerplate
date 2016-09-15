@@ -20,14 +20,14 @@ const warnSchema = mongoose.Schema({
 })
 
 warnSchema.post('save', (warn, done) => {
-  forkHandlers.playerWarnUpdate(warn).then(() => {
+  forkHandlers.playerStatsUpdate(warn).then(() => {
     done()
   }).catch((err) => {
     done(err)
   })
 })
 warnSchema.post('remove', (warn, done) => {
-  return forkHandlers.playerWarnUpdate(warn).then(() => {
+  return forkHandlers.playerStatsUpdate(warn).then(() => {
     return done()
   }).catch((err) => {
     return done(err)
