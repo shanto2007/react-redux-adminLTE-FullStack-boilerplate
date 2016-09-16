@@ -73,6 +73,33 @@ module.exports = {
       })
     })
   },
+
+  setCurrent: (req, res) => {
+    const seasonId = req.params.id
+    return Season.setCurrentSeason(seasonId)
+      .then((season) => {
+        if (!season) {
+          return res.status(404).json({
+            action: 'set current season',
+            success: false,
+            message: 'Season Not found!',
+          })
+        }
+        return res.json({
+          action: 'set current season',
+          success: true,
+          season,
+        })
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          action: 'set current season',
+          success: false,
+          message: err,
+        })
+      })
+  },
+
   delete: (req, res) => {
     const seasonId = req.params.id
     if (!seasonId) {

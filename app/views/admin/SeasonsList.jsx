@@ -77,7 +77,6 @@ class SeasonsList extends React.Component {
   }
 
   render() {
-    console.log(this.props.seasons.seasons)
     return (
       <div>
         <Box loading={this.props.seasons.loading} title="Create Seasons">

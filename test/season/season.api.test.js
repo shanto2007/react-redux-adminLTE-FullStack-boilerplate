@@ -6,7 +6,7 @@ const chaiHttp    = require('chai-http')
 const expect      = require('expect')
 const jwt         = require('jsonwebtoken')
 
-describe('Season - API', () => {
+describe.only('Season - API', () => {
   let userAuthToken, seasonToEditId
   // generate a auth dummy token
   before(() => {
@@ -138,6 +138,16 @@ describe('Season - API', () => {
       .end((err, res) => {
         expect(res.status).toNotBe(200)
         expect(res.body.success).toBe(false)
+        done()
+      })
+    })
+
+    it('should set the current season attribute', (done) => {
+      chai.request(app)
+      .patch(`/api/admin/season/${seasonToEditId}/current`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        console.log(res.body)
         done()
       })
     })

@@ -1,4 +1,4 @@
-const { testenv } = global
+const { testenv, getRandomInt } = global
 const Season = require(testenv.serverdir + 'models/season.model')
 const chai = require('chai')
 const expect = require('expect')
@@ -20,6 +20,7 @@ describe('Season - Model', () => {
     })
     .then((doc) => {
       expect(doc).toExist()
+      firstCreatedId = doc._id
       done()
     }).catch(done)
   })
@@ -34,12 +35,27 @@ describe('Season - Model', () => {
     })
   })
 
-  it('should create another unique season', (done) => {
-    Season.create({
-      year: 4717,
-    })
+  it('should create a couple of another unique season', (done) => {
+    Season.create([{ year: getRandomInt(1,9999) }, { year: getRandomInt(1,9999) }])
     .then((doc) => {
       expect(doc).toExist()
+      done()
+    }).catch(done)
+  })
+
+  it('should set the current season value and keep only one true at time', (done) => {
+    Season.setCurrentSeason(firstCreatedId).then((res) => {
+      expect(res).toExist()
+      expect(res.current).toBe(true)
+      done()
+    }).catch(done)
+  })
+
+  it('should check it\'s the only one', (done) => {
+    Season.find({ current: true })
+    .then((res) => {
+      expect(res.length).toBe(1)
+      expect(res[0]._id).toEqual(firstCreatedId)
       done()
     }).catch(done)
   })
