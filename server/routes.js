@@ -81,6 +81,7 @@ module.exports = (express, app) => {
    *  SEASONS
    */
   api.get('/admin/seasons', AuthRequired(), SeasonCtrl.indexAdmin)
+  api.get('/admin/season/current', AuthRequired(), SeasonCtrl.getCurrent)
   api.post('/admin/season', AuthRequired(), SeasonCtrl.create)
   api.patch('/admin/season/:id', AuthRequired(), SeasonCtrl.edit)
   api.patch('/admin/season/:id/current', AuthRequired(), SeasonCtrl.setCurrent)

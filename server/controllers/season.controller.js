@@ -29,25 +29,53 @@ module.exports = {
       })
     })
   },
+  getCurrent: (req, res) => {
+    return Season.findOne({ current: true })
+    .then((season) => {
+      return res.json({
+        success: true,
+        action: 'get current',
+        season,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'get current',
+        message: err,
+      })
+    })
+  },
   create: (req, res) => {
     const { body } = req
-    if (!req.body || !req.body.year) {
+    if (!body.year) {
       return res.status(400).json({
         success: false,
         message: 'Year is required',
       })
     }
-    const season = new Season(body)
-    return season.save((err, season) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err.code && err.code === 11000 ? 'Season with that year exist' : err,
-        })
+
+    return Season.count({}).exec()
+    .then((count) => {
+      let current = false
+      if (!count) {
+        current = true
       }
+      return Season.create({
+        year: body.year,
+        current,
+      })
+    })
+    .then((season) => {
       return res.json({
         success: true,
         season,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: err.code && err.code === 11000 ? 'Season with that year exist' : err,
       })
     })
   },

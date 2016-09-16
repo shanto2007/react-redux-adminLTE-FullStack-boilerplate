@@ -69,15 +69,18 @@ class SeasonsList extends React.Component {
       return seasons.map((season, i) => {
         return (
           <div className="col-sm-12 clearfix" key={i}>
-            <div className="pull-left bold" style={{ fontSize: '2rem' }}>
+            <div className="pull-left bold" style={{ fontSize: '3rem', lineHeight: '6rem' }}>
               {season.year}
             </div>
-            <div className="pull-left bold" style={{ fontSize: '2rem' }}>
-              {season.current && 'true'}
-            </div>
             <div className="pull-right">
-              <i onClick={(e) => this.onSetCurrentHandler(e, season._id)} className="fa fa-arrow-down fa-2x" style={{ color: 'green', cursor: 'pointer' }}></i>
-              <i onClick={(e) => this.onDeleteHandler(e, season._id)} className="fa fa-remove fa-2x" style={{ color: 'red', cursor: 'pointer' }}></i>
+              <a className={`btn btn-app ${season.current ? 'hide' : ''}`} onClick={(e) => this.onSetCurrentHandler(e, season._id)}>
+                <i className="fa fa-thumb-tack fa-2x"></i>
+                Set Current
+              </a>
+              <a className="btn btn-app" onClick={(e) => this.onDeleteHandler(e, season._id)}>
+                <i className="fa fa-remove fa-2x" style={{ color: 'red', cursor: 'pointer' }}></i>
+                Remove
+              </a>
             </div>
             <hr />
           </div>

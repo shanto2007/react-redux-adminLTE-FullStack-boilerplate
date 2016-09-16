@@ -4,6 +4,7 @@ const defaultAdminSeasonState = {
   fail: '',
   seasons: [],
   current: null,
+  viewed: null,
 }
 
 export const seasonAdmin = (state = defaultAdminSeasonState, action) => {
@@ -17,6 +18,11 @@ export const seasonAdmin = (state = defaultAdminSeasonState, action) => {
       return {
         ...state,
         current: action.current,
+      }
+    case 'SET_ADMIN_VIEWED_SEASON':
+      return {
+        ...state,
+        viewed: action.viewed,
       }
     case 'ADMIN_SEASON_LOADING':
       return {

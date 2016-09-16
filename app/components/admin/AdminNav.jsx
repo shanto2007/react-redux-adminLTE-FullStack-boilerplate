@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { startLogout, openToastr } from 'actions'
+import { startLogout, openToastr, setAdminViewedSeason } from 'actions'
 
 class AdminNav extends React.Component {
   onLogout() {
@@ -11,7 +11,6 @@ class AdminNav extends React.Component {
       console.log(res);
       if (res.success) {
         dispatch(openToastr('success', 'Logged off!'));
-        // browserHistory.push('/');
         window.location.replace('/')
       }
     })
@@ -22,8 +21,34 @@ class AdminNav extends React.Component {
       }
     })
   }
+
+  setViewedSeasonHandler(e, season) {
+    e.stopPropagation()
+    const { dispatch } = this.props
+    dispatch(setAdminViewedSeason(season))
+  }
+
+  renderViewedSeasonList() {
+    const { seasons, viewed } = this.props.seasons
+    if (seasons) {
+      return seasons.map((season) => {
+        let classes = ''
+        if (viewed) {
+          classes = viewed._id === season._id ? 'bold' : ''
+        }
+        return (
+          <li style={{ display: 'block' }} key={season._id} onClick={(e) => this.setViewedSeasonHandler(e, season)}>
+            <a className={`text-center ${classes}`}> {season.year} { season.current ? ' (current)' : ''}</a>
+          </li>
+        )
+      })
+    }
+    return null
+  }
+
   render() {
-    const { user } = this.props.account;
+    const { user } = this.props.account
+    const { viewed } = this.props.seasons
     return (
       <div>
         <header className="main-header">
@@ -37,9 +62,22 @@ class AdminNav extends React.Component {
 
             <div className="navbar-custom-menu">
               <ul className="nav navbar-nav">
-
+                <li className="dropdown notifications-menu">
+                  <a className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Viewing season:
+                    <b> { viewed ? viewed.year : '' }</b>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li className="header">Avaible seasons</li>
+                    <li>
+                      <ul className="menu">
+                        { this.renderViewedSeasonList() }
+                      </ul>
+                    </li>
+                    <li className="footer"><a>View all</a></li>
+                  </ul>
+                </li>
                 <li className="dropdown user user-menu">
-
                   <a className="dropdown-toggle" data-toggle="dropdown">
                     <span className="hidden-xs">{user.username}</span>
                   </a>
@@ -125,9 +163,11 @@ class AdminNav extends React.Component {
 
 AdminNav.propTypes = {
   account: React.PropTypes.object,
+  seasons: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 }
 
 export default connect((state) => ({
   account: state.account,
+  seasons: state.seasonAdmin,
 }))(AdminNav)

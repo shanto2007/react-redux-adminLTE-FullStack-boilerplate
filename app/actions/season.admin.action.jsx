@@ -15,6 +15,13 @@ export const setAdminCurrentSeason = (current) => {
   }
 }
 
+export const setAdminViewedSeason = (viewed) => {
+  return {
+    type: 'SET_ADMIN_VIEWED_SEASON',
+    viewed,
+  }
+}
+
 export const adminSeasonLoading = (loading) => {
   return {
     type: 'ADMIN_SEASON_LOADING',
@@ -35,6 +42,34 @@ export const adminSeasonFail = (fail) => {
     fail,
   }
 }
+
+export const startGetCurrentSeason = () => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminSeasonLoading(true))
+    return Api.get('/admin/season/current', {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(setAdminCurrentSeason(res.data.season))
+      dispatch(setAdminViewedSeason(res.data.season))
+      dispatch(adminSeasonSuccess(true))
+      dispatch(adminSeasonLoading(false))
+      return res
+    })
+    .catch((res) => {
+      const err = res.data
+      dispatch(openToastr('error', err.message || 'Error getting season as current!'))
+      dispatch(adminSeasonFail(err))
+      dispatch(adminSeasonLoading(false))
+      return res
+    })
+  }
+}
+
 
 export const startGetAdminSeasons = () => {
   return (dispatch, getState) => {
@@ -75,7 +110,8 @@ export const startCreateNewSeason = (year) => {
       dispatch(openToastr('success', 'Season created!'))
       dispatch(adminSeasonSuccess(true))
       dispatch(adminSeasonLoading(false))
-      dispatch(startGetAdminSeasons(true))
+      dispatch(startGetAdminSeasons())
+      dispatch(startGetCurrentSeason())
       return res
     })
     .catch((res) => {
@@ -102,7 +138,8 @@ export const startDeleteSeason = (seasonId) => {
       dispatch(openToastr('success', 'Season removed!'))
       dispatch(adminSeasonSuccess(true))
       dispatch(adminSeasonLoading(false))
-      dispatch(startGetAdminSeasons(true))
+      dispatch(startGetAdminSeasons())
+      dispatch(startGetCurrentSeason())
       return res
     })
     .catch((res) => {
@@ -126,12 +163,12 @@ export const startSetCurrentSeason = (seasonId) => {
       },
     })
     .then((res) => {
-      console.log(res.data)
       dispatch(openToastr('success', 'Season set as current!'))
       dispatch(setAdminCurrentSeason(res.data.season))
       dispatch(adminSeasonSuccess(true))
       dispatch(adminSeasonLoading(false))
-      dispatch(startGetAdminSeasons(true))
+      dispatch(startGetAdminSeasons())
+      dispatch(startGetCurrentSeason())
       return res
     })
     .catch((res) => {

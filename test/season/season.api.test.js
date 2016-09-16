@@ -154,6 +154,46 @@ describe('Season - API', () => {
   }) //  EDIT
 
   /**
+  *  GET
+  */
+  describe('Get', () => {
+    it('should not GET without token', (done) => {
+      chai.request(app)
+      .get('/api/admin/seasons')
+      .end((err, res) => {
+        expect(res.status).toNotBe(200)
+        expect(res.status).toBe(400)
+        expect(res.body.message).toExist()
+        expect(res.body.success).toBe(false)
+        done()
+      })
+    })
+    it('should GET', (done) => {
+      chai.request(app)
+      .get('/api/admin/seasons')
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        expect(res.body.success).toBe(true)
+        expect(res.body.success).toBe(true)
+        expect(res.body.seasons).toExist()
+        expect(res.body.seasons).toBeAn('array')
+        done()
+      })
+    })
+    it('should GET the current season', (done) => {
+      chai.request(app)
+      .get('/api/admin/season/current')
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        expect(res.body.season).toExist()
+        done()
+      })
+    })
+  }) // GET
+
+  /**
   *  DELETE
   */
   describe('Delete', () => {
@@ -202,36 +242,6 @@ describe('Season - API', () => {
       })
     })
   }) //  DELETE
-
-  /**
-  *  GET
-  */
-  describe('Get', () => {
-    it('should not GET without token', (done) => {
-      chai.request(app)
-      .get('/api/admin/seasons')
-      .end((err, res) => {
-        expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
-        expect(res.body.message).toExist()
-        expect(res.body.success).toBe(false)
-        done()
-      })
-    })
-    it('should GET', (done) => {
-      chai.request(app)
-      .get('/api/admin/seasons')
-      .set('Authorization', userAuthToken)
-      .end((err, res) => {
-        expect(res.status).toBe(200)
-        expect(res.body.success).toBe(true)
-        expect(res.body.success).toBe(true)
-        expect(res.body.seasons).toExist()
-        expect(res.body.seasons).toBeAn('array')
-        done()
-      })
-    })
-  }) // GET
 
   after((done) => {
     Promise.resolve(

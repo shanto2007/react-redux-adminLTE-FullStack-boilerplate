@@ -1,12 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import AdminNav from 'AdminNav'
-import { getUserData } from 'actions'
-
-// require('!style!css!admin-lte/bootstrap/css/bootstrap.min.css')
-// require('!style!css!admin-lte/dist/css/AdminLTE.min.css')
-// require('!style!css!admin-lte/dist/css/skins/skin-blue.min.css')
-// require('!style!css!font-awesome/css/font-awesome.min.css')
+import { getUserData, startGetAdminSeasons, startGetCurrentSeason } from 'actions'
 
 //  Chunk assets to lazy load
 function getStaticAssets() {
@@ -34,7 +29,10 @@ class AdminWrapper extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getUserData())
+    dispatch(startGetAdminSeasons())
+    dispatch(startGetCurrentSeason())
   }
+
   componentWillUnmount() {
     document.body.className = ''
   }
