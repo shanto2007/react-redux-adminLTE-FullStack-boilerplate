@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Box from 'Box'
-import { startGetAdminSeasons, startCreateNewSeason } from 'actions'
+import { startGetAdminSeasons, startCreateNewSeason, startDeleteSeason } from 'actions'
 
 class SeasonsList extends React.Component {
   constructor(props) {
@@ -13,11 +13,19 @@ class SeasonsList extends React.Component {
 
     this.newSeasonHandler.bind(this)
     this.renderSeasonList.bind(this)
+    this.onDeleteHandler.bind(this)
   }
 
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(startGetAdminSeasons())
+  }
+
+  onDeleteHandler(e, seasonId) {
+    const { dispatch } = this.props
+    if (seasonId && confirm('Do you really want to delete this season?')) {
+      dispatch(startDeleteSeason(seasonId))
+    }
   }
 
   newSeasonHandler(e) {
@@ -34,6 +42,7 @@ class SeasonsList extends React.Component {
     this.setState({
       selectedYear,
     })
+    e.target.value = selectedYear
   }
 
   renderYearsList() {
@@ -57,7 +66,7 @@ class SeasonsList extends React.Component {
               {season.year}
             </div>
             <div className="pull-right">
-              <i onClick={this.onDeleteHandler(season._id)} className="fa fa-remove fa-2x" style={{ color: 'red' }}></i>
+              <i onClick={(e) => this.onDeleteHandler(e, season._id)} className="fa fa-remove fa-2x" style={{ color: 'red', cursor: 'pointer' }}></i>
             </div>
             <hr />
           </div>
@@ -73,7 +82,7 @@ class SeasonsList extends React.Component {
       <div>
         <Box loading={this.props.seasons.loading} title="Create Seasons">
           <form onSubmit={(e) => this.newSeasonHandler(e)}>
-            <select className="form-control" onChange={(e) => this.selectChangeHandler(e)} value="0">
+            <select className="form-control" onChange={(e) => this.selectChangeHandler(e)} defaultValue="0">
               <option value="0" disabled>Select an year</option>
               {this.renderYearsList()}
             </select>

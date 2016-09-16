@@ -63,7 +63,6 @@ export const startGetAdminSeasons = () => {
 
 export const startCreateNewSeason = (year) => {
   return (dispatch, getState) => {
-    console.log(">>>>>>>>>>", year)
     const store = getState()
     const authToken = store.account.authToken
     dispatch(adminSeasonLoading(true))
@@ -73,18 +72,44 @@ export const startCreateNewSeason = (year) => {
       },
     })
     .then((res) => {
-      console.log(res)
+      dispatch(openToastr('success', 'Season created!'))
       dispatch(adminSeasonSuccess(true))
       dispatch(adminSeasonLoading(false))
       dispatch(startGetAdminSeasons(true))
-      dispatch(openToastr('success', 'Season created!'))
       return res
     })
     .catch((res) => {
       const err = res.data
+      dispatch(openToastr('error', err.message || 'Error creating a season!'))
       dispatch(adminSeasonFail(err))
       dispatch(adminSeasonLoading(false))
-      dispatch(openToastr('error', err.message || 'Error creating a season!'))
+      return res
+    })
+  }
+}
+
+export const startDeleteSeason = (seasonId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminSeasonLoading(true))
+    return Api.delete(`/admin/season/${seasonId}`, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(openToastr('success', 'Season removed!'))
+      dispatch(adminSeasonSuccess(true))
+      dispatch(adminSeasonLoading(false))
+      dispatch(startGetAdminSeasons(true))
+      return res
+    })
+    .catch((res) => {
+      const err = res.data
+      dispatch(openToastr('error', err.message || 'Error removing season!'))
+      dispatch(adminSeasonFail(err))
+      dispatch(adminSeasonLoading(false))
       return res
     })
   }

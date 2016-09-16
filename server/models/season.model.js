@@ -9,4 +9,8 @@ const seasonSchema = mongoose.Schema({
   current: { type: Boolean },
 })
 
+seasonSchema.static.setCurrentSeason = (seasonId) => {
+  // TODO set current and set all the other to false
+}
+
 module.exports = mongoose.model('season', seasonSchema, 'seasons')
