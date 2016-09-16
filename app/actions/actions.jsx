@@ -5,3 +5,5 @@ export * from 'signin.action'
 export * from 'settings.action'
 export * from 'mail.action'
 export * from 'toastr.action'
+
+export * from 'season.admin.action'

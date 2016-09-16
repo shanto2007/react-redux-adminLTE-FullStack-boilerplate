@@ -59,6 +59,35 @@ class AdminNav extends React.Component {
 
               <li className="active treeview">
                 <a>
+                  <i className="fa fa-pencil"></i> <span>Creation</span>
+                  <span className="pull-right-container">
+                    <i className="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul className="treeview-menu">
+                  <li className="active">
+                    <Link to="/admin/seasons"><i className="fa fa-list"></i> Seasons</Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li className="active treeview">
+                <a>
+                  <i className="fa fa-pencil"></i> <span>Management</span>
+                  <span className="pull-right-container">
+                    <i className="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul className="treeview-menu">
+                  <li className="active">
+                    {/* <Link to="/admin/users"><i className="fa fa-list"></i> Seasons</Link>
+                    <Link to="/admin/users/create"><i className="fa fa-plus"></i> Create</Link> */}
+                  </li>
+                </ul>
+              </li>
+
+              <li className="active treeview">
+                <a>
                   <i className="fa fa-pencil"></i> <span>Users</span>
                   <span className="pull-right-container">
                     <i className="fa fa-angle-left pull-right"></i>
@@ -71,6 +100,7 @@ class AdminNav extends React.Component {
                   </li>
                 </ul>
               </li>
+
               <li className="active treeview">
                 <a>
                   <i className="fa fa-cog"></i> <span>Settings</span>
@@ -84,6 +114,7 @@ class AdminNav extends React.Component {
                   </li>
                 </ul>
               </li>
+
             </ul>
           </section>
         </aside>

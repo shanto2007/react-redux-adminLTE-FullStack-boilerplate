@@ -52,7 +52,7 @@ module.exports = {
     })
   },
   edit: (req, res) => {
-    const seasonId = req.body.id || req.body._id
+    const seasonId = req.params.id
     const editedSeason = req.body
     if (!seasonId) {
       return res.status(400).json({
@@ -74,7 +74,7 @@ module.exports = {
     })
   },
   delete: (req, res) => {
-    const seasonId = req.body.id || req.body._id
+    const seasonId = req.params.id
     if (!seasonId) {
       return res.status(400).json({
         success: false,

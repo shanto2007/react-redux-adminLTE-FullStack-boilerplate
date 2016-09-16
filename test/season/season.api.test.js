@@ -94,7 +94,7 @@ describe('Season - API', () => {
   describe('Edit', () => {
     it('should not edit without token', (done) => {
       chai.request(app)
-      .patch('/api/admin/season')
+      .patch(`/api/admin/season/${seasonToEditId}`)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(400)
@@ -105,22 +105,19 @@ describe('Season - API', () => {
     })
     it('should return error if no season id provided', (done) => {
       chai.request(app)
-      .patch('/api/admin/season')
+      .patch(`/api/admin/season/`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
-        expect(res.body.message).toExist()
-        expect(res.body.success).toBe(false)
+        expect(res.status).toBe(404)
         done()
       })
     })
     it('should edit', (done) => {
       chai.request(app)
-      .patch('/api/admin/season')
+      .patch(`/api/admin/season/${seasonToEditId}`)
       .set('Authorization', userAuthToken)
       .send({
-        id: seasonToEditId,
         year: 2020,
       })
       .end((err, res) => {
@@ -133,10 +130,9 @@ describe('Season - API', () => {
     })
     it('should not edit unique field', (done) => {
       chai.request(app)
-      .patch('/api/admin/season')
+      .patch(`/api/admin/season/${seasonToEditId}`)
       .set('Authorization', userAuthToken)
       .send({
-        id: seasonToEditId,
         year: 2016,
       })
       .end((err, res) => {
@@ -148,12 +144,12 @@ describe('Season - API', () => {
   }) //  EDIT
 
   /**
-  *  EDIT
+  *  DELETE
   */
   describe('Delete', () => {
     it('should not delete without token', (done) => {
       chai.request(app)
-      .delete('/api/admin/season')
+      .delete(`/api/admin/season/${seasonToEditId}`)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(400)
@@ -164,23 +160,18 @@ describe('Season - API', () => {
     })
     it('should return error if no season id provided', (done) => {
       chai.request(app)
-      .delete('/api/admin/season')
+      .delete(`/api/admin/season/`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
-        expect(res.body.message).toExist()
-        expect(res.body.success).toBe(false)
+        expect(res.status).toBe(404)
         done()
       })
     })
     it('should delete', (done) => {
       chai.request(app)
-      .delete('/api/admin/season')
+      .delete(`/api/admin/season/${seasonToEditId}`)
       .set('Authorization', userAuthToken)
-      .send({
-        id: seasonToEditId
-      })
       .end((err, res) => {
         expect(res.status).toBe(200)
         expect(res.body).toExist()
@@ -190,11 +181,8 @@ describe('Season - API', () => {
     })
     it('should return error if not exist', (done) => {
       chai.request(app)
-      .delete('/api/admin/season')
+      .delete(`/api/admin/season/${seasonToEditId}`)
       .set('Authorization', userAuthToken)
-      .send({
-        id: seasonToEditId
-      })
       .end((err, res) => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(404)
