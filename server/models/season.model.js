@@ -11,7 +11,7 @@ const seasonSchema = mongoose.Schema({
 
 seasonSchema.statics.setCurrentSeason = function setCurrentSeasonAttribute(seasonId) {
   const Season = this.model('season')
-  return Promise.resolve(Season.update({ _id: { $ne: seasonId } }, { current: false }).exec())
+  return Promise.resolve(Season.update({ current: true }, { $set: { current: undefined } }).exec())
   .then(() => {
     return Season.findByIdAndUpdate(seasonId, { current: true }, { new: true }).exec()
   })

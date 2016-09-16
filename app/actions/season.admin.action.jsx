@@ -114,3 +114,32 @@ export const startDeleteSeason = (seasonId) => {
     })
   }
 }
+
+export const startSetCurrentSeason = (seasonId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminSeasonLoading(true))
+    return Api.patch(`/admin/season/${seasonId}/current`, null, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      console.log(res.data)
+      dispatch(openToastr('success', 'Season set as current!'))
+      dispatch(setAdminCurrentSeason(res.data.season))
+      dispatch(adminSeasonSuccess(true))
+      dispatch(adminSeasonLoading(false))
+      dispatch(startGetAdminSeasons(true))
+      return res
+    })
+    .catch((res) => {
+      const err = res.data
+      dispatch(openToastr('error', err.message || 'Error setting season as current!'))
+      dispatch(adminSeasonFail(err))
+      dispatch(adminSeasonLoading(false))
+      return res
+    })
+  }
+}

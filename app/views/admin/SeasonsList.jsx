@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Box from 'Box'
-import { startGetAdminSeasons, startCreateNewSeason, startDeleteSeason } from 'actions'
+import { startGetAdminSeasons, startCreateNewSeason, startDeleteSeason, startSetCurrentSeason } from 'actions'
 
 class SeasonsList extends React.Component {
   constructor(props) {
@@ -25,6 +25,13 @@ class SeasonsList extends React.Component {
     const { dispatch } = this.props
     if (seasonId && confirm('Do you really want to delete this season?')) {
       dispatch(startDeleteSeason(seasonId))
+    }
+  }
+
+  onSetCurrentHandler(e, seasonId) {
+    const { dispatch } = this.props
+    if (seasonId && confirm('Do you really want to set this season as the current one?')) {
+      dispatch(startSetCurrentSeason(seasonId))
     }
   }
 
@@ -65,7 +72,11 @@ class SeasonsList extends React.Component {
             <div className="pull-left bold" style={{ fontSize: '2rem' }}>
               {season.year}
             </div>
+            <div className="pull-left bold" style={{ fontSize: '2rem' }}>
+              {season.current && 'true'}
+            </div>
             <div className="pull-right">
+              <i onClick={(e) => this.onSetCurrentHandler(e, season._id)} className="fa fa-arrow-down fa-2x" style={{ color: 'green', cursor: 'pointer' }}></i>
               <i onClick={(e) => this.onDeleteHandler(e, season._id)} className="fa fa-remove fa-2x" style={{ color: 'red', cursor: 'pointer' }}></i>
             </div>
             <hr />
