@@ -6,4 +6,8 @@ export * from 'admin/settings.action'
 export * from 'admin/mail.action'
 export * from 'admin/toastr.action'
 
+/**
+ * ADMIN MANAGEMENT ACTIONS
+ */
 export * from 'admin/season.action'
+export * from 'admin/round.action'
