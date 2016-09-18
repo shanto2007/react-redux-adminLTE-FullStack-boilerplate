@@ -29,12 +29,19 @@ export const adminRoundsFail = (fail) => {
   }
 }
 
-export const startGetAdminRounds = () => {
+export const startGetAdminRounds = (season) => {
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(adminRoundsLoading(true))
-    return Api.get('/admin/rounds', {
+    if (!season) {
+      dispatch(openToastr('error', 'No Season selected!', 'Select a season plase!'))
+      dispatch(setAdminRounds([]))
+      dispatch(adminRoundsSuccess(false))
+      dispatch(adminRoundsFail('No Season provided'))
+      dispatch(adminRoundsLoading(false))
+    }
+    return Api.get(`/admin/rounds/${season}`, {
       headers: {
         Authorization: authToken,
       },
@@ -49,6 +56,7 @@ export const startGetAdminRounds = () => {
     .catch((err) => {
       dispatch(adminRoundsFail(err))
       dispatch(adminRoundsLoading(false))
+      dispatch(openToastr('error', err.message || 'Error getting rounds!'))
       return err
     })
   }
