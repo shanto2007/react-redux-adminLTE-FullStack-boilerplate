@@ -120,5 +120,5 @@ SeasonsList.propTypes = {
 }
 
 export default connect((state) => ({
-  seasons: state.seasonAdmin,
+  seasons: state.seasons,
 }))(SeasonsList)

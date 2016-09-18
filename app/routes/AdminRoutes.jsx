@@ -19,13 +19,13 @@ const genRoutes = (adminRoutes) => {
       path: '/admin',
       component: AdminWrapper,
       indexRoute: {
-        getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUserList').default)),
+        getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUsersList').default)),
       },
       onEnter: adminRoutes.requireAuth.bind(adminRoutes),
       childRoutes: [
         {
           path: 'seasons',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('SeasonsList').default)),
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminSeasonsList').default)),
         },
         {
           path: 'users',

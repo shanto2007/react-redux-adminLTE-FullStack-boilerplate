@@ -7,7 +7,7 @@ const defaultAdminSeasonState = {
   viewed: null,
 }
 
-export const seasonAdmin = (state = defaultAdminSeasonState, action) => {
+export const seasons = (state = defaultAdminSeasonState, action) => {
   switch (action.type) {
     case 'SET_ADMIN_SEASONS':
       return {

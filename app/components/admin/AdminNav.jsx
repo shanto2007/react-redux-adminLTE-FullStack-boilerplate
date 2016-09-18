@@ -169,5 +169,5 @@ AdminNav.propTypes = {
 
 export default connect((state) => ({
   account: state.account,
-  seasons: state.seasonAdmin,
+  seasons: state.seasons,
 }))(AdminNav)
