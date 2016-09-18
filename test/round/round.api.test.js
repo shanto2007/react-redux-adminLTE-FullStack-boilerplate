@@ -7,13 +7,13 @@ const Season      = require(testenv.serverdir + 'models/season.model')
 const Round       = require(testenv.serverdir + 'models/round.model')
 const jwt         = require('jsonwebtoken')
 
-describe('Round - API', () => {
+describe.only('Round - API', () => {
   let roundToEditId, userAuthToken, seasonId
 
   before((done) => {
     userAuthToken = jwt.sign({
       username: 'admin',
-      admin: 'admin',
+      admin: true,
     }, process.env.APP_KEY )
 
     Promise.resolve(Season.create({
@@ -184,6 +184,80 @@ describe('Round - API', () => {
   }) //  EDIT
 
   /**
+  *  GET
+  */
+  describe('Get', () => {
+    it('should not GET without token', (done) => {
+      chai.request(app)
+      .get('/api/admin/rounds')
+      .end((err, res) => {
+        expect(res.status).toNotBe(200)
+        expect(res.status).toBe(400)
+        expect(res.body.message).toExist()
+        expect(res.body.success).toBe(false)
+        done()
+      })
+    })
+    it('should GET', (done) => {
+      chai.request(app)
+      .get('/api/admin/rounds')
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        expect(res.body.success).toBe(true)
+        expect(res.body.success).toBe(true)
+        expect(res.body.rounds).toExist()
+        expect(res.body.rounds).toBeAn('array')
+        done()
+      })
+    })
+  }) // GET
+
+  /**
+  *  GET by Season
+  */
+  describe('Get by season', () => {
+    it('should not GET without token', (done) => {
+      chai.request(app)
+      .get(`/api/admin/rounds/${seasonId}`)
+      .end((err, res) => {
+        expect(res.status).toNotBe(200)
+        expect(res.status).toBe(400)
+        expect(res.body.message).toExist()
+        expect(res.body.success).toBe(false)
+        done()
+      })
+    })
+    it('should GET for season provided', (done) => {
+      chai.request(app)
+      .get(`/api/admin/rounds/${seasonId}`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        expect(res.body.success).toBe(true)
+        expect(res.body.success).toBe(true)
+        expect(res.body.rounds).toExist()
+        expect(res.body.rounds).toBeAn('array')
+        done()
+      })
+    })
+    it('should GET empty if none for season or id is not of an existing season', (done) => {
+      chai.request(app)
+      .get(`/api/admin/rounds/${roundToEditId}`) // >> fakeit
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        expect(res.body.success).toBe(true)
+        expect(res.body.success).toBe(true)
+        expect(res.body.rounds).toExist()
+        expect(res.body.rounds.length).toBe(0)
+        expect(res.body.rounds).toBeAn('array')
+        done()
+      })
+    })
+  }) // GET
+
+  /**
   *  DELETE
   */
   describe('Delete', () => {
@@ -240,36 +314,6 @@ describe('Round - API', () => {
       })
     })
   }) //  DELETE
-
-  /**
-  *  GET
-  */
-  describe('Get', () => {
-    it('should not GET without token', (done) => {
-      chai.request(app)
-      .get('/api/admin/rounds')
-      .end((err, res) => {
-        expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
-        expect(res.body.message).toExist()
-        expect(res.body.success).toBe(false)
-        done()
-      })
-    })
-    it('should GET', (done) => {
-      chai.request(app)
-      .get('/api/admin/rounds')
-      .set('Authorization', userAuthToken)
-      .end((err, res) => {
-        expect(res.status).toBe(200)
-        expect(res.body.success).toBe(true)
-        expect(res.body.success).toBe(true)
-        expect(res.body.rounds).toExist()
-        expect(res.body.rounds).toBeAn('array')
-        done()
-      })
-    })
-  }) // GET
 
   after((done) => {
     Promise.all([

@@ -29,6 +29,35 @@ module.exports = {
       })
     })
   },
+
+  indexBySeason: (req, res) => {
+    const seasonId = req.params.season
+    if (!seasonId) {
+      return res.status(400).json({
+        success: false,
+        message: 'No Season id provided',
+      })
+    }
+    return Round.find({
+      season: seasonId
+    })
+    .exec()
+    .then((rounds) => {
+      return res.json({
+        success: true,
+        action: 'index by season',
+        rounds,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'index by season',
+        message: err,
+      })
+    })
+  },
+
   create: (req, res) => {
     const newRoundRequest = req.body
     if (!newRoundRequest) {
