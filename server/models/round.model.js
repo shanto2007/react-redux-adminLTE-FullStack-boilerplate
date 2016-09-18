@@ -23,6 +23,6 @@ const roundSchema = mongoose.Schema({
   },
 })
 
-roundSchema.index({ label:1, season: 1 }, { unique: true });
+roundSchema.index({ label: 1, season: 1 }, { unique: true });
 
 module.exports = mongoose.model('round', roundSchema, 'rounds')

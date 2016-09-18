@@ -28,8 +28,12 @@ const genRoutes = (adminRoutes) => {
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminSeasonsList').default)),
         },
         {
+          path: 'rounds',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminRoundsList').default)),
+        },
+        {
           path: 'users',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUserList').default)),
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUsersList').default)),
         },
         {
           path: 'settings',
