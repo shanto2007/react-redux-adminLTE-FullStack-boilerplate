@@ -30,7 +30,7 @@ class AdminNav extends React.Component {
 
   renderViewedSeasonList() {
     const { seasons, viewed } = this.props.seasons
-    if (seasons) {
+    if (seasons && seasons.length) {
       return seasons.map((season) => {
         let classes = ''
         if (viewed) {
@@ -43,7 +43,11 @@ class AdminNav extends React.Component {
         )
       })
     }
-    return null
+    return (
+      <li style={{ display: 'block' }}>
+        <Link to="/admin/seasons" className="bold text-center">Create a season!</Link>
+      </li>
+    )
   }
 
   render() {
@@ -65,7 +69,7 @@ class AdminNav extends React.Component {
                 <li className="dropdown notifications-menu">
                   <a className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     Viewing season:
-                    <b> { viewed ? viewed.year : '' }</b>
+                    <b> { viewed ? viewed.year : 'No Season!' }</b>
                   </a>
                   <ul className="dropdown-menu">
                     <li className="header">Avaible seasons</li>
@@ -105,6 +109,9 @@ class AdminNav extends React.Component {
                 <ul className="treeview-menu">
                   <li className="active">
                     <Link to="/admin/seasons"><i className="fa fa-list"></i> Seasons</Link>
+                  </li>
+                  <li className="active">
+                    <Link to="/admin/rounds"><i className="fa fa-sitemap"></i> Rounds</Link>
                   </li>
                 </ul>
               </li>
