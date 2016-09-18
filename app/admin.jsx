@@ -9,7 +9,7 @@ import AdminRoutes from 'AdminRoutes'
 /**
  * REDUX
  */
-import configureStore from 'configureStore'
+import configureStore from 'configureAdminStore'
 import {
   setAuthToken,
   closeToastr,

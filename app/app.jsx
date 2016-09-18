@@ -9,7 +9,7 @@ import PublicRoutes from 'PublicRoutes'
 /**
  * REDUX
  */
-import configureStore from 'configureStore'
+import configureStore from 'configurePublicStore'
 
 const store = configureStore()
 

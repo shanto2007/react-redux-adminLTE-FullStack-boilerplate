@@ -1,5 +1,5 @@
 import Api from 'Http'
-import { accountSetData, setAuthToken } from 'actions'
+import { accountSetData, setAuthToken } from './account.action'
 
 /**
  * AUTH ACTIONS
