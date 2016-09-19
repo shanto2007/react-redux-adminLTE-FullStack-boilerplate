@@ -3,12 +3,38 @@ import { connect } from 'react-redux'
 import Box from 'Box'
 import { startCreateNewRounds } from 'actions'
 
+// NICE BUT NOT WORKIGN
+// const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+// NOT WORK
+// // get existing round label and split join in string in format A|B|C
+// let existingRoundsRegExp = rounds.map((r) => {
+//   return r.label
+// }).join('|')
+// // GENERATED CAPTURE GROUP WITH THE JOINs
+// existingRoundsRegExp = `(${existingRoundsRegExp})`
+// // REPLACE THE EXISTING ROUND IN THE ALPHABET
+// const avaibleRounds = alphabet.replace(new RegExp(existingRoundsRegExp, 'g'), '')
+// that.setState({
+//   ...this.state,
+//   avaibleRounds,
+// })
+
 class RoundCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       host: null,
       label: null,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const season = nextProps.season
+    // get working season as it change in topbar
+    if ((season._id && season._id !== this.state.season) || !this.state.season) {
+      this.setState({
+        season: season._id,
+      })
     }
   }
 
@@ -35,26 +61,12 @@ class RoundCreate extends React.Component {
     if (this.state.host) {
       newRound.host = this.state.host
     }
-    newRound.season = this.props.season._id
+    newRound.season = this.state.season
     dispatch(startCreateNewRounds(newRound))
   }
 
   generateLabelsList() {
-    const { rounds } = this.props
-    let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    /**
-     * GENERATE USABLE LIST OF LABELS
-     */
-    if (rounds.length) {
-      // get existing round label and split join in string in format A|B|C
-      let existingRoundsRegExp = rounds.map((r) => {
-        return r.label
-      }).join('|')
-      // GENERATED CAPTURE GROUP WITH THE JOINs
-      existingRoundsRegExp = `(${existingRoundsRegExp})`
-      // REPLACE THE EXISTING ROUND IN THE ALPHABET
-      alphabet = alphabet.replace(new RegExp(existingRoundsRegExp, 'g'), '')
-    }
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     // GENERATE THE USABLE LABEL CHOICE
     return alphabet.split('').map((c, i) => {
       return (

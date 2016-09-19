@@ -6,13 +6,20 @@ import { startGetAdminRounds, startDeleteRound } from 'actions'
 class RoundsList extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      viewedSeason: null,
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
-    const viewedSeason = this.props.season
-    if (!prevProps.season && viewedSeason) {
-      dispatch(startGetAdminRounds(viewedSeason._id))
+    const season = nextProps.season
+    // GET first data and refresh data if season is switched in the topbar
+    if (season._id && season._id !== this.state.viewedSeason) {
+      dispatch(startGetAdminRounds(season._id))
+      this.setState({
+        viewedSeason: season._id,
+      })
     }
   }
 

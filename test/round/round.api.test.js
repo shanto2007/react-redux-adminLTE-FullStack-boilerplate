@@ -95,6 +95,7 @@ describe('Round - API', () => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(400)
         expect(res.body.success).toBe(false)
+        console.log(res.body)
         done()
       })
     })

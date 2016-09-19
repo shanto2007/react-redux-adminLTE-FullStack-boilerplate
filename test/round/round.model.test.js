@@ -48,7 +48,7 @@ describe('Round - Model', () => {
     })
   })
 
-  it('should NOT create a round with duplicate label', (done) => {
+  it('should NOT create a round with duplicate label in the same season', (done) => {
     Round.create({
       season: seasonId,
       label: 'A'
