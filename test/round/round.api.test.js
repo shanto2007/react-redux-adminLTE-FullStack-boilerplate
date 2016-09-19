@@ -7,7 +7,7 @@ const Season      = require(testenv.serverdir + 'models/season.model')
 const Round       = require(testenv.serverdir + 'models/round.model')
 const jwt         = require('jsonwebtoken')
 
-describe.only('Round - API', () => {
+describe('Round - API', () => {
   let roundToEditId, userAuthToken, seasonId
 
   before((done) => {
@@ -93,6 +93,7 @@ describe.only('Round - API', () => {
         let { round } = res.body
         expect(res).toExist()
         expect(res.status).toNotBe(200)
+        expect(res.status).toBe(400)
         expect(res.body.success).toBe(false)
         done()
       })
@@ -149,14 +150,12 @@ describe.only('Round - API', () => {
     it('should not edit/duplicate a unique field', (done) => {
       const host = 'My Torunament Host'
       chai.request(app)
-      .patch('/api/admin/round')
+      .patch(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
-      .send({
-        id: roundToEditId,
-        label: 'A'
-      })
+      .send({ label: 'A' })
       .end((err, res) => {
         expect(res.status).toNotBe(200)
+        expect(res.status).toBe(400)
         expect(res.body).toExist()
         expect(res.body.success).toBe(false)
         expect(res.body.message).toExist()
@@ -167,12 +166,9 @@ describe.only('Round - API', () => {
     it('should edit a round', (done) => {
       const host = 'My Torunament Host'
       chai.request(app)
-      .patch('/api/admin/round')
+      .patch(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
-      .send({
-        id: roundToEditId,
-        host,
-      })
+      .send({ host })
       .end((err, res) => {
         expect(res.status).toBe(200)
         expect(res.body).toExist()
@@ -286,11 +282,8 @@ describe.only('Round - API', () => {
     })
     it('should delete', (done) => {
       chai.request(app)
-      .delete('/api/admin/round')
+      .delete(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
-      .send({
-        id: roundToEditId
-      })
       .end((err, res) => {
         expect(res.status).toBe(200)
         expect(res.body).toExist()
@@ -300,11 +293,8 @@ describe.only('Round - API', () => {
     })
     it('should return error if not exist', (done) => {
       chai.request(app)
-      .delete('/api/admin/round')
+      .delete(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
-      .send({
-        id: roundToEditId
-      })
       .end((err, res) => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(404)

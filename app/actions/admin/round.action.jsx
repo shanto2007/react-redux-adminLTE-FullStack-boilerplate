@@ -62,33 +62,35 @@ export const startGetAdminRounds = (season) => {
   }
 }
 
-// export const startCreateNewRounds = (year) => {
-//   return (dispatch, getState) => {
-//     const store = getState()
-//     const authToken = store.account.authToken
-//     dispatch(adminRoundsLoading(true))
-//     return Api.post('/admin/season', { year }, {
-//       headers: {
-//         Authorization: authToken,
-//       },
-//     })
-//     .then((res) => {
-//       dispatch(openToastr('success', 'Rounds created!'))
-//       dispatch(adminRoundsSuccess(true))
-//       dispatch(adminRoundsLoading(false))
-//       dispatch(startGetAdminRounds())
-//       dispatch(startGetCurrentRounds())
-//       return res
-//     })
-//     .catch((res) => {
-//       const err = res.data
-//       dispatch(openToastr('error', err.message || 'Error creating a season!'))
-//       dispatch(adminRoundsFail(err))
-//       dispatch(adminRoundsLoading(false))
-//       return res
-//     })
-//   }
-// }
+export const startCreateNewRounds = (newRound) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    if (!newRound.season) {
+      return dispatch(openToastr('error', 'No season selected!'))
+    }
+    dispatch(adminRoundsLoading(true))
+    return Api.post('/admin/round', newRound, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(openToastr('success', 'Rounds created!'))
+      dispatch(adminRoundsSuccess(true))
+      dispatch(adminRoundsLoading(false))
+      dispatch(startGetAdminRounds(res.data.round.season))
+      return res
+    })
+    .catch((res) => {
+      const err = res.data
+      dispatch(openToastr('error', err.message || 'Error creating a season!'))
+      dispatch(adminRoundsFail(err))
+      dispatch(adminRoundsLoading(false))
+      return res
+    })
+  }
+}
 
 // export const startDeleteRounds = (seasonId) => {
 //   return (dispatch, getState) => {

@@ -1,11 +1,28 @@
 import React from 'react'
 
+const overlayStyle = {
+  position: 'relative',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  padding: 0,
+  margin: '0 auto',
+  textTransform: 'uppercase',
+  fontWeight: 'bold',
+  textAlign: 'center',
+}
+
 const Box = function Box(props) {
   let LoadingOverlay;
   if (props.loading) {
     LoadingOverlay = (
       <div className="overlay">
         <i className="fa fa-refresh fa-spin"></i>
+      </div>
+    )
+  } else if (props.overlay) {
+    LoadingOverlay = (
+      <div className="overlay">
+        <h3 style={overlayStyle}>{props.overlay}</h3>
       </div>
     )
   } else {
@@ -29,6 +46,7 @@ Box.propTypes = {
   className: React.PropTypes.string,
   children: React.PropTypes.node,
   loading: React.PropTypes.bool,
+  overlay: React.PropTypes.string,
 };
 
 export default Box;
