@@ -41,6 +41,7 @@ module.exports = {
     return Round.find({
       season: seasonId,
     })
+    .populate('season')
     .exec()
     .then((rounds) => {
       return res.json({

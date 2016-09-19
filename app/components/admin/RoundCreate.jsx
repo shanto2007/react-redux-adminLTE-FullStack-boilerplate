@@ -40,8 +40,23 @@ class RoundCreate extends React.Component {
   }
 
   generateLabelsList() {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-    return alphabet.map((c, i) => {
+    const { rounds } = this.props
+    let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    /**
+     * GENERATE USABLE LIST OF LABELS
+     */
+    if (rounds.length) {
+      // get existing round label and split join in string in format A|B|C
+      let existingRoundsRegExp = rounds.map((r) => {
+        return r.label
+      }).join('|')
+      // GENERATED CAPTURE GROUP WITH THE JOINs
+      existingRoundsRegExp = `(${existingRoundsRegExp})`
+      // REPLACE THE EXISTING ROUND IN THE ALPHABET
+      alphabet = alphabet.replace(new RegExp(existingRoundsRegExp, 'g'), '')
+    }
+    // GENERATE THE USABLE LABEL CHOICE
+    return alphabet.split('').map((c, i) => {
       return (
         <option value={c} key={i}>{c}</option>
       )
@@ -62,6 +77,7 @@ class RoundCreate extends React.Component {
               { this.generateLabelsList() }
             </select>
           </div>
+          <div className="clearfix"></div>
           <div className="submit-box">
             <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.label}>Create New Round</button>
           </div>
@@ -75,8 +91,10 @@ class RoundCreate extends React.Component {
 RoundCreate.propTypes = {
   dispatch: React.PropTypes.func,
   season: React.PropTypes.object,
+  rounds: React.PropTypes.array,
 }
 
 export default connect((state) => ({
   season: state.seasons.viewed,
+  rounds: state.rounds.rounds,
 }))(RoundCreate)

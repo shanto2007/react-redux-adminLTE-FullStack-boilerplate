@@ -92,31 +92,29 @@ export const startCreateNewRounds = (newRound) => {
   }
 }
 
-// export const startDeleteRounds = (seasonId) => {
-//   return (dispatch, getState) => {
-//     const store = getState()
-//     const authToken = store.account.authToken
-//     dispatch(adminRoundsLoading(true))
-//     return Api.delete(`/admin/season/${seasonId}`, {
-//       headers: {
-//         Authorization: authToken,
-//       },
-//     })
-//     .then((res) => {
-//       dispatch(openToastr('success', 'Rounds removed!'))
-//       dispatch(adminRoundsSuccess(true))
-//       dispatch(adminRoundsLoading(false))
-//       dispatch(startGetAdminRounds())
-//       dispatch(startGetCurrentRounds())
-//       return res
-//     })
-//     .catch((res) => {
-//       const err = res.data
-//       dispatch(openToastr('error', err.message || 'Error removing season!'))
-//       dispatch(adminRoundsFail(err))
-//       dispatch(adminRoundsLoading(false))
-//       return res
-//     })
-//   }
-// }
-//
+export const startDeleteRound = (roundId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminRoundsLoading(true))
+    return Api.delete(`/admin/round/${roundId}`, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(openToastr('success', 'Round removed!'))
+      dispatch(adminRoundsSuccess(true))
+      dispatch(adminRoundsLoading(false))
+      dispatch(startGetAdminRounds(res.data.round.season))
+      return res
+    })
+    .catch((res) => {
+      const err = res.data
+      dispatch(openToastr('error', err.message || 'Error removing the round!'))
+      dispatch(adminRoundsFail(err))
+      dispatch(adminRoundsLoading(false))
+      return res
+    })
+  }
+}

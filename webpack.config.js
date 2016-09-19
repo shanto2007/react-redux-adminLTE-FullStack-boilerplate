@@ -107,8 +107,8 @@ module.exports = {
       './app/views/public',
     ],
     alias:{
-      publicStyles: 'app/styles/admin.scss',
-      adminStyles: 'app/styles/public.scss',
+      publicStyles: 'app/styles/public.scss',
+      adminStyles: 'app/styles/admin.scss',
       dbIconFont: 'src/db-font/styles.css',
     },
     extensions: ['','.js','.jsx']
