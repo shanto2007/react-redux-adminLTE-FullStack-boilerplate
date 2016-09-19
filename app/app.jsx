@@ -24,7 +24,7 @@ store.subscribe(() => {
 
 // Styles
 require.ensure([], require => {
-  require('style!css!sass!applicationStyles')
+  require('style!css!sass!publicStyles')
 }, 'app-styles')
 
 render(

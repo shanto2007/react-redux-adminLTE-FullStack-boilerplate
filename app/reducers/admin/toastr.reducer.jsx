@@ -1,5 +1,5 @@
 const defaultToasterState = {
-  type: null,
+  toastrType: null,
   title: '',
   message: '',
 }
@@ -13,7 +13,7 @@ export const toastr = (state = defaultToasterState, action) => {
         message: action.message,
       }
     case 'TOASTR_CLOSE':
-      return state
+      return defaultToasterState
     default:
       return state
   }

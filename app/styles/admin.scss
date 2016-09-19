@@ -1,0 +1,35 @@
+//  Base
+@import 'base/variables';
+@import 'base/mixins';
+@import 'base/breakpoints';
+
+@import 'admin/buttons';
+
+//  Components
+@import 'admin/admin-wrapper';
+@import 'admin/editor';
+
+body,html{
+  height:100%;
+  font-size: 16px;
+  @media #{$sm}{
+    font-size: 14px;
+  }
+}
+
+#app, #main-app-wrapper{
+  width: 100%;
+  height:100%;
+}
+
+.collapse{
+  display: initial !important;
+}
+
+body{
+  background: $white;
+}
+
+*{
+  font-family: 'Roboto';
+}
