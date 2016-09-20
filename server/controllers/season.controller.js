@@ -136,22 +136,26 @@ module.exports = {
         message: 'Season id is required',
       })
     }
-    return Season.findOneAndRemove({ _id: seasonId }, (err, status) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
-        })
-      }
+    return Season.findOneAndRemove({ _id: seasonId })
+    .then((status) => {
       if (!status) {
-        return res.status(404).json({
-          success: false,
-          message: 'Season don\'t exists',
-        })
+        return Promise.reject({ status: 404, message: 'Season don\'t exists', })
       }
+      return Promise.all([
+        Promise.resolve(status),
+        Season.cascadeDelete(seasonId),
+      ])
+    })
+    .then((status) => {
       return res.json({
         success: true,
         status,
+      })
+    })
+    .catch((err) => {
+      return res.status(err.status ? err.status : 500).json({
+        success: false,
+        message: err.message ? err.message : err,
       })
     })
   },

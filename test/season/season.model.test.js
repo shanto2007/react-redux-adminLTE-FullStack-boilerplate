@@ -60,6 +60,14 @@ describe('Season - Model', () => {
     }).catch(done)
   })
 
+  it('should cascadeRemoveData', (done) => {
+    return Season.cascadeDelete()
+    .then((res) => {
+      console.log(res)
+      done()
+    }).catch(done)
+  })
+
   after((done) => {
     Season.remove({}).then(done()).catch(done)
   })
