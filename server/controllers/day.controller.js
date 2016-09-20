@@ -136,10 +136,11 @@ module.exports = {
     })
   },
   setLastDay: (req, res) => {
-    const dayId = req.body.id || req.params.id
+    const dayId = req.params.id
     if (!dayId) {
       return res.status(400).json({
         success: false,
+        action: 'set played last day',
         message: 'No day Id Provided',
       })
     }

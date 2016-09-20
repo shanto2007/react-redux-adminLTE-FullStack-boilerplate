@@ -122,11 +122,8 @@ describe.only('Day - API', () => {
 
   it('should set the new last day for that round', (done) => {
     chai.request(app)
-    .patch('/api/admin/day/setlastday')
+    .patch(`/api/admin/day/${dayId}/setlastday`)
     .set('Authorization', userAuthToken)
-    .send({
-      id: dayId,
-    })
     .end((err, res) => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
@@ -138,11 +135,8 @@ describe.only('Day - API', () => {
 
   it('should NOT set lastday with invalid id', (done) => {
     chai.request(app)
-    .patch('/api/admin/day/setlastday')
+    .patch(`/api/admin/day/FAKEID/setlastday`)
     .set('Authorization', userAuthToken)
-    .send({
-      id: 'dayId',
-    })
     .end((err, res) => {
       expect(res.status).toNotBe(200)
       expect(res.body.success).toBe(false)
@@ -152,11 +146,8 @@ describe.only('Day - API', () => {
 
   it('should set another day as last day of the round', (done) => {
     chai.request(app)
-    .patch('/api/admin/day/setlastday')
+    .patch(`/api/admin/day/${dayId}/setlastday`)
     .set('Authorization', userAuthToken)
-    .send({
-      id: anotherDayId,
-    })
     .end((err, res) => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)

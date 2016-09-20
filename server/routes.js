@@ -107,7 +107,7 @@ module.exports = (express, app) => {
   api.get('/admin/days/:round', AuthRequired('admin'), DayCtrl.indexByRound)
   api.get('/admin/day/:id', AuthRequired(), DayCtrl.getAdmin)
   api.post('/admin/day', AuthRequired(), DayCtrl.create)
-  api.patch('/admin/day/setlastday/:id?', AuthRequired(), DayCtrl.setLastDay)
+  api.patch('/admin/day/:id/setlastday', AuthRequired(), DayCtrl.setLastDay)
   api.delete('/admin/day/:id?', AuthRequired(), DayCtrl.delete)
   //  public
   api.get('/days/:round', DayCtrl.indexPublic)
