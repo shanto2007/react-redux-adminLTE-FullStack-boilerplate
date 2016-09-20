@@ -146,7 +146,7 @@ describe.only('Day - API', () => {
 
   it('should set another day as last day of the round', (done) => {
     chai.request(app)
-    .patch(`/api/admin/day/${dayId}/setlastday`)
+    .patch(`/api/admin/day/${anotherDayId}/setlastday`)
     .set('Authorization', userAuthToken)
     .end((err, res) => {
       expect(res.status).toBe(200)
@@ -276,7 +276,7 @@ describe.only('Day - API', () => {
 
   it('should NOT delete a day without auth token', (done) => {
     chai.request(app)
-    .delete('/api/admin/day/')
+    .delete(`/api/admin/day/${dayId}`)
     .end((err, res) => {
       expect(err).toExist()
       expect(res.status).toBe(400)
@@ -287,7 +287,7 @@ describe.only('Day - API', () => {
 
   it('should NOT delete a day without a proper id', (done) => {
     chai.request(app)
-    .delete('/api/admin/day/MYFAKEID')
+    .delete(`/api/admin/day/FAKEID`)
     .set('Authorization', userAuthToken)
     .end((err, res) => {
       expect(err).toExist()
@@ -296,23 +296,9 @@ describe.only('Day - API', () => {
     })
   })
 
-  it('should delete a day passing id by form-data', (done) => {
-    chai.request(app)
-    .delete('/api/admin/day/')
-    .send({
-      id: dayId,
-    })
-    .set('Authorization', userAuthToken)
-    .end((err, res) => {
-      expect(res.status).toBe(200)
-      expect(res.body.success).toBe(true)
-      done()
-    })
-  })
-
   it('should delete a day passing id by params', (done) => {
     chai.request(app)
-    .delete(`/api/admin/day/${anotherDayId}`)
+    .delete(`/api/admin/day/${dayId}`)
     .set('Authorization', userAuthToken)
     .end((err, res) => {
       expect(res.status).toBe(200)

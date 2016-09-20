@@ -157,14 +157,15 @@ module.exports = {
     })
   },
   delete: (req, res) => {
-    const id = req.body.id || req.params.id
-    if (!id) {
+    const dayId = req.params.id
+    if (!dayId) {
       return res.status(400).json({
         success: false,
         message: 'No id provided',
       })
     }
-    return Day.findOneAndRemove({ _id: id }, (err, status) => {
+    // TODO CASCADE REMOVE MATCHS
+    return Day.findOneAndRemove({ _id: dayId }, (err, status) => {
       if (err) {
         return res.status(500).json({
           success: false,
