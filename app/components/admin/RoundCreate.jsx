@@ -3,38 +3,12 @@ import { connect } from 'react-redux'
 import Box from 'Box'
 import { startCreateNewRounds } from 'actions'
 
-// NICE BUT NOT WORKIGN
-// const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-// NOT WORK
-// // get existing round label and split join in string in format A|B|C
-// let existingRoundsRegExp = rounds.map((r) => {
-//   return r.label
-// }).join('|')
-// // GENERATED CAPTURE GROUP WITH THE JOINs
-// existingRoundsRegExp = `(${existingRoundsRegExp})`
-// // REPLACE THE EXISTING ROUND IN THE ALPHABET
-// const avaibleRounds = alphabet.replace(new RegExp(existingRoundsRegExp, 'g'), '')
-// that.setState({
-//   ...this.state,
-//   avaibleRounds,
-// })
-
 class RoundCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       host: null,
       label: null,
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const season = nextProps.season
-    // get working season as it change in topbar
-    if ((season._id && season._id !== this.state.season) || !this.state.season) {
-      this.setState({
-        season: season._id,
-      })
     }
   }
 
@@ -61,13 +35,12 @@ class RoundCreate extends React.Component {
     if (this.state.host) {
       newRound.host = this.state.host
     }
-    newRound.season = this.state.season
+    newRound.season = this.props.season._id
     dispatch(startCreateNewRounds(newRound))
   }
 
   generateLabelsList() {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    // GENERATE THE USABLE LABEL CHOICE
     return alphabet.split('').map((c, i) => {
       return (
         <option value={c} key={i}>{c}</option>
@@ -79,6 +52,7 @@ class RoundCreate extends React.Component {
     const { season } = this.props
     return (
       <Box title="Create Round" overlay={season ? null : 'Select a season to edit in the topbar!'}>
+        {JSON.stringify(season)}
         <form onSubmit={(e) => this.onCreateRound(e)}>
           <div className="col-sm-12 col-md-9">
             <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />

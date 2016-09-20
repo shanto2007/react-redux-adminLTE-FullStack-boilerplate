@@ -21,4 +21,10 @@ class AdminRounds extends React.Component {
   }
 }
 
+AdminRounds.propTypes = {
+  dispatch: React.PropTypes.func,
+  season: React.PropTypes.object,
+  rounds: React.PropTypes.array,
+}
+
 export default AdminRounds

@@ -12,6 +12,11 @@ export const rounds = (state = defaultAdminRoundState, action) => {
         ...state,
         rounds: action.rounds,
       }
+    case 'CLEAR_ADMIN_ROUNDS':
+      return {
+        ...state,
+        rounds: action.rounds,
+      }
     case 'ADMIN_ROUND_LOADING':
       return {
         ...state,

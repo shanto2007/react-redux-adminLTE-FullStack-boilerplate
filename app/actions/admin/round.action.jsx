@@ -8,6 +8,13 @@ export const setAdminRounds = (rounds) => {
   }
 }
 
+export const clearAdminRounds = (rounds = []) => {
+  return {
+    type: 'CLEAR_ADMIN_ROUNDS',
+    rounds,
+  }
+}
+
 export const adminRoundsLoading = (loading) => {
   return {
     type: 'ADMIN_ROUND_LOADING',

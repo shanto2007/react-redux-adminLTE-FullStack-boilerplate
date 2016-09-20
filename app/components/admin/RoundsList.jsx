@@ -1,39 +1,43 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Box from 'Box'
-import { startGetAdminRounds, startDeleteRound } from 'actions'
+import { connect } from 'react-redux'
+import { startGetAdminRounds, startDeleteRound, clearAdminRounds } from 'actions'
 
 class RoundsList extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      viewedSeason: null,
+  }
+
+  componentWillMount() {
+    const { season, dispatch } = this.props
+    if (season) {
+      dispatch(startGetAdminRounds(season._id))
+    } else {
+      dispatch(clearAdminRounds())
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
-    const season = nextProps.season
+    const newSeason = nextProps.season
+    const prevSeason = this.props.season
     // GET first data and refresh data if season is switched in the topbar
-    if (season._id && season._id !== this.state.viewedSeason) {
-      dispatch(startGetAdminRounds(season._id))
-      this.setState({
-        viewedSeason: season._id,
-      })
+    if (newSeason !== prevSeason && !prevSeason) {
+      return dispatch(startGetAdminRounds(newSeason._id))
     }
+    return null
   }
 
   onDeleteRound(e, round) {
     e.stopPropagation()
     const { dispatch } = this.props
     if (round && round._id && confirm('You will lose all data of this rounds')) {
-      // TODO CASCADE DELETE ON SERVER
       dispatch(startDeleteRound(round._id))
     }
   }
 
   renderRoundList() {
-    const { rounds } = this.props.rounds
+    const { rounds } = this.props
     if (rounds && rounds.length) {
       /**
        * SORT BY LABEL
@@ -96,6 +100,7 @@ class RoundsList extends React.Component {
   render() {
     return (
       <Box title="Rounds list">
+        {JSON.stringify(this.props)}
         <ul className="products-list product-list-in-box">
           {this.renderRoundList()}
         </ul>
@@ -106,11 +111,11 @@ class RoundsList extends React.Component {
 
 RoundsList.propTypes = {
   season: React.PropTypes.object,
-  rounds: React.PropTypes.object,
+  rounds: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 }
 
 export default connect((state) => ({
   season: state.seasons.viewed,
-  rounds: state.rounds,
+  rounds: state.rounds.rounds,
 }))(RoundsList)
