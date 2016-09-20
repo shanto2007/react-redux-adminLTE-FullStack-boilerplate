@@ -12,7 +12,7 @@ const overlayStyle = {
 }
 
 const Box = function Box(props) {
-  let LoadingOverlay;
+  let LoadingOverlay, actionButtons
   if (props.loading) {
     LoadingOverlay = (
       <div className="overlay">
@@ -28,6 +28,7 @@ const Box = function Box(props) {
   } else {
     LoadingOverlay = null;
   }
+
   return (
     <div className={`box box-solid box-default ${props.className || ''}`}>
       <div className="box-header">
@@ -46,7 +47,8 @@ Box.propTypes = {
   className: React.PropTypes.string,
   children: React.PropTypes.node,
   loading: React.PropTypes.bool,
+  actions: React.PropTypes.object,
   overlay: React.PropTypes.string,
-};
+}
 
 export default Box;

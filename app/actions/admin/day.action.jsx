@@ -36,22 +36,12 @@ export const adminDaysFail = (fail) => {
   }
 }
 
-export const startGetAdminDays = (season) => {
+export const startGetAdminDays = (round) => {
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(adminDaysLoading(true))
-    if (!season && !store.seasons.viewed) {
-      dispatch(openToastr('error', 'No Season selected!', 'Select a season plase!'))
-      dispatch(setAdminDays([]))
-      dispatch(adminDaysSuccess(false))
-      dispatch(adminDaysFail('No Season provided'))
-      dispatch(adminDaysLoading(false))
-      return null
-    } else if (!season && store.seasons.viewed._id) {
-      season = store.seasons.viewed._id
-    }
-    return Api.get(`/admin/days/${season}`, {
+    return Api.get(`/admin/days/${round}`, {
       headers: {
         Authorization: authToken,
       },
@@ -72,12 +62,15 @@ export const startGetAdminDays = (season) => {
   }
 }
 
-export const startCreateNewDays = (newDay) => {
+export const startCreateNewDay = (newDay) => {
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
     if (!newDay.season) {
       return dispatch(openToastr('error', 'No season selected!'))
+    }
+    if (!newDay.round) {
+      return dispatch(openToastr('error', 'No round selected!'))
     }
     dispatch(adminDaysLoading(true))
     return Api.post('/admin/day', newDay, {
@@ -89,7 +82,7 @@ export const startCreateNewDays = (newDay) => {
       dispatch(openToastr('success', 'Days created!'))
       dispatch(adminDaysSuccess(true))
       dispatch(adminDaysLoading(false))
-      dispatch(startGetAdminDays(res.data.day.season))
+      dispatch(startGetAdminDays(res.data.day.round))
       return res
     })
     .catch((res) => {
@@ -116,7 +109,7 @@ export const startDeleteDay = (dayId) => {
       dispatch(openToastr('success', 'Day removed!'))
       dispatch(adminDaysSuccess(true))
       dispatch(adminDaysLoading(false))
-      dispatch(startGetAdminDays(res.data.day.season))
+      dispatch(startGetAdminDays(res.data.day.round))
       return res
     })
     .catch((res) => {

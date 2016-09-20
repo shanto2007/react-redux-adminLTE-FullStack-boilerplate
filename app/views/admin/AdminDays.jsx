@@ -3,7 +3,7 @@ import React from 'react'
 /**
  * COMPs
  */
-import DayCreate from 'RoundCreate'
+import DayCreate from 'DayCreate'
 import DaysList from 'DaysList'
 
 class AdminDays extends React.Component {

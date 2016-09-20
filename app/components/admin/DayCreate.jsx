@@ -1,71 +1,56 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Box from 'Box'
-import { startCreateNewRounds } from 'actions'
+import { startCreateNewDay, startGetAdminRounds } from 'actions'
 
 class RoundCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      host: null,
-      label: null,
+      round: null,
     }
   }
 
-  onLabelChange(e) {
+  onRoundSelect(e) {
     e.stopPropagation()
-    const label = e.target.value
-    if (label) {
-      this.setState({ label })
+    const round = e.target.value
+    if (round) {
+      this.setState({ round })
     }
-  }
-
-  onHostChange(e) {
-    e.stopPropagation()
-    const host = e.target.value
-    this.setState({ host })
   }
 
   onCreateRound(e) {
     e.stopPropagation()
     e.preventDefault()
     const { dispatch } = this.props
-    const newRound = {}
-    newRound.label = this.state.label
-    if (this.state.host) {
-      newRound.host = this.state.host
-    }
-    newRound.season = this.props.season._id
-    dispatch(startCreateNewRounds(newRound))
+    const newDay = {}
+    newDay.round = this.state.round
+    newDay.season = this.props.season._id
+    dispatch(startCreateNewDay(newDay))
   }
 
-  generateLabelsList() {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    return alphabet.split('').map((c, i) => {
+  generateRoundList() {
+    const { rounds } = this.props
+    return rounds.map((round, i) => {
       return (
-        <option value={c} key={i}>{c}</option>
+        <option value={round._id} key={i}>{round.label}</option>
       )
     })
   }
 
   render() {
-    const { season } = this.props
+    const { season, rounds } = this.props
     return (
       <Box title="Create Round" overlay={season ? null : 'Select a season to edit in the topbar!'}>
         {JSON.stringify(season)}
+        {JSON.stringify(rounds)}
         <form onSubmit={(e) => this.onCreateRound(e)}>
-          <div className="col-sm-12 col-md-9">
-            <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />
-          </div>
-          <div className="col-sm-12 col-md-3">
-            <select className="form-control" defaultValue="0" onChange={(e) => this.onLabelChange(e)}>
-              <option value="0" disabled>Select a label</option>
-              { this.generateLabelsList() }
-            </select>
-          </div>
-          <div className="clearfix"></div>
+          <select className="form-control" defaultValue="0" onChange={(e) => this.onRoundSelect(e)}>
+            <option value="0" disabled>Select a round</option>
+            { this.generateRoundList() }
+          </select>
           <div className="submit-box">
-            <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.label}>Create New Round</button>
+            <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.round}>Create New Round</button>
           </div>
           <div className="clearfix"></div>
         </form>

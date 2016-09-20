@@ -11,3 +11,4 @@ export * from 'admin/toastr.action'
  */
 export * from 'admin/season.action'
 export * from 'admin/round.action'
+export * from 'admin/day.action'

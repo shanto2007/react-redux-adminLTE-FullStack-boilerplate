@@ -11,3 +11,4 @@ export * from 'admin/toastr.reducer'
  */
 export * from 'admin/season.reducer'
 export * from 'admin/round.reducer'
+export * from 'admin/day.reducer'
