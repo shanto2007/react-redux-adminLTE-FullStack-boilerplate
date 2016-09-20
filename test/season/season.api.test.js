@@ -6,7 +6,7 @@ const chaiHttp    = require('chai-http')
 const expect      = require('expect')
 const jwt         = require('jsonwebtoken')
 
-describe.only('Season - API', () => {
+describe('Season - API', () => {
   let userAuthToken, seasonToEditId
   // generate a auth dummy token
   before(() => {

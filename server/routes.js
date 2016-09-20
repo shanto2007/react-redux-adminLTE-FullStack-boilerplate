@@ -103,14 +103,14 @@ module.exports = (express, app) => {
   /**
    *  DAYS
    */
-  api.get('/admin/days', AuthRequired(), DayCtrl.indexAdmin)
-  api.get('/admin/day/:id?', AuthRequired(), DayCtrl.getAdmin)
+  api.get('/admin/days', AuthRequired('admin'), DayCtrl.indexAdmin)
+  api.get('/admin/days/:round', AuthRequired('admin'), DayCtrl.indexByRound)
+  api.get('/admin/day/:id', AuthRequired(), DayCtrl.getAdmin)
   api.post('/admin/day', AuthRequired(), DayCtrl.create)
   api.patch('/admin/day/setlastday/:id?', AuthRequired(), DayCtrl.setLastDay)
   api.delete('/admin/day/:id?', AuthRequired(), DayCtrl.delete)
   //  public
-  api.get('/days', DayCtrl.indexPublic)
-  api.get('/day/:id?', DayCtrl.getPublic)
+  api.get('/days/:round', DayCtrl.indexPublic)
 
   /**
    *  TEAM

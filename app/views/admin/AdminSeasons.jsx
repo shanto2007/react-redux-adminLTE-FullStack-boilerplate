@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Box from 'Box'
 import { startGetAdminSeasons, startCreateNewSeason, startDeleteSeason, startSetCurrentSeason } from 'actions'
 
-class AdminSeasonsList extends React.Component {
+class AdminSeasons extends React.Component {
   constructor(props) {
     super(props)
 
@@ -114,11 +114,11 @@ class AdminSeasonsList extends React.Component {
   }
 }
 
-AdminSeasonsList.propTypes = {
+AdminSeasons.propTypes = {
   dispatch: React.PropTypes.func,
   seasons: React.PropTypes.object,
 }
 
 export default connect((state) => ({
   seasons: state.seasons,
-}))(AdminSeasonsList)
+}))(AdminSeasons)

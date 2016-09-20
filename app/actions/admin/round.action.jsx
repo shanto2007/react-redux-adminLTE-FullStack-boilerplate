@@ -41,12 +41,15 @@ export const startGetAdminRounds = (season) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(adminRoundsLoading(true))
-    if (!season) {
+    if (!season && !store.seasons.viewed) {
       dispatch(openToastr('error', 'No Season selected!', 'Select a season plase!'))
       dispatch(setAdminRounds([]))
       dispatch(adminRoundsSuccess(false))
       dispatch(adminRoundsFail('No Season provided'))
       dispatch(adminRoundsLoading(false))
+      return null
+    } else if (!season && store.seasons.viewed._id) {
+      season = store.seasons.viewed._id
     }
     return Api.get(`/admin/rounds/${season}`, {
       headers: {

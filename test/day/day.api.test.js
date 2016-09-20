@@ -8,7 +8,7 @@ const Round       = require(testenv.serverdir + 'models/round.model')
 const Day       = require(testenv.serverdir + 'models/day.model')
 const jwt         = require('jsonwebtoken')
 
-describe('Day - API', () => {
+describe.only('Day - API', () => {
   let userAuthToken, seasonId, roundId, dayId, anotherDayId
 
   before((done) => {
@@ -118,6 +118,8 @@ describe('Day - API', () => {
     }).catch(done)
   })
 
+
+
   it('should set the new last day for that round', (done) => {
     chai.request(app)
     .patch('/api/admin/day/setlastday')
@@ -174,9 +176,10 @@ describe('Day - API', () => {
     })
   })
 
-  it('should get public day index', (done) => {
+  it('should get admin day index by round', (done) => {
     chai.request(app)
-    .get('/api/days')
+    .get(`/api/admin/days/${roundId}`)
+    .set('Authorization', userAuthToken)
     .end((err, res) => {
       const { body } = res
       expect(res.status).toBe(200)
@@ -189,7 +192,7 @@ describe('Day - API', () => {
 
   it('should get public day index passing round id', (done) => {
     chai.request(app)
-    .get(`/api/days?round=${roundId}`)
+    .get(`/api/days/${roundId}`)
     .end((err, res) => {
       const { body } = res
       expect(res.status).toBe(200)
@@ -202,7 +205,7 @@ describe('Day - API', () => {
 
   it('should return error if round id is invalid', (done) => {
     chai.request(app)
-    .get(`/api/days?round=123`)
+    .get(`/api/days/123`)
     .end((err, res) => {
       const { body } = res
       expect(err).toExist()
@@ -239,7 +242,7 @@ describe('Day - API', () => {
 
   it('should NOT get a single day without auth token - admin route', (done) => {
     chai.request(app)
-    .get('/api/admin/day')
+    .get(`/api/admin/day/${dayId}`)
     .end((err, res) => {
       expect(err).toExist()
       expect(res.status).toBe(400)
@@ -260,7 +263,7 @@ describe('Day - API', () => {
 
   it('should get a single day by route param id - admin route', (done) => {
     chai.request(app)
-    .get('/api/admin/day/' + dayId )
+    .get(`/api/admin/day/${dayId}`)
     .set('Authorization', userAuthToken)
     .end((err, res) => {
       expect(res.status).toBe(200)
@@ -270,52 +273,12 @@ describe('Day - API', () => {
     })
   })
 
-  it('should get a single day id passed by json - admin route', (done) => {
+  it('should NOT GET single day and return 404 - admin route', (done) => {
     chai.request(app)
-    .get('/api/admin/day')
+    .get(`/api/admin/day/${roundId}`) // fakeit
     .set('Authorization', userAuthToken)
-    .send({
-      id: dayId,
-    })
     .end((err, res) => {
-      expect(res.status).toBe(200)
-      expect(res.body.day).toExist()
-      expect(res.body.day._id).toEqual(dayId)
-      done()
-    })
-  })
-
-  it('should NOT get a single day without a valid id', (done) => {
-    chai.request(app)
-    .get('/api/day/FAKEID')
-    .end((err, res) => {
-      expect(err).toExist()
-      expect(res.status).toBe(500)
-      done()
-    })
-  })
-
-  it('should get a single day, passing id by json', (done) => {
-    chai.request(app)
-    .get('/api/day')
-    .send({
-      id: dayId,
-    })
-    .end((err, res) => {
-      expect(res.status).toBe(200)
-      expect(res.body.day).toExist()
-      expect(res.body.day._id).toEqual(dayId)
-      done()
-    })
-  })
-
-  it('should get a single day, passing id by param', (done) => {
-    chai.request(app)
-    .get('/api/day/' + dayId)
-    .end((err, res) => {
-      expect(res.status).toBe(200)
-      expect(res.body.day).toExist()
-      expect(res.body.day._id).toEqual(dayId)
+      expect(res.status).toBe(404)
       done()
     })
   })

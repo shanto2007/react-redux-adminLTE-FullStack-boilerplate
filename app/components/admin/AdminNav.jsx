@@ -113,6 +113,9 @@ class AdminNav extends React.Component {
                   <li className="active">
                     <Link to="/admin/rounds"><i className="fa fa-sitemap"></i> Rounds</Link>
                   </li>
+                  <li className="active">
+                    <Link to="/admin/days"><i className="fa fa-sitemap"></i> Days</Link>
+                  </li>
                 </ul>
               </li>
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import AdminNav from 'AdminNav'
-import { getUserData, startGetAdminSeasons, startGetCurrentSeason } from 'actions'
+import { getUserData, startGetAdminSeasons, startGetCurrentSeason, startGetAdminRounds } from 'actions'
 
 //  Chunk assets to lazy load
 function getStaticAssets() {
@@ -30,7 +30,9 @@ class AdminWrapper extends React.Component {
     const { dispatch } = this.props
     dispatch(getUserData())
     dispatch(startGetAdminSeasons())
-    dispatch(startGetCurrentSeason())
+    dispatch(startGetCurrentSeason()).then(() => {
+      dispatch(startGetAdminRounds())
+    })
   }
 
   componentWillUnmount() {

@@ -2,7 +2,7 @@ const Day = require('../models/day.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
-    return Day.find(req.query, (err, days) => {
+    return Day.find({}, (err, days) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -16,58 +16,88 @@ module.exports = {
     })
   },
   indexPublic: (req, res) => {
-    return Day.find(req.query, (err, days) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: 'Invalid query.',
-        })
-      }
+    const roundId = req.params.round
+    if (!roundId) {
+      return res.status(400).json({
+        success: false,
+        action: 'public index by round',
+        message: 'No Season id provided',
+      })
+    }
+    return Day.find({
+      round: roundId,
+    }).exec()
+    .then((days) => {
       return res.json({
         success: true,
+        action: 'public index by round',
         days,
       })
     })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'public index by round',
+        message: err,
+        err,
+      })
+    })
   },
-  getPublic: (req, res) => {
-    const dayId = req.body.id || req.params.id
-    if (!dayId) {
+  indexByRound: (req, res) => {
+    const roundId = req.params.round
+    if (!roundId) {
       return res.status(400).json({
         success: false,
-        message: 'No Day id provided',
+        action: 'admin index by round',
+        message: 'No Season id provided',
       })
     }
-    return Day.findById(dayId, (err, day) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
-        })
-      }
+    return Day.find({
+      round: roundId,
+    }).exec()
+    .then((days) => {
       return res.json({
         success: true,
-        day,
+        action: 'admin index by round',
+        days,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'admin index by round',
+        message: err,
+        err,
       })
     })
   },
   getAdmin: (req, res) => {
-    const dayId = req.body.id || req.params.id
+    const dayId = req.params.id
     if (!dayId) {
       return res.status(400).json({
         success: false,
+        action: 'admin get single day',
         message: 'No Day id provided',
       })
     }
-    return Day.findById(dayId, (err, day) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
+    return Day.findById(dayId).exec()
+    .then((day) => {
+      if (!day) {
+        return Promise.reject({
+          message: 'No Day id provided',
+          status: 404,
         })
       }
       return res.json({
         success: true,
         day,
+      })
+    })
+    .catch((err) => {
+      return res.status(err.status ? err.status : 500).json({
+        success: false,
+        action: 'admin get single day',
+        message: err.message ? err.message : err,
       })
     })
   },
