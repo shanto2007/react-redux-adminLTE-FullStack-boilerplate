@@ -66,32 +66,35 @@ module.exports = {
   },
 
   getAdmin: (req, res) => {
-    const teamId = req.body.id || req.params.id
+    const teamId = req.params.id
     if (!teamId) {
       return res.status(400).json({
         success: false,
         message: 'No Team id provided',
       })
     }
-    return Team.findById(teamId)
-    .then((team) => {
-      if (!team) {
-        return Promise.reject({
-          message: 'Team not found, maybe already removed',
-          status: 404,
+    return Team
+      .findById(teamId)
+      .populate('avatar groupPhoto')
+      .exec()
+      .then((team) => {
+        if (!team) {
+          return Promise.reject({
+            message: 'Team not found, maybe already removed',
+            status: 404,
+          })
+        }
+        return res.json({
+          success: true,
+          team,
         })
-      }
-      return res.json({
-        success: true,
-        team,
       })
-    })
-    .catch((err) => {
-      return res.status(err.status ? err.status : 500).json({
-        success: false,
-        message: err.message ? err.message : err,
+      .catch((err) => {
+        return res.status(err.status ? err.status : 500).json({
+          success: false,
+          message: err.message ? err.message : err,
+        })
       })
-    })
   },
 
   create: (req, res) => {

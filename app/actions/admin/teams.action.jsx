@@ -17,21 +17,21 @@ export const clearAdminTeams = (teams = []) => {
 
 export const adminTeamsLoading = (loading) => {
   return {
-    type: 'ADMIN_TEAM_LOADING',
+    type: 'ADMIN_TEAMS_LOADING',
     loading,
   }
 }
 
 export const adminTeamsSuccess = (success) => {
   return {
-    type: 'ADMIN_TEAM_SUCCESS',
+    type: 'ADMIN_TEAMS_SUCCESS',
     success,
   }
 }
 
 export const adminTeamsFail = (fail) => {
   return {
-    type: 'ADMIN_TEAM_FAIL',
+    type: 'ADMIN_TEAMS_FAIL',
     fail,
   }
 }

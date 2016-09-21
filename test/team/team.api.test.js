@@ -373,7 +373,7 @@ describe.only('Team - API', () => {
   describe('GET - admin', () => {
     it('should NOT get without passing auth token', (done) => {
       chai.request(app)
-      .get(`/api/admin/team/`)
+      .get(`/api/admin/team/${teamId}`)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(400)
@@ -387,7 +387,7 @@ describe.only('Team - API', () => {
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
+        expect(res.status).toBe(404)
         done()
       })
     })

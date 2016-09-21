@@ -117,7 +117,7 @@ module.exports = (express, app) => {
    *  TEAM
    */
   api.get('/admin/teams/:round', AuthRequired(), TeamCtrl.indexByRound)
-  api.get('/admin/team/:id?', AuthRequired(), TeamCtrl.getAdmin)
+  api.get('/admin/team/:id', AuthRequired(), TeamCtrl.getAdmin)
   api.post('/admin/team', AuthRequired(), TeamCtrl.create)
   api.patch('/admin/team/:id', AuthRequired(), TeamCtrl.edit)
   api.delete('/admin/team/:id', AuthRequired(), TeamCtrl.delete)

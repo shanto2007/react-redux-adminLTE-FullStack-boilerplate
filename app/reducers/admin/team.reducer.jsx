@@ -1,33 +1,33 @@
-const defaultAdminTeamsState = {
+const defaultAdminTeamState = {
   loading: false,
   success: false,
   fail: '',
-  teams: [],
+  team: null,
 }
 
-export const teams = (state = defaultAdminTeamsState, action) => {
+export const team = (state = defaultAdminTeamState, action) => {
   switch (action.type) {
-    case 'SET_ADMIN_TEAMS':
+    case 'SET_ADMIN_TEAM':
       return {
         ...state,
-        teams: action.teams,
+        team: action.team,
       }
-    case 'CLEAR_ADMIN_TEAMS':
+    case 'CLEAR_ADMIN_TEAM':
       return {
         ...state,
-        teams: action.teams,
+        team: null,
       }
-    case 'ADMIN_TEAMS_LOADING':
+    case 'ADMIN_TEAM_LOADING':
       return {
         ...state,
         loading: action.loading,
       }
-    case 'ADMIN_TEAMS_SUCCESS':
+    case 'ADMIN_TEAM_SUCCESS':
       return {
         ...state,
         success: action.success,
       }
-    case 'ADMIN_TEAMS_FAIL':
+    case 'ADMIN_TEAM_FAIL':
       return {
         ...state,
         fail: action.fail,
