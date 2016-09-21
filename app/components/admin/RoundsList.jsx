@@ -99,7 +99,6 @@ class RoundsList extends React.Component {
   render() {
     return (
       <Box title="Rounds list">
-        {JSON.stringify(this.props)}
         <ul className="products-list product-list-in-box">
           {this.renderRoundList()}
         </ul>

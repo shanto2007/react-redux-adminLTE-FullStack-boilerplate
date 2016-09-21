@@ -1,6 +1,5 @@
 import React from 'react'
 import Box from 'Box'
-import { connect } from 'react-redux'
 import { startGetAdminDays, startDeleteDay, selectAdminRound } from 'actions'
 
 class RoundsList extends React.Component {
@@ -8,21 +7,11 @@ class RoundsList extends React.Component {
     super(props)
   }
 
-  // componentWillMount() {
-  //   const { season, dispatch } = this.props
-  //   if (season) {
-  //     dispatch(startGetAdminDays(season._id))
-  //   } else {
-  //     dispatch(clearAdminDays())
-  //   }
-  // }
-  //
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
-    const selectedRound = nextProps.rounds.selected
-    const prevSelectedRound = this.props.rounds.selected
-    // GET first data and refresh data if season is switched in the topbar
-    if (selectedRound !== prevSelectedRound && !prevSelectedRound) {
+    const selectedRound = nextProps.selectedRound
+    const prevSelectedRound = this.props.selectedRound
+    if (selectedRound !== prevSelectedRound) {
       return dispatch(startGetAdminDays(selectedRound._id))
     }
     return null
@@ -45,10 +34,18 @@ class RoundsList extends React.Component {
   }
 
   roundSelector() {
-    const { rounds } = this.props.rounds
+    const { selectedRound, rounds } = this.props
     if (rounds && rounds.length) {
       return rounds.map((round, i) => {
-        return (<button key={i} onClick={(e) => this.onRoundSelect(e, round)} className="btn btn-default">{round.label}</button>)
+        let dinamicClass
+        if (selectedRound) {
+          dinamicClass = selectedRound._id === round._id ? 'active' : ''
+        }
+        return (
+          <button key={i} onClick={(e) => this.onRoundSelect(e, round)} className={`btn btn-primary ${dinamicClass}`}>
+            <b>{round.label}</b>
+          </button>
+        )
       })
     }
     return (
@@ -93,34 +90,27 @@ class RoundsList extends React.Component {
   }
 
   render() {
-    const { days, rounds } = this.props
-    if (rounds.rounds.length) {
-      return (
-        <Box title="Days list" loading={days.loading}>
-          <br />
-          <div className="btn-group">
-            {this.roundSelector()}
-          </div>
-          <hr />
-          <ul className="products-list product-list-in-box">
-            {this.renderDaysList()}
-          </ul>
-        </Box>
-      )
-    }
-    return null
+    const { days } = this.props
+    return (
+      <Box title="Days list" loading={days.loading}>
+        <br />
+        <div className="btn-group">
+          {this.roundSelector()}
+        </div>
+        <hr />
+        <ul className="products-list product-list-in-box">
+          {this.renderDaysList()}
+        </ul>
+      </Box>
+    )
   }
 }
 
 RoundsList.propTypes = {
-  season: React.PropTypes.object,
-  rounds: React.PropTypes.object,
+  selectedRound: React.PropTypes.object,
+  rounds: React.PropTypes.array,
   days: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 }
 
-export default connect((state) => ({
-  season: state.seasons.viewed,
-  rounds: state.rounds,
-  days: state.days,
-}))(RoundsList)
+export default RoundsList

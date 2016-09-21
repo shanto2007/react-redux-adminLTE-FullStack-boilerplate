@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Box from 'Box'
-import Callout from 'Callout'
 import { startCreateNewDay } from 'actions'
 
 class RoundCreate extends React.Component {
@@ -40,24 +38,21 @@ class RoundCreate extends React.Component {
   }
 
   render() {
-    const { season, rounds } = this.props
-    if (rounds.length) {
-      return (
-        <Box title="Create Day" overlay={season ? null : 'Select a season to edit in the topbar!'}>
-          <form onSubmit={(e) => this.onCreateRound(e)}>
-            <select className="form-control" defaultValue="0" onChange={(e) => this.onRoundSelect(e)}>
-              <option value="0" disabled>Select a round</option>
-              { this.generateRoundList() }
-            </select>
-            <div className="submit-box">
-              <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.round}>Create New Day</button>
-            </div>
-            <div className="clearfix"></div>
-          </form>
-        </Box>
-      )
-    }
-    return <Callout title="No Round created yet!" message="Create a round fopr you season in the round section before creating days." />
+    const { season } = this.props
+    return (
+      <Box title="Create Day" overlay={season ? null : 'Select a season to edit in the topbar!'}>
+        <form onSubmit={(e) => this.onCreateRound(e)}>
+          <select className="form-control" defaultValue="0" onChange={(e) => this.onRoundSelect(e)}>
+            <option value="0" disabled>Select a round</option>
+            { this.generateRoundList() }
+          </select>
+          <div className="submit-box">
+            <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.round}>Create New Day</button>
+          </div>
+          <div className="clearfix"></div>
+        </form>
+      </Box>
+    )
   }
 }
 
@@ -67,7 +62,4 @@ RoundCreate.propTypes = {
   rounds: React.PropTypes.array,
 }
 
-export default connect((state) => ({
-  season: state.seasons.viewed,
-  rounds: state.rounds.rounds,
-}))(RoundCreate)
+export default RoundCreate

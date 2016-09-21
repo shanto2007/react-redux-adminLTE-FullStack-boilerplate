@@ -12,7 +12,7 @@ const overlayStyle = {
 }
 
 const Box = function Box(props) {
-  let LoadingOverlay, actionButtons
+  let LoadingOverlay
   if (props.loading) {
     LoadingOverlay = (
       <div className="overlay">
