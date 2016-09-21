@@ -1,6 +1,5 @@
 import React from 'react'
 import Box from 'Box'
-import { connect } from 'react-redux'
 import { startGetAdminRounds, startDeleteRound, clearAdminRounds } from 'actions'
 
 class RoundsList extends React.Component {
@@ -98,30 +97,21 @@ class RoundsList extends React.Component {
 
 
   render() {
-    const { seasons, season } = this.props
-    if (season && seasons.length) {
-      return (
-        <Box title="Rounds list">
-          {JSON.stringify(this.props)}
-          <ul className="products-list product-list-in-box">
-            {this.renderRoundList()}
-          </ul>
-        </Box>
-      )
-    }
-    return null
+    return (
+      <Box title="Rounds list">
+        {JSON.stringify(this.props)}
+        <ul className="products-list product-list-in-box">
+          {this.renderRoundList()}
+        </ul>
+      </Box>
+    )
   }
 }
 
 RoundsList.propTypes = {
-  seasons: React.PropTypes.array,
   season: React.PropTypes.object,
   rounds: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 }
 
-export default connect((state) => ({
-  seasons: state.seasons.seasons,
-  season: state.seasons.viewed,
-  rounds: state.rounds.rounds,
-}))(RoundsList)
+export default RoundsList

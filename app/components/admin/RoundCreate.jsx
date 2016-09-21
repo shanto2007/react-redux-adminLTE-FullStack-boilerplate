@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Box from 'Box'
 import Callout from 'Callout'
 import { startCreateNewRounds } from 'actions'
@@ -50,12 +49,7 @@ class RoundCreate extends React.Component {
   }
 
   render() {
-    const { season, seasons } = this.props
-    if (!seasons.length) {
-      return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
-    } else if (!season) {
-      return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
-    }
+    const { season } = this.props
     return (
       <Box title="Create Round">
         {JSON.stringify(season)}
@@ -83,12 +77,7 @@ class RoundCreate extends React.Component {
 RoundCreate.propTypes = {
   dispatch: React.PropTypes.func,
   season: React.PropTypes.object,
-  seasons: React.PropTypes.array,
   rounds: React.PropTypes.array,
 }
 
-export default connect((state) => ({
-  seasons: state.seasons.seasons,
-  season: state.seasons.viewed,
-  rounds: state.rounds.rounds,
-}))(RoundCreate)
+export default RoundCreate
