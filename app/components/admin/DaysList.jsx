@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from 'Box'
 import { connect } from 'react-redux'
-import { startGetAdminDays, startDeleteRound, clearAdminDays } from 'actions'
+import { startGetAdminDays, startDeleteDay, selectAdminRound } from 'actions'
 
 class RoundsList extends React.Component {
   constructor(props) {
@@ -17,58 +17,69 @@ class RoundsList extends React.Component {
   //   }
   // }
   //
-  // componentWillReceiveProps(nextProps) {
-  //   const { dispatch } = this.props
-  //   const newSeason = nextProps.season
-  //   const prevSeason = this.props.season
-  //   // GET first data and refresh data if season is switched in the topbar
-  //   if (newSeason !== prevSeason && !prevSeason) {
-  //     return dispatch(startGetAdminRounds(newSeason._id))
-  //   }
-  //   return null
-  // }
+  componentWillReceiveProps(nextProps) {
+    const { dispatch } = this.props
+    const selectedRound = nextProps.rounds.selected
+    const prevSelectedRound = this.props.rounds.selected
+    // GET first data and refresh data if season is switched in the topbar
+    if (selectedRound !== prevSelectedRound && !prevSelectedRound) {
+      return dispatch(startGetAdminDays(selectedRound._id))
+    }
+    return null
+  }
 
-  // onDeleteRound(e, round) {
-  //   e.stopPropagation()
-  //   const { dispatch } = this.props
-  //   if (round && round._id && confirm('You will lose all data of this rounds')) {
-  //     dispatch(startDeleteRound(round._id))
-  //   }
-  // }
+  onDeleteDay(e, day) {
+    e.stopPropagation()
+    const { dispatch } = this.props
+    if (day && day._id && confirm('You will lose all data of this days')) {
+      dispatch(startDeleteDay(day._id))
+    }
+  }
+
+  onRoundSelect(e, round) {
+    e.preventDefault()
+    e.stopPropagation()
+    const { dispatch } = this.props
+    dispatch(selectAdminRound(round))
+    // dispatch(startGetAdminDays(round._id))
+  }
+
+  roundSelector() {
+    const { rounds } = this.props.rounds
+    if (rounds && rounds.length) {
+      return rounds.map((round, i) => {
+        return (<button key={i} onClick={(e) => this.onRoundSelect(e, round)} className="btn btn-default">{round.label}</button>)
+      })
+    }
+    return (
+      <div className="callout callout-danger">
+        <h4>No Round created yet!</h4>
+        <p>
+          No Roudn created for your torunament, create some in the round section!
+        </p>
+      </div>
+    )
+  }
 
   renderDaysList() {
-    const { days } = this.props
+    const { days } = this.props.days
     if (days && days.length) {
       /**
        * GENERATE LIST
        */
       return days.map((day, i) => {
-        let host = null, season = null
-        // if (day.host.length) {
-        //   host = (
-        //     <span className="product-description">
-        //       <b>Host: </b> {day.host}
-        //     </span>
-        //   )
-        // }
-        // if (day.season.year) {
-        //   season = (
-        //     <span className="product-description">
-        //       <b>Season: </b> {day.season.year}
-        //     </span>
-        //   )
-        // }
         return (
           <li className="item" key={i}>
-            <div className="product-info round-info">
+            <div className="product-info day-info">
               <span className="label label-danger pull-right">
-                <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteRound(e, round)}></i>
+                <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteDay(e, day)}></i>
               </span>
               <span className="product-title">
-                <b>Day </b> {i}
+                <b>Day: </b> {i}
               </span>
-              {/* {host}
-              {season} */}
+              <span className="product-title">
+                more info
+              </span>
             </div>
           </li>
         )
@@ -81,42 +92,35 @@ class RoundsList extends React.Component {
     )
   }
 
-  roundSelector() {
-    const { rounds } = this.props
-    if (rounds) {
-      return rounds.map((round, i) => {
-        return (<button key={i} className="btn btn-default">{round.label}</button>)
-      })
-    }
-
-  }
-
   render() {
-    return (
-      <Box title="Rounds list">
-        {JSON.stringify(this.props.days)}
-        <br />
-        <div className="btn-group">
-          <button disabled className="btn btn-default">Select Round</button>
-          {this.roundSelector()}
-        </div>
-        <hr />
-        <ul className="products-list product-list-in-box">
-          {/* {this.renderDaysList()} */}
-        </ul>
-      </Box>
-    )
+    const { days, rounds } = this.props
+    if (rounds.rounds.length) {
+      return (
+        <Box title="Days list" loading={days.loading}>
+          <br />
+          <div className="btn-group">
+            {this.roundSelector()}
+          </div>
+          <hr />
+          <ul className="products-list product-list-in-box">
+            {this.renderDaysList()}
+          </ul>
+        </Box>
+      )
+    }
+    return null
   }
 }
 
 RoundsList.propTypes = {
   season: React.PropTypes.object,
-  rounds: React.PropTypes.array,
+  rounds: React.PropTypes.object,
+  days: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 }
 
 export default connect((state) => ({
   season: state.seasons.viewed,
-  rounds: state.rounds.rounds,
-  days: state.days.days,
+  rounds: state.rounds,
+  days: state.days,
 }))(RoundsList)

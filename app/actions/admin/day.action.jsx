@@ -109,6 +109,7 @@ export const startDeleteDay = (dayId) => {
       dispatch(openToastr('success', 'Day removed!'))
       dispatch(adminDaysSuccess(true))
       dispatch(adminDaysLoading(false))
+      console.log(res.data)
       dispatch(startGetAdminDays(res.data.day.round))
       return res
     })

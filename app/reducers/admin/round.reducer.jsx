@@ -3,6 +3,7 @@ const defaultAdminRoundState = {
   success: false,
   fail: '',
   rounds: [],
+  selected: null,
 }
 
 export const rounds = (state = defaultAdminRoundState, action) => {
@@ -16,6 +17,11 @@ export const rounds = (state = defaultAdminRoundState, action) => {
       return {
         ...state,
         rounds: action.rounds,
+      }
+    case 'SELECT_ADMIN_ROUND':
+      return {
+        ...state,
+        selected: action.round,
       }
     case 'ADMIN_ROUND_LOADING':
       return {

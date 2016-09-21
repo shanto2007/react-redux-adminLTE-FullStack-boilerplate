@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Box from 'Box'
+import Callout from 'Callout'
 import { startCreateNewRounds } from 'actions'
 
 class RoundCreate extends React.Component {
@@ -49,38 +50,43 @@ class RoundCreate extends React.Component {
   }
 
   render() {
-    const { season } = this.props
-    return (
-      <Box title="Create Round" overlay={season ? null : 'Select a season to edit in the topbar!'}>
-        {JSON.stringify(season)}
-        <form onSubmit={(e) => this.onCreateRound(e)}>
-          <div className="col-sm-12 col-md-9">
-            <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />
-          </div>
-          <div className="col-sm-12 col-md-3">
-            <select className="form-control" defaultValue="0" onChange={(e) => this.onLabelChange(e)}>
-              <option value="0" disabled>Select a label</option>
-              { this.generateLabelsList() }
-            </select>
-          </div>
-          <div className="clearfix"></div>
-          <div className="submit-box">
-            <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.label}>Create New Round</button>
-          </div>
-          <div className="clearfix"></div>
-        </form>
-      </Box>
-    )
+    const { season, seasons } = this.props
+    if (seasons.length) {
+      return (
+        <Box title="Create Round">
+          {JSON.stringify(season)}
+          <form onSubmit={(e) => this.onCreateRound(e)}>
+            <div className="col-sm-12 col-md-9">
+              <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />
+            </div>
+            <div className="col-sm-12 col-md-3">
+              <select className="form-control" defaultValue="0" onChange={(e) => this.onLabelChange(e)}>
+                <option value="0" disabled>Select a label</option>
+                { this.generateLabelsList() }
+              </select>
+            </div>
+            <div className="clearfix"></div>
+            <div className="submit-box">
+              <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.label}>Create New Round</button>
+            </div>
+            <div className="clearfix"></div>
+          </form>
+        </Box>
+      )
+    }
+    return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
   }
 }
 
 RoundCreate.propTypes = {
   dispatch: React.PropTypes.func,
   season: React.PropTypes.object,
+  seasons: React.PropTypes.array,
   rounds: React.PropTypes.array,
 }
 
 export default connect((state) => ({
+  seasons: state.seasons.seasons,
   season: state.seasons.viewed,
   rounds: state.rounds.rounds,
 }))(RoundCreate)

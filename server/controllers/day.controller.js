@@ -54,7 +54,7 @@ module.exports = {
     }
     return Day.find({
       round: roundId,
-    }).exec()
+    }).sort('_id').exec()
     .then((days) => {
       return res.json({
         success: true,
@@ -165,14 +165,14 @@ module.exports = {
       })
     }
     // TODO CASCADE REMOVE MATCHS
-    return Day.findOneAndRemove({ _id: dayId }, (err, status) => {
+    return Day.findOneAndRemove({ _id: dayId }, (err, day) => {
       if (err) {
         return res.status(500).json({
           success: false,
           message: err,
         })
       }
-      if (!status) {
+      if (!day) {
         return res.status(404).json({
           success: false,
           message: 'Day not found',
@@ -180,7 +180,7 @@ module.exports = {
       }
       return res.json({
         success: true,
-        status,
+        day,
       })
     })
   },

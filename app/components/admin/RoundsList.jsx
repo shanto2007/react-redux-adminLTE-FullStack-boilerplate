@@ -98,24 +98,30 @@ class RoundsList extends React.Component {
 
 
   render() {
-    return (
-      <Box title="Rounds list">
-        {JSON.stringify(this.props)}
-        <ul className="products-list product-list-in-box">
-          {this.renderRoundList()}
-        </ul>
-      </Box>
-    )
+    const { seasons } = this.props
+    if (seasons.length) {
+      return (
+        <Box title="Rounds list">
+          {JSON.stringify(this.props)}
+          <ul className="products-list product-list-in-box">
+            {this.renderRoundList()}
+          </ul>
+        </Box>
+      )
+    }
+    return null
   }
 }
 
 RoundsList.propTypes = {
+  seasons: React.PropTypes.array,
   season: React.PropTypes.object,
   rounds: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 }
 
 export default connect((state) => ({
+  seasons: state.seasons.seasons,
   season: state.seasons.viewed,
   rounds: state.rounds.rounds,
 }))(RoundsList)

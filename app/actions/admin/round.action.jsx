@@ -15,6 +15,13 @@ export const clearAdminRounds = (rounds = []) => {
   }
 }
 
+export const selectAdminRound = (round) => {
+  return {
+    type: 'SELECT_ADMIN_ROUND',
+    round,
+  }
+}
+
 export const adminRoundsLoading = (loading) => {
   return {
     type: 'ADMIN_ROUND_LOADING',
