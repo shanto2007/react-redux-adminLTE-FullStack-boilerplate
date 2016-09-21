@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import Box from 'Box'
 import {
   selectAdminRound,
@@ -82,14 +83,16 @@ class TeamsList extends React.Component {
         return (
           <li className="item" key={i}>
             <div className="product-img round-host-img">
-              <img src="" role="presentation"/>
+              <img src="" role="presentation" />
             </div>
             <div className="product-info day-info">
               <span className="label label-danger pull-right">
                 <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteDay(e, team)}></i>
               </span>
               <span className="product-title">
-                <b>{team.name}</b>
+                <Link to={`/admin/team/${team._id}`}>
+                  {team.name}
+                </Link>
               </span>
               <span className="product-description">
                 more info
