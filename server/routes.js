@@ -95,6 +95,7 @@ module.exports = (express, app) => {
   api.get('/admin/rounds', AuthRequired('admin'), RoundCtrl.indexAdmin)
   api.get('/admin/rounds/:season', AuthRequired(), RoundCtrl.indexBySeason)
   api.post('/admin/round', AuthRequired(), RoundCtrl.create)
+  api.post('/admin/round/:id/photo', AuthRequired(), upload.single('roundHostPhoto'), RoundCtrl.roundPhotoUpload)
   api.patch('/admin/round/:id?', AuthRequired(), RoundCtrl.edit)
   api.delete('/admin/round/:id?', AuthRequired(), RoundCtrl.delete)
   //  public

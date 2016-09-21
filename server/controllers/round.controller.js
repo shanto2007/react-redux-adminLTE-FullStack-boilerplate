@@ -1,4 +1,5 @@
 const Round = require('../models/round.model')
+const Media = require('../models/media.model')
 
 module.exports = {
   indexAdmin: (req, res) => {
@@ -161,5 +162,45 @@ module.exports = {
           err,
         })
       })
+  },
+
+  roundPhotoUpload: (req, res) => {
+    const { file } = req
+    const { id } = req.params
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file provided',
+      })
+    }
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'No round Id provided',
+      })
+    }
+    const type = 'roundHostPhoto'
+    const filename = req.body.filename || req.file.filename
+    return Media.create({
+      filename,
+      type,
+    })
+    .then((media) => {
+      return Round.findByIdAndUpdate(id, { media: media._id }, { new: true })
+    })
+    .then((round) => {
+      return res.json({
+        success: true,
+        action: 'update',
+        round,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: 'Error uploading round host photo, try again.',
+        error: err,
+      })
+    })
   },
 }

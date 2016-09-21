@@ -1,14 +1,16 @@
 const { testenv, Promise } = global
-const app         = require(testenv.app)
-const chai        = require('chai')
-const chaiHttp    = require('chai-http')
-const expect      = require('expect')
-const Season      = require(testenv.serverdir + 'models/season.model')
-const Round       = require(testenv.serverdir + 'models/round.model')
-const jwt         = require('jsonwebtoken')
+const path     = require('path')
+const fs       = require('fs')
+const app      = require(testenv.app)
+const chai     = require('chai')
+const chaiHttp = require('chai-http')
+const expect   = require('expect')
+const Season   = require(testenv.serverdir + 'models/season.model')
+const Round    = require(testenv.serverdir + 'models/round.model')
+const jwt      = require('jsonwebtoken')
 
-describe('Round - API', () => {
-  let roundToEditId, userAuthToken, seasonId
+describe.only('Round - API', () => {
+  let roundToEditId, userAuthToken, seasonId, mediaId
 
   before((done) => {
     userAuthToken = jwt.sign({
@@ -95,7 +97,6 @@ describe('Round - API', () => {
         expect(res.status).toNotBe(200)
         expect(res.status).toBe(400)
         expect(res.body.success).toBe(false)
-        console.log(res.body)
         done()
       })
     })
@@ -175,6 +176,19 @@ describe('Round - API', () => {
         expect(res.body).toExist()
         expect(res.body.success).toBe(true)
         expect(res.body.round.host).toEqual(host)
+        done()
+      })
+    })
+    it('should upload the host photo', function (done) {
+      this.timeout(5000)
+      let mediaFile = path.join( __dirname, './media/test.jpeg' )
+      chai.request(app)
+      .post(`/api/admin/round/${roundToEditId}/photo`)
+      .set('Authorization', userAuthToken)
+      .attach('roundHostPhoto', fs.readFileSync(mediaFile), 'test.jpeg')
+      .end((err, res) => {
+        expect(res.body.round.media).toExist()
+        mediaId = res.body.round.media._id
         done()
       })
     })
