@@ -98,8 +98,8 @@ class RoundsList extends React.Component {
 
 
   render() {
-    const { seasons } = this.props
-    if (seasons.length) {
+    const { seasons, season } = this.props
+    if (season && seasons.length) {
       return (
         <Box title="Rounds list">
           {JSON.stringify(this.props)}
