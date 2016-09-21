@@ -42,7 +42,7 @@ module.exports = {
     return Round.find({
       season: seasonId,
     })
-    .populate('season')
+    .populate('season media')
     .exec()
     .then((rounds) => {
       return res.json({

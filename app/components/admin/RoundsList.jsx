@@ -1,5 +1,6 @@
 import React from 'react'
 import Box from 'Box'
+import RoundMediaUploader from 'RoundMediaUploader'
 import { startGetAdminRounds, startDeleteRound, clearAdminRounds } from 'actions'
 
 class RoundsList extends React.Component {
@@ -69,10 +70,16 @@ class RoundsList extends React.Component {
             </span>
           )
         }
+        let media
+        if (round.media) {
+          media = <img src={round.media.thumbnail || round.media.path } role="presentation" />
+        } else {
+          media = <RoundMediaUploader round={round} />
+        }
         return (
           <li className="item" key={i}>
             <div className="product-img round-host-img">
-              <img src="dist/img/default-50x50.gif" role="presentation" />
+              {media}
             </div>
             <div className="product-info round-info">
               <span className="label label-danger pull-right">
