@@ -13,6 +13,7 @@ import configureStore from 'configureAdminStore'
 import {
   setAuthToken,
   closeToastr,
+  startGetAdminRounds,
 } from 'actions'
 
 /**
@@ -24,7 +25,7 @@ import * as authTokenLocalStorage from 'authtoken.localstorage'
 import Toastr from 'toastr'
 
 const store = configureStore()
-let currentToastrType
+let currentToastrType, currentViewedSeason
 store.subscribe(() => {
   const state = store.getState()
   const { toastr } = state
@@ -35,6 +36,12 @@ store.subscribe(() => {
     store.dispatch(closeToastr())
   }
   authTokenLocalStorage.authTokenStorageHandler(state.account.authToken)
+
+  const prevViewedSeason = currentViewedSeason
+  currentViewedSeason = state.seasons.viewed
+  if (currentViewedSeason && currentViewedSeason !== prevViewedSeason) {
+    store.dispatch(startGetAdminRounds(currentViewedSeason._id))
+  }
 })
 
 // set authToken if in localStorage

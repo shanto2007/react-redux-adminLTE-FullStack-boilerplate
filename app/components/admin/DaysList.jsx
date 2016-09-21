@@ -1,6 +1,11 @@
 import React from 'react'
 import Box from 'Box'
-import { startGetAdminDays, startDeleteDay, selectAdminRound, startGetAdminRounds, clearAdminDays } from 'actions'
+import {
+  startGetAdminDays,
+  startDeleteDay,
+  selectAdminRound,
+  clearAdminDays,
+} from 'actions'
 
 class RoundsList extends React.Component {
   constructor(props) {
@@ -17,12 +22,10 @@ class RoundsList extends React.Component {
     const prevSelectedSeason = this.props.season
 
     /**
-     * SEASON SWITCHER
+     * SEASON SWITC CASE
      */
     if (selectedSeason !== prevSelectedSeason) {
-      dispatch(startGetAdminRounds(selectedSeason._id)).then(() => {
-        dispatch(clearAdminDays())
-      })
+      dispatch(clearAdminDays())
     }
 
     /**

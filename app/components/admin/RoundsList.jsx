@@ -17,17 +17,6 @@ class RoundsList extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch } = this.props
-    const newSeason = nextProps.season
-    const prevSeason = this.props.season
-    // GET first data and refresh data if season is switched in the topbar
-    if (newSeason !== prevSeason) {
-      return dispatch(startGetAdminRounds(newSeason._id))
-    }
-    return null
-  }
-
   onDeleteRound(e, round) {
     e.stopPropagation()
     const { dispatch } = this.props
