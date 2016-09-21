@@ -14,7 +14,7 @@ class AdminTeams extends React.Component {
   }
 
   render() {
-    const { seasons, season, rounds, dispatch } = this.props
+    const { seasons, season, rounds, teams, selectedRound, dispatch } = this.props
     if (!seasons.length) {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
     } else if (!season) {
@@ -23,7 +23,7 @@ class AdminTeams extends React.Component {
     return (
       <div>
         <TeamCreate season={season} rounds={rounds} dispatch={dispatch} />
-        <TeamsList seasons={seasons} season={season} rounds={rounds} dispatch={dispatch} />
+        <TeamsList teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} />
       </div>
     )
   }
@@ -32,12 +32,16 @@ class AdminTeams extends React.Component {
 AdminTeams.propTypes = {
   dispatch: React.PropTypes.func,
   seasons: React.PropTypes.array,
-  rounds: React.PropTypes.array,
   season: React.PropTypes.object,
+  rounds: React.PropTypes.array,
+  teams: React.PropTypes.array,
+  selectedRound: React.PropTypes.object,
 }
 
 export default connect((state) => ({
-  season: state.seasons.viewed,
   seasons: state.seasons.seasons,
+  season: state.seasons.viewed,
   rounds: state.rounds.rounds,
+  teams: state.teams.teams,
+  selectedRound: state.rounds.selected,
 }))(AdminTeams)

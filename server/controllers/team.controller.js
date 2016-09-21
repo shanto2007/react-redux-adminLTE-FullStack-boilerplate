@@ -3,18 +3,22 @@ const Media = require('../models/media.model')
 
 module.exports = {
   indexByRound: (req, res) => {
-    return Team.find(req.query, (err, teams) => {
-      if (err) {
+    const { round } = req.params
+    return Team.find({ round }).exec()
+      .then((teams) => {
+        return res.json({
+          success: true,
+          action: 'index by round',
+          teams,
+        })
+      })
+      .catch((err) => {
         return res.status(500).json({
           success: false,
+          action: 'index by round',
           message: err,
         })
-      }
-      return res.json({
-        success: true,
-        teams,
       })
-    })
   },
 
   indexPublic: (req, res) => {
@@ -125,7 +129,8 @@ module.exports = {
         return res.status(500).json({
           success: false,
           action: 'create',
-          message: err,
+          message: err.code && err.code === 11000 ? 'A team with that name already exist in this season.' : err,
+          err,
         })
       })
   },

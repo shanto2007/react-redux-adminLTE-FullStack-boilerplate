@@ -48,6 +48,7 @@ export const startGetAdminTeams = (round) => {
     })
     .then((res) => {
       const { teams } = res.data
+      console.log(teams)
       dispatch(setAdminTeams(teams))
       dispatch(adminTeamsSuccess(true))
       dispatch(adminTeamsLoading(false))
@@ -90,6 +91,7 @@ export const startCreateNewTeam = (newTeam) => {
     })
     .catch((res) => {
       const err = res.data
+      console.log(err)
       dispatch(openToastr('error', err.message || 'Error creating a season!'))
       dispatch(adminTeamsFail(err))
       dispatch(adminTeamsLoading(false))

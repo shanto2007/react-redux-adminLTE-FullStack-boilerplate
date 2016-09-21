@@ -1,48 +1,46 @@
 import React from 'react'
 import Box from 'Box'
-import { startCreateNewRounds } from 'actions'
+import { startCreateNewTeam } from 'actions'
 
 class RoundCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      host: null,
-      label: null,
+      round: '',
+      name: '',
     }
   }
 
-  onLabelChange(e) {
+  onRoundChange(e) {
     e.stopPropagation()
-    const label = e.target.value
-    if (label) {
-      this.setState({ label })
+    const round = e.target.value
+    if (round) {
+      this.setState({ round })
     }
   }
 
-  onHostChange(e) {
+  onTeamNameChange(e) {
     e.stopPropagation()
-    const host = e.target.value
-    this.setState({ host })
+    const name = e.target.value
+    this.setState({ name })
   }
 
   onCreateRound(e) {
     e.stopPropagation()
     e.preventDefault()
     const { dispatch } = this.props
-    const newRound = {}
-    newRound.label = this.state.label
-    if (this.state.host) {
-      newRound.host = this.state.host
-    }
-    newRound.season = this.props.season._id
-    dispatch(startCreateNewRounds(newRound))
+    const newTeam = {}
+    newTeam.name = this.state.name
+    newTeam.round = this.state.round
+    newTeam.season = this.props.season._id
+    dispatch(startCreateNewTeam(newTeam))
   }
 
   generateLabelsList() {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    return alphabet.split('').map((c, i) => {
+    const { rounds } = this.props
+    return rounds.map((c, i) => {
       return (
-        <option value={c} key={i}>{c}</option>
+        <option value={c._id} key={i}>{c.label}</option>
       )
     })
   }
@@ -52,17 +50,23 @@ class RoundCreate extends React.Component {
       <Box title="Create Team">
         <form onSubmit={(e) => this.onCreateRound(e)}>
           <div className="col-sm-12 col-md-9">
-            <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />
+            <input className="form-control" placeholder="Team name" onChange={(e) => this.onTeamNameChange(e)} />
           </div>
           <div className="col-sm-12 col-md-3">
-            <select className="form-control" defaultValue="0" onChange={(e) => this.onLabelChange(e)}>
-              <option value="0" disabled>Select a label</option>
+            <select className="form-control" defaultValue="0" onChange={(e) => this.onRoundChange(e)}>
+              <option value="0" disabled>Team Round</option>
               { this.generateLabelsList() }
             </select>
           </div>
           <div className="clearfix"></div>
           <div className="submit-box">
-            <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.label}>Create New Round</button>
+            <button
+              type="submit"
+              className="btn btn-primary pull-right"
+              disabled={!this.state.round.length || !this.state.name.length}
+            >
+              Create New Round
+            </button>
           </div>
           <div className="clearfix"></div>
         </form>
