@@ -22,7 +22,7 @@ class TeamsList extends React.Component {
     const prevSelectedSeason = this.props.season
 
     /**
-     * SEASON SWITC CASE
+     * SEASON SWITCH CASE
      */
     if (selectedSeason !== prevSelectedSeason) {
       dispatch(clearAdminTeams())

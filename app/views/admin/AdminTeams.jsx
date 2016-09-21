@@ -23,7 +23,7 @@ class AdminTeams extends React.Component {
     return (
       <div>
         <TeamCreate season={season} rounds={rounds} dispatch={dispatch} />
-        <TeamsList teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} />
+        <TeamsList season={season} teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} />
       </div>
     )
   }
