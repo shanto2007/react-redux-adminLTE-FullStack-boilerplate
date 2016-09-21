@@ -75,7 +75,7 @@ module.exports = {
     }
     return Team
       .findById(teamId)
-      .populate('avatar groupPhoto')
+      .populate('avatar groupPhoto season round')
       .exec()
       .then((team) => {
         if (!team) {

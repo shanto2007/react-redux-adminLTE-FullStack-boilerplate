@@ -9,6 +9,7 @@ import {
  * COMPs
  */
 import Callout from 'Callout'
+import TeamSingle from 'TeamSingle'
 
 class AdminTeam extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class AdminTeam extends React.Component {
     const {
       seasonExists,
       season,
+      team,
     } = this.props
 
     if (!seasonExists) {
@@ -41,9 +43,7 @@ class AdminTeam extends React.Component {
     }
     return (
       <div>
-        TEAM {this.props.params.id}
-        <hr />
-        <pre>{JSON.stringify(this.props.team)}</pre>
+        <TeamSingle team={team.team} />
       </div>
     )
   }
