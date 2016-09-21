@@ -1,21 +1,21 @@
-const defaultAdminDaysState = {
+const defaultAdminTeamsState = {
   loading: false,
   success: false,
   fail: '',
-  days: [],
+  teams: [],
 }
 
-export const days = (state = defaultAdminDaysState, action) => {
+export const teams = (state = defaultAdminTeamsState, action) => {
   switch (action.type) {
-    case 'SET_ADMIN_DAYS':
+    case 'SET_ADMIN_TEAMS':
       return {
         ...state,
-        days: action.days,
+        teams: action.teams,
       }
-    case 'CLEAR_ADMIN_DAYS':
+    case 'CLEAR_ADMIN_TEAMS':
       return {
         ...state,
-        days: action.days,
+        teams: action.teams,
       }
     case 'ADMIN_DAY_LOADING':
       return {
