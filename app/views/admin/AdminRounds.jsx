@@ -15,6 +15,7 @@ class AdminRounds extends React.Component {
 
   render() {
     const { seasons, season, rounds, dispatch } = this.props
+    console.log(season)
     if (!seasons.length) {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
     } else if (!season) {

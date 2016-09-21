@@ -22,8 +22,8 @@ class AdminDays extends React.Component {
     } else if (rounds.length) {
       return (
         <div>
-          <DayCreate season={season} rounds={rounds} dispatch={dispatch} />
-          <DaysList days={days} dispatch={dispatch} selectedRound={selectedRound} rounds={rounds} />
+          <DayCreate dispatch={dispatch} season={season} rounds={rounds} />
+          <DaysList dispatch={dispatch} season={season} days={days} selectedRound={selectedRound} rounds={rounds} />
         </div>
       )
     }

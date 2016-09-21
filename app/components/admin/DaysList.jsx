@@ -1,6 +1,6 @@
 import React from 'react'
 import Box from 'Box'
-import { startGetAdminDays, startDeleteDay, selectAdminRound } from 'actions'
+import { startGetAdminDays, startDeleteDay, selectAdminRound, startGetAdminRounds, clearAdminDays } from 'actions'
 
 class RoundsList extends React.Component {
   constructor(props) {
@@ -9,11 +9,29 @@ class RoundsList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
+
     const selectedRound = nextProps.selectedRound
     const prevSelectedRound = this.props.selectedRound
-    if (selectedRound !== prevSelectedRound) {
-      return dispatch(startGetAdminDays(selectedRound._id))
+
+    const selectedSeason = nextProps.season
+    const prevSelectedSeason = this.props.season
+
+    /**
+     * SEASON SWITCHER
+     */
+    if (selectedSeason !== prevSelectedSeason) {
+      dispatch(startGetAdminRounds(selectedSeason._id)).then(() => {
+        dispatch(clearAdminDays())
+      })
     }
+
+    /**
+     * ROUND SWITCHER
+     */
+    if (selectedRound !== prevSelectedRound) {
+      dispatch(startGetAdminDays(selectedRound._id))
+    }
+
     return null
   }
 
@@ -84,7 +102,7 @@ class RoundsList extends React.Component {
     }
     return (
       <p>
-        No Day created yet!
+        Select a round first!
       </p>
     )
   }
@@ -109,6 +127,7 @@ class RoundsList extends React.Component {
 RoundsList.propTypes = {
   selectedRound: React.PropTypes.object,
   rounds: React.PropTypes.array,
+  season: React.PropTypes.object,
   days: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 }

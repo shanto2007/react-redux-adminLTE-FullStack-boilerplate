@@ -22,7 +22,7 @@ class RoundsList extends React.Component {
     const newSeason = nextProps.season
     const prevSeason = this.props.season
     // GET first data and refresh data if season is switched in the topbar
-    if (newSeason !== prevSeason && !prevSeason) {
+    if (newSeason !== prevSeason) {
       return dispatch(startGetAdminRounds(newSeason._id))
     }
     return null
@@ -72,7 +72,7 @@ class RoundsList extends React.Component {
         }
         let media
         if (round.media) {
-          media = <img src={round.media.thumbnail || round.media.path } role="presentation" />
+          media = <img src={round.media.thumbnail || round.media.path} role="presentation" />
         } else {
           media = <RoundMediaUploader round={round} />
         }
