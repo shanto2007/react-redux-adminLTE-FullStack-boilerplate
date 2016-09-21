@@ -2,7 +2,7 @@ const Team = require('../models/team.model')
 const Media = require('../models/media.model')
 
 module.exports = {
-  indexAdmin: (req, res) => {
+  indexByRound: (req, res) => {
     return Team.find(req.query, (err, teams) => {
       if (err) {
         return res.status(500).json({
@@ -33,7 +33,7 @@ module.exports = {
   },
 
   getPublic: (req, res) => {
-    const teamId = req.body.id || req.params.id
+    const teamId = req.params.id
     if (!teamId) {
       return res.status(400).json({
         success: false,
@@ -43,10 +43,9 @@ module.exports = {
     return Team.findById(teamId)
     .then((team) => {
       if (!team) {
-        return res.status(404).json({
-          success: true,
-          action: 'delete',
+        return Promise.reject({
           message: 'Team not found, maybe already removed',
+          status: 404,
         })
       }
       return res.json({
@@ -55,9 +54,9 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.status ? err.status : 500).json({
         success: false,
-        message: err,
+        message: err.message ? err.message : err,
       })
     })
   },
@@ -73,10 +72,9 @@ module.exports = {
     return Team.findById(teamId)
     .then((team) => {
       if (!team) {
-        return res.status(404).json({
-          success: false,
-          action: 'delete',
+        return Promise.reject({
           message: 'Team not found, maybe already removed',
+          status: 404,
         })
       }
       return res.json({
@@ -85,9 +83,9 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.status ? err.status : 500).json({
         success: false,
-        message: err,
+        message: err.message ? err.message : err,
       })
     })
   },

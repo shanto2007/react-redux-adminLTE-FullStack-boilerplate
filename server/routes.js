@@ -116,7 +116,7 @@ module.exports = (express, app) => {
   /**
    *  TEAM
    */
-  api.get('/admin/teams', AuthRequired(), TeamCtrl.indexAdmin)
+  api.get('/admin/teams/:round', AuthRequired(), TeamCtrl.indexByRound)
   api.get('/admin/team/:id?', AuthRequired(), TeamCtrl.getAdmin)
   api.post('/admin/team', AuthRequired(), TeamCtrl.create)
   api.patch('/admin/team/:id', AuthRequired(), TeamCtrl.edit)
@@ -126,7 +126,7 @@ module.exports = (express, app) => {
   api.post('/admin/team/:id/avatar', AuthRequired(), upload.single('teamAvatar'), TeamCtrl.teamAvatarUpload)
   //  public
   api.get('/teams', TeamCtrl.indexPublic)
-  api.get('/team/:id?', TeamCtrl.getPublic)
+  api.get('/team/:id', TeamCtrl.getPublic)
 
   /**
    *  PLAYER

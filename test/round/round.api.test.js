@@ -9,7 +9,7 @@ const Season   = require(testenv.serverdir + 'models/season.model')
 const Round    = require(testenv.serverdir + 'models/round.model')
 const jwt      = require('jsonwebtoken')
 
-describe.only('Round - API', () => {
+describe('Round - API', () => {
   let roundToEditId, userAuthToken, seasonId, mediaId
 
   before((done) => {

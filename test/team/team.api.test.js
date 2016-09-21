@@ -13,7 +13,7 @@ const Media     = require(testenv.serverdir + 'models/media.model')
 
 chai.use(chaiHttp)
 
-describe('Team - API', () => {
+describe.only('Team - API', () => {
   let userAuthToken, seasonId, roundId, dayId, teamId, groupPhotoId, avatarId
 
   before((done) => {
@@ -334,7 +334,7 @@ describe('Team - API', () => {
       .get(`/api/team/`)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
-        expect(res.status).toBe(400)
+        expect(res.status).toBe(404)
         done()
       })
     })
@@ -426,7 +426,7 @@ describe('Team - API', () => {
     })
   }) // GET ADMIN
 
-  describe('INDEX', () => {
+  describe('INDEX - public', () => {
     it('should get public index', (done) => {
       chai.request(app)
       .get('/api/teams')
@@ -436,23 +436,17 @@ describe('Team - API', () => {
         done()
       })
     })
+  }) // INDEX
 
-    it('should NOT get admin index without authToken', (done) => {
+  describe('INDEX - admin', () => {
+    it('should get admin indexed by round', (done) => {
       chai.request(app)
-      .get('/api/admin/teams')
-      .end((err, res) => {
-        expect(res.status).toBe(400)
-        done()
-      })
-    })
-
-    it('should get admin index', (done) => {
-      chai.request(app)
-      .get('/api/admin/teams')
+      .get(`/api/admin/teams/${roundId}`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toBe(200)
         expect(res.body.teams).toExist()
+        expect(res.body.teams[0].round).toEqual(roundId)
         done()
       })
     })
