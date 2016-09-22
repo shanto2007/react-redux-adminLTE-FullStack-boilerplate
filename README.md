@@ -1,4 +1,5 @@
-##Project and Portfolio webapp React/Redux Boilerplate
+##Admin Dashboard and API for soccer tournaments Webapp
+
 
 #### What's inside
 - FrontEnd
@@ -11,10 +12,9 @@
   - jQuery (if you really need it)
   - Moment.js
   - DropZone.js
-  - Dragula.js
   - Medium Editor
   - Font Awesome
-  - Toastr
+  - Toastr.js
 - BackEnd
   - Express.js
   - JWT Auth
@@ -27,6 +27,10 @@
   - Mocha/Chai
   - React TestUtils
 
+# React
+React has two entry point for admin and public, bundle for production is chunked in admin section, you have to build your frontend app.
+Project folder structure it's splitted between admin/public in components/views/reducers/actions for better organization and avoid loading unwantend and useless data between the two app
+
 install
 
     npm install
@@ -34,6 +38,7 @@ install
 start server
 
     npm start
+    npm start:dev (will start with NODE_ENV=dev)
 
 build (local dev optimized using .env variables)
 
