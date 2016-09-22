@@ -4,9 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>ADMIN</title>
+  <style>
+    body.app-loading{
+      background: black;
+    }
+    #app.hide{
+      visibility: hidden;
+    }
+  </style>
 </head>
-<body>
-  <div id="app" style="height:100%;"></div>
+<body class="app-loading">
+  <div id="app" class="hide" style="height:100%;"></div>
   <script src="/assets/vendors.bundle.js"></script>
   <script src="/assets/admin.bundle.js"></script>
 </body>

@@ -23,8 +23,15 @@ function getStaticAssets() {
 
 class AdminWrapper extends React.Component {
   componentWillMount() {
-    document.body.className = 'skin-blue sidebar-mini'
+    /**
+     * REMOVE APP LOADING STYLES AFTER EVERYTHING IS UP
+     */
     getStaticAssets()
+      .then(() => {
+        document.body.className = 'skin-blue sidebar-mini'
+        const $app = document.getElementById('app')
+        $app.className = $app.className.replace('hide', '')
+      })
   }
   componentDidMount() {
     const { dispatch } = this.props
