@@ -3,42 +3,35 @@ import { openToastr } from './toastr.action'
 
 export const setAdminTeam = (team) => {
   return {
-    type: 'SET_ADMIN_TEAM',
+    type: 'SET_ADMIN_SINGLE_TEAM',
     team,
   }
 }
 
 export const clearAdminTeam = (team = null) => {
   return {
-    type: 'CLEAR_ADMIN_TEAM',
+    type: 'CLEAR_ADMIN_SINGLE_TEAM',
     team,
-  }
-}
-
-export const setAdminTeamPlayers = (players = []) => {
-  return {
-    type: 'SET_ADMIN_TEAM_PLAYERS',
-    players,
   }
 }
 
 export const adminTeamLoading = (loading) => {
   return {
-    type: 'ADMIN_TEAM_LOADING',
+    type: 'ADMIN_SINGLE_TEAM_LOADING',
     loading,
   }
 }
 
 export const adminTeamSuccess = (success) => {
   return {
-    type: 'ADMIN_TEAM_SUCCESS',
+    type: 'ADMIN_SINGLE_TEAM_SUCCESS',
     success,
   }
 }
 
 export const adminTeamFail = (fail) => {
   return {
-    type: 'ADMIN_TEAM_FAIL',
+    type: 'ADMIN_SINGLE_TEAM_FAIL',
     fail,
   }
 }
