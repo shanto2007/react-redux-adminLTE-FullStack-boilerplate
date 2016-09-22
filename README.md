@@ -1,5 +1,6 @@
 ##Admin Dashboard and API for soccer tournaments Webapp
 
+still WIP
 
 #### What's inside
 - FrontEnd
@@ -27,7 +28,7 @@
   - Mocha/Chai
   - React TestUtils
 
-# React
+# React/Redux Structure
 React has two entry point for admin and public, bundle for production is chunked in admin section, you have to build your frontend app.
 Project folder structure it's splitted between admin/public in components/views/reducers/actions for better organization and avoid loading unwantend and useless data between the two app
 
