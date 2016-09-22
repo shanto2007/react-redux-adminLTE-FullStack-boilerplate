@@ -39,6 +39,7 @@ class TeamPhotoUploader extends React.Component {
       })
 
       mediaUploader.on('sending', (file, xhr, formData) => {
+        dispatch(openToastr('warning', 'Photo upload started!'))
         formData.append('teamId', team._id)
       })
 

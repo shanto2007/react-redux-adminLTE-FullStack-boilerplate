@@ -1,0 +1,33 @@
+#admin-single-team{
+  .box-widget-team-single{
+    .team-header{
+      position: relative;
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+      height: 200px;
+    }
+    .groupPhoto-upload-icon{
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: white;
+      font-size: 2em;
+      opacity: .5;
+    }
+  }
+
+  .team-avatar{
+    top: 145px !important;
+
+    .avatar-upload-icon{
+      cursor: pointer;
+      position: relative;
+      top: 7px;
+      left: -50%;
+      color: white;
+      font-size: 2em;
+      opacity: .5;
+    }
+  }
+}

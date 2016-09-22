@@ -143,5 +143,5 @@ module.exports = {
     ]
   },
 
-  devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: NODE_ENV === 'production' ? 'source-map' : 'eval-source-map',
 }

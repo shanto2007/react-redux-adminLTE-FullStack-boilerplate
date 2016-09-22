@@ -16,7 +16,7 @@ class AdminTeam extends React.Component {
     super(props)
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props
     const { id } = this.props.params
     if (id) {
@@ -42,7 +42,7 @@ class AdminTeam extends React.Component {
       return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
     }
     return (
-      <div>
+      <div id="admin-single-team">
         <TeamSingle team={team.team} />
       </div>
     )
