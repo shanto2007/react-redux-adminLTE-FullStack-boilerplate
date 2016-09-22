@@ -10,7 +10,7 @@ import {
  */
 import Callout from 'Callout'
 import TeamInfo from 'TeamInfo'
-import TeamPlayers from 'TeamPlayers'
+import TeamPlayerCreate from 'TeamPlayerCreate'
 
 class AdminTeam extends React.Component {
   constructor(props) {
@@ -35,6 +35,7 @@ class AdminTeam extends React.Component {
       seasonExists,
       season,
       team,
+      dispatch,
     } = this.props
 
     if (!seasonExists) {
@@ -45,7 +46,7 @@ class AdminTeam extends React.Component {
     return (
       <div id="admin-single-team">
         <TeamInfo team={team.team} />
-        <TeamPlayers />
+        <TeamPlayerCreate dispatch={dispatch} team={team.team} />
       </div>
     )
   }

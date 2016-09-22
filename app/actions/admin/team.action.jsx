@@ -15,6 +15,13 @@ export const clearAdminTeam = (team = null) => {
   }
 }
 
+export const setAdminTeamPlayers = (players = []) => {
+  return {
+    type: 'SET_ADMIN_TEAM_PLAYERS',
+    players,
+  }
+}
+
 export const adminTeamLoading = (loading) => {
   return {
     type: 'ADMIN_TEAM_LOADING',
@@ -48,7 +55,7 @@ export const startGetAdminSingleTeam = (teamId) => {
     })
     .then((res) => {
       const { team } = res.data
-      console.log(team)
+      console.log("team", team)
       dispatch(setAdminTeam(team))
       dispatch(adminTeamSuccess(true))
       dispatch(adminTeamLoading(false))
@@ -58,6 +65,33 @@ export const startGetAdminSingleTeam = (teamId) => {
       dispatch(adminTeamFail(err))
       dispatch(adminTeamLoading(false))
       dispatch(openToastr('error', err.message || 'Error getting team!'))
+      return err
+    })
+  }
+}
+
+export const startCreateNewPlayer = (player) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminTeamLoading(true))
+    return Api.post('/admin/player/', player, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { player } = res.data
+      dispatch(startGetAdminSingleTeam(player.team))
+      dispatch(adminTeamSuccess(true))
+      dispatch(adminTeamLoading(false))
+      return res
+    })
+    .catch((err) => {
+      console.log(err)
+      dispatch(adminTeamFail(err))
+      dispatch(adminTeamLoading(false))
+      dispatch(openToastr('error', err.message || 'Error creating player!'))
       return err
     })
   }
