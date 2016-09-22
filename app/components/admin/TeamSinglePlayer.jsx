@@ -1,9 +1,13 @@
 import React from 'react'
 import PlayerAvatarUploader from 'PlayerAvatarUploader'
+import { startDeletePlayer } from 'actions'
 
 const blackBase64Gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
 
 class TeamSinglePlayer extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
   onAvatarClick(e) {
     e.stopPropagation()
@@ -13,11 +17,21 @@ class TeamSinglePlayer extends React.Component {
     AvatarUploader.click()
   }
 
+  onPlayerRemove(e, player) {
+    e.stopPropagation()
+    e.preventDefault()
+    const { dispatch } = this.props
+    if (player && confirm(`Do you want to remove player: ${player.fullname}`)) {
+      dispatch(startDeletePlayer(player._id))
+    }
+  }
+
   render() {
     const { player } = this.props
     if (player) {
       return (
         <div className="box box-widget widget-user box-widget-player-single">
+          <i className="fa fa-remove player-remove-button" onClick={(e) => this.onPlayerRemove(e, player)}></i>
           <PlayerAvatarUploader player={player} />
           <div className="widget-user-header bg-aqua-active">
             <h3 className="widget-user-username">{player.fullname}</h3>

@@ -1,5 +1,15 @@
 #admin-single-team{
   .box-widget-player-single{
+    position: relative;
+    .player-remove-button{
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 2rem;
+      color: white;
+      opacity: .75;
+    }
     .team-header{
       position: relative;
     }

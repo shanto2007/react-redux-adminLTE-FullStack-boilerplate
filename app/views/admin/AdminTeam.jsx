@@ -33,11 +33,12 @@ class AdminTeam extends React.Component {
 
   renderPlayerLists() {
     const { team } = this.props.team
+    const { dispatch } = this.props
     if (team && team.players.length) {
       return team.players.map((player, i) => {
         return (
           <div className="col-sm-12 col-md-4 single-player-badge" key={i}>
-            <TeamSinglePlayer player={player} />
+            <TeamSinglePlayer player={player} dispatch={dispatch} />
           </div>
         )
       })
