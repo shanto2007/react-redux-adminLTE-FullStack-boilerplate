@@ -11,6 +11,7 @@ import {
 import Callout from 'Callout'
 import TeamInfo from 'TeamInfo'
 import TeamPlayerCreate from 'TeamPlayerCreate'
+import TeamSinglePlayer from 'TeamSinglePlayer'
 
 class AdminTeam extends React.Component {
   constructor(props) {
@@ -30,6 +31,20 @@ class AdminTeam extends React.Component {
     dispatch(clearAdminTeam())
   }
 
+  renderPlayerLists() {
+    const { team } = this.props.team
+    if (team && team.players.length) {
+      return team.players.map((player, i) => {
+        return (
+          <div className="col-sm-12 col-md-4 single-player-badge" key={i}>
+            <TeamSinglePlayer player={player} />
+          </div>
+        )
+      })
+    }
+    return null
+  }
+
   render() {
     const {
       seasonExists,
@@ -47,6 +62,9 @@ class AdminTeam extends React.Component {
       <div id="admin-single-team">
         <TeamInfo team={team.team} />
         <TeamPlayerCreate dispatch={dispatch} team={team.team} />
+        <div className="row">
+          {this.renderPlayerLists()}
+        </div>
       </div>
     )
   }

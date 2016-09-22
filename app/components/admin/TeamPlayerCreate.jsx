@@ -41,13 +41,15 @@ class TeamPlayerCreate extends React.Component {
 
   render() {
     return (
+      // TODO MINIMAL VALIDATION
       <Box title="Add Player">
         <form onSubmit={(e) => this.onCreatePlayer(e)}>
-          <div className="col-sm-12 col-md-9">
-            <input className="form-control" placeholder="Player name" onChange={(e) => this.onPlayerNameChange(e)} />
-            <input className="form-control" placeholder="Player surname" onChange={(e) => this.onPlayerSurnameChange(e)} />
+          <div className="form-group">
+            <input className="form-control" placeholder="Name *(required)" onChange={(e) => this.onPlayerNameChange(e)} />
           </div>
-          <div className="clearfix"></div>
+          <div className="form-group">
+            <input className="form-control" placeholder="Surname *(required)" onChange={(e) => this.onPlayerSurnameChange(e)} />
+          </div>
           <div className="submit-box">
             <button
               type="submit"
@@ -57,7 +59,6 @@ class TeamPlayerCreate extends React.Component {
               Add player
             </button>
           </div>
-          <div className="clearfix"></div>
         </form>
       </Box>
     )

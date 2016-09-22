@@ -55,7 +55,6 @@ export const startGetAdminSingleTeam = (teamId) => {
     })
     .then((res) => {
       const { team } = res.data
-      console.log("team", team)
       dispatch(setAdminTeam(team))
       dispatch(adminTeamSuccess(true))
       dispatch(adminTeamLoading(false))

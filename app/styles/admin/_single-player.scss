@@ -1,0 +1,16 @@
+#admin-single-team{
+  .box-widget-player-single{
+    .team-header{
+      position: relative;
+    }
+    .avatar-upload-icon{
+      cursor: pointer;
+      position: relative;
+      top: 7px;
+      left: -50%;
+      color: white;
+      font-size: 2em;
+      opacity: .5;
+    }
+  }
+}
