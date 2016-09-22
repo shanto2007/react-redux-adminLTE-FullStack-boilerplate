@@ -80,10 +80,14 @@ class TeamsList extends React.Component {
        * GENERATE LIST
        */
       return teams.map((team, i) => {
+        let TeamAvatar = <i className="fa fa-users"></i>
+        if (team.avatar) {
+          TeamAvatar = <img src={team.avatar.thumbnail} role="presentation" />
+        }
         return (
           <li className="item" key={i}>
             <div className="product-img round-host-img">
-              <img src="" role="presentation" />
+              {TeamAvatar}
             </div>
             <div className="product-info day-info">
               <span className="label label-danger pull-right">

@@ -4,8 +4,12 @@ const Media = require('../models/media.model')
 module.exports = {
   indexByRound: (req, res) => {
     const { round } = req.params
-    return Team.find({ round }).exec()
+    return Team
+      .find({ round })
+      .populate('avatar')
+      .exec()
       .then((teams) => {
+        console.log(teams)
         return res.json({
           success: true,
           action: 'index by round',
