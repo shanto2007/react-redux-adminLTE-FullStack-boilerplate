@@ -48,7 +48,6 @@ export const startGetAdminTeams = (round) => {
     })
     .then((res) => {
       const { teams } = res.data
-      console.log(teams)
       dispatch(setAdminTeams(teams))
       dispatch(adminTeamsSuccess(true))
       dispatch(adminTeamsLoading(false))

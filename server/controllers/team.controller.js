@@ -9,7 +9,6 @@ module.exports = {
       .populate('avatar')
       .exec()
       .then((teams) => {
-        console.log(teams)
         return res.json({
           success: true,
           action: 'index by round',

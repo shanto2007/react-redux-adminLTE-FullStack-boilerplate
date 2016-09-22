@@ -87,7 +87,7 @@ export const startCreateNewPlayer = (player) => {
       return res
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
       dispatch(adminTeamFail(err))
       dispatch(adminTeamLoading(false))
       dispatch(openToastr('error', err.message || 'Error creating player!'))
@@ -108,14 +108,12 @@ export const startDeletePlayer = (playerId) => {
     })
     .then((res) => {
       const { player } = res.data
-      console.log(">>", player)
       dispatch(startGetAdminSingleTeam(player.team))
       dispatch(adminTeamSuccess(true))
       dispatch(adminTeamLoading(false))
       return res
     })
     .catch((err) => {
-      console.log(err)
       dispatch(adminTeamFail(err))
       dispatch(adminTeamLoading(false))
       dispatch(openToastr('error', err.message || 'Error deleting player!'))
