@@ -9,7 +9,8 @@ import {
  * COMPs
  */
 import Callout from 'Callout'
-import TeamSingle from 'TeamSingle'
+import TeamInfo from 'TeamInfo'
+import TeamPlayers from 'TeamPlayers'
 
 class AdminTeam extends React.Component {
   constructor(props) {
@@ -43,7 +44,8 @@ class AdminTeam extends React.Component {
     }
     return (
       <div id="admin-single-team">
-        <TeamSingle team={team.team} />
+        <TeamInfo team={team.team} />
+        <TeamPlayers />
       </div>
     )
   }

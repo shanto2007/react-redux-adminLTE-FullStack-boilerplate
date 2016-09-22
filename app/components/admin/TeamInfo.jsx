@@ -4,7 +4,7 @@ import TeamAvatarUploader from 'TeamAvatarUploader'
 
 const blackBase64Gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
 
-class TeamSingle extends React.Component {
+class TeamInfo extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -72,8 +72,8 @@ class TeamSingle extends React.Component {
   }
 }
 
-TeamSingle.propTypes = {
+TeamInfo.propTypes = {
   team: React.PropTypes.object,
 }
 
-export default TeamSingle
+export default TeamInfo

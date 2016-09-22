@@ -131,8 +131,8 @@ module.exports = (express, app) => {
   /**
    *  PLAYER
    */
-  // api.get('/admin/players', AuthRequired(), PlayerCtrl.indexAdmin)
-  // api.get('/admin/player/:id?', AuthRequired(), PlayerCtrl.getAdmin)
+  // api.get('/admin/players', AuthRequired('admin'), PlayerCtrl.indexAdmin)
+  api.get('/admin/players/:team', AuthRequired(), PlayerCtrl.indexByTeam)
   api.post('/admin/player', AuthRequired(), PlayerCtrl.create)
   api.patch('/admin/player/:id?', AuthRequired(), PlayerCtrl.edit)
   api.delete('/admin/player/:id?', AuthRequired(), PlayerCtrl.delete)

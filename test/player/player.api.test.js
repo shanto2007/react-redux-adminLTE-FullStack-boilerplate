@@ -14,7 +14,7 @@ const Player     = require(testenv.serverdir + 'models/player.model')
 
 chai.use(chaiHttp)
 
-describe('Player - API', () => {
+describe.only('Player - API', () => {
   let userAuthToken, seasonId, anotherSeasonId, roundId, teamId, playerId, mediaId
 
   before((done) => {
@@ -299,6 +299,43 @@ describe('Player - API', () => {
     })
   })
 
+  /**
+   * INDEX - admin
+   */
+  describe('INDEX admin', () => {
+    it('should NOT index by team without authtoken', (done) => {
+      chai.request(app)
+      .get(`/api/admin/players/${teamId}`)
+      .end((err, res) => {
+        expect(res.status).toBe(400)
+        done()
+      })
+    })
+    it('should NOT index by team without id in parameter', (done) => {
+      chai.request(app)
+      .get(`/api/admin/players/`)
+      .end((err, res) => {
+        expect(res.status).toBe(404)
+        done()
+      })
+    })
+    it('should index by team', (done) => {
+      chai.request(app)
+      .get(`/api/admin/players/${teamId}`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        const { body } = res
+        expect(res.status).toBe(200)
+        expect(body.players).toExist()
+        expect(body.players).toBeA('array')
+        done()
+      })
+    })
+  }) // INDEX - admin
+
+  /**
+   * DELETE
+   */
   describe('Delete', () => {
     it('should NOT delete without auth token', (done) => {
       chai.request(app)

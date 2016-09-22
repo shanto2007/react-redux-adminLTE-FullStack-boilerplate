@@ -2,6 +2,36 @@ const Player = require('../models/player.model')
 const Media = require('../models/media.model')
 
 module.exports = {
+
+  indexByTeam: (req, res) => {
+    const teamId = req.params.team
+    if (!teamId) {
+      return res.status(400).json({
+        success: false,
+        action: 'admin index by team',
+        message: 'Player id not provided',
+      })
+    }
+    return Player
+      .find({ team: teamId })
+      .populate('avatar')
+      .exec()
+      .then((players) => {
+        return res.json({
+          success: true,
+          action: 'admin index by team',
+          players,
+        })
+      })
+      .catch((err) => {
+        return res.status(err.status ? err.status : 500).json({
+          success: false,
+          action: 'admin index by team',
+          message: err.message ? err.message : err,
+        })
+      })
+  },
+
   create: (req, res) => {
     const newPlayer = req.body
     if (!newPlayer.season) {
