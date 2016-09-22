@@ -92,7 +92,7 @@ class AdminSeasons extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="admin-seasons-list" className="container-fluid">
         <Box loading={this.props.seasons.loading} title="Create Seasons">
           <form onSubmit={(e) => this.newSeasonHandler(e)}>
             <select className="form-control" onChange={(e) => this.selectChangeHandler(e)} defaultValue="0">

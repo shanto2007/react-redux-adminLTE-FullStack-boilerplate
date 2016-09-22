@@ -21,7 +21,7 @@ class AdminDays extends React.Component {
       return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
     } else if (rounds.length) {
       return (
-        <div>
+        <div id="admin-days" className="container-fluid">
           <DayCreate dispatch={dispatch} season={season} rounds={rounds} />
           <DaysList dispatch={dispatch} season={season} days={days} selectedRound={selectedRound} rounds={rounds} />
         </div>

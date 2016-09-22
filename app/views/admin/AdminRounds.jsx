@@ -22,7 +22,7 @@ class AdminRounds extends React.Component {
       return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
     }
     return (
-      <div>
+      <div id="admin-rounds" className="container-fluid">
         <RoundCreate season={season} rounds={rounds} dispatch={dispatch} />
         <RoundsList seasons={seasons} season={season} rounds={rounds} dispatch={dispatch} />
       </div>

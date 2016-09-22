@@ -21,7 +21,7 @@ class AdminTeams extends React.Component {
       return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
     }
     return (
-      <div>
+      <div id="admin-team-list" className="container-fluid">
         <TeamCreate season={season} rounds={rounds} dispatch={dispatch} />
         <TeamsList season={season} teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} />
       </div>
