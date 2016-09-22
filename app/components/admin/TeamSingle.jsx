@@ -76,9 +76,4 @@ TeamSingle.propTypes = {
   team: React.PropTypes.object,
 }
 
-TeamSingle.defaultProps = {
-  team: {},
-}
-
-
 export default TeamSingle
