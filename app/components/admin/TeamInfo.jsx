@@ -58,7 +58,7 @@ class TeamInfo extends React.Component {
               <div className="col-sm-4">
                 <div className="description-block">
                   <h5 className="description-header">{team.losts}</h5>
-                  <span className="description-text">LOSS</span>
+                  <span className="description-text">LOSES</span>
                 </div>
               </div>
             </div>
