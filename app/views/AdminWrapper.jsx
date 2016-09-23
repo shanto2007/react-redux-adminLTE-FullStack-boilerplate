@@ -30,7 +30,9 @@ class AdminWrapper extends React.Component {
       .then(() => {
         document.body.className = 'skin-blue sidebar-mini'
         const $app = document.getElementById('app')
+        const $loader = document.getElementById('app-loader')
         $app.className = $app.className.replace('hide', '')
+        $loader.className = 'hide'
       })
   }
   componentDidMount() {
