@@ -2,7 +2,7 @@ import React from 'react'
 import Box from 'Box'
 import { startCreateNewDay } from 'actions'
 
-class RoundCreate extends React.Component {
+class DayCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -56,10 +56,10 @@ class RoundCreate extends React.Component {
   }
 }
 
-RoundCreate.propTypes = {
+DayCreate.propTypes = {
   dispatch: React.PropTypes.func,
   season: React.PropTypes.object,
   rounds: React.PropTypes.array,
 }
 
-export default RoundCreate
+export default DayCreate

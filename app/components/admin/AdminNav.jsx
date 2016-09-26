@@ -114,17 +114,20 @@ class AdminNav extends React.Component {
                     <Link to="/admin/rounds"><i className="fa fa-sitemap"></i> Rounds</Link>
                   </li>
                   <li className="active">
-                    <Link to="/admin/days"><i className="fa fa-sun-o"></i> Days</Link>
+                    <Link to="/admin/days"><i className="fa fa-calendar"></i> Days</Link>
                   </li>
                   <li className="active">
                     <Link to="/admin/teams"><i className="fa fa-users"></i> Teams</Link>
+                  </li>
+                  <li className="active">
+                    <Link to="/admin/matches"><i className="fa fa-futbol-o"></i> Matches</Link>
                   </li>
                 </ul>
               </li>
 
               <li className="active treeview">
                 <a>
-                  <i className="fa fa-pencil"></i> <span>Management</span>
+                  <i className="fa fa-calendar"></i> <span>Management</span>
                   <span className="pull-right-container">
                     <i className="fa fa-angle-left pull-right"></i>
                   </span>
@@ -139,7 +142,7 @@ class AdminNav extends React.Component {
 
               <li className="active treeview">
                 <a>
-                  <i className="fa fa-pencil"></i> <span>Users</span>
+                  <i className="fa fa-users"></i> <span>Users</span>
                   <span className="pull-right-container">
                     <i className="fa fa-angle-left pull-right"></i>
                   </span>

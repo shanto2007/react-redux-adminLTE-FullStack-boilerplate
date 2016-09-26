@@ -7,7 +7,7 @@ import {
   clearAdminDays,
 } from 'actions'
 
-class RoundsList extends React.Component {
+class DaysList extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -127,7 +127,7 @@ class RoundsList extends React.Component {
   }
 }
 
-RoundsList.propTypes = {
+DaysList.propTypes = {
   selectedRound: React.PropTypes.object,
   rounds: React.PropTypes.array,
   season: React.PropTypes.object,
@@ -135,4 +135,4 @@ RoundsList.propTypes = {
   dispatch: React.PropTypes.func,
 }
 
-export default RoundsList
+export default DaysList

@@ -2,7 +2,7 @@ import React from 'react'
 import Box from 'Box'
 import { startCreateNewTeam } from 'actions'
 
-class TeamCreate extends React.Component {
+class MatchCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -75,10 +75,10 @@ class TeamCreate extends React.Component {
   }
 }
 
-TeamCreate.propTypes = {
+MatchCreate.propTypes = {
   dispatch: React.PropTypes.func,
   season: React.PropTypes.object,
   rounds: React.PropTypes.array,
 }
 
-export default TeamCreate
+export default MatchCreate
