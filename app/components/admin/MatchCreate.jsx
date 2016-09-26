@@ -168,8 +168,8 @@ class MatchCreate extends React.Component {
 
   generateDaySelector() {
     const { days } = this.props
-    const { selectedDay } = this.state
-    if (!days.length) {
+    const { selectedDay, selectedRound } = this.state
+    if (!days.length || !selectedRound) {
       return null
     }
     return (
@@ -189,6 +189,18 @@ class MatchCreate extends React.Component {
         </select>
       </div>
     )
+  }
+
+  dateTimeSelector() {
+    if (this.props.selectedRound) {
+      return (
+        <div className="col-sm-12 col-md-6">
+          <label htmlFor="match-date">Select a date and time</label>
+          <input name="match-date" className="form-control" type="datetime-local" onChange={(e) => this.onDateChange(e)} />
+        </div>
+      )
+    }
+    return null
   }
 
   /**
@@ -213,18 +225,6 @@ class MatchCreate extends React.Component {
             )
           })
         }
-        </div>
-      )
-    }
-    return null
-  }
-
-  dateTimeSelector() {
-    if (this.props.selectedRound) {
-      return (
-        <div className="col-sm-12 col-md-6">
-          <label htmlFor="match-date">Select a date and time</label>
-          <input name="match-date" className="form-control" type="datetime-local" onChange={(e) => this.onDateChange(e)} />
         </div>
       )
     }

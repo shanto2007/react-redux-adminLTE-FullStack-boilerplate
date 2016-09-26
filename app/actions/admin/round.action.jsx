@@ -16,7 +16,7 @@ export const clearAdminRounds = (rounds = []) => {
   }
 }
 
-export const selectAdminRound = (round) => {
+export const selectAdminRound = (round = null) => {
   return {
     type: 'SELECT_ADMIN_ROUND',
     round,
@@ -67,7 +67,8 @@ export const startGetAdminRounds = (season) => {
     .then((res) => {
       const { rounds } = res.data
       dispatch(setAdminRounds(rounds))
-      dispatch(clearAdminTeams())
+      dispatch(clearAdminTeams()) //cleanup
+      dispatch(selectAdminRound()) // cleanup
       dispatch(adminRoundsSuccess(true))
       dispatch(adminRoundsLoading(false))
       return res
