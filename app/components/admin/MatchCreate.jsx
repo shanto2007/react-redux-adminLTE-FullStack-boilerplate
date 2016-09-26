@@ -91,9 +91,11 @@ class MatchCreate extends React.Component {
   }
 
   onMatchCreate(e) {
+    const { dispatch } = this.props
     e.preventDefault()
     e.stopPropagation()
     console.log(this.state)
+    dispatch(selectAdminRound(null))
   }
 
 
@@ -104,9 +106,9 @@ class MatchCreate extends React.Component {
   generateTeamHomeSelector() {
     const { teams } = this.props
     const { selectedTeamHome, selectedTeamAway } = this.state
-    if (!teams.length) {
-      return null
-    }
+    // if (!teams.length) {
+    //   return null
+    // }
 
     const validTeams = teams.filter((team) => {
       if (!selectedTeamAway || (team._id !== selectedTeamAway)) {
@@ -137,9 +139,9 @@ class MatchCreate extends React.Component {
   generateTeamAwaySelector() {
     const { teams } = this.props
     const { selectedTeamHome, selectedTeamAway } = this.state
-    if (!teams.length) {
-      return null
-    }
+    // if (!teams.length) {
+    //   return null
+    // }
     const validTeams = teams.filter((team) => {
       if (!selectedTeamHome || (team._id !== selectedTeamHome)) {
         return true
@@ -167,11 +169,8 @@ class MatchCreate extends React.Component {
   }
 
   generateDaySelector() {
-    const { days, selectedRound } = this.props
+    const { days } = this.props
     const { selectedDay } = this.state
-    if (!days.length || !selectedRound) {
-      return null
-    }
     return (
       <div className="col-sm-12 col-md-6">
         <label htmlFor="DaysList">Choose a Day</label>
@@ -192,12 +191,34 @@ class MatchCreate extends React.Component {
   }
 
   dateTimeSelector() {
+    return (
+      <div className="col-sm-12 col-md-6">
+        <label htmlFor="match-date">Select a date and time</label>
+        <input name="match-date" className="form-control" type="datetime-local" onChange={(e) => this.onDateChange(e)} />
+      </div>
+    )
+  }
+
+  showMatchCreationSelectors() {
+    const { state } = this
     if (this.props.selectedRound) {
       return (
-        <div className="col-sm-12 col-md-6">
-          <label htmlFor="match-date">Select a date and time</label>
-          <input name="match-date" className="form-control" type="datetime-local" onChange={(e) => this.onDateChange(e)} />
-        </div>
+        <form onSubmit={(e) => this.onMatchCreate(e)}>
+          {this.generateTeamHomeSelector()}
+          {this.generateTeamAwaySelector()}
+          {this.generateDaySelector()}
+          {this.dateTimeSelector()}
+          <div className="clearfix"></div>
+          <div className="submit-box">
+            <button
+              type="submit"
+              className="btn btn-primary pull-right"
+              disabled={!state.selectedTeamHome || !state.selectedTeamAway || !state.selectedDay || !state.matchDate}
+            >
+              Create New Round
+            </button>
+          </div>
+        </form>
       )
     }
     return null
@@ -232,7 +253,6 @@ class MatchCreate extends React.Component {
   }
 
   render() {
-    const { state } = this
     return (
       <Box title="Create Match">
         <div className="round-selector clearfix ">
@@ -240,22 +260,7 @@ class MatchCreate extends React.Component {
           {this.roundSelector()}
         </div>
         <hr />
-        <form onSubmit={(e) => this.onMatchCreate(e)}>
-          {this.generateTeamHomeSelector()}
-          {this.generateTeamAwaySelector()}
-          {this.generateDaySelector()}
-          {this.dateTimeSelector()}
-          <div className="clearfix"></div>
-          <div className="submit-box">
-            <button
-              type="submit"
-              className="btn btn-primary pull-right"
-              disabled={!state.selectedTeamHome || !state.selectedTeamAway || !state.selectedDay || !state.matchDate}
-            >
-              Create New Round
-            </button>
-          </div>
-        </form>
+        {this.showMatchCreationSelectors()}
       </Box>
     )
   }

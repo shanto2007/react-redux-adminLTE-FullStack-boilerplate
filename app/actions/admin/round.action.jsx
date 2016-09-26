@@ -67,7 +67,7 @@ export const startGetAdminRounds = (season) => {
     .then((res) => {
       const { rounds } = res.data
       dispatch(setAdminRounds(rounds))
-      dispatch(clearAdminTeams()) //cleanup
+      dispatch(clearAdminTeams()) // cleanup
       dispatch(selectAdminRound()) // cleanup
       dispatch(adminRoundsSuccess(true))
       dispatch(adminRoundsLoading(false))
