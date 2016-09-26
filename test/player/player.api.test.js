@@ -14,7 +14,7 @@ const Player     = require(testenv.serverdir + 'models/player.model')
 
 chai.use(chaiHttp)
 
-describe.only('Player - API', () => {
+describe('Player - API', () => {
   let userAuthToken, seasonId, anotherSeasonId, roundId, teamId, playerId, mediaId
 
   before((done) => {

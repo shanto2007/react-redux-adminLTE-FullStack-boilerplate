@@ -229,7 +229,7 @@ describe('Match - API', () => {
         date: Date.now(),
       })
       .end((err, res) => {
-        expect(res.status).toBe(500)
+        expect(res.status).toBe(400)
         expect(res.body.message).toExist()
         done()
       })
