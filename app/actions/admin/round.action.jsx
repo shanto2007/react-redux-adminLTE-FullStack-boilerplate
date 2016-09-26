@@ -1,5 +1,6 @@
 import Api from 'Http'
 import { openToastr } from './toastr.action'
+import { clearAdminTeams } from './teams.action'
 
 export const setAdminRounds = (rounds) => {
   return {
@@ -66,6 +67,7 @@ export const startGetAdminRounds = (season) => {
     .then((res) => {
       const { rounds } = res.data
       dispatch(setAdminRounds(rounds))
+      dispatch(clearAdminTeams())
       dispatch(adminRoundsSuccess(true))
       dispatch(adminRoundsLoading(false))
       return res
