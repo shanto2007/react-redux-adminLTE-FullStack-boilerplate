@@ -167,8 +167,8 @@ class MatchCreate extends React.Component {
   }
 
   generateDaySelector() {
-    const { days } = this.props
-    const { selectedDay, selectedRound } = this.state
+    const { days, selectedRound } = this.props
+    const { selectedDay } = this.state
     if (!days.length || !selectedRound) {
       return null
     }
