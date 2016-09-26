@@ -105,7 +105,7 @@ class DaysList extends React.Component {
     }
     return (
       <p>
-        Select a round first!
+        No days created, yet!
       </p>
     )
   }

@@ -13,7 +13,7 @@ module.exports = {
         success: true,
         days,
       })
-    })
+    }).sort('_id')
   },
   indexPublic: (req, res) => {
     const roundId = req.params.round
@@ -26,7 +26,7 @@ module.exports = {
     }
     return Day.find({
       round: roundId,
-    }).exec()
+    }).sort('_id').exec()
     .then((days) => {
       return res.json({
         success: true,

@@ -14,7 +14,15 @@ class AdminMatches extends React.Component {
   }
 
   render() {
-    const { seasons, season, rounds, teams, selectedRound, dispatch } = this.props
+    const {
+      dispatch,
+      seasons,
+      season,
+      rounds,
+      selectedRound,
+      days,
+      teams,
+    } = this.props
     if (!seasons.length) {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
     } else if (!season) {
@@ -24,7 +32,7 @@ class AdminMatches extends React.Component {
     }
     return (
       <div id="admin-matches-list" className="container-fluid">
-        <h1>Match Creation</h1>
+        <MatchCreate dispatch={dispatch} season={season} rounds={rounds} selectedRound={selectedRound} teams={teams} days={days} />
       </div>
     )
   }
@@ -35,6 +43,7 @@ AdminMatches.propTypes = {
   seasons: React.PropTypes.array,
   season: React.PropTypes.object,
   rounds: React.PropTypes.array,
+  days: React.PropTypes.array,
   teams: React.PropTypes.array,
   selectedRound: React.PropTypes.object,
 }
@@ -43,6 +52,7 @@ export default connect((state) => ({
   seasons: state.seasons.seasons,
   season: state.seasons.viewed,
   rounds: state.rounds.rounds,
+  days: state.days.days,
   teams: state.teams.teams,
   selectedRound: state.rounds.selected,
 }))(AdminMatches)
