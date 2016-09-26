@@ -57,10 +57,11 @@ module.exports = {
       })
     })
     .catch((err) => {
-      return res.status(500).json({
+      return res.status(err.code && err.code === 11000 ? 400 : 500).json({
         success: false,
         action: 'create',
-        message: err,
+        message: err.code && err.code === 11000 ? 'This match already exist in that day' : err,
+        err,
       })
     })
   },

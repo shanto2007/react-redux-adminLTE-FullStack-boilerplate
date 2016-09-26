@@ -1,7 +1,12 @@
 import React from 'react'
 import Box from 'Box'
 import Moment from 'moment'
-import { selectAdminRound, startGetAdminTeams, startGetAdminDays } from 'actions'
+import {
+  selectAdminRound,
+  startGetAdminTeams,
+  startGetAdminDays,
+  startCreateNewMatch,
+} from 'actions'
 
 class MatchCreate extends React.Component {
   constructor(props) {
@@ -70,7 +75,7 @@ class MatchCreate extends React.Component {
     e.stopPropagation()
     if (e.target.value && e.target.value.length) {
       this.setState({
-        matchDate: Moment(e.target.value).unix(),
+        matchDate: Moment(e.target.value),
       })
     } else if (!e.target.value.length) {
       this.setState({
@@ -91,11 +96,32 @@ class MatchCreate extends React.Component {
   }
 
   onMatchCreate(e) {
-    const { dispatch } = this.props
     e.preventDefault()
     e.stopPropagation()
-    console.log(this.state)
-    dispatch(selectAdminRound(null))
+
+    const {
+      dispatch,
+      season,
+      selectedRound,
+    } = this.props
+    const {
+      selectedDay,
+      selectedTeamHome,
+      selectedTeamAway,
+      matchDate,
+    } = this.state
+
+    const newMatch = {}
+    newMatch.season = season._id
+    newMatch.round = selectedRound._id
+    newMatch.day = selectedDay
+    newMatch.teamHome = selectedTeamHome
+    newMatch.teamAway = selectedTeamAway
+    newMatch.date = matchDate
+    console.log(matchDate)
+    dispatch(startCreateNewMatch(newMatch)).then(() => {
+      dispatch(selectAdminRound(null))
+    }).catch()
   }
 
 
@@ -106,17 +132,12 @@ class MatchCreate extends React.Component {
   generateTeamHomeSelector() {
     const { teams } = this.props
     const { selectedTeamHome, selectedTeamAway } = this.state
-    // if (!teams.length) {
-    //   return null
-    // }
-
     const validTeams = teams.filter((team) => {
       if (!selectedTeamAway || (team._id !== selectedTeamAway)) {
         return true
       }
       return false
     })
-
     return (
       <div className="col-sm-12 col-md-6">
         <label htmlFor="TeamHomeLists">Choose Team Home</label>
@@ -139,9 +160,6 @@ class MatchCreate extends React.Component {
   generateTeamAwaySelector() {
     const { teams } = this.props
     const { selectedTeamHome, selectedTeamAway } = this.state
-    // if (!teams.length) {
-    //   return null
-    // }
     const validTeams = teams.filter((team) => {
       if (!selectedTeamHome || (team._id !== selectedTeamHome)) {
         return true
@@ -199,31 +217,6 @@ class MatchCreate extends React.Component {
     )
   }
 
-  showMatchCreationSelectors() {
-    const { state } = this
-    if (this.props.selectedRound) {
-      return (
-        <form onSubmit={(e) => this.onMatchCreate(e)}>
-          {this.generateTeamHomeSelector()}
-          {this.generateTeamAwaySelector()}
-          {this.generateDaySelector()}
-          {this.dateTimeSelector()}
-          <div className="clearfix"></div>
-          <div className="submit-box">
-            <button
-              type="submit"
-              className="btn btn-primary pull-right"
-              disabled={!state.selectedTeamHome || !state.selectedTeamAway || !state.selectedDay || !state.matchDate}
-            >
-              Create New Round
-            </button>
-          </div>
-        </form>
-      )
-    }
-    return null
-  }
-
   /**
    * ROUNDS SELECTOR BUTTONS
    * TODO: prob should be a reusable component.
@@ -247,6 +240,31 @@ class MatchCreate extends React.Component {
           })
         }
         </div>
+      )
+    }
+    return null
+  }
+
+  showMatchCreationSelectors() {
+    const { state } = this
+    if (this.props.selectedRound) {
+      return (
+        <form onSubmit={(e) => this.onMatchCreate(e)}>
+          {this.generateTeamHomeSelector()}
+          {this.generateTeamAwaySelector()}
+          {this.generateDaySelector()}
+          {this.dateTimeSelector()}
+          <div className="clearfix"></div>
+          <div className="submit-box">
+            <button
+              type="submit"
+              className="btn btn-primary pull-right"
+              disabled={!state.selectedTeamHome || !state.selectedTeamAway || !state.selectedDay || !state.matchDate}
+            >
+              Create New Match
+            </button>
+          </div>
+        </form>
       )
     }
     return null
