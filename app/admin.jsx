@@ -14,6 +14,8 @@ import {
   setAuthToken,
   closeToastr,
   startGetAdminRounds,
+  clearAdminDays,
+  clearAdminTeams,
 } from 'actions'
 
 /**
@@ -37,9 +39,16 @@ store.subscribe(() => {
   }
   authTokenLocalStorage.authTokenStorageHandler(state.account.authToken)
 
+  /**
+   * SEASON SWITCH
+   * - Cleanup season own data in store
+   * TODO: remove manual cleanup around in components to have in one place here
+   */
   const prevViewedSeason = currentViewedSeason
   currentViewedSeason = state.seasons.viewed
   if (currentViewedSeason && currentViewedSeason !== prevViewedSeason) {
+    store.dispatch(clearAdminDays())
+    store.dispatch(clearAdminTeams())
     store.dispatch(startGetAdminRounds(currentViewedSeason._id))
   }
 })

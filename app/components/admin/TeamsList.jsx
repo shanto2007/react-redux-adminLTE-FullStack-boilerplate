@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
 import Box from 'Box'
+import RoundSwitcher from 'RoundSwitcher'
 import {
   selectAdminRound,
   startGetAdminTeams,
   startDeleteTeam,
-  clearAdminTeams,
 } from 'actions'
 
 class TeamsList extends React.Component {
@@ -15,27 +15,14 @@ class TeamsList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
-
     const selectedRound = nextProps.selectedRound
     const prevSelectedRound = this.props.selectedRound
-
-    const selectedSeason = nextProps.season
-    const prevSelectedSeason = this.props.season
-
-    /**
-     * SEASON SWITCH CASE
-     */
-    if (selectedSeason !== prevSelectedSeason) {
-      dispatch(clearAdminTeams())
-    }
-
     /**
      * ROUND SWITCHER
      */
-    if (selectedRound !== prevSelectedRound) {
+    if (selectedRound && selectedRound !== prevSelectedRound) {
       dispatch(startGetAdminTeams(selectedRound._id))
     }
-
     return null
   }
 
@@ -45,32 +32,6 @@ class TeamsList extends React.Component {
     if (team && team._id && confirm('You will lose all data of this team')) {
       dispatch(startDeleteTeam(team._id))
     }
-  }
-
-  onRoundSelect(e, round) {
-    e.preventDefault()
-    e.stopPropagation()
-    const { dispatch } = this.props
-    dispatch(selectAdminRound(round))
-    // dispatch(startGetAdminDays(round._id))
-  }
-
-  roundSelector() {
-    const { selectedRound, rounds } = this.props
-    if (rounds && rounds.length) {
-      return rounds.map((round, i) => {
-        let dinamicClass
-        if (selectedRound) {
-          dinamicClass = selectedRound._id === round._id ? 'active' : ''
-        }
-        return (
-          <button key={i} onClick={(e) => this.onRoundSelect(e, round)} className={`btn btn-primary ${dinamicClass}`}>
-            <b>{round.label}</b>
-          </button>
-        )
-      })
-    }
-    return null
   }
 
   renderTeamsList() {
@@ -115,12 +76,7 @@ class TeamsList extends React.Component {
 
   render() {
     return (
-      <Box title="Team list">
-        <br />
-        <div className="btn-group">
-          {this.roundSelector()}
-        </div>
-        <hr />
+      <Box title="Teams List" subtitle={`Season: ${this.props.season.year}`} filters={<RoundSwitcher />}>
         <ul className="products-list product-list-in-box">
           {this.renderTeamsList()}
         </ul>

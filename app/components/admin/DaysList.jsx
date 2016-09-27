@@ -1,10 +1,10 @@
 import React from 'react'
 import Box from 'Box'
+import RoundSwitcher from 'RoundSwitcher'
 import {
   startGetAdminDays,
   startDeleteDay,
   selectAdminRound,
-  clearAdminDays,
 } from 'actions'
 
 class DaysList extends React.Component {
@@ -14,27 +14,14 @@ class DaysList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
-
     const selectedRound = nextProps.selectedRound
     const prevSelectedRound = this.props.selectedRound
-
-    const selectedSeason = nextProps.season
-    const prevSelectedSeason = this.props.season
-
-    /**
-     * SEASON SWITC CASE
-     */
-    if (selectedSeason !== prevSelectedSeason) {
-      dispatch(clearAdminDays())
-    }
-
     /**
      * ROUND SWITCHER
      */
-    if (selectedRound !== prevSelectedRound) {
+    if (selectedRound && selectedRound !== prevSelectedRound) {
       dispatch(startGetAdminDays(selectedRound._id))
     }
-
     return null
   }
 
@@ -44,39 +31,6 @@ class DaysList extends React.Component {
     if (day && day._id && confirm('You will lose all data of this days')) {
       dispatch(startDeleteDay(day._id))
     }
-  }
-
-  onRoundSelect(e, round) {
-    e.preventDefault()
-    e.stopPropagation()
-    const { dispatch } = this.props
-    dispatch(selectAdminRound(round))
-    // dispatch(startGetAdminDays(round._id))
-  }
-
-  roundSelector() {
-    const { selectedRound, rounds } = this.props
-    if (rounds && rounds.length) {
-      return rounds.map((round, i) => {
-        let dinamicClass
-        if (selectedRound) {
-          dinamicClass = selectedRound._id === round._id ? 'active' : ''
-        }
-        return (
-          <button key={i} onClick={(e) => this.onRoundSelect(e, round)} className={`btn btn-primary ${dinamicClass}`}>
-            <b>{round.label}</b>
-          </button>
-        )
-      })
-    }
-    return (
-      <div className="callout callout-danger">
-        <h4>No Round created yet!</h4>
-        <p>
-          No Roudn created for your torunament, create some in the round section!
-        </p>
-      </div>
-    )
   }
 
   renderDaysList() {
@@ -111,14 +65,8 @@ class DaysList extends React.Component {
   }
 
   render() {
-    const { days } = this.props
     return (
-      <Box title="Days list" loading={days.loading}>
-        <br />
-        <div className="btn-group">
-          {this.roundSelector()}
-        </div>
-        <hr />
+      <Box title="Days List" subtitle={`Season: ${this.props.season.year}`} filters={<RoundSwitcher />}>
         <ul className="products-list product-list-in-box">
           {this.renderDaysList()}
         </ul>

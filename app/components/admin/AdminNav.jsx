@@ -78,7 +78,9 @@ class AdminNav extends React.Component {
                         { this.renderViewedSeasonList() }
                       </ul>
                     </li>
-                    <li className="footer"><a>View all</a></li>
+                    <li className="footer">
+                      <Link to="/admin/seasons">View All</Link>
+                    </li>
                   </ul>
                 </li>
                 <li className="dropdown user user-menu">
