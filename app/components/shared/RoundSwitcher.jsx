@@ -24,10 +24,11 @@ class RoundSwitcher extends React.Component {
     dispatch(selectAdminRound(round))
   }
   roundSelector() {
-    const { selectedRound, rounds } = this.props.rounds
+    const { rounds } = this.props.rounds
+    const selectedRound = this.props.rounds.selected
     if (rounds && rounds.length) {
       return rounds.map((round, i) => {
-        let dinamicClass
+        let dinamicClass = ''
         if (selectedRound) {
           dinamicClass = selectedRound._id === round._id ? 'active' : ''
         }
