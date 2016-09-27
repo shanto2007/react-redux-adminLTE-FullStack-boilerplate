@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from 'Box'
 import Moment from 'moment'
 import {
   selectAdminRound,
@@ -7,6 +6,9 @@ import {
   startGetAdminDays,
   startCreateNewMatch,
 } from 'actions'
+
+import Box from 'Box'
+import RoundSwitcher from 'RoundSwitcher'
 
 class MatchCreate extends React.Component {
   constructor(props) {
@@ -20,13 +22,24 @@ class MatchCreate extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedRound !== this.selectedRound) {
-      this.setState({
-        selectedTeamHome: undefined,
-        selectedTeamAway: undefined,
-        selectedDay: undefined,
-        matchDate: undefined,
-      })
+    const { dispatch, selectedRound } = this.props
+    const nextSelectedRound = nextProps.selectedRound
+    if (nextSelectedRound !== selectedRound) {
+      dispatch(startGetAdminTeams(nextSelectedRound._id))
+        .then(() => {
+          return dispatch(startGetAdminDays(nextSelectedRound._id))
+        })
+        .then(() => {
+          this.setState({
+            selectedTeamHome: undefined,
+            selectedTeamAway: undefined,
+            selectedDay: undefined,
+            matchDate: undefined,
+          })
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     }
   }
 
@@ -37,16 +50,6 @@ class MatchCreate extends React.Component {
   //   }
   //   return true
   // }
-
-  onRoundSelect(e, round) {
-    e.preventDefault()
-    e.stopPropagation()
-    const { dispatch } = this.props
-    dispatch(selectAdminRound(round))
-    dispatch(startGetAdminTeams(round._id)).then(() => {
-      dispatch(startGetAdminDays(round._id))
-    })
-  }
 
   /**
    * Match must have two different team, validation is up in the server
@@ -217,34 +220,6 @@ class MatchCreate extends React.Component {
     )
   }
 
-  /**
-   * ROUNDS SELECTOR BUTTONS
-   * TODO: prob should be a reusable component.
-   */
-  roundSelector() {
-    const { selectedRound, rounds } = this.props
-    if (rounds && rounds.length) {
-      return (
-        <div className="btn-group" style={{ display: 'block', margin: 'auto' }} name="round-selector">
-        {
-          rounds.map((round, i) => {
-            let dinamicClass
-            if (selectedRound) {
-              dinamicClass = selectedRound._id === round._id ? 'active' : ''
-            }
-            return (
-              <button key={i} onClick={(e) => this.onRoundSelect(e, round)} className={`btn btn-primary text-centered ${dinamicClass || ''}`}>
-                <b>{round.label}</b>
-              </button>
-            )
-          })
-        }
-        </div>
-      )
-    }
-    return null
-  }
-
   showMatchCreationSelectors() {
     const { state } = this
     if (this.props.selectedRound) {
@@ -273,10 +248,7 @@ class MatchCreate extends React.Component {
   render() {
     return (
       <Box title="Create Match">
-        <div className="round-selector clearfix ">
-          <label htmlFor="round-selector">Select a round</label>
-          {this.roundSelector()}
-        </div>
+        <RoundSwitcher />
         <hr />
         {this.showMatchCreationSelectors()}
       </Box>

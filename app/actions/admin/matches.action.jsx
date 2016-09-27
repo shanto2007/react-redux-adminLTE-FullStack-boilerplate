@@ -1,7 +1,7 @@
 import Api from 'Http'
 import { openToastr } from './toastr.action'
 
-export const setAdminMatches = (matches) => {
+export const setAdminMatches = (matches = []) => {
   return {
     type: 'SET_ADMIN_MATCHES',
     matches,
@@ -29,26 +29,26 @@ export const adminMatchesSuccess = (success) => {
   }
 }
 
-export const adminMatchesFail = (fail) => {
+export const adminMatchesFail = (fail = 'Something went orribly wrong') => {
   return {
     type: 'ADMIN_MATCHES_FAIL',
     fail,
   }
 }
 
-export const startGetAdminMatches = (matches) => {
+export const startGetAdminMatches = (roundId) => {
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(adminMatchesLoading(true))
-    return Api.get('/admin/matches/', matches, {
+    return Api.get(`/admin/matches/${roundId}`, {
       headers: {
         Authorization: authToken,
       },
     })
     .then((res) => {
       const { matches } = res.data
-      console.log(matches)
+      console.log('>>>>', matches)
       // dispatch(startGetAdminSingleMatches(player.matches))
       dispatch(adminMatchesSuccess(true))
       dispatch(adminMatchesLoading(false))

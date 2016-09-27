@@ -153,8 +153,6 @@ module.exports = (express, app) => {
   api.delete('/admin/match/:id', AuthRequired(), MatchCtrl.delete)
   //  public
 
-
-
   /**
    * ACCOUNT
    */
