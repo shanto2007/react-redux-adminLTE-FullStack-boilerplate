@@ -247,7 +247,7 @@ class MatchCreate extends React.Component {
 
   render() {
     return (
-      <Box title="Create Match" filters={<RoundSwitcher />}>
+      <Box title="Create Match" subtitle={`Season: ${this.props.season.year}`} filters={<RoundSwitcher />}>
         {this.showMatchCreationSelectors()}
       </Box>
     )

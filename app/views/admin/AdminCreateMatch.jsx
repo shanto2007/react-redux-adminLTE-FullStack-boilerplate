@@ -6,9 +6,8 @@ import { connect } from 'react-redux'
  */
 import Callout from 'Callout'
 import MatchCreate from 'MatchCreate'
-import MatchesList from 'MatchesList'
 
-class AdminMatches extends React.Component {
+class AdminCreateMatch extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -22,7 +21,6 @@ class AdminMatches extends React.Component {
       selectedRound,
       days,
       teams,
-      matches,
     } = this.props
     if (!seasons.length) {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
@@ -34,13 +32,12 @@ class AdminMatches extends React.Component {
     return (
       <div id="admin-matches-list" className="container-fluid">
         <MatchCreate dispatch={dispatch} season={season} selectedRound={selectedRound} teams={teams} days={days} />
-        {/* <MatchesList dispatch={dispatch} matches={matches} /> */}
       </div>
     )
   }
 }
 
-AdminMatches.propTypes = {
+AdminCreateMatch.propTypes = {
   dispatch: React.PropTypes.func,
   seasons: React.PropTypes.array,
   season: React.PropTypes.object,
@@ -59,4 +56,4 @@ export default connect((state) => ({
   teams: state.teams.teams,
   matches: state.matches,
   selectedRound: state.rounds.selected,
-}))(AdminMatches)
+}))(AdminCreateMatch)

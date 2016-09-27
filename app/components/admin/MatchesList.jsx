@@ -1,5 +1,6 @@
 import React from 'react'
 import Box from 'Box'
+import RoundSwitcher from 'RoundSwitcher'
 import {
   startGetAdminDays,
   startDeleteDay,
@@ -112,15 +113,8 @@ class MatchesList extends React.Component {
 
   render() {
     return (
-      <Box title="Matches list">
-        <br />
-        <div className="btn-group">
-          {this.roundSelector()}
-        </div>
-        <hr />
-        {/* <ul className="products-list product-list-in-box">
-          {this.renderMatchesList()}
-        </ul> */}
+      <Box title="Matches list" filters={<RoundSwitcher />}>
+
       </Box>
     )
   }

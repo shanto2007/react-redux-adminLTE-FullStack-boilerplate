@@ -44,8 +44,8 @@ const genRoutes = (adminRoutes) => {
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminTeam').default)),
         },
         {
-          path: 'matches',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminMatches').default)),
+          path: 'match-create',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminCreateMatch').default)),
         },
         {
           path: 'users',
@@ -54,6 +54,10 @@ const genRoutes = (adminRoutes) => {
         {
           path: 'settings',
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('Settings').default)),
+        },
+        {
+          path: '*',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminNotFound').default)),
         },
       ],
     },

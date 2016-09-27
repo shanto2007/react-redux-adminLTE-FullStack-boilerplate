@@ -120,7 +120,7 @@ class AdminNav extends React.Component {
                     <Link to="/admin/teams"><i className="fa fa-users"></i> Teams</Link>
                   </li>
                   <li className="active">
-                    <Link to="/admin/matches"><i className="fa fa-futbol-o"></i> Matches</Link>
+                    <Link to="/admin/match-create"><i className="fa fa-futbol-o"></i> Matches</Link>
                   </li>
                 </ul>
               </li>
