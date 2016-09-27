@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe('Match - API', () => {
+describe.only('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,
@@ -508,6 +508,38 @@ describe('Match - API', () => {
         expect(team.goalScored).toBe(0)
         done()
       }).catch(done)
+    })
+  })
+
+  describe('INDEX - admin', () => {
+    it('should not index without auth token', (done) => {
+      chai.request(app)
+      .get(`/api/admin/matches/${roundId}`)
+      .end((err, res) => {
+        expect(res.status).toBe(400)
+        done()
+      })
+    })
+    it('should not index, return 404 if no round id provided', (done) => {
+      chai.request(app)
+      .get(`/api/admin/matches/`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(404)
+        done()
+      })
+    })
+    it('should index by round', (done) => {
+      chai.request(app)
+      .get(`/api/admin/matches/${roundId}`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        const { body } = res
+        expect(res.status).toBe(200)
+        expect(body.matches).toExist()
+        expect(body.matches[0].round).toEqual(roundId)
+        done()
+      })
     })
   })
 

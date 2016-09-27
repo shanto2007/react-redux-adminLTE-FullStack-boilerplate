@@ -19,3 +19,4 @@ export * from 'admin/teams.reducer'
 export * from 'admin/team.reducer'
 
 export * from 'admin/match.reducer'
+export * from 'admin/matches.reducer'

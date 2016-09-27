@@ -5,6 +5,24 @@ const Warn = require('../models/warn.model')
 const Expulsion = require('../models/expulsion.model')
 
 module.exports = {
+  indexByRound: (req, res) => {
+    const round = req.params.round
+    return Match.find({ round }).exec()
+    .then((matches) => {
+      return res.json({
+        success: true,
+        action: 'index by round',
+        matches,
+      })
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        action: 'index by round',
+        message: err.message ? err.message : err,
+      })
+    })
+  },
   create: (req, res) => {
     const newMatch = req.body
     if (!newMatch.season) {

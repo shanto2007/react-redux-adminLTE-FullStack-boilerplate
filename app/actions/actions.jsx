@@ -19,3 +19,4 @@ export * from 'admin/teams.action'
 export * from 'admin/team.action'
 
 export * from 'admin/match.action'
+export * from 'admin/matches.action'

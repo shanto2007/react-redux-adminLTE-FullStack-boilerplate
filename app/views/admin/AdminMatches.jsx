@@ -54,5 +54,6 @@ export default connect((state) => ({
   rounds: state.rounds.rounds,
   days: state.days.days,
   teams: state.teams.teams,
+  matches: state.matches.matches,
   selectedRound: state.rounds.selected,
 }))(AdminMatches)

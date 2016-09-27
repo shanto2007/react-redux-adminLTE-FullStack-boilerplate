@@ -13,7 +13,7 @@ const Media     = require(testenv.serverdir + 'models/media.model')
 
 chai.use(chaiHttp)
 
-describe.only('Team - API', () => {
+describe('Team - API', () => {
   let userAuthToken, seasonId, roundId, dayId, teamId, groupPhotoId, avatarId
 
   before((done) => {

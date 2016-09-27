@@ -145,16 +145,14 @@ module.exports = (express, app) => {
   /**
    *  DAYS
    */
-  // api.get('/admin/matchs', AuthRequired(), DayCtrl.indexAdmin)
-  // api.get('/admin/match/:id', AuthRequired(), DayCtrl.getAdmin)
+  api.get('/admin/matches/:round', AuthRequired(), MatchCtrl.indexByRound)
   api.post('/admin/match', AuthRequired(), MatchCtrl.create)
   api.patch('/admin/match/:id', AuthRequired(), MatchCtrl.edit)
   api.patch('/admin/match/:id/reset', AuthRequired(), MatchCtrl.reset)
   api.patch('/admin/match/:id/date', AuthRequired(), MatchCtrl.changeDate)
   api.delete('/admin/match/:id', AuthRequired(), MatchCtrl.delete)
   //  public
-  // api.get('/matchs', MatchCtrl.indexPublic)
-  // api.get('/match/:id?', MatchCtrl.getPublic)
+
 
 
   /**
