@@ -7,6 +7,15 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  componentDidMount() {
+    const $app = document.getElementById('app')
+    const $loader = document.getElementById('app-loader')
+    $app.className = $app.className.replace('hide', '')
+    document.body.className = document.body.className.replace('app-loading', '')
+    $loader.className = 'hide'
+  }
+
   formErrorHandler() {
     let label;
     const { formError } = this.props.auth

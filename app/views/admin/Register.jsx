@@ -5,6 +5,15 @@ import { browserHistory } from 'react-router'
 import { validPassword, validPasswordCheck, signinPasswordError, checkUserExist, startSignin } from 'actions'
 
 class Register extends React.Component {
+
+  componentDidMount() {
+    const $app = document.getElementById('app')
+    const $loader = document.getElementById('app-loader')
+    $app.className = $app.className.replace('hide', '')
+    document.body.className = document.body.className.replace('app-loading', '')
+    $loader.className = 'hide'
+  }
+
   componentDidUpdate() {
     const { signin } = this.props
     if (signin.username_exist) {

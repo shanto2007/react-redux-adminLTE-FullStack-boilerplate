@@ -18,13 +18,23 @@ const Box = function Box(props) {
     LoadingOverlay = null;
   }
 
+  let Filters = null
+  if (props.filters) {
+    Filters = (
+      <div className="box-filters">
+        {props.filters}
+      </div>
+    )
+  }
+
   return (
-    <div className={`box box-solid box-default ${props.className || ''}`}>
-      <div className="box-header">
+    <div className={`box ${props.className || ''}`}>
+      <div className="box-header with-border">
         <h3 className="box-title pull-left">{props.title}</h3>
         <h6 className="box-title box-subtitle pull-right">{props.title}</h6>
         <div className="clearfix"></div>
       </div>
+      {Filters}
       <div className="box-body">
         { props.children }
       </div>
@@ -35,10 +45,10 @@ const Box = function Box(props) {
 
 Box.propTypes = {
   title: React.PropTypes.string,
+  filters: React.PropTypes.element,
   className: React.PropTypes.string,
   children: React.PropTypes.node,
   loading: React.PropTypes.bool,
-  actions: React.PropTypes.object,
   overlay: React.PropTypes.string,
 }
 

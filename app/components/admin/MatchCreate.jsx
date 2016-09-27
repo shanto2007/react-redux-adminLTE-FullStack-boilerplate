@@ -247,9 +247,7 @@ class MatchCreate extends React.Component {
 
   render() {
     return (
-      <Box title="Create Match">
-        <RoundSwitcher />
-        <hr />
+      <Box title="Create Match" filters={<RoundSwitcher />}>
         {this.showMatchCreationSelectors()}
       </Box>
     )
@@ -259,7 +257,6 @@ class MatchCreate extends React.Component {
 MatchCreate.propTypes = {
   dispatch: React.PropTypes.func,
   season: React.PropTypes.object,
-  rounds: React.PropTypes.array,
   days: React.PropTypes.array,
   teams: React.PropTypes.array,
   selectedRound: React.PropTypes.object,

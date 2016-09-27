@@ -1,9 +1,11 @@
 html, body.app-loading{
-  background: #3c8dbc;
   height: 100%;
   overflow: hidden;
   padding: 0;
   margin: 0;
+}
+body.app-loading{
+  background: #3c8dbc;
 }
 #app.hide{
   visibility: hidden;

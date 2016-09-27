@@ -33,7 +33,7 @@ class AdminMatches extends React.Component {
     }
     return (
       <div id="admin-matches-list" className="container-fluid">
-        <MatchCreate dispatch={dispatch} season={season} rounds={rounds} selectedRound={selectedRound} teams={teams} days={days} />
+        <MatchCreate dispatch={dispatch} season={season} selectedRound={selectedRound} teams={teams} days={days} />
         {/* <MatchesList dispatch={dispatch} matches={matches} /> */}
       </div>
     )
