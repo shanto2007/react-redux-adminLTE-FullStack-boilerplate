@@ -3,13 +3,17 @@
 @import 'base/mixins';
 @import 'base/breakpoints';
 
+/*  Presentational */
 @import 'admin/buttons';
+@import 'admin/box';
+
+//  Management
+@import 'admin/editor';
+@import 'admin/uploaders';
 
 //  Components
 @import 'admin/admin-wrapper';
 @import 'admin/admin-nav';
-@import 'admin/editor';
-@import 'admin/uploaders';
 @import 'admin/single-team';
 @import 'admin/single-player';
 

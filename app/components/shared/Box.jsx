@@ -1,16 +1,5 @@
 import React from 'react'
 
-const overlayStyle = {
-  position: 'relative',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  padding: 0,
-  margin: '0 auto',
-  textTransform: 'uppercase',
-  fontWeight: 'bold',
-  textAlign: 'center',
-}
-
 const Box = function Box(props) {
   let LoadingOverlay
   if (props.loading) {
@@ -22,7 +11,7 @@ const Box = function Box(props) {
   } else if (props.overlay) {
     LoadingOverlay = (
       <div className="overlay">
-        <h3 style={overlayStyle}>{props.overlay}</h3>
+        <h3 className="overlay-title">{props.overlay || 'Loading...'}</h3>
       </div>
     )
   } else {
@@ -32,7 +21,9 @@ const Box = function Box(props) {
   return (
     <div className={`box box-solid box-default ${props.className || ''}`}>
       <div className="box-header">
-        <h3 className="box-title">{props.title}</h3>
+        <h3 className="box-title pull-left">{props.title}</h3>
+        <h6 className="box-title box-subtitle pull-right">{props.title}</h6>
+        <div className="clearfix"></div>
       </div>
       <div className="box-body">
         { props.children }

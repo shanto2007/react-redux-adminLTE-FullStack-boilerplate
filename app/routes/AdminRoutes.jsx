@@ -19,7 +19,7 @@ const genRoutes = (adminRoutes) => {
       path: '/admin',
       component: AdminWrapper,
       indexRoute: {
-        getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUsersList').default)),
+        getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminDashboard').default)),
       },
       onEnter: adminRoutes.requireAuth.bind(adminRoutes),
       childRoutes: [
