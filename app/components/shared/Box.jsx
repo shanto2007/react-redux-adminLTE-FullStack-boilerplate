@@ -21,7 +21,7 @@ const Box = function Box(props) {
   let Filters = null
   if (props.filters) {
     Filters = (
-      <div className="box-filters">
+      <div className="box-body box-filters">
         {props.filters}
       </div>
     )
@@ -30,9 +30,11 @@ const Box = function Box(props) {
   return (
     <div className={`box ${props.className || ''}`}>
       <div className="box-header with-border">
-        <h3 className="box-title pull-left">{props.title}</h3>
-        <h6 className="box-title box-subtitle pull-right">{props.title}</h6>
-        <div className="clearfix"></div>
+        <h3 className="box-title">{props.title}</h3>
+        <h6 className="box-title box-subtitle">{props.subtitle || ''}</h6>
+        <div className="box-tools pull-right">
+          <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+        </div>
       </div>
       {Filters}
       <div className="box-body">
@@ -45,6 +47,7 @@ const Box = function Box(props) {
 
 Box.propTypes = {
   title: React.PropTypes.string,
+  subtitle: React.PropTypes.string,
   filters: React.PropTypes.element,
   className: React.PropTypes.string,
   children: React.PropTypes.node,

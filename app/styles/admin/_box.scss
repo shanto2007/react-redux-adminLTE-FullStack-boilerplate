@@ -3,8 +3,14 @@
     .box-title{
       &.box-subtitle{
         font-size: 1.25rem;
-        line-height: 2rem;
+        position: absolute;
+        right: 50px;
+        top: 1.25rem;
+        text-align: right;
       }
+    }
+    .box-tools{
+
     }
   }
   .box-filters{
