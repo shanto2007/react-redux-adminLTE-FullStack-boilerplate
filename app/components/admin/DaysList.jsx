@@ -4,7 +4,6 @@ import RoundSwitcher from 'RoundSwitcher'
 import {
   startGetAdminDays,
   startDeleteDay,
-  selectAdminRound,
 } from 'actions'
 
 class DaysList extends React.Component {

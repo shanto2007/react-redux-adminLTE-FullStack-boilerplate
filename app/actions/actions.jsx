@@ -1,3 +1,4 @@
+export * from 'admin/router.action'
 export * from 'admin/account.action'
 export * from 'admin/auth.action'
 export * from 'admin/users.action'

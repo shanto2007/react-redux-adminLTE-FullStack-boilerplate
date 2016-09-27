@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import Box from 'Box'
 import RoundSwitcher from 'RoundSwitcher'
 import {
-  selectAdminRound,
   startGetAdminTeams,
   startDeleteTeam,
 } from 'actions'

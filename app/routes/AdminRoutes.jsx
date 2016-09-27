@@ -3,6 +3,7 @@ import { Provider, connect } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 
 import AdminWrapper from 'AdminWrapper'
+import { adminChangeRoute } from 'actions'
 
 const genRoutes = (adminRoutes) => {
   const routes = [
@@ -87,6 +88,10 @@ export class AdminRoutes extends React.Component {
   }
 
   render() {
+    const { dispatch } = this.props
+    browserHistory.listen((e) => {
+      dispatch(adminChangeRoute(e.pathname))
+    })
     return (
       <Provider store={this.props.store}>
         <Router history={browserHistory} routes={genRoutes(this)} />

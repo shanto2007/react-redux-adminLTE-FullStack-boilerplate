@@ -1,3 +1,4 @@
+export * from 'admin/router.reducer'
 export * from 'admin/account.reducer'
 export * from 'admin/auth.reducer'
 export * from 'admin/users.reducer'
