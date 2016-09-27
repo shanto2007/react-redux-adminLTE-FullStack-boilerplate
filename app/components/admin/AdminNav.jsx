@@ -4,6 +4,13 @@ import { Link } from 'react-router'
 import { startLogout, openToastr, setAdminViewedSeason } from 'actions'
 
 class AdminNav extends React.Component {
+
+  // shouldComponentUpdate(nextProps) {
+  //   const { user } = this.props.account
+  //   const { viewed } = this.props.seasons
+  //   const { router } = this.props
+  // }
+
   onLogout() {
     const { dispatch } = this.props;
     dispatch(startLogout())
@@ -48,6 +55,14 @@ class AdminNav extends React.Component {
         <Link to="/admin/seasons" className="bold text-center">Create a season!</Link>
       </li>
     )
+  }
+
+  isActiveNavItem(link) {
+    const { router } = this.props
+    if (link === router.route) {
+      return 'active'
+    }
+    return ''
   }
 
   render() {
@@ -109,19 +124,19 @@ class AdminNav extends React.Component {
                   </span>
                 </a>
                 <ul className="treeview-menu">
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/seasons')}>
                     <Link to="/admin/seasons"><i className="fa fa-list"></i> Seasons</Link>
                   </li>
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/rounds')}>
                     <Link to="/admin/rounds"><i className="fa fa-sitemap"></i> Rounds</Link>
                   </li>
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/days')}>
                     <Link to="/admin/days"><i className="fa fa-calendar"></i> Days</Link>
                   </li>
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/teams')}>
                     <Link to="/admin/teams"><i className="fa fa-users"></i> Teams</Link>
                   </li>
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/match-create')}>
                     <Link to="/admin/match-create"><i className="fa fa-futbol-o"></i> Matches</Link>
                   </li>
                 </ul>
@@ -150,9 +165,8 @@ class AdminNav extends React.Component {
                   </span>
                 </a>
                 <ul className="treeview-menu">
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/users')}>
                     <Link to="/admin/users"><i className="fa fa-list"></i> Users</Link>
-                    <Link to="/admin/users/create"><i className="fa fa-plus"></i> Create</Link>
                   </li>
                 </ul>
               </li>
@@ -165,7 +179,7 @@ class AdminNav extends React.Component {
                   </span>
                 </a>
                 <ul className="treeview-menu">
-                  <li className="active">
+                  <li className={this.isActiveNavItem('/admin/settings')}>
                     <Link to="/admin/settings"><i className="fa fa-cog"></i> Settings</Link>
                   </li>
                 </ul>
@@ -182,10 +196,12 @@ class AdminNav extends React.Component {
 AdminNav.propTypes = {
   account: React.PropTypes.object,
   seasons: React.PropTypes.object,
+  router: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 }
 
 export default connect((state) => ({
   account: state.account,
   seasons: state.seasons,
+  router: state.router,
 }))(AdminNav)
