@@ -182,7 +182,7 @@ module.exports = {
       return res.status(err.status ? err.status : 500).json({
         success: false,
         action: 'edit',
-        message: err.message ? err.message : err,
+        message: err.code && err.code === 11000 ? 'A team with this name already exist' : err.message,
       })
     })
   },

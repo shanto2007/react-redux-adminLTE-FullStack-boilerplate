@@ -85,7 +85,7 @@ export const startEditAdminSingleTeamName = (teamId, newName) => {
     .catch((err) => {
       dispatch(adminTeamFail(err))
       dispatch(adminTeamLoading(false))
-      dispatch(openToastr('error', err.message || 'Error editing team name!'))
+      dispatch(openToastr('error', err.data.message || 'Error editing team name!'))
       return err
     })
   }
