@@ -35,6 +35,39 @@ class AdminNav extends React.Component {
     dispatch(setAdminViewedSeason(season))
   }
 
+  isActiveNavItem(link) {
+    const { router } = this.props
+    if (link === router.route) {
+      return 'active'
+    }
+    return ''
+  }
+
+  adminOnly() {
+    const { user } = this.props.account
+    if (user.admin) {
+      return (
+        <li className="active treeview">
+          <a>
+            <i className="fa fa-cog"></i> <span>Admin Area</span>
+            <span className="pull-right-container">
+              <i className="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul className="treeview-menu">
+            <li className={this.isActiveNavItem('/admin/users')}>
+              <Link to="/admin/users"><i className="fa fa-list"></i> Users</Link>
+            </li>
+            <li className={this.isActiveNavItem('/admin/settings')}>
+              <Link to="/admin/settings"><i className="fa fa-cog"></i> Settings</Link>
+            </li>
+          </ul>
+        </li>
+      )
+    }
+    return null
+  }
+
   renderViewedSeasonList() {
     const { seasons, viewed } = this.props.seasons
     if (seasons && seasons.length) {
@@ -57,13 +90,6 @@ class AdminNav extends React.Component {
     )
   }
 
-  isActiveNavItem(link) {
-    const { router } = this.props
-    if (link === router.route) {
-      return 'active'
-    }
-    return ''
-  }
 
   render() {
     const { user } = this.props.account
@@ -157,33 +183,7 @@ class AdminNav extends React.Component {
                 </ul>
               </li>
 
-              <li className="active treeview">
-                <a>
-                  <i className="fa fa-users"></i> <span>Users</span>
-                  <span className="pull-right-container">
-                    <i className="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul className="treeview-menu">
-                  <li className={this.isActiveNavItem('/admin/users')}>
-                    <Link to="/admin/users"><i className="fa fa-list"></i> Users</Link>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="active treeview">
-                <a>
-                  <i className="fa fa-cog"></i> <span>Settings</span>
-                  <span className="pull-right-container">
-                    <i className="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul className="treeview-menu">
-                  <li className={this.isActiveNavItem('/admin/settings')}>
-                    <Link to="/admin/settings"><i className="fa fa-cog"></i> Settings</Link>
-                  </li>
-                </ul>
-              </li>
+              {this.adminOnly()}
 
             </ul>
           </section>
