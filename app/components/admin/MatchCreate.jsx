@@ -24,7 +24,7 @@ class MatchCreate extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { dispatch, selectedRound } = this.props
     const nextSelectedRound = nextProps.selectedRound
-    if (nextSelectedRound !== selectedRound) {
+    if (nextSelectedRound && nextSelectedRound !== selectedRound) {
       dispatch(startGetAdminTeams(nextSelectedRound._id))
         .then(() => {
           return dispatch(startGetAdminDays(nextSelectedRound._id))

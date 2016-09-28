@@ -50,6 +50,7 @@ export const startCreateNewMatch = (match) => {
       const { match } = res.data
       console.log(match)
       // dispatch(startGetAdminSingleMatch(player.match))
+      dispatch(openToastr('success', 'Match created!'))
       dispatch(adminMatchSuccess(true))
       dispatch(adminMatchLoading(false))
       return res
