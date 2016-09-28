@@ -7,7 +7,10 @@ const Expulsion = require('../models/expulsion.model')
 module.exports = {
   indexByRound: (req, res) => {
     const round = req.params.round
-    return Match.find({ round }).exec()
+    return Match
+    .find({ round })
+    .populate('teamHome teamAway')
+    .exec()
     .then((matches) => {
       return res.json({
         success: true,

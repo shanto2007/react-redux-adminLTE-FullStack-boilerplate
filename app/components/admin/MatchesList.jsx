@@ -1,4 +1,5 @@
 import React from 'react'
+import Moment from 'moment'
 import Box from 'Box'
 import RoundSwitcher from 'RoundSwitcher'
 import {
@@ -63,10 +64,47 @@ class MatchesList extends React.Component {
   //   )
   // }
 
+  renderTableList() {
+    const { matches } = this.props
+    Moment.locale('it')
+    if (matches) {
+      return matches.map((match, i) => {
+        return (
+          <tr key={i}>
+            <td>
+            <i className="fa fa-remove"></i>
+              <i className="fa fa-pencil"></i>
+            </td>
+            <td>{match.teamHome.name}</td>
+            <td>{match.teamAway.name}</td>
+            <td>{`${match.teamHomeScores} - ${match.teamAwayScores}`}</td>
+            <td>{Moment(match.date).format('lll')}</td>
+            <td>{match.played ? 'played' : 'not played' }</td>
+          </tr>
+        )
+      })
+    }
+    return null
+  }
+
   render() {
     return (
       <Box title="Matches list" filters={<RoundSwitcher />}>
-        {JSON.stringify(this.props)}
+        <div className="box-body table-responsive no-padding">
+          <table className="table table-hover">
+            <tbody>
+              <tr>
+                <th> <i className="fa fa-cog"></i> </th>
+                <th>Team Home</th>
+                <th>Team Away</th>
+                <th>Result</th>
+                <th>Date</th>
+                <th>Played</th>
+              </tr>
+              {this.renderTableList()}
+            </tbody>
+          </table>
+        </div>
       </Box>
     )
   }
