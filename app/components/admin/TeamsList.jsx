@@ -40,13 +40,13 @@ class TeamsList extends React.Component {
        * GENERATE LIST
        */
       return teams.map((team, i) => {
-        let TeamAvatar = <i className="fa fa-users"></i>
+        let TeamAvatar = <i className="fa fa-users" style={{ fontSize: '2rem', lineHeight: '4rem' }}></i>
         if (team.avatar) {
           TeamAvatar = <img src={team.avatar.thumbnail} role="presentation" />
         }
         return (
           <li className="item" key={i}>
-            <div className="product-img round-host-img">
+            <div className="product-img round-host-img text-center">
               {TeamAvatar}
             </div>
             <div className="product-info day-info">

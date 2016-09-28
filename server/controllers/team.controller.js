@@ -156,6 +156,11 @@ module.exports = {
       })
     }
     return Team.findById(teamId)
+    .populate('avatar groupPhoto season round')
+    .populate({
+      path: 'players',
+      populate: { path: 'avatar' },
+    })
     .then((team) => {
       if (!team) {
         return Promise.reject({

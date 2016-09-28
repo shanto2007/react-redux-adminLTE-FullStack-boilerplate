@@ -61,7 +61,7 @@ class AdminTeam extends React.Component {
     }
     return (
       <div id="admin-single-team" className="container-fluid">
-        <TeamInfo team={team.team} />
+        <TeamInfo team={team.team} dispatch={dispatch} />
         <TeamPlayerCreate dispatch={dispatch} team={team.team} />
         <div className="row">
           {this.renderPlayerLists()}

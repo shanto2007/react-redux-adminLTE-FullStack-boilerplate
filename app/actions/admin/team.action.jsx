@@ -62,6 +62,35 @@ export const startGetAdminSingleTeam = (teamId) => {
   }
 }
 
+export const startEditAdminSingleTeamName = (teamId, newName) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminTeamLoading(true))
+    return Api.patch(`/admin/team/${teamId}`, {
+      name: newName,
+    }, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { team } = res.data
+      dispatch(setAdminTeam(team))
+      dispatch(adminTeamSuccess(true))
+      dispatch(adminTeamLoading(false))
+      dispatch(openToastr('success', 'Team name edited!'))
+      return res
+    })
+    .catch((err) => {
+      dispatch(adminTeamFail(err))
+      dispatch(adminTeamLoading(false))
+      dispatch(openToastr('error', err.message || 'Error editing team name!'))
+      return err
+    })
+  }
+}
+
 export const startCreateNewPlayer = (player) => {
   return (dispatch, getState) => {
     const store = getState()
