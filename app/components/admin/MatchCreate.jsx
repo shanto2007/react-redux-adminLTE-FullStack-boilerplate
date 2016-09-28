@@ -201,7 +201,7 @@ class MatchCreate extends React.Component {
             days.map((day, i) => {
               return (
                 <option key={i} value={day._id}>
-                  {i}
+                  {i + 1}
                 </option>
               )
             })
