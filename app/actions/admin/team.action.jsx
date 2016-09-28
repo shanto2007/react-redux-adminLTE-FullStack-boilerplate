@@ -118,6 +118,34 @@ export const startCreateNewPlayer = (player) => {
   }
 }
 
+export const startEditPlayer = (playerId, player) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminTeamLoading(true))
+    return Api.patch(`/admin/player/${playerId}`, player, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { player } = res.data
+      dispatch(startGetAdminSingleTeam(player.team))
+      dispatch(adminTeamSuccess(true))
+      dispatch(adminTeamLoading(false))
+      dispatch(openToastr('success', 'Player edited!'))
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      dispatch(adminTeamFail(err))
+      dispatch(adminTeamLoading(false))
+      dispatch(openToastr('error', err.message || 'Error editing player!'))
+      return err
+    })
+  }
+}
+
 export const startDeletePlayer = (playerId) => {
   return (dispatch, getState) => {
     const store = getState()

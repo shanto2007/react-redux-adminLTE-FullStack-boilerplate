@@ -5,8 +5,6 @@ import { startEditAdminSingleTeamName } from 'actions'
 
 const blackBase64Gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
 
-require('!style!css!sass!app/styles/admin/team-info.scss')
-
 class TeamInfo extends React.Component {
   constructor(props) {
     super(props)
