@@ -40,7 +40,7 @@ class DayCreate extends React.Component {
   render() {
     const { season } = this.props
     return (
-      <Box title="Create Day" overlay={season ? null : 'Select a season to edit in the topbar!'}>
+      <Box title="Create a day" subtitle={`Season: ${season.year}`} >
         <form onSubmit={(e) => this.onCreateRound(e)}>
           <select className="form-control" defaultValue="0" onChange={(e) => this.onRoundSelect(e)}>
             <option value="0" disabled>Select a round</option>

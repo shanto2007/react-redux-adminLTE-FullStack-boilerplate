@@ -93,8 +93,9 @@ class RoundsList extends React.Component {
 
 
   render() {
+    const { season } = this.props
     return (
-      <Box title="Rounds list">
+      <Box title="Round list" subtitle={`Season: ${season.year}`} >
         <ul className="products-list product-list-in-box">
           {this.renderRoundList()}
         </ul>

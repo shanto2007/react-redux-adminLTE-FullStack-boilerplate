@@ -48,8 +48,9 @@ class RoundCreate extends React.Component {
   }
 
   render() {
+    const { season } = this.props
     return (
-      <Box title="Create Round">
+      <Box title="Create a round" subtitle={`Season: ${season.year}`} >
         <form onSubmit={(e) => this.onCreateRound(e)}>
           <div className="col-sm-12 col-md-9">
             <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />

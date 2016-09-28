@@ -46,8 +46,9 @@ class TeamCreate extends React.Component {
   }
 
   render() {
+    const { season } = this.props
     return (
-      <Box title="Create Team">
+      <Box title="Create a team" subtitle={`Season: ${season.year}`} >
         <form onSubmit={(e) => this.onCreateRound(e)}>
           <div className="col-sm-12 col-md-9">
             <input className="form-control" placeholder="Team name" onChange={(e) => this.onTeamNameChange(e)} />
