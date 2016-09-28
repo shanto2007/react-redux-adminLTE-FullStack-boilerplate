@@ -77,6 +77,18 @@ class TeamInfo extends React.Component {
     )
   }
 
+  uploadOrBackButtonSwitcher() {
+    const { editTeamName } = this.state
+    const defaultState = {
+      editTeamName: false,
+      newTeamName: undefined,
+    }
+    if (editTeamName) {
+      return <i className="fa fa-arrow-left edit-back-button" onClick={() => this.setState(defaultState)}></i>
+    }
+    return <i className="fa fa-camera groupPhoto-upload-icon" onClick={(e) => this.onPhotoClick(e)}></i>
+  }
+
   render() {
     const {
       team,
@@ -88,7 +100,7 @@ class TeamInfo extends React.Component {
             className="widget-user-header team-header bg-primary"
             style={team.groupPhoto ? { background: `url(${team.groupPhoto.path}) center center` } : {}}
           >
-            <i className="fa fa-camera groupPhoto-upload-icon" onClick={(e) => this.onPhotoClick(e)}></i>
+            {this.uploadOrBackButtonSwitcher()}
 
             {this.showTeamNameOrEditArea()}
 
