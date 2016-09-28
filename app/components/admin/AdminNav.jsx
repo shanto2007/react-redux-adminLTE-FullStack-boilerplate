@@ -163,7 +163,7 @@ class AdminNav extends React.Component {
                     <Link to="/admin/teams"><i className="fa fa-users"></i> Teams</Link>
                   </li>
                   <li className={this.isActiveNavItem('/admin/match-create')}>
-                    <Link to="/admin/match-create"><i className="fa fa-futbol-o"></i> Matches</Link>
+                    <Link to="/admin/match-create"><i className="fa fa-futbol-o"></i> Create Matches</Link>
                   </li>
                 </ul>
               </li>
@@ -176,9 +176,8 @@ class AdminNav extends React.Component {
                   </span>
                 </a>
                 <ul className="treeview-menu">
-                  <li className="active">
-                    {/* <Link to="/admin/users"><i className="fa fa-list"></i> Seasons</Link>
-                    <Link to="/admin/users/create"><i className="fa fa-plus"></i> Create</Link> */}
+                  <li className={this.isActiveNavItem('/admin/matches')}>
+                    <Link to="/admin/matches"><i className="fa fa-futbol-o"></i> Matches List</Link>
                   </li>
                 </ul>
               </li>

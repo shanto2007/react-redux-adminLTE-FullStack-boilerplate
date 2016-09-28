@@ -33,37 +33,6 @@ class MatchesList extends React.Component {
   //   }
   // }
 
-  // renderMatchesList() {
-  //   const { days } = this.props.days
-  //   if (days && days.length) {
-  //     /**
-  //      * GENERATE LIST
-  //      */
-  //     return days.map((day, i) => {
-  //       return (
-  //         <li className="item" key={i}>
-  //           <div className="product-info day-info">
-  //             <span className="label label-danger pull-right">
-  //               <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteDay(e, day)}></i>
-  //             </span>
-  //             <span className="product-title">
-  //               <b>Day: </b> {i}
-  //             </span>
-  //             <span className="product-title">
-  //               more info
-  //             </span>
-  //           </div>
-  //         </li>
-  //       )
-  //     })
-  //   }
-  //   return (
-  //     <p>
-  //       No days created, yet!
-  //     </p>
-  //   )
-  // }
-
   renderTableList() {
     const { matches } = this.props
     Moment.locale('it')
@@ -72,7 +41,7 @@ class MatchesList extends React.Component {
         return (
           <tr key={i}>
             <td>
-            <i className="fa fa-remove"></i>
+              <i className="fa fa-remove"></i>
               <i className="fa fa-pencil"></i>
             </td>
             <td>{match.teamHome.name}</td>
