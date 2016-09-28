@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { selectAdminRound, clearAdminTeams } from 'actions'
 
 /**
  * COMPs
@@ -11,6 +12,12 @@ import TeamsList from 'TeamsList'
 class AdminTeams extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(selectAdminRound(null))
+    dispatch(clearAdminTeams())
   }
 
   render() {
