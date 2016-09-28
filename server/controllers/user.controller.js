@@ -62,9 +62,9 @@ module.exports = {
       if (!req.appSetting || req.appSetting.joinAllowed) {
         return user.save((err) => {
           if (err) {
-            return res.status(500).json({
+            return res.status(err.code === 11000 ? 400 : 500).json({
               success: false,
-              message: err.message,
+              message: err.code === 11000 ? 'User exist' : err.message,
             })
           }
           if (process.env.NODE_ENV !== 'production') {

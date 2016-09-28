@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { validPassword, validPasswordCheck, signinPasswordError, checkUserExist, startSignin } from 'actions'
 
+require('style!css!sass!app/styles/views/register.scss')
+
 class Register extends React.Component {
 
   componentDidMount() {
@@ -77,7 +79,7 @@ class Register extends React.Component {
     const { usernameError } = this.props.signin
     if (usernameError && usernameError.length) {
       label = (
-        <label htmlFor="username-input" className="login-form-error">{ usernameError }</label>
+        <label htmlFor="username-input" className="signin-form-error">{ usernameError }</label>
       )
     }
     return label
@@ -88,7 +90,7 @@ class Register extends React.Component {
     const { passwordError } = this.props.signin
     if (passwordError && passwordError.length) {
       label = (
-        <label htmlFor="password-input" className="login-form-error">{ passwordError }</label>
+        <label htmlFor="password-input" className="signin-form-error">{ passwordError }</label>
       )
     }
     return label
@@ -97,36 +99,35 @@ class Register extends React.Component {
   render() {
     return (
       <div id="signin-form">
-        <div className="form-container small-12 medium-8 large-6 columns small-centered">
-          <h1 className="title text-center brand">Join!</h1>
-          <form>
-            {this.formUsernameErrorHandler()}
-            <input
-              ref={(c) => { this.usernameInput = c }}
-              id="username-input"
-              type="text"
-              placeholder="username"
-              onKeyUp={() => this.checkUserExist()}
-            />
-            <input
-              ref={(c) => { this.passwordInput = c }}
-              id="password-input"
-              type="text"
-              placeholder="password"
-              onKeyUp={() => this.validatePassword()}
-            />
-            <input
-              ref={(c) => { this.checkPasswordInput = c }}
-              type="text"
-              placeholder="retype password"
-              onKeyUp={() => this.validateRetypedPassword()}
-            />
-            {this.formPasswordErrorHandler()}
-            <div>
-              <input className="btn" type="button" value="Join" onClick={() => this.onRegister()} />
-            </div>
-          </form>
-        </div>
+        <h1 className="title">Join!</h1>
+        <form>
+          {this.formUsernameErrorHandler()}
+          <input
+            ref={(c) => { this.usernameInput = c }}
+            id="username-input"
+            type="text"
+            placeholder="username"
+            onKeyUp={() => this.checkUserExist()}
+          />
+          <input
+            ref={(c) => { this.passwordInput = c }}
+            id="password-input"
+            type="password"
+            placeholder="password"
+            onKeyUp={() => this.validatePassword()}
+          />
+          <input
+            ref={(c) => { this.checkPasswordInput = c }}
+            type="password"
+            id="retype-password-input"
+            placeholder="retype password"
+            onKeyUp={() => this.validateRetypedPassword()}
+          />
+          {this.formPasswordErrorHandler()}
+          <div>
+            <input className="register-button" type="button" value="Join" onClick={() => this.onRegister()} />
+          </div>
+        </form>
       </div>
     )
   }

@@ -22,8 +22,12 @@ class AdminDays extends React.Component {
     } else if (rounds.length) {
       return (
         <div id="admin-days" className="container-fluid">
-          <DayCreate dispatch={dispatch} season={season} rounds={rounds} />
-          <DaysList dispatch={dispatch} season={season} days={days} selectedRound={selectedRound} rounds={rounds} />
+          <div className="col-sm-12 col-md-6">
+            <DayCreate dispatch={dispatch} season={season} rounds={rounds} />
+          </div>
+          <div className="col-sm-12 col-md-6">
+            <DaysList dispatch={dispatch} season={season} days={days} selectedRound={selectedRound} rounds={rounds} />
+          </div>
         </div>
       )
     }

@@ -61,8 +61,9 @@ require.ensure([], require => {
   require('style!css!sass!adminStyles')
 }, 'app-styles')
 
-require('style!css!toastr/build/toastr.css')
-
+require.ensure([], require => {
+  require('style!css!toastr/build/toastr.css')
+}, 'admin-static-assets-styles')
 
 render(
   <AdminRoutes store={store} />,

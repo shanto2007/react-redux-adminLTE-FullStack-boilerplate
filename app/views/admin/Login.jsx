@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
 import { login, loginFormError } from 'actions'
 
+require('style!css!sass!app/styles/views/login.scss')
+
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -50,21 +52,19 @@ class Login extends React.Component {
   render() {
     return (
       <div id="login-form">
-        <div className="form-container small-12 medium-8 large-6 columns small-centered">
-          <h1 className="title text-center brand">Login!</h1>
-          <form>
-            <input type="text" ref={(c) => { this.usernameInput = c }} placeholder="username" />
-            <input id="password-input" type="text" ref={(c) => { this.passwordInput = c }} placeholder="password" />
-            {this.formErrorHandler()}
-            <div>
-              <input className="btn" type="button" value={this.loadingHandler()} onClick={(e) => this.loginHandler(e)} />
-            </div>
-          </form>
-          <p className="sign-in">
-            Don't you have an account?
-            <Link to="/join">sign in</Link>
-          </p>
-        </div>
+        <h1 className="title">Login</h1>
+        <form>
+          <input className="form-control" id="username-input" type="text" ref={(c) => { this.usernameInput = c }} placeholder="username" />
+          <input className="form-control" id="password-input" type="password" ref={(c) => { this.passwordInput = c }} placeholder="password" />
+          <div>
+            <input className="login-button" type="button" value={this.loadingHandler()} onClick={(e) => this.loginHandler(e)} />
+          </div>
+        </form>
+        {this.formErrorHandler()}
+        <p className="sign-in-cta">
+          Don't you have an account? &nbsp;
+          <Link to="/join">sign in</Link>
+        </p>
       </div>
     )
   }

@@ -46,11 +46,11 @@ class DaysList extends React.Component {
                 <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteDay(e, day)}></i>
               </span>
               <span className="product-title">
-                <b>Day: </b> {i}
+                <b>{i + 1}</b>
               </span>
-              <span className="product-title">
+              {/* <span className="product-title">
                 more info
-              </span>
+              </span> */}
             </div>
           </li>
         )
@@ -58,7 +58,7 @@ class DaysList extends React.Component {
     }
     return (
       <p>
-        No days created, yet!
+        No days yet!
       </p>
     )
   }

@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe.only('Match - API', () => {
+describe('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,

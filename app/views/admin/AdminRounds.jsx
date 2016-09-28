@@ -22,8 +22,12 @@ class AdminRounds extends React.Component {
     }
     return (
       <div id="admin-rounds" className="container-fluid">
-        <RoundCreate season={season} rounds={rounds} dispatch={dispatch} />
-        <RoundsList seasons={seasons} season={season} rounds={rounds} dispatch={dispatch} />
+        <div className="col-sm-12 col-md-6">
+          <RoundCreate season={season} rounds={rounds} dispatch={dispatch} />
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <RoundsList seasons={seasons} season={season} rounds={rounds} dispatch={dispatch} />
+        </div>
       </div>
     )
   }

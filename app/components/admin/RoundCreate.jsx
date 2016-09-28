@@ -52,15 +52,11 @@ class RoundCreate extends React.Component {
     return (
       <Box title="Create a round" subtitle={`Season: ${season.year}`} >
         <form onSubmit={(e) => this.onCreateRound(e)}>
-          <div className="col-sm-12 col-md-9">
-            <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />
-          </div>
-          <div className="col-sm-12 col-md-3">
-            <select className="form-control" defaultValue="0" onChange={(e) => this.onLabelChange(e)}>
-              <option value="0" disabled>Select a label</option>
-              { this.generateLabelsList() }
-            </select>
-          </div>
+          <input className="form-control" placeholder="Round Host/Sponsor (optional)" onChange={(e) => this.onHostChange(e)} />
+          <select className="form-control" defaultValue="0" onChange={(e) => this.onLabelChange(e)}>
+            <option value="0" disabled>Select a label</option>
+            { this.generateLabelsList() }
+          </select>
           <div className="clearfix"></div>
           <div className="submit-box">
             <button type="submit" className="btn btn-primary pull-right" disabled={!this.state.label}>Create New Round</button>
