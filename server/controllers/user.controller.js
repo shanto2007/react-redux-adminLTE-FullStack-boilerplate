@@ -24,21 +24,34 @@ module.exports = {
   },
   auth: (req, res) => {
     const { body: user } = req
-    User.findOne({ username: user.username }, (err, usr) => {
-      if (err) return res.status(500).json({ success: false, err })
-      if (!usr) return res.status(404).json({ message: 'User not found!', success: false })
-
-      return usr.checkPassword(user.password, (passWordError) => {
-        if (passWordError) return res.status(401).json(passWordError)
-        return usr.auth((authError, token) => {
-          token.success = true
-          token.status = 200
-          token.user = {
-            username: usr.username,
-            id: usr._id,
-          }
-          return res.json(token)
+    let fetchedUser
+    return User.findOne({ username: user.username }).exec()
+    .then((usr) => {
+      if (!usr) {
+        return Promise.reject({
+          message: 'User not found!',
+          status: 404,
         })
+      }
+      fetchedUser = usr
+      return fetchedUser.checkPassword(user.password)
+    })
+    .then(() => {
+      return fetchedUser.auth()
+    })
+    .then((token) => {
+      token.success = true
+      token.status = 200
+      token.user = {
+        username: fetchedUser.username,
+        id: fetchedUser._id,
+      }
+      return res.json(token)
+    })
+    .catch((err) => {
+      return res.status(err.status ? err.status : 500).json({
+        success: false,
+        message: err.message ? err.message : err,
       })
     })
   },
@@ -49,39 +62,43 @@ module.exports = {
       password: newUser.password,
       admin: newUser.admin,
     })
+
     User
     .count({})
-    .exec((error, count) => {
-      if (error) {
-        return res.status(500).json({
-          success: false,
-          message: error.message,
-        })
-      }
+    .exec()
+    .then((count) => {
       if (!count) user.admin = true
       if (!req.appSetting || req.appSetting.joinAllowed) {
-        return user.save((err) => {
-          if (err) {
-            return res.status(err.code === 11000 ? 400 : 500).json({
-              success: false,
-              message: err.code === 11000 ? 'User exist' : err.message,
-            })
-          }
-          if (process.env.NODE_ENV !== 'production') {
-            new Setting({ joinAllowed: true }).save()
-          } else {
-            new Setting().save()
-          }
-          return user.auth((authError, token) => {
-            token.success = true
-            token.status = 200
-            return res.json(token)
-          })
+        return user.save()
+      }
+      return Promise.reject({
+        action: 'create user',
+        success: false,
+        status: 403,
+        message: 'Register disabled, contact the administrator',
+      })
+    })
+    .then(() => {
+      if (process.env.NODE_ENV !== 'production') {
+        new Setting({ joinAllowed: true }).save()
+      } else {
+        new Setting().save()
+      }
+      return user.auth()
+    })
+    .then((token) => {
+      return res.json(token)
+    })
+    .catch((err) => {
+      if (err.code && err.code === 11000) {
+        return res.status(400).json({
+          success: false,
+          message: 'User exists.',
         })
       }
-      return res.status(400).json({
+      return res.status(500).json({
         success: false,
-        message: 'Register disabled, contact administrator.',
+        message: err.message ? err.message : 'Some error occured.',
       })
     })
   },

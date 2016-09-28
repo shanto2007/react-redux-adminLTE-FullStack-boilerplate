@@ -97,8 +97,7 @@ describe('User', () => {
       .post('/api/user/auth')
       .send(wrongUser)
       .end((err, res) => {
-        expect(res.status).toNotBe(200)
-        expect(err).toExist()
+        expect(res.status).toBe(401)
         expect(res.body.message).toExist()
         done()
       })
