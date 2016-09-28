@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import Callout from 'Callout'
 import MatchCreate from 'MatchCreate'
 
-class AdminCreateMatch extends React.Component {
+class AdminMatchCreate extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -37,7 +37,7 @@ class AdminCreateMatch extends React.Component {
   }
 }
 
-AdminCreateMatch.propTypes = {
+AdminMatchCreate.propTypes = {
   dispatch: React.PropTypes.func,
   seasons: React.PropTypes.array,
   season: React.PropTypes.object,
@@ -56,4 +56,4 @@ export default connect((state) => ({
   teams: state.teams.teams,
   matches: state.matches,
   selectedRound: state.rounds.selected,
-}))(AdminCreateMatch)
+}))(AdminMatchCreate)

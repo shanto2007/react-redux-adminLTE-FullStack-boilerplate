@@ -16,6 +16,7 @@ import {
   startGetAdminRounds,
   clearAdminDays,
   clearAdminTeams,
+  clearAdminMatches,
 } from 'actions'
 
 /**
@@ -49,6 +50,7 @@ store.subscribe(() => {
   if (currentViewedSeason && currentViewedSeason !== prevViewedSeason) {
     store.dispatch(clearAdminDays())
     store.dispatch(clearAdminTeams())
+    store.dispatch(clearAdminMatches())
     store.dispatch(startGetAdminRounds(currentViewedSeason._id))
   }
 })
