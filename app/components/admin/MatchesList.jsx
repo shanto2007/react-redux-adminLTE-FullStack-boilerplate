@@ -5,6 +5,7 @@ import Box from 'Box'
 import RoundSwitcher from 'RoundSwitcher'
 import {
   startGetAdminMatches,
+  startDeleteMatch
 } from 'actions'
 
 class MatchesList extends React.Component {
@@ -28,11 +29,10 @@ class MatchesList extends React.Component {
 
   onMatchRemove(e, match) {
     e.stopPropagation()
-    console.log(match)
-    // const { dispatch } = this.props
-    // if (day && day._id && confirm('You will lose all data of this days')) {
-    //   dispatch(startDeleteDay(day._id))
-    // }
+    const { dispatch } = this.props
+    if (match && match._id && confirm('You will lose all data of this match')) {
+      dispatch(startDeleteMatch(match._id))
+    }
   }
 
   renderTableList() {

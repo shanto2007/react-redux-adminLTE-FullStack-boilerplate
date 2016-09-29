@@ -1,4 +1,5 @@
 import Api from 'Http'
+import { startGetAdminMatches } from 'actions'
 import { openToastr } from './toastr.action'
 
 export const setAdminMatch = (match) => {
@@ -65,55 +66,30 @@ export const startCreateNewMatch = (match) => {
   }
 }
 
-
-// export const startGetAdminSingleMatch = (matchId) => {
-//   return (dispatch, getState) => {
-//     const store = getState()
-//     const authToken = store.account.authToken
-//     dispatch(adminMatchLoading(true))
-//     return Api.get(`/admin/match/${matchId}`, {
-//       headers: {
-//         Authorization: authToken,
-//       },
-//     })
-//     .then((res) => {
-//       const { match } = res.data
-//       dispatch(setAdminMatch(match))
-//       dispatch(adminMatchSuccess(true))
-//       dispatch(adminMatchLoading(false))
-//       return res
-//     })
-//     .catch((err) => {
-//       dispatch(adminMatchFail(err))
-//       dispatch(adminMatchLoading(false))
-//       dispatch(openToastr('error', err.message || 'Error getting match!'))
-//       return err
-//     })
-//   }
-// }
-
-// export const startDeletePlayer = (playerId) => {
-//   return (dispatch, getState) => {
-//     const store = getState()
-//     const authToken = store.account.authToken
-//     dispatch(adminMatchLoading(true))
-//     return Api.delete(`/admin/player/${playerId}`, {
-//       headers: {
-//         Authorization: authToken,
-//       },
-//     })
-//     .then((res) => {
-//       const { player } = res.data
-//       dispatch(startGetAdminSingleMatch(player.match))
-//       dispatch(adminMatchSuccess(true))
-//       dispatch(adminMatchLoading(false))
-//       return res
-//     })
-//     .catch((err) => {
-//       dispatch(adminMatchFail(err))
-//       dispatch(adminMatchLoading(false))
-//       dispatch(openToastr('error', err.message || 'Error deleting player!'))
-//       return err
-//     })
-//   }
-// }
+export const startDeleteMatch = (matchId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminMatchLoading(true))
+    return Api.delete(`/admin/match/${matchId}`, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { match } = res.data
+      console.log(res.data)
+      dispatch(startGetAdminMatches(match.round))
+      dispatch(adminMatchSuccess(true))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('success', 'Match deleted!'))
+      return res
+    })
+    .catch((err) => {
+      dispatch(adminMatchFail(err))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('error', err.message || 'Error deleting player!'))
+      return err
+    })
+  }
+}

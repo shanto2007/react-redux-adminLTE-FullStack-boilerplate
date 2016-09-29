@@ -37,7 +37,6 @@ export const adminMatchesFail = (fail = 'Something went orribly wrong') => {
 }
 
 export const startGetAdminMatches = (roundId) => {
-  console.log("AOOO22222")
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
