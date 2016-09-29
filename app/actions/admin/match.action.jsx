@@ -48,8 +48,6 @@ export const startCreateNewMatch = (match) => {
       },
     })
     .then((res) => {
-      const { match } = res.data
-      // dispatch(startGetAdminSingleMatch(player.match))
       dispatch(openToastr('success', 'Match created!'))
       dispatch(adminMatchSuccess(true))
       dispatch(adminMatchLoading(false))
@@ -87,6 +85,33 @@ export const startGetAdminSingleMatch = (matchId) => {
       dispatch(adminMatchFail(err))
       dispatch(adminMatchLoading(false))
       dispatch(openToastr('error', err.data.message || 'Error fetching match!'))
+      return err
+    })
+  }
+}
+
+export const startEditAdminMatch = (matchId, matchData) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminMatchLoading(true))
+    return Api.patch(`/admin/match/${matchId}`, matchData, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { match } = res.data
+      dispatch(startGetAdminSingleMatch(match._id))
+      dispatch(adminMatchSuccess(true))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('success', 'Match Updated!'))
+      return res
+    })
+    .catch((err) => {
+      dispatch(adminMatchFail(err))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('error', err.message || 'Error deleting player!'))
       return err
     })
   }

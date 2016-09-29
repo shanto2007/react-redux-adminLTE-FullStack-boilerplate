@@ -28,16 +28,17 @@ module.exports = {
   },
   getAdmin: (req, res) => {
     const matchId = req.params.id
+    let fetchedMatch
     return Match
       .findById(matchId)
       .populate('teamHome teamAway')
       .populate({
         path: 'teamHome',
-        populate: { path: 'players' },
+        populate: { path: 'players groupPhoto avatar' },
       })
       .populate({
         path: 'teamAway',
-        populate: { path: 'players' },
+        populate: { path: 'players groupPhoto avatar' },
       })
       .exec()
       .then((match) => {
@@ -47,9 +48,22 @@ module.exports = {
             status: 404,
           })
         }
+        fetchedMatch = match.toJSON()
+        return Promise.all([
+          Attendance.find({ match: match._id }),
+          Score.find({ match: match._id }),
+          Warn.find({ match: match._id }),
+          Expulsion.find({ match: match._id }),
+        ])
+      })
+      .then((stats) => {
+        fetchedMatch.attendances = stats[0]
+        fetchedMatch.scores = stats[1]
+        fetchedMatch.warns = stats[2]
+        fetchedMatch.expulsions = stats[3]
         return res.json({
           success: true,
-          match,
+          match: fetchedMatch,
         })
       })
       .catch((err) => {
