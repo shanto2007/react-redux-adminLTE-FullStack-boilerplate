@@ -34,7 +34,7 @@ app.use(bodyParser.json())
 app.use(parseSettings)
 
 /**
- * HEROKU
+ * HEROKU IF NEEDE
  */
 app.use((req, res, next) => {
   if (req.headers['x-forwarded-proto'] === 'https') {
