@@ -1,17 +1,31 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { startGetAdminSingleMatch } from 'actions'
 
 class AdminMatch extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  componentWillMount() {
+    const { id } = this.props.params
+    const { dispatch } = this.props
+    if (id) {
+      dispatch(startGetAdminSingleMatch(id))
+    }
+  }
+
   render() {
-    console.log(this.props.params)
-    return <h1>Single Match</h1>
+    return <pre>{JSON.stringify(this.props.match || {})}</pre>
   }
 }
 
 AdminMatch.propTypes = {
-  myProps: React.PropTypes.string,
+  dispatch: React.PropTypes.func,
+  match: React.PropTypes.object,
+  params: React.PropTypes.object,
 }
 
-export default AdminMatch
+export default connect((state) => ({
+  match: state.match.match,
+}))(AdminMatch)

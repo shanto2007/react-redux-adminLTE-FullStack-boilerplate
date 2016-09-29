@@ -5,7 +5,7 @@ import Box from 'Box'
 import RoundSwitcher from 'RoundSwitcher'
 import {
   startGetAdminMatches,
-  startDeleteMatch
+  startDeleteMatch,
 } from 'actions'
 
 class MatchesList extends React.Component {

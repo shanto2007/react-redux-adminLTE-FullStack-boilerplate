@@ -26,6 +26,39 @@ module.exports = {
       })
     })
   },
+  getAdmin: (req, res) => {
+    const matchId = req.params.id
+    return Match
+      .findById(matchId)
+      .populate('teamHome teamAway')
+      .populate({
+        path: 'teamHome',
+        populate: { path: 'players' },
+      })
+      .populate({
+        path: 'teamAway',
+        populate: { path: 'players' },
+      })
+      .exec()
+      .then((match) => {
+        if (!match) {
+          return Promise.reject({
+            message: 'Match not found, maybe already removed',
+            status: 404,
+          })
+        }
+        return res.json({
+          success: true,
+          match,
+        })
+      })
+      .catch((err) => {
+        return res.status(err.status ? err.status : 500).json({
+          success: false,
+          message: err.message ? err.message : err,
+        })
+      })
+  },
   create: (req, res) => {
     const newMatch = req.body
     if (!newMatch.season) {

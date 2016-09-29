@@ -146,6 +146,7 @@ module.exports = (express, app) => {
    *  DAYS
    */
   api.get('/admin/matches/:round', AuthRequired(), MatchCtrl.indexByRound)
+  api.get('/admin/match/:id', AuthRequired(), MatchCtrl.getAdmin)
   api.post('/admin/match', AuthRequired(), MatchCtrl.create)
   api.patch('/admin/match/:id', AuthRequired(), MatchCtrl.edit)
   api.patch('/admin/match/:id/reset', AuthRequired(), MatchCtrl.reset)

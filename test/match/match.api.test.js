@@ -544,6 +544,41 @@ describe('Match - API', () => {
   })
 
   /**
+   * INDEX ADMIN
+   */
+  describe('GET - admin', () => {
+    it('should not get without auth token', (done) => {
+      chai.request(app)
+      .get(`/api/admin/match/${matchId}`)
+      .end((err, res) => {
+        expect(res.body.success).toBe(false)
+        expect(res.status).toBe(400)
+        done()
+      })
+    })
+    it('should return 404 if no id provided', (done) => {
+      chai.request(app)
+      .get(`/api/admin/match/`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(404)
+        done()
+      })
+    })
+    it('should get', (done) => {
+      chai.request(app)
+      .get(`/api/admin/match/${matchId}`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(200)
+        expect(res.body.success).toBe(true)
+        done()
+      })
+    })
+  })
+
+
+  /**
    * Delete
    */
   describe('Delete', () => {
