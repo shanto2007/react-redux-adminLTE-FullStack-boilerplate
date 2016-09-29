@@ -7,6 +7,10 @@ import {
 
 import Box from 'Box'
 
+const blackBase64Gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+
+require('!style!css!sass!app/styles/admin/match-edit.scss')
+
 class AdminMatch extends React.Component {
   constructor(props) {
     super(props)
@@ -130,7 +134,7 @@ class AdminMatch extends React.Component {
     if (players && players.length) {
       return players.map((player, i) => {
         return (
-          <div className="match-player row clearfix text-center" key={i}>
+          <div className="match-player clearfix text-center" key={i}>
             <div className="col-sm-12 clearfix">
               {player.name}
             </div>
@@ -176,23 +180,34 @@ class AdminMatch extends React.Component {
       return (
         <div id="admin-single-match">
           <Box title="Match Overview">
-            {match.teamHomeScores} - {match.teamAwayScores}
-            <pre>{JSON.stringify(match, null, 2)}</pre>
+            <div className="match-overview text-center">
+              <div className="col-sm-4 match-team-avatar">
+                <div><img src={match.teamHome.avatar ? match.teamHome.avatar.thumbnail : blackBase64Gif} /></div>
+              </div>
+              <div className="col-sm-4 match-score">
+                {match.teamHomeScores} - {match.teamAwayScores}
+              </div>
+              <div className="col-sm-4 match-team-avatar">
+                <div><img src={match.teamAway.avatar ? match.teamAway.avatar.thumbnail : blackBase64Gif} /></div>
+              </div>
+            </div>
           </Box>
           <div className="col-sm-12 col-md-6 ">
-            <Box title="Team Home">
+            <Box title={match.teamHome.name}>
               <div className="match-player-list">
                 {this.renderPlayerList(teamHomePlayers)}
               </div>
             </Box>
           </div>
           <div className="col-sm-12 col-md-6">
-            <Box title="Team Away">
-              <pre>{JSON.stringify(teamAwayPlayers, null, 2)}</pre>
+            <Box title={match.teamAway.name}>
+              <div className="match-player-list">
+                {this.renderPlayerList(teamAwayPlayers)}
+              </div>
             </Box>
           </div>
           <div className="clearfix"></div>
-          <button className="btn btn-primary btn-blk" onClick={(e) => this.onMatchSave(e)}>Save</button>
+          <button className="btn btn-primary btn-block" onClick={(e) => this.onMatchSave(e)}>Save</button>
         </div>
       )
     }

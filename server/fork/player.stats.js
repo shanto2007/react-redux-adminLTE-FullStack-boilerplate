@@ -39,7 +39,3 @@ process.on('message', (stat) => {
       return process.send(`fail::${JSON.stringify(err)}`)
     })
 })
-
-process.on('uncaughtException', (err) => {
-  console.log(`${process.title} Caught exception: ${err}`)
-})

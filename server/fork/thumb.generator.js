@@ -40,8 +40,3 @@ process.on('message', (media) => {
       process.send(`fail::${JSON.stringify(err)}`)
     })
 })
-
-
-process.on(`${process.title} uncaughtException`, (err) => {
-  console.log(`Caught exception: ${err}`)
-})
