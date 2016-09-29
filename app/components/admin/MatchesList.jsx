@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import Moment from 'moment'
 import Box from 'Box'
 import RoundSwitcher from 'RoundSwitcher'
@@ -25,13 +26,14 @@ class MatchesList extends React.Component {
     return null
   }
 
-  // onDeleteDay(e, day) {
-  //   e.stopPropagation()
-  //   const { dispatch } = this.props
-  //   if (day && day._id && confirm('You will lose all data of this days')) {
-  //     dispatch(startDeleteDay(day._id))
-  //   }
-  // }
+  onMatchRemove(e, match) {
+    e.stopPropagation()
+    console.log(match)
+    // const { dispatch } = this.props
+    // if (day && day._id && confirm('You will lose all data of this days')) {
+    //   dispatch(startDeleteDay(day._id))
+    // }
+  }
 
   renderTableList() {
     const { matches } = this.props
@@ -41,14 +43,16 @@ class MatchesList extends React.Component {
         return (
           <tr key={i}>
             <td>
-              <i className="fa fa-remove"></i>
-              <i className="fa fa-pencil"></i>
+              <Link to={`/admin/match/${match._id}`}><i className="fa fa-pencil fa-2x pointer"></i></Link>
             </td>
             <td>{match.teamHome.name}</td>
             <td>{match.teamAway.name}</td>
             <td>{`${match.teamHomeScores} - ${match.teamAwayScores}`}</td>
             <td>{Moment(match.date).format('lll')}</td>
             <td>{match.played ? 'played' : 'not played' }</td>
+            <th>
+              <i className="fa fa-remove pointer fa-2x" onClick={(e) => this.onMatchRemove(e, match)}></i>
+            </th>
           </tr>
         )
       })
@@ -69,6 +73,7 @@ class MatchesList extends React.Component {
                 <th>Result</th>
                 <th>Date</th>
                 <th>Played</th>
+                <th></th>
               </tr>
               {this.renderTableList()}
             </tbody>
