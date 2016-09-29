@@ -1,7 +1,8 @@
+const { Promise } = global
+const mongoose = require('../config/database')
 const jwt = require('jsonwebtoken')
 const secrets = require('../config/secrets')
 const bcrypt = require('bcrypt-nodejs')
-const mongoose = require('mongoose')
 
 const UserSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -19,40 +20,30 @@ UserSchema.pre('save', function userPreSave(next) {
   next()
 })
 
-UserSchema.statics.checkPassword = function checkPassword(username, hash, done) {
-  this.findOne({ username }, (err, usr) => {
-    if (err) {
-      err.status = 500
-      return done(err)
-    }
-    if (!usr) {
-      return done({ message: 'User Not Found', status: 404 })
-    }
-    return bcrypt.compare(hash, usr.password, (error, res) => {
-      if (res) return done(null, true)
-      return done({ message: 'Wrong Password!', status: 401 })
+
+UserSchema.methods.checkPassword = function checkPassword(hash) {
+  const { password } = this
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(hash, password, (passwordError, res) => {
+      if (res) return resolve({ success: true })
+      return reject({ message: 'Wrong Password!', status: 401 })
     })
   })
 }
 
-UserSchema.methods.checkPassword = function checkPassword(hash, done) {
-  const { password } = this
-  bcrypt.compare(hash, password, (passwordError, res) => {
-    if (res) return done(null, true)
-    return done({ message: 'Wrong Password!', status: 401 })
-  })
-}
-
-UserSchema.methods.auth = function auth(done) {
-  const usr = this
-  const token = jwt.sign({
-    _id: usr._id,
-    username: usr.username,
-    admin: usr.admin,
-  }, secrets.APP_KEY)
-  done(null, {
-    message: 'Authorization token',
-    token,
+UserSchema.methods.auth = function auth() {
+  return new Promise((resolve) => {
+    const usr = this
+    const token = jwt.sign({
+      _id: usr._id,
+      username: usr.username,
+      admin: usr.admin,
+    }, secrets.APP_KEY)
+    return resolve({
+      message: 'Authorization token',
+      success: true,
+      token,
+    })
   })
 }
 

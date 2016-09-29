@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const secrets = require('./../config/secrets')
-const mongoose = require('mongoose')
+const mongoose = require('../config/database')
 
 const MediaSchema = mongoose.Schema({
   filename: { type: String },
