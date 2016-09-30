@@ -23,6 +23,7 @@ function ForkChildBootstrap() {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i]
     Childs[key].instance = fork(Childs[key].path, [process.title, key])
+    Childs[key].instance.setMaxListeners(0)
     console.log(`fork ${Childs[key].instance.spawnargs[1]} bootstrapped`)
   }
   Object.freeze(Childs)
