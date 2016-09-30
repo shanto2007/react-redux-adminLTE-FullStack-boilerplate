@@ -26,6 +26,7 @@ class AdminMatch extends React.Component {
     return null
   }
 
+  // FIXME: O(n) better loop plz
   componentWillReceiveProps(nextProps) {
     const { match } = this.props
     const nextMatch = nextProps.match
@@ -182,13 +183,13 @@ class AdminMatch extends React.Component {
           <Box title="Match Overview">
             <div className="match-overview text-center">
               <div className="col-sm-4 match-team-avatar">
-                <div><img src={match.teamHome.avatar ? match.teamHome.avatar.thumbnail : blackBase64Gif} /></div>
+                <div> <img src={match.teamHome.avatar ? match.teamHome.avatar.thumbnail : blackBase64Gif} role="presentation" /> </div>
               </div>
               <div className="col-sm-4 match-score">
                 {match.teamHomeScores} - {match.teamAwayScores}
               </div>
               <div className="col-sm-4 match-team-avatar">
-                <div><img src={match.teamAway.avatar ? match.teamAway.avatar.thumbnail : blackBase64Gif} /></div>
+                <div><img src={match.teamAway.avatar ? match.teamAway.avatar.thumbnail : blackBase64Gif} role="presentation" /></div>
               </div>
             </div>
           </Box>

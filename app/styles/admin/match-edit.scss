@@ -1,0 +1,32 @@
+@import '../base/variables';
+
+#admin-single-match{
+
+  .match-overview{
+    .match-team-avatar{
+      div{
+        border-radius: 50%;
+        overflow: hidden;
+        max-width: 85px;
+        width: 100%;
+        margin: auto;
+        img{
+          max-width: 85px;
+          width: 100%;
+        }
+      }
+    }
+    .match-score{
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 9rem;
+    }
+  }
+
+  .match-player-list{
+    .match-player{
+      padding: 25px 0;
+      border-bottom: 1px solid rgba($grey, .25);
+    }
+  }
+}
