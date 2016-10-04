@@ -55,8 +55,6 @@ const matchSchema = mongoose.Schema({
 
 matchSchema.index({ teamHome: 1, teamAway: 1, day: 1 }, { unique: [true, 'This match already exist in that day'] })
 
-// TODO  I NEED A SCORE COUNTER FOR BOOT TEAM, MAYBE IN A VIRTUAL OR PRE FIND/FINDONE
-
 matchSchema.pre('validate', function matchPreValidation(next) {
   const match = this;
   if (match.isModified('teamHome') || match.isModified('teamAway')) {

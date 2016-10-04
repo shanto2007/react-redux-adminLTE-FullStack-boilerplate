@@ -183,7 +183,7 @@ module.exports = {
    * How to structure body data
    * takes an array of player with their standings in the match as body
    * player attach : { attend: Bool, warned: Bool, expelled: Bool, scored: Number, ...player original object }
-   *
+   * TODO: move calculation in models to reuse it.
    */
   edit: (req, res) => {
     const { Promise } = global
@@ -258,7 +258,7 @@ module.exports = {
       })
       .then(() => {
         // Count Scores and set winner
-        // could avoid a query maybe? //TODO refactor this to not call the DB
+        // TODO refactor this to not call the DB
         return Promise.all([
           Score.count({ match: fetchedMatch._id, teamScorer: fetchedMatch.teamHome }),
           Score.count({ match: fetchedMatch._id, teamScorer: fetchedMatch.teamAway }),

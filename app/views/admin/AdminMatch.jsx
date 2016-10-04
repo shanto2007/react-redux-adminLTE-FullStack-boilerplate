@@ -119,6 +119,7 @@ class AdminMatch extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     const { dispatch, match } = this.props
+    // create an array from all the player in the component state and send to the server to process.
     const matchData = Object.keys(this.state).map((key) => this.state[key])
     if (matchData.length) {
       dispatch(startEditAdminMatch(match._id, matchData))
