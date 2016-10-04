@@ -3,13 +3,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { startLogout, openToastr, setAdminViewedSeason } from 'actions'
 
-class AdminNav extends React.Component {
+require('!style!css!sass!app/styles/admin/admin-nav.scss')
 
-  // shouldComponentUpdate(nextProps) {
-  //   const { user } = this.props.account
-  //   const { viewed } = this.props.seasons
-  //   const { router } = this.props
-  // }
+class AdminNav extends React.Component {
 
   onLogout() {
     const { dispatch } = this.props;

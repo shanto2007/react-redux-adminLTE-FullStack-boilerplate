@@ -135,6 +135,9 @@ class AdminMatch extends React.Component {
   renderPlayerList(players) {
     if (players && players.length) {
       return players.map((player, i) => {
+        if (!this.state[player._id]) {
+          return null
+        }
         return (
           <div className="match-player clearfix text-center" key={i}>
             <div className="col-sm-12 clearfix">

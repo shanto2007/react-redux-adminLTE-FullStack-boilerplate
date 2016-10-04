@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import AdminNav from 'AdminNav'
 import { getUserData, startGetAdminSeasons, startGetCurrentSeason, startGetAdminRounds } from 'actions'
 
+require('!style!css!sass!app/styles/admin/admin-nav.scss')
+
 //  Chunk assets to lazy load
 function getStaticAssets() {
   const { Promise } = global

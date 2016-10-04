@@ -1,5 +1,7 @@
 import React from 'react'
 
+require('!style!css!sass!app/styles/admin/match-edit.scss')
+
 const Box = function Box(props) {
   let LoadingOverlay
   if (props.loading) {

@@ -3,17 +3,13 @@
 @import 'base/mixins';
 @import 'base/breakpoints';
 
-/*  Presentational */
-@import 'admin/buttons';
-@import 'admin/box';
-
-//  Management
-@import 'admin/editor';
-@import 'admin/uploaders';
+//  Management Component
+@import 'admin/partials/editor';
+@import 'admin/partials/buttons';
+@import 'admin/partials/uploaders';
 
 //  Components
-@import 'admin/admin-wrapper';
-@import 'admin/admin-nav';
+
 
 body,html{
   height:100%;

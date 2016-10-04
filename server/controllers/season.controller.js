@@ -139,7 +139,7 @@ module.exports = {
     return Season.findOneAndRemove({ _id: seasonId })
     .then((status) => {
       if (!status) {
-        return Promise.reject({ status: 404, message: 'Season don\'t exists', })
+        return Promise.reject({ status: 404, message: 'Season don\'t exists' })
       }
       return Promise.all([
         Promise.resolve(status),
