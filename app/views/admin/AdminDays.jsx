@@ -19,19 +19,19 @@ class AdminDays extends React.Component {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
     } else if (!season) {
       return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
-    } else if (rounds.length) {
-      return (
-        <div id="admin-days" className="container-fluid">
-          <div className="col-sm-12 col-md-6">
-            <DayCreate dispatch={dispatch} season={season} rounds={rounds} />
-          </div>
-          <div className="col-sm-12 col-md-6">
-            <DaysList dispatch={dispatch} season={season} days={days} selectedRound={selectedRound} rounds={rounds} />
-          </div>
-        </div>
-      )
+    } else if (!rounds.length) {
+      return <Callout title="No rounds created yet!" message="Create at least one round for the current season!" />
     }
-    return <Callout title="No Round created yet!" message="Create a round fopr you season in the round section before creating days." />
+    return (
+      <div id="admin-days" className="container-fluid">
+        <div className="col-sm-12 col-md-6">
+          <DayCreate dispatch={dispatch} season={season} rounds={rounds} />
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <DaysList dispatch={dispatch} season={season} days={days} selectedRound={selectedRound} rounds={rounds} />
+        </div>
+      </div>
+    )
   }
 }
 

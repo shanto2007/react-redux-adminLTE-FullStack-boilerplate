@@ -26,6 +26,8 @@ class AdminTeams extends React.Component {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
     } else if (!season) {
       return <Callout title="No Season selected!" message="Select a season to edit in the topbar menu!" />
+    } else if (!rounds.length) {
+      return <Callout title="No rounds created yet!" message="Create at least one round for the current season!" />
     }
     return (
       <div id="admin-team-list" className="container-fluid">

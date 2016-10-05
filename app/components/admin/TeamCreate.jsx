@@ -6,8 +6,8 @@ class TeamCreate extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      round: '',
-      name: '',
+      round: undefined,
+      name: undefined,
     }
   }
 
@@ -25,7 +25,7 @@ class TeamCreate extends React.Component {
     this.setState({ name })
   }
 
-  onCreateRound(e) {
+  onCreateTeam(e) {
     e.stopPropagation()
     e.preventDefault()
     const { dispatch } = this.props
@@ -33,7 +33,12 @@ class TeamCreate extends React.Component {
     newTeam.name = this.state.name
     newTeam.round = this.state.round
     newTeam.season = this.props.season._id
-    dispatch(startCreateNewTeam(newTeam))
+    dispatch(startCreateNewTeam(newTeam)).then(() => {
+      this.setState({
+        round: undefined,
+        name: undefined,
+      })
+    })
   }
 
   generateLabelsList() {
@@ -49,12 +54,12 @@ class TeamCreate extends React.Component {
     const { season } = this.props
     return (
       <Box title="Create a team" subtitle={`Season: ${season.year}`} >
-        <form onSubmit={(e) => this.onCreateRound(e)}>
+        <form onSubmit={(e) => this.onCreateTeam(e)}>
           <div className="col-sm-12 col-md-9">
-            <input className="form-control" placeholder="Team name" onChange={(e) => this.onTeamNameChange(e)} />
+            <input className="form-control" placeholder="Team name" value={this.state.name || ''} onChange={(e) => this.onTeamNameChange(e)} />
           </div>
           <div className="col-sm-12 col-md-3">
-            <select className="form-control" defaultValue="0" onChange={(e) => this.onRoundChange(e)}>
+            <select className="form-control" value={this.state.round || "0"} onChange={(e) => this.onRoundChange(e)}>
               <option value="0" disabled>Team Round</option>
               { this.generateLabelsList() }
             </select>
@@ -64,9 +69,9 @@ class TeamCreate extends React.Component {
             <button
               type="submit"
               className="btn btn-primary pull-right"
-              disabled={!this.state.round.length || !this.state.name.length}
+              disabled={(this.state.round && this.state.name) && (!this.state.round.length || !this.state.name.length)}
             >
-              Create New Round
+              Create New Team
             </button>
           </div>
           <div className="clearfix"></div>
