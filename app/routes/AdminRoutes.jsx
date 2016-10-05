@@ -3,7 +3,11 @@ import { Provider, connect } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 
 import AdminWrapper from 'AdminWrapper'
-import { adminChangeRoute } from 'actions'
+import {
+  adminChangeRoute,
+  getUserData,
+  setAuthToken,
+} from 'actions'
 
 const genRoutes = (adminRoutes) => {
   const routes = [
@@ -76,14 +80,24 @@ const genRoutes = (adminRoutes) => {
 
 export class AdminRoutes extends React.Component {
   requireAuth(nextState, replace, next) {
-    const state = this.props.store.getState();
-    const { account } = state;
-    if (account.authToken) {
-      next();
-    } else {
-      browserHistory.push('/login')
-    }
-    return;
+    const { dispatch } = this.props
+    const { store } = this.props
+    //  CHECK TOKEN AND INVALIDATE IF NEEDED
+    return dispatch(getUserData()).then((res) => {
+      if (res.status !== 200) {
+        store.dispatch(setAuthToken(''))
+      }
+      return res
+    })
+    .then(() => {
+      const state = store.getState()
+      const { account } = state
+      if (account.authToken) {
+        next()
+      } else {
+        browserHistory.push('/login')
+      }
+    })
   }
   redirectIfLoggedIn(nextState, replace, next) {
     const state = this.props.store.getState();
