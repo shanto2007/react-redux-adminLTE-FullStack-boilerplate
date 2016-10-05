@@ -1,25 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { DropzoneLoader } from 'ChunkLoaders'
 import {
   openToastr,
   startGetAdminSingleTeam,
 } from 'actions'
 
 let mediaUploader
-
-// teamPhoto
-// teamAvatar
-
-function getDropzoneAssets() {
-  const { Promise } = global
-  return new Promise(resolve => {
-    require.ensure([], () => {
-      require('style!css!dropzone/dist/dropzone.css')
-
-      resolve(require('dropzone'))
-    }, 'dropzone-assets')
-  })
-}
 
 class TeamPhotoUploader extends React.Component {
   constructor(props) {
@@ -29,7 +16,8 @@ class TeamPhotoUploader extends React.Component {
   componentDidMount() {
     const { dispatch, team } = this.props
 
-    getDropzoneAssets().then((Dropzone) => {
+    DropzoneLoader().then((modules) => {
+      const { Dropzone } = modules
       Dropzone.autoDiscover = false
       mediaUploader = new Dropzone('#team-media-photo', {
         url: `/api/admin/team/${team._id}/photo`,

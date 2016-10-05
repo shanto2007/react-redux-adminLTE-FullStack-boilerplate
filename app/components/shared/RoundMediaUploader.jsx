@@ -1,19 +1,9 @@
 import React from 'react'
 import { openToastr, startGetAdminRounds } from 'actions'
 import { connect } from 'react-redux'
+import { DropzoneLoader } from 'ChunkLoaders'
 
 let mediaUploader
-
-function getDropzoneAssets() {
-  const { Promise } = global
-  return new Promise(resolve => {
-    require.ensure([], () => {
-      require('style!css!dropzone/dist/dropzone.css')
-
-      resolve(require('dropzone'))
-    }, 'dropzone-assets')
-  })
-}
 
 class RoundMediaUploader extends React.Component {
   constructor(props) {
@@ -23,7 +13,8 @@ class RoundMediaUploader extends React.Component {
   componentDidMount() {
     const { dispatch, round } = this.props
 
-    getDropzoneAssets().then((Dropzone) => {
+    DropzoneLoader().then((modules) => {
+      const { Dropzone } = modules
       Dropzone.autoDiscover = false
       mediaUploader = new Dropzone(`#round-media-upload-${round._id}`, {
         url: `/api/admin/round/${round._id}/photo`,

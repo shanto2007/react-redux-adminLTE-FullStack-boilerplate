@@ -1,22 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { DropzoneLoader } from 'ChunkLoaders'
 import {
   openToastr,
   startGetAdminSingleTeam,
 } from 'actions'
 
 let mediaUploader
-
-function getDropzoneAssets() {
-  const { Promise } = global
-  return new Promise(resolve => {
-    require.ensure([], () => {
-      require('style!css!dropzone/dist/dropzone.css')
-
-      resolve(require('dropzone'))
-    }, 'dropzone-assets')
-  })
-}
 
 class PlayerAvatarUploader extends React.Component {
   constructor(props) {
@@ -26,7 +16,8 @@ class PlayerAvatarUploader extends React.Component {
   componentDidMount() {
     const { dispatch, player } = this.props
 
-    getDropzoneAssets().then((Dropzone) => {
+    DropzoneLoader().then((modules) => {
+      const { Dropzone } = modules
       Dropzone.autoDiscover = false
       const uniqueId = player._id.slice(this.length - 6)
       mediaUploader = new Dropzone(`#player-avatar-uploader${uniqueId}`, {
