@@ -59,7 +59,7 @@ class TeamCreate extends React.Component {
             <input className="form-control" placeholder="Team name" value={this.state.name || ''} onChange={(e) => this.onTeamNameChange(e)} />
           </div>
           <div className="col-sm-12 col-md-3">
-            <select className="form-control" value={this.state.round || "0"} onChange={(e) => this.onRoundChange(e)}>
+            <select className="form-control" value={this.state.round || '0'} onChange={(e) => this.onRoundChange(e)}>
               <option value="0" disabled>Team Round</option>
               { this.generateLabelsList() }
             </select>

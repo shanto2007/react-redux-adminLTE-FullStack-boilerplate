@@ -127,7 +127,7 @@ class AdminSingleMatch extends React.Component {
     e.stopPropagation()
     const { dispatch, match } = this.props
     /**
-     * O(n*3) Hipster concatenation ahead, should FIXME: performance ? 
+     * O(n*3) Hipster concatenation ahead, should FIXME: performance
      * - Get an array of keys of this comp state, which are player indexBySeason
      * - Filter to get an array of keys without Moment constructor that's get loaded async
      * - Finally get an array of a data that the server can digest.

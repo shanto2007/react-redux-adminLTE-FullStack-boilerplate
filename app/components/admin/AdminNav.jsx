@@ -103,7 +103,7 @@ class AdminNav extends React.Component {
 
             <div className="navbar-custom-menu">
               <ul className="nav navbar-nav">
-                <li className="dropdown notifications-menu">
+                <li className="dropdown notifications-menu pointer">
                   <a className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     Viewing season:
                     <b> { viewed ? viewed.year : 'No Season!' }</b>
@@ -120,12 +120,12 @@ class AdminNav extends React.Component {
                     </li>
                   </ul>
                 </li>
-                <li className="dropdown user user-menu">
+                <li className="dropdown user user-menu pointer">
                   <a className="dropdown-toggle" data-toggle="dropdown">
                     <span className="hidden-xs">{user.username}</span>
                   </a>
                 </li>
-                <li onClick={() => this.onLogout()}>
+                <li className="pointer" onClick={() => this.onLogout()}>
                   <a data-toggle="control-sidebar"><i className="fa fa-power-off"></i></a>
                 </li>
               </ul>
