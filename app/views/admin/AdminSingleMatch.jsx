@@ -4,6 +4,7 @@ import { MomentLoader } from 'ChunkLoaders'
 import {
   startGetAdminSingleMatch,
   startEditAdminMatch,
+  startResetAdminMatch,
 } from 'actions'
 
 import Box from 'Box'
@@ -125,10 +126,24 @@ class AdminSingleMatch extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     const { dispatch, match } = this.props
-    // create an array from all the player in the component state and send to the server to process.
-    const matchData = Object.keys(this.state).map((key) => this.state[key])
+    /**
+     * O(n*3) Hipster concatenation ahead, should FIXME: performance ? 
+     * - Get an array of keys of this comp state, which are player indexBySeason
+     * - Filter to get an array of keys without Moment constructor that's get loaded async
+     * - Finally get an array of a data that the server can digest.
+     */
+    const matchData = Object.keys(this.state).filter(key => key !== 'Moment').map((key) => this.state[key])
     if (matchData.length) {
       dispatch(startEditAdminMatch(match._id, matchData))
+    }
+  }
+
+  onMatchReset(e) {
+    e.stopPropagation()
+    e.preventDefault()
+    const { match, dispatch } = this.props
+    if (match && match._id && confirm('Do you want to reset the match data? Warn: can\'t be undone.')) {
+      dispatch(startResetAdminMatch(match._id))
     }
   }
 
@@ -215,7 +230,7 @@ class AdminSingleMatch extends React.Component {
                   </div>
                   <div className="col-sm-12 col-md-6 border-right">
                     <div className="description-block">
-                      <button className="btn btn-flat btn-danger reset-button">Reset match</button>
+                      <button className="btn btn-flat btn-danger reset-button" onClick={(e) => this.onMatchReset(e)}>Reset</button>
                     </div>
                   </div>
                 </div>

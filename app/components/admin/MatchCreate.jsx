@@ -121,7 +121,6 @@ class MatchCreate extends React.Component {
     newMatch.teamHome = selectedTeamHome
     newMatch.teamAway = selectedTeamAway
     newMatch.date = matchDate
-    console.log(matchDate)
     dispatch(startCreateNewMatch(newMatch)).then(() => {
       dispatch(selectAdminRound(null))
     }).catch()

@@ -109,9 +109,37 @@ export const startEditAdminMatch = (matchId, matchData) => {
       return res
     })
     .catch((err) => {
+      console.error(err)
       dispatch(adminMatchFail(err))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.message || 'Error deleting player!'))
+      dispatch(openToastr('error', err.message || 'Error editing match!'))
+      return err
+    })
+  }
+}
+
+export const startResetAdminMatch = (matchId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminMatchLoading(true))
+    return Api.patch(`/admin/match/${matchId}/reset`, null, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { match } = res.data
+      dispatch(startGetAdminSingleMatch(match._id))
+      dispatch(adminMatchSuccess(true))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('success', 'Match data resetted!'))
+      return res
+    })
+    .catch((err) => {
+      dispatch(adminMatchFail(err))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('error', err.message || 'Error resetting match data!'))
       return err
     })
   }
