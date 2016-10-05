@@ -29,4 +29,14 @@
       border-bottom: 1px solid rgba($grey, .25);
     }
   }
+
+  .box-footer{
+    margin-top: 15px;
+    padding-top: 15px;
+    .reset-button{
+      display: block;
+      margin: auto;
+    }
+  }
+
 }

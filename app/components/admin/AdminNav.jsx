@@ -158,8 +158,8 @@ class AdminNav extends React.Component {
                   <li className={this.isActiveNavItem('/admin/teams')}>
                     <Link to="/admin/teams"><i className="fa fa-users"></i> Teams</Link>
                   </li>
-                  <li className={this.isActiveNavItem('/admin/match-create')}>
-                    <Link to="/admin/match-create"><i className="fa fa-futbol-o"></i> Create Matches</Link>
+                  <li className={this.isActiveNavItem('/admin/match/create')}>
+                    <Link to="/admin/match/create"><i className="fa fa-futbol-o"></i> Create Matches</Link>
                   </li>
                 </ul>
               </li>

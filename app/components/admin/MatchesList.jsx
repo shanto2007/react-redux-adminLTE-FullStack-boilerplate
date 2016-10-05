@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import Moment from 'moment'
+import { MomentLoader } from 'ChunkLoaders'
 import Box from 'Box'
 import RoundSwitcher from 'RoundSwitcher'
 import {
@@ -11,6 +11,17 @@ import {
 class MatchesList extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      Moment: undefined,
+    }
+  }
+
+  componentWillMount() {
+    MomentLoader().then((module) => {
+      this.setState({
+        Moment: module.Moment,
+      })
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,6 +48,7 @@ class MatchesList extends React.Component {
 
   renderTableList() {
     const { matches } = this.props
+    const { Moment } = this.state
     Moment.locale('it')
     if (matches) {
       return matches.map((match, i) => {
@@ -61,26 +73,30 @@ class MatchesList extends React.Component {
   }
 
   render() {
-    return (
-      <Box title="Matches list" filters={<RoundSwitcher />}>
-        <div className="box-body table-responsive no-padding">
-          <table className="table table-hover">
-            <tbody>
-              <tr>
-                <th> <i className="fa fa-cog"></i> </th>
-                <th>Team Home</th>
-                <th>Team Away</th>
-                <th>Result</th>
-                <th>Date</th>
-                <th>Played</th>
-                <th></th>
-              </tr>
-              {this.renderTableList()}
-            </tbody>
-          </table>
-        </div>
-      </Box>
-    )
+    const { Moment } = this.state
+    if (Moment) {
+      return (
+        <Box title="Matches list" filters={<RoundSwitcher />}>
+          <div className="box-body table-responsive no-padding">
+            <table className="table table-hover">
+              <tbody>
+                <tr>
+                  <th> <i className="fa fa-cog"></i> </th>
+                  <th>Team Home</th>
+                  <th>Team Away</th>
+                  <th>Result</th>
+                  <th>Date</th>
+                  <th>Played</th>
+                  <th></th>
+                </tr>
+                {this.renderTableList()}
+              </tbody>
+            </table>
+          </div>
+        </Box>
+      )
+    }
+    return null
   }
 }
 

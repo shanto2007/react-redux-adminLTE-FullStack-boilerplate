@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { MomentLoader } from 'ChunkLoaders'
 import {
   startGetAdminSingleMatch,
   startEditAdminMatch,
@@ -11,13 +12,18 @@ const blackBase64Gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQ
 
 require('!style!css!sass!app/styles/admin/match-edit.scss')
 
-class AdminMatch extends React.Component {
+class AdminSingleMatch extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
 
   componentWillMount() {
+    MomentLoader().then((module) => {
+      this.setState({
+        Moment: module.Moment,
+      })
+    })
     const { id } = this.props.params
     const { dispatch } = this.props
     if (id) {
@@ -179,7 +185,8 @@ class AdminMatch extends React.Component {
 
   render() {
     const { match } = this.props
-    if (match._id) {
+    const { Moment } = this.state
+    if (match._id && Moment) {
       const teamHomePlayers = match.teamHome.players
       const teamAwayPlayers = match.teamAway.players
       return (
@@ -194,6 +201,24 @@ class AdminMatch extends React.Component {
               </div>
               <div className="col-sm-4 match-team-avatar">
                 <div><img src={match.teamAway.avatar ? match.teamAway.avatar.thumbnail : blackBase64Gif} role="presentation" /></div>
+              </div>
+              <div className="clearfix"></div>
+              <div className="box-footer">
+                <div className="row">
+                  <div className="col-sm-12 col-md-6 border-right">
+                    <div className="description-block">
+                      <h5 className="description-header">{Moment(match.date).format('lll')}</h5>
+                      <span className="description-text">
+                        <i className="fa fa-cog pointer fa-2x"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-sm-12 col-md-6 border-right">
+                    <div className="description-block">
+                      <button className="btn btn-flat btn-danger reset-button">Reset match</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </Box>
@@ -220,12 +245,13 @@ class AdminMatch extends React.Component {
   }
 }
 
-AdminMatch.propTypes = {
+AdminSingleMatch.propTypes = {
   dispatch: React.PropTypes.func,
   match: React.PropTypes.object,
   params: React.PropTypes.object,
+  modules: React.PropTypes.object,
 }
 
 export default connect((state) => ({
   match: state.match.match,
-}))(AdminMatch)
+}))(AdminSingleMatch)
