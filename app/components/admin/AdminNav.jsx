@@ -155,11 +155,11 @@ class AdminNav extends React.Component {
                   <li className={this.isActiveNavItem('/admin/days')}>
                     <Link to="/admin/days"><i className="fa fa-calendar"></i> Days</Link>
                   </li>
-                  <li className={this.isActiveNavItem('/admin/teams')}>
-                    <Link to="/admin/teams"><i className="fa fa-users"></i> Teams</Link>
+                  <li className={this.isActiveNavItem('/admin/team/create')}>
+                    <Link to="/admin/team/create"><i className="fa fa-users"></i> Teams</Link>
                   </li>
                   <li className={this.isActiveNavItem('/admin/match/create')}>
-                    <Link to="/admin/match/create"><i className="fa fa-futbol-o"></i> Create Matches</Link>
+                    <Link to="/admin/match/create"><i className="fa fa-futbol-o"></i> Matches</Link>
                   </li>
                 </ul>
               </li>
@@ -172,6 +172,9 @@ class AdminNav extends React.Component {
                   </span>
                 </a>
                 <ul className="treeview-menu">
+                  <li className={this.isActiveNavItem('/admin/teams')}>
+                    <Link to="/admin/teams"><i className="fa fa-users"></i> Teams List</Link>
+                  </li>
                   <li className={this.isActiveNavItem('/admin/matches')}>
                     <Link to="/admin/matches"><i className="fa fa-futbol-o"></i> Matches List</Link>
                   </li>

@@ -9,7 +9,7 @@ import Callout from 'Callout'
 import TeamCreate from 'TeamCreate'
 import TeamsList from 'TeamsList'
 
-class AdminTeams extends React.Component {
+class AdminTeamCreate extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -32,13 +32,13 @@ class AdminTeams extends React.Component {
     return (
       <div id="admin-team-list" className="container-fluid">
         <TeamCreate season={season} rounds={rounds} dispatch={dispatch} />
-        <TeamsList season={season} teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} />
+        {/* <TeamsList season={season} teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} /> */}
       </div>
     )
   }
 }
 
-AdminTeams.propTypes = {
+AdminTeamCreate.propTypes = {
   dispatch: React.PropTypes.func,
   seasons: React.PropTypes.array,
   season: React.PropTypes.object,
@@ -53,4 +53,4 @@ export default connect((state) => ({
   rounds: state.rounds.rounds,
   teams: state.teams.teams,
   selectedRound: state.rounds.selected,
-}))(AdminTeams)
+}))(AdminTeamCreate)

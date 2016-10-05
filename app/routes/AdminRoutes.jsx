@@ -42,7 +42,11 @@ const genRoutes = (adminRoutes) => {
         },
         {
           path: 'teams',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminTeams').default)),
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminTeamsList').default)),
+        },
+        {
+          path: 'team/create',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminTeamCreate').default)),
         },
         {
           path: 'team/:id',
