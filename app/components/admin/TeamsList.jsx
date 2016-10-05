@@ -59,7 +59,7 @@ class TeamsList extends React.Component {
                 </Link>
               </span>
               <span className="product-description">
-                more info
+                Wins: {team.wins} | Draws: {team.draws} | Losts: {team.losts}
               </span>
             </div>
           </li>

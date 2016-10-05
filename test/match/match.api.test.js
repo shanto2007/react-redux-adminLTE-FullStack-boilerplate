@@ -15,7 +15,7 @@ const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
 const chai       = require('chai')
 
-describe('Match - API', () => {
+describe.only('Match - API', () => {
   let userAuthToken,
       seasonId,
       roundId,
@@ -282,9 +282,9 @@ describe('Match - API', () => {
   })
 
   /**
-   * EDIT
+   * EDIT match no played
    */
-  describe('Edit', () => {
+  describe('Edit unplayed match', () => {
     let matchData
     before((done) => {
       /**
@@ -421,6 +421,206 @@ describe('Match - API', () => {
       }).catch(done)
     })
   })
+
+  /**
+   * EDIT played match, switch winner
+   */
+ describe('Edit player match, switch winner', () => {
+   let matchData
+   before((done) => {
+     /**
+     * Setup request body
+     */
+     Promise.all([
+       Player.findById(playerAId),
+       Player.findById(playerBId),
+     ])
+     .then((players) => {
+       matchData = [ players[0].toJSON(), players[1].toJSON() ]
+       /**
+        * Setup for:
+        *  TeamA 3 - 1 TeamB
+        *  playerA : 1 warn | 0 exp | 1 attendance | 3 scores
+        *  playerB : 0 warn | 1 exp | 1 attendance | 1 scores
+        */
+       matchData[0].warned = true
+       matchData[0].attended = true
+       matchData[0].scored = 1
+
+       matchData[1].expelled = true
+       matchData[1].attended = true
+       matchData[1].scored = 3
+       done()
+     }).catch((err) => {
+       done()
+     })
+   })
+   it('should should RE-edit a match with switched winner', function(done) {
+     this.timeout(10000)
+     chai.request(app)
+     .patch(`/api/admin/match/${matchId}`)
+     .set('Authorization', userAuthToken)
+     .send(matchData)
+     .end((err, res) => {
+       const { body } = res
+       expect(res.status).toBe(200)
+       expect(body.match.winner).toEqual(teamBId)
+       expect(body.match.loser).toEqual(teamAId)
+       expect(body.match.teamHomeScores).toBe(1)
+       expect(body.match.teamAwayScores).toBe(3)
+       done()
+     })
+   })
+ })
+
+ describe('Check fork child updates after switching winner', () => {
+   it('should have updated team A stats', (done) => {
+     return Team.findById(teamAId).then((team) => {
+       expect(team).toExist()
+       expect(team.wins).toEqual(0)
+       expect(team.losts).toEqual(1)
+       expect(team.draws).toEqual(0)
+       expect(team.goalTaken).toEqual(3)
+       expect(team.goalScored).toEqual(1)
+       expect(team.points).toEqual(0)
+       done()
+     }).catch(done)
+   })
+   it('should have updated team B stats', (done) => {
+     return Team.findById(teamBId).then((team) => {
+       expect(team).toExist()
+       expect(team.wins).toEqual(1)
+       expect(team.losts).toEqual(0)
+       expect(team.draws).toEqual(0)
+       expect(team.goalTaken).toEqual(1)
+       expect(team.goalScored).toEqual(3)
+       expect(team.points).toEqual(3)
+       done()
+     }).catch(done)
+   })
+   it('should have updated player A stats', (done) => {
+     return Player.findById(playerAId)
+     .then((player) => {
+       expect(player).toExist()
+       expect(player.goals).toEqual(1)
+       expect(player.warns).toEqual(1)
+       expect(player.expulsions).toEqual(0)
+       expect(player.attendance).toEqual(1)
+       done()
+     })
+   })
+   it('should have updated player B stats', (done) => {
+     return Player.findById(playerBId)
+     .then((player) => {
+       expect(player).toExist()
+       expect(player.goals).toEqual(3)
+       expect(player.warns).toEqual(0)
+       expect(player.expulsions).toEqual(1)
+       expect(player.attendance).toEqual(1)
+       done()
+     }).catch(done)
+   })
+ })
+
+ /**
+  * EDIT played match, SIMULATE DRAW
+  */
+describe('Edit player match, simulate draw', () => {
+  let matchData
+  before((done) => {
+    /**
+    * Setup request body
+    */
+    Promise.all([
+      Player.findById(playerAId),
+      Player.findById(playerBId),
+    ])
+    .then((players) => {
+      matchData = [ players[0].toJSON(), players[1].toJSON() ]
+      /**
+       * Setup for:
+       *  TeamA 3 - 1 TeamB
+       *  playerA : 1 warn | 0 exp | 1 attendance | 3 scores
+       *  playerB : 0 warn | 1 exp | 1 attendance | 1 scores
+       */
+      matchData[0].warned = true
+      matchData[0].attended = true
+      matchData[0].scored = 3
+
+      matchData[1].expelled = true
+      matchData[1].attended = true
+      matchData[1].scored = 3
+      done()
+    }).catch((err) => {
+      done()
+    })
+  })
+  it('should should RE-edit a match simulate DRAW', function(done) {
+    this.timeout(10000)
+    chai.request(app)
+    .patch(`/api/admin/match/${matchId}`)
+    .set('Authorization', userAuthToken)
+    .send(matchData)
+    .end((err, res) => {
+      const { body } = res
+      expect(res.status).toBe(200)
+      expect(body.match.winner).toNotExist()
+      expect(body.match.loser).toNotExist()
+      expect(body.match.teamHomeScores).toBe(3)
+      expect(body.match.teamAwayScores).toBe(3)
+      done()
+    })
+  })
+})
+
+describe('Check fork child updates editing played game, simulate a draw', () => {
+  it('should have updated team A stats', (done) => {
+    return Team.findById(teamAId).then((team) => {
+      expect(team).toExist()
+      expect(team.wins).toEqual(0)
+      expect(team.losts).toEqual(0)
+      expect(team.draws).toEqual(1)
+      expect(team.goalTaken).toEqual(3)
+      expect(team.goalScored).toEqual(3)
+      expect(team.points).toEqual(1)
+      done()
+    }).catch(done)
+  })
+  it('should have updated team B stats', (done) => {
+    return Team.findById(teamBId).then((team) => {
+      expect(team).toExist()
+      expect(team.wins).toEqual(0)
+      expect(team.losts).toEqual(0)
+      expect(team.draws).toEqual(1)
+      expect(team.goalTaken).toEqual(3)
+      expect(team.goalScored).toEqual(3)
+      expect(team.points).toEqual(1)
+      done()
+    }).catch(done)
+  })
+  it('should have updated player A stats', (done) => {
+    return Player.findById(playerAId)
+    .then((player) => {
+      expect(player).toExist()
+      expect(player.goals).toEqual(3)
+      expect(player.warns).toEqual(1)
+      expect(player.expulsions).toEqual(0)
+      expect(player.attendance).toEqual(1)
+      done()
+    })
+  })
+  it('should have updated player B stats', (done) => {
+    return Player.findById(playerBId)
+    .then((player) => {
+      expect(player).toExist()
+      expect(player.goals).toEqual(3)
+      expect(player.warns).toEqual(0)
+      expect(player.expulsions).toEqual(1)
+      expect(player.attendance).toEqual(1)
+      done()
+    }).catch(done)
+  })
+})
 
   /**
    * RESET A MATCH

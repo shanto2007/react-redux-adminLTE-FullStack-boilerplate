@@ -68,9 +68,14 @@ matchSchema.pre('validate', function matchPreValidation(next) {
   next()
 })
 
+/**
+ * Provided the winner of the match set the loser
+ * - Winner must exist
+ * - Player should be true
+ */
 matchSchema.pre('save', function preSaveHookMatch(next) {
   const match = this
-  if (this.isModified('played') && this.isModified('winner') && this.played) {
+  if (match.isModified('winner') && match.winner && match.played) {
     match.loser = match.winner.equals(match.teamHome) ? match.teamAway : match.teamHome
   }
   next()

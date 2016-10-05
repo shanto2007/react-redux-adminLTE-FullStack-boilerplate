@@ -271,8 +271,11 @@ module.exports = {
         fetchedMatch.teamAwayScores = scoresCount[1]
         if (scoresCount[0] !== scoresCount[1]) {
           fetchedMatch.winner = scoresCount[0] > scoresCount[1] ? fetchedMatch.teamHome : fetchedMatch.teamAway
-          fetchedMatch.played = true
+        } else {
+          fetchedMatch.winner = undefined
+          fetchedMatch.loser = undefined
         }
+        fetchedMatch.played = true
         return fetchedMatch.save()
       })
       .then((savedMatch) => {
