@@ -7,7 +7,6 @@ import { selectAdminRound, clearAdminTeams } from 'actions'
  */
 import Callout from 'Callout'
 import TeamCreate from 'TeamCreate'
-import TeamsList from 'TeamsList'
 
 class AdminTeamCreate extends React.Component {
   constructor(props) {
@@ -21,7 +20,7 @@ class AdminTeamCreate extends React.Component {
   }
 
   render() {
-    const { seasons, season, rounds, teams, selectedRound, dispatch } = this.props
+    const { seasons, season, rounds, dispatch } = this.props
     if (!seasons.length) {
       return <Callout title="No Season created yet!" message="Create a season in the season section before creating rounds!" />
     } else if (!season) {
@@ -32,7 +31,6 @@ class AdminTeamCreate extends React.Component {
     return (
       <div id="admin-team-list" className="container-fluid">
         <TeamCreate season={season} rounds={rounds} dispatch={dispatch} />
-        {/* <TeamsList season={season} teams={teams} selectedRound={selectedRound} rounds={rounds} dispatch={dispatch} /> */}
       </div>
     )
   }
@@ -51,6 +49,4 @@ export default connect((state) => ({
   seasons: state.seasons.seasons,
   season: state.seasons.viewed,
   rounds: state.rounds.rounds,
-  teams: state.teams.teams,
-  selectedRound: state.rounds.selected,
 }))(AdminTeamCreate)
