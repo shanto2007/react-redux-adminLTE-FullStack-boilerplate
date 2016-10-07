@@ -1,3 +1,4 @@
+const { Promise } = global
 const mongoose = require('../config/database')
 
 const daySchema = mongoose.Schema({
@@ -32,6 +33,21 @@ daySchema.statics.setLastDay = function roundSetLastDay(dayId) {
         return resolve(updatedDay)
       })
     })
+  })
+}
+
+daySchema.methods.addInfo = function addDayInfo() {
+  let day = this
+  const match = this.model('match')
+  return Promise.all([
+    match.count({ day: day._id, played: true }).exec(),
+    match.count({ day: day._id, played: false }).exec(),
+  ])
+  .then((res) => {
+    day = day.toObject()
+    day.playedMatches = res[0]
+    day.notPlayedMatches = res[1]
+    return Promise.resolve(day)
   })
 }
 

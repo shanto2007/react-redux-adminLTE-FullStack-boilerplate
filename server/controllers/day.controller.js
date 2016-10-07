@@ -54,8 +54,18 @@ module.exports = {
     }
     return Day.find({
       round: roundId,
-    }).sort('_id').exec()
+    })
+    .sort('_id')
+    .exec()
     .then((days) => {
+      const promises = []
+      days.forEach((day) => {
+        return promises.push(day.addInfo())
+      })
+      return Promise.all(promises)
+    })
+    .then((days) => {
+      console.log(days)
       return res.json({
         success: true,
         action: 'admin index by round',

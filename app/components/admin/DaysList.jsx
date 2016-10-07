@@ -34,6 +34,7 @@ class DaysList extends React.Component {
 
   renderDaysList() {
     const { days } = this.props.days
+    console.log(days)
     if (days && days.length) {
       /**
        * GENERATE LIST

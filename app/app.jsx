@@ -31,3 +31,5 @@ render(
   <PublicRoutes store={store} />,
   document.getElementById('app')
 )
+
+// TODO: nomore SPA for public, going to use PUG and render on the server, use react just to display the tables of content
