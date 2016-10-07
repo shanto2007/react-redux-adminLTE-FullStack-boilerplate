@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { DropzoneLoader } from 'ChunkLoaders'
 import {
   setProjectImages,
   startEditingProject,
@@ -10,17 +11,6 @@ import Box from 'Box'
 
 let mediaUploader;
 
-function getDropzoneAssets() {
-  const { Promise } = global
-  return new Promise(resolve => {
-    require.ensure([], () => {
-      require('style!css!dropzone/dist/dropzone.css')
-
-      resolve(require('dropzone'))
-    }, 'dropzone-assets')
-  })
-}
-
 class ProjectMediaUploader extends React.Component {
   constructor(props) {
     super(props)
@@ -29,7 +19,8 @@ class ProjectMediaUploader extends React.Component {
   componentDidMount() {
     const { dispatch, projectId } = this.props;
 
-    getDropzoneAssets().then((Dropzone) => {
+    DropzoneLoader().then((modules) => {
+      const { Dropzone } = modules
       Dropzone.autoDiscover = false;
       mediaUploader = new Dropzone('#project-media-upload', {
         url: '/api/media/upload',

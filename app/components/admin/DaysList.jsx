@@ -43,7 +43,7 @@ class DaysList extends React.Component {
           <li className="item" key={i}>
             <div className="product-info day-info">
               <span className="label label-danger pull-right">
-                <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteDay(e, day)}></i>
+                <i className="fa fa-remove fa-2x pointer" onClick={(e) => this.onDeleteDay(e, day)}></i>
               </span>
               <span className="product-title">
                 <b>Day {i + 1}</b>
