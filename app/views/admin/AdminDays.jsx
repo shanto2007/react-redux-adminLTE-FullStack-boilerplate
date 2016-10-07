@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { clearAdminDays } from 'actions'
 
 /**
  * COMPs
@@ -11,6 +12,11 @@ import DaysList from 'DaysList'
 class AdminDays extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(clearAdminDays(null))
   }
 
   render() {
