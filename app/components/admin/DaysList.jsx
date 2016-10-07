@@ -34,7 +34,6 @@ class DaysList extends React.Component {
 
   renderDaysList() {
     const { days } = this.props.days
-    console.log(days)
     if (days && days.length) {
       /**
        * GENERATE LIST
@@ -47,11 +46,15 @@ class DaysList extends React.Component {
                 <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteDay(e, day)}></i>
               </span>
               <span className="product-title">
-                <b>{i + 1}</b>
+                <b>Day {i + 1}</b>
               </span>
-              {/* <span className="product-title">
-                more info
-              </span> */}
+              <span className="product-description">
+                <b>Matches: </b> {day.matchesCount}
+                <br />
+                <b>Played: </b> {day.playedMatches}
+                <br />
+                <b>Not Played: </b> {day.notPlayedMatches}
+              </span>
             </div>
           </li>
         )

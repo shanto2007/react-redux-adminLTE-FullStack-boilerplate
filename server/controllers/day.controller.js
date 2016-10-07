@@ -65,7 +65,6 @@ module.exports = {
       return Promise.all(promises)
     })
     .then((days) => {
-      console.log(days)
       return res.json({
         success: true,
         action: 'admin index by round',
@@ -175,22 +174,29 @@ module.exports = {
       })
     }
     // TODO CASCADE REMOVE MATCHS
-    return Day.findOneAndRemove({ _id: dayId }, (err, day) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err,
-        })
-      }
+    let removedDay
+    return Day.findOneAndRemove({ _id: dayId })
+    .then((day) => {
       if (!day) {
         return res.status(404).json({
           success: false,
           message: 'Day not found',
         })
       }
+      removedDay = day
+      return day.cascadeRemove()
+    })
+    .then(() => {
       return res.json({
         success: true,
-        day,
+        day: removedDay,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      return res.status(500).json({
+        success: false,
+        message: err,
       })
     })
   },

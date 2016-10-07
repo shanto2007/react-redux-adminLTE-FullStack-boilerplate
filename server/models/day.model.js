@@ -36,17 +36,45 @@ daySchema.statics.setLastDay = function roundSetLastDay(dayId) {
   })
 }
 
+/**
+ * Cascade remove matches of this day
+ * @return Promise
+ */
+daySchema.methods.cascadeRemove = function dayCascadeRemoveData() {
+  const day = this
+  const match = this.model('match')
+  return match.find({ day: day._id }).exec()
+  .then((matches) => {
+    // Cascade remove matches data
+    const promises = []
+    matches.forEach((match) => {
+      promises.push(match.cascadeRemove())
+    })
+    return Promise.all(promises)
+  })
+  .then((matches) => {
+    // Remove matches
+    const promises = []
+    matches.forEach((match) => {
+      promises.push(match.remove())
+    })
+    return Promise.all(promises)
+  })
+}
+
 daySchema.methods.addInfo = function addDayInfo() {
   let day = this
   const match = this.model('match')
   return Promise.all([
     match.count({ day: day._id, played: true }).exec(),
     match.count({ day: day._id, played: false }).exec(),
+    match.count({ day: day._id }).exec(),
   ])
   .then((res) => {
     day = day.toObject()
     day.playedMatches = res[0]
     day.notPlayedMatches = res[1]
+    day.matchesCount = res[2]
     return Promise.resolve(day)
   })
 }
