@@ -112,6 +112,33 @@ export const startCreateNewRounds = (newRound) => {
   }
 }
 
+export const startDeleteAdminRoundMedia = (roundId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminRoundsLoading(true))
+    return Api.delete(`/admin/round/${roundId}/photo`, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(openToastr('success', 'Round media removed!'))
+      dispatch(adminRoundsSuccess(true))
+      dispatch(adminRoundsLoading(false))
+      dispatch(startGetAdminRounds(res.data.round.season))
+      return res
+    })
+    .catch((res) => {
+      const err = res.data
+      dispatch(openToastr('error', err.message || 'Error removing the round media!'))
+      dispatch(adminRoundsFail(err))
+      dispatch(adminRoundsLoading(false))
+      return res
+    })
+  }
+}
+
 export const startDeleteRound = (roundId) => {
   return (dispatch, getState) => {
     const store = getState()

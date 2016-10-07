@@ -9,7 +9,9 @@ const Season   = require(testenv.serverdir + 'models/season.model')
 const Round    = require(testenv.serverdir + 'models/round.model')
 const jwt      = require('jsonwebtoken')
 
-describe('Round - API', () => {
+chai.use(chaiHttp)
+
+describe.only('Round - API', () => {
   let roundToEditId, userAuthToken, seasonId, mediaId
 
   before((done) => {
@@ -22,7 +24,6 @@ describe('Round - API', () => {
       year: 2016,
     })).then((season) => {
       seasonId = season._id
-      console.log(seasonId);
       done()
     }).catch(done)
   })
@@ -35,7 +36,7 @@ describe('Round - API', () => {
     *   unique: label
     */
     it('should not create without auth token', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .post('/api/admin/round')
       .end((err, res) => {
         expect(res).toExist()
@@ -45,7 +46,7 @@ describe('Round - API', () => {
       })
     })
     it('should not create without season (id) attribute', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -55,7 +56,7 @@ describe('Round - API', () => {
       })
     })
     it('should not create without label attribute', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
       .send({
@@ -68,7 +69,7 @@ describe('Round - API', () => {
       })
     })
     it('should create a round', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
       .send({
@@ -84,7 +85,7 @@ describe('Round - API', () => {
       })
     })
     it('should not create a round with duplicate [label] attribute', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
       .send({
@@ -101,7 +102,7 @@ describe('Round - API', () => {
       })
     })
     it('should create a round with another [label] attribute', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .post('/api/admin/round')
       .set('Authorization', userAuthToken)
       .send({
@@ -125,7 +126,7 @@ describe('Round - API', () => {
   describe('Edit', () => {
 
     it('should not edit without token', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .patch('/api/admin/round')
       .end((err, res) => {
         expect(res.status).toNotBe(200)
@@ -137,7 +138,7 @@ describe('Round - API', () => {
     })
 
     it('should return error if no round id provided', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .patch('/api/admin/round')
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -151,7 +152,7 @@ describe('Round - API', () => {
 
     it('should not edit/duplicate a unique field', (done) => {
       const host = 'My Torunament Host'
-      chai.request(app)
+      return chai.request(app)
       .patch(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
       .send({ label: 'A' })
@@ -167,7 +168,7 @@ describe('Round - API', () => {
 
     it('should edit a round', (done) => {
       const host = 'My Torunament Host'
-      chai.request(app)
+      return chai.request(app)
       .patch(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
       .send({ host })
@@ -182,7 +183,7 @@ describe('Round - API', () => {
     it('should upload the host photo', function (done) {
       this.timeout(5000)
       let mediaFile = path.join( __dirname, './media/test.jpeg' )
-      chai.request(app)
+      return chai.request(app)
       .post(`/api/admin/round/${roundToEditId}/photo`)
       .set('Authorization', userAuthToken)
       .attach('roundHostPhoto', fs.readFileSync(mediaFile), 'test.jpeg')
@@ -199,7 +200,7 @@ describe('Round - API', () => {
   */
   describe('Get', () => {
     it('should not GET without token', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .get('/api/admin/rounds')
       .end((err, res) => {
         expect(res.status).toNotBe(200)
@@ -210,7 +211,7 @@ describe('Round - API', () => {
       })
     })
     it('should GET', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .get('/api/admin/rounds')
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -229,7 +230,7 @@ describe('Round - API', () => {
   */
   describe('Get by season', () => {
     it('should not GET without token', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .get(`/api/admin/rounds/${seasonId}`)
       .end((err, res) => {
         expect(res.status).toNotBe(200)
@@ -240,7 +241,7 @@ describe('Round - API', () => {
       })
     })
     it('should GET for season provided', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .get(`/api/admin/rounds/${seasonId}`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -253,7 +254,7 @@ describe('Round - API', () => {
       })
     })
     it('should GET empty if none for season or id is not of an existing season', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .get(`/api/admin/rounds/${roundToEditId}`) // >> fakeit
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -269,11 +270,62 @@ describe('Round - API', () => {
   }) // GET
 
   /**
+   * DELETE ONLY IMAGE ROUTE
+   */
+  describe('Delete Round Media', () => {
+    it('should NOT remove the round\'s media without auth token', (done) => {
+      return chai.request(app)
+      .delete(`/api/admin/round/${roundToEditId}/photo`)
+      .end((err, res) => {
+        expect(res.status).toBe(400)
+        done()
+      })
+    })
+    it('should NOT remove return 404 if item not found', (done) => {
+      return chai.request(app)
+      .delete(`/api/admin/round/${seasonId}/photo`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(404)
+        done()
+      })
+    })
+    it('should remove the round\'s media', (done) => {
+      return chai.request(app)
+      .delete(`/api/admin/round/${roundToEditId}/photo`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        const { round } = res.body
+        expect(res.status).toBe(200)
+        expect(round).toExist()
+        expect(round.media).toNotExist()
+        done()
+      })
+    })
+    it('should have updated the media field', (done) => {
+      return Round.findById(roundToEditId)
+      .then((round) => {
+        expect(round.media).toNotExist()
+        done()
+      }).catch(done)
+    })
+    it('should NOT remove and return error if round has no media', (done) => {
+      return chai.request(app)
+      .delete(`/api/admin/round/${roundToEditId}/photo`)
+      .set('Authorization', userAuthToken)
+      .end((err, res) => {
+        expect(res.status).toBe(404)
+        done()
+      })
+    })
+  })
+
+  /**
   *  DELETE
   */
   describe('Delete', () => {
     it('should not delete without token', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .delete('/api/admin/round')
       .end((err, res) => {
         expect(res.status).toNotBe(200)
@@ -284,7 +336,7 @@ describe('Round - API', () => {
       })
     })
     it('should return error if no round id provided', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .delete('/api/admin/round')
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -296,7 +348,7 @@ describe('Round - API', () => {
       })
     })
     it('should delete', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .delete(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -307,7 +359,7 @@ describe('Round - API', () => {
       })
     })
     it('should return error if not exist', (done) => {
-      chai.request(app)
+      return chai.request(app)
       .delete(`/api/admin/round/${roundToEditId}`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
@@ -326,5 +378,4 @@ describe('Round - API', () => {
       Round.remove({}),
     ]).then(done()).catch(done)
   })
-
 })

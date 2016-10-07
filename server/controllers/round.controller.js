@@ -203,4 +203,45 @@ module.exports = {
       })
     })
   },
+
+  roundPhotoRemove: (req, res) => {
+    const { id } = req.params
+    let fetchedRound
+    Round.findById(id)
+    .then((round) => {
+      if (!round) {
+        return Promise.reject({
+          message: 'Round not found, maybe already deleted',
+          status: 404,
+        })
+      }
+      fetchedRound = round
+      return Media.findById(round.media)
+    })
+    .then((media) => {
+      if (!media) {
+        return Promise.reject({ message: 'The round has no media', status: 404 })
+      }
+      return media.remove()
+    })
+    .then(() => {
+      return Round.findOneAndUpdate({ _id: fetchedRound._id }, { $unset: { media: 1 } }, { new: true }).exec()
+    })
+    .then((round) => {
+      return res.json({
+        success: true,
+        action: 'remove round media',
+        message: 'Round media removed',
+        round,
+      })
+    })
+    .catch((err) => {
+      return res.status(err.status ? err.status : 500).json({
+        success: false,
+        action: 'remove round media',
+        message: err.message ? err.message : 'Error removing round host photo, try again.',
+        error: err,
+      })
+    })
+  },
 }

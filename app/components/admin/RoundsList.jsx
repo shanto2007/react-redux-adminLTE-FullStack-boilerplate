@@ -1,7 +1,9 @@
 import React from 'react'
 import Box from 'Box'
 import RoundMediaUploader from 'RoundMediaUploader'
-import { startGetAdminRounds, startDeleteRound, clearAdminRounds } from 'actions'
+import { startGetAdminRounds, startDeleteRound, clearAdminRounds, startDeleteAdminRoundMedia } from 'actions'
+
+require('!style!css!sass!app/styles/admin/rounds-list.scss')
 
 class RoundsList extends React.Component {
   constructor(props) {
@@ -22,6 +24,14 @@ class RoundsList extends React.Component {
     const { dispatch } = this.props
     if (round && round._id && confirm('You will lose all data of this rounds')) {
       dispatch(startDeleteRound(round._id))
+    }
+  }
+
+  onDeleteRoundMedia(e, round) {
+    e.stopPropagation()
+    const { dispatch } = this.props
+    if (round && round._id && confirm('Do you want to remove the round media?')) {
+      dispatch(startDeleteAdminRoundMedia(round._id))
     }
   }
 
@@ -61,7 +71,18 @@ class RoundsList extends React.Component {
         }
         let media
         if (round.media) {
-          media = <img src={round.media.thumbnail || round.media.path} role="presentation" />
+          media = (
+            <div className="club-image-wrapper">
+              <i
+                className="fa fa-remove pointer remove-button"
+                onClick={(e) => this.onDeleteRoundMedia(e, round)}
+                data-toggle="tooltip"
+                title="Remove Media"
+              >
+              </i>
+              <img src={round.media.thumbnail || round.media.path} role="presentation" />
+            </div>
+          )
         } else {
           media = <RoundMediaUploader round={round} />
         }
@@ -72,7 +93,13 @@ class RoundsList extends React.Component {
             </div>
             <div className="product-info round-info">
               <span className="label label-danger pull-right">
-                <i className="fa fa-remove fa-2x" onClick={(e) => this.onDeleteRound(e, round)}></i>
+                <i
+                  className="fa fa-remove fa-2x pointer"
+                  data-toggle="tooltip"
+                  title="Remove Round, can't be undone!"
+                  onClick={(e) => this.onDeleteRound(e, round)}
+                >
+                </i>
               </span>
               <span className="product-title">
                 <b>Round: </b> {round.label}
@@ -96,7 +123,7 @@ class RoundsList extends React.Component {
     const { season } = this.props
     return (
       <Box title="Round list" subtitle={`Season: ${season.year}`} >
-        <ul className="products-list product-list-in-box">
+        <ul className="products-list product-list-in-box round-list">
           {this.renderRoundList()}
         </ul>
       </Box>

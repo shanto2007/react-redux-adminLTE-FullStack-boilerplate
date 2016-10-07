@@ -1,0 +1,14 @@
+.round-list{
+  .club-image-wrapper{
+    position: relative;
+    .remove-button{
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      color: white;
+      background: red;
+      padding: 2px 4px;
+      border-radius: 49%;
+    }
+  }
+}
