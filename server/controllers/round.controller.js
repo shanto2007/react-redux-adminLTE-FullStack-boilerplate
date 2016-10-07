@@ -139,6 +139,7 @@ module.exports = {
         message: 'No id provided',
       })
     }
+    // TODO: CASCADE REMOVE >> Team, Day, Matches
     return Round.findOneAndRemove({ _id: roundId }).exec()
       .then((round) => {
         if (!round) {
