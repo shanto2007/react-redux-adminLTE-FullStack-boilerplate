@@ -173,7 +173,6 @@ module.exports = {
         message: 'No id provided',
       })
     }
-    // TODO CASCADE REMOVE MATCHS
     let removedDay
     return Day.findOneAndRemove({ _id: dayId })
     .then((day) => {
@@ -184,6 +183,7 @@ module.exports = {
         })
       }
       removedDay = day
+      // Cascade remove matches and their data
       return day.cascadeRemove()
     })
     .then(() => {
