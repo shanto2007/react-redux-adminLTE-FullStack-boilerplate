@@ -12,7 +12,6 @@ const daySchema = mongoose.Schema({
  * @return Promise
  */
 daySchema.statics.setLastDay = function roundSetLastDay(dayId) {
-  const { Promise } = global
   const Day = this
   return new Promise((resolve, reject) => {
     return Day.findOneAndUpdate({ _id: dayId }, {
@@ -59,6 +58,9 @@ daySchema.methods.cascadeRemove = function dayCascadeRemoveData() {
       promises.push(match.remove())
     })
     return Promise.all(promises)
+  })
+  .then(() => {
+    return day.remove()
   })
 }
 

@@ -96,7 +96,7 @@ class RoundsList extends React.Component {
                 <i
                   className="fa fa-remove fa-2x pointer"
                   data-toggle="tooltip"
-                  title="Remove Round, can't be undone!"
+                  title="Warning: Days, Team, Players and matches data will be removed too, can't be undone!"
                   onClick={(e) => this.onDeleteRound(e, round)}
                 >
                 </i>

@@ -139,30 +139,30 @@ module.exports = {
         message: 'No id provided',
       })
     }
-    // TODO: CASCADE REMOVE >> Team, Day, Matches
-    return Round.findOneAndRemove({ _id: roundId }).exec()
-      .then((round) => {
-        if (!round) {
-          return res.status(404).json({
-            success: false,
-            action: 'delete',
-            message: 'Round not found, maybe already deleted.',
-          })
-        }
-        return res.json({
-          success: true,
-          action: 'delete',
-          round,
+    return Round.findById(roundId).exec()
+    .then((round) => {
+      if (!round) {
+        return Promise.reject({
+          status: 404,
+          message: 'No round found, maybe already removed.',
         })
+      }
+      return round.cascadeRemove()
+    })
+    .then((round) => {
+      return res.json({
+        success: true,
+        action: 'delete',
+        round,
       })
-      .catch((err) => {
-        return res.status(status).json({
-          success: false,
-          action: 'remove',
-          message: err.message,
-          err,
-        })
+    })
+    .catch((err) => {
+      return res.status(err.status ? err.status : 500).json({
+        success: false,
+        action: 'remove',
+        message: err.message ? err.message : err,
       })
+    })
   },
 
   roundPhotoUpload: (req, res) => {

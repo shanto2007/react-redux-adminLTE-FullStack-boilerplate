@@ -158,6 +158,7 @@ export const startDeleteRound = (roundId) => {
     })
     .catch((res) => {
       const err = res.data
+      console.log(res.data)
       dispatch(openToastr('error', err.message || 'Error removing the round!'))
       dispatch(adminRoundsFail(err))
       dispatch(adminRoundsLoading(false))

@@ -167,14 +167,7 @@ module.exports = {
   },
   delete: (req, res) => {
     const dayId = req.params.id
-    if (!dayId) {
-      return res.status(400).json({
-        success: false,
-        message: 'No id provided',
-      })
-    }
-    let removedDay
-    return Day.findOneAndRemove({ _id: dayId })
+    return Day.findById(dayId)
     .then((day) => {
       if (!day) {
         return res.status(404).json({
@@ -182,20 +175,20 @@ module.exports = {
           message: 'Day not found',
         })
       }
-      removedDay = day
       // Cascade remove matches and their data
       return day.cascadeRemove()
     })
-    .then(() => {
+    .then((day) => {
       return res.json({
         success: true,
-        day: removedDay,
+        action: 'remove day',
+        day,
       })
     })
     .catch((err) => {
-      console.log(err)
       return res.status(500).json({
         success: false,
+        action: 'remove day',
         message: err,
       })
     })
