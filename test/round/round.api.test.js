@@ -11,7 +11,7 @@ const jwt      = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 
-describe.only('Round - API', () => {
+describe('Round - API', () => {
   let roundToEditId, userAuthToken, seasonId, mediaId
 
   before((done) => {

@@ -26,7 +26,6 @@ const roundSchema = mongoose.Schema({
 
 roundSchema.index({ label: 1, season: 1 }, { unique: true })
 
-// TODO: CASCADE REMOVE >> Days, Teams, Matches
 /**
  * Round Cascade remove
  * ORDER:

@@ -1,3 +1,4 @@
+const { Promise } = global
 const mongoose = require('../config/database')
 const forkHandlers = require('../fork/fork.handlers')
 
@@ -104,8 +105,11 @@ matchSchema.post('remove', (match, done) => {
   })
 })
 
-matchSchema.methods.cascadeRemove = function cascadeRemove() {
-  const { Promise } = global
+/**
+ * Remove only match data
+ * @return Promise with match document
+ */
+matchSchema.methods.removeMatchData = function removeMatchData() {
   const Score = this.model('score')
   const Warn = this.model('warn')
   const Expulsion = this.model('expulsion')
@@ -129,8 +133,36 @@ matchSchema.methods.cascadeRemove = function cascadeRemove() {
   })
 }
 
+/**
+ * Cascade remove match data and then remove match
+ * @return Promise with removed match
+ */
+matchSchema.methods.cascadeRemove = function cascadeRemove() {
+  const Score = this.model('score')
+  const Warn = this.model('warn')
+  const Expulsion = this.model('expulsion')
+  const Attendance = this.model('attendance')
+  const match = this
+  return Promise.all([
+    Score.find({ match: match._id }),
+    Warn.find({ match: match._id }),
+    Expulsion.find({ match: match._id }),
+    Attendance.find({ match: match._id }),
+  ]).then((data) => {
+    const promises = []
+    data[0].forEach((score) => promises.push(score.remove()))
+    data[1].forEach((warn) => promises.push(warn.remove()))
+    data[2].forEach((expulsion) => promises.push(expulsion.remove()))
+    data[3].forEach((attendance) => promises.push(attendance.remove()))
+    return Promise.all(promises)
+  })
+  .then(() => {
+    return match.remove()
+  })
+}
+
 matchSchema.methods.reset = function reset() {
-  return this.cascadeRemove()
+  return this.removeMatchData()
   .then((match) => {
     match.played = false
     match.winner = undefined

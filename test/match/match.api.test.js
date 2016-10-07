@@ -1,6 +1,7 @@
 const { testenv, getRandomInt, Promise } = global
 const app        = require(testenv.app)
 const jwt        = require('jsonwebtoken')
+const chai       = require('chai')
 const chaiHttp   = require('chai-http')
 const expect     = require('expect')
 const Team       = require(testenv.serverdir + 'models/team.model')
@@ -13,7 +14,8 @@ const Score      = require(testenv.serverdir + 'models/score.model')
 const Attendance = require(testenv.serverdir + 'models/attendance.model')
 const Warn       = require(testenv.serverdir + 'models/warn.model')
 const Expulsion  = require(testenv.serverdir + 'models/expulsion.model')
-const chai       = require('chai')
+
+chai.use(chaiHttp)
 
 describe('Match - API', () => {
   let userAuthToken,
@@ -712,6 +714,12 @@ describe('Check fork child updates editing played game, simulate a draw', () => 
   })
 
   describe('INDEX - admin', () => {
+    before((done) => {
+      Match.find({}, (err, matches) => {
+        console.log(">>>", matches)
+        done()
+      })
+    })
     it('should not index without auth token', (done) => {
       chai.request(app)
       .get(`/api/admin/matches/${roundId}`)

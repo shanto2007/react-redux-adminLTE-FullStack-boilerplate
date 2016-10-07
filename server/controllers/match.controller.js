@@ -184,6 +184,7 @@ module.exports = {
    * takes an array of player with their standings in the match as body
    * player attach : { attend: Bool, warned: Bool, expelled: Bool, scored: Number, ...player original object }
    * TODO: move calculation in models to reuse it.
+   * FIXME: this takes to much time, it's dumb and you know it.
    */
   edit: (req, res) => {
     const { Promise } = global
@@ -339,9 +340,6 @@ module.exports = {
         })
       }
       return match.cascadeRemove()
-    })
-    .then((match) => {
-      return match.remove()
     })
     .then((removed) => {
       return res.json({
