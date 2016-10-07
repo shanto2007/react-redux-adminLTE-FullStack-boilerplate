@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { clearAdminDays } from 'actions'
 
 /**
  * COMPs
@@ -10,6 +11,11 @@ import MatchCreate from 'MatchCreate'
 class AdminMatchCreate extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(clearAdminDays())
   }
 
   render() {

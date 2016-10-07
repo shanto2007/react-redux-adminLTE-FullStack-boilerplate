@@ -221,7 +221,7 @@ class MatchCreate extends React.Component {
 
   showMatchCreationSelectors() {
     const { state } = this
-    if (this.props.selectedRound) {
+    if (this.props.selectedRound && this.props.days) {
       return (
         <form onSubmit={(e) => this.onMatchCreate(e)}>
           {this.generateTeamHomeSelector()}

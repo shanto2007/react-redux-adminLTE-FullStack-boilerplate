@@ -4,6 +4,7 @@ import RoundSwitcher from 'RoundSwitcher'
 import {
   startGetAdminDays,
   startDeleteDay,
+  clearAdminDays,
 } from 'actions'
 
 class DaysList extends React.Component {
@@ -22,6 +23,11 @@ class DaysList extends React.Component {
       dispatch(startGetAdminDays(selectedRound._id))
     }
     return null
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(clearAdminDays())
   }
 
   onDeleteDay(e, day) {
