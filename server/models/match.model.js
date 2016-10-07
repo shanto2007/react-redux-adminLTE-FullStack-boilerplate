@@ -138,24 +138,8 @@ matchSchema.methods.removeMatchData = function removeMatchData() {
  * @return Promise with removed match
  */
 matchSchema.methods.cascadeRemove = function cascadeRemove() {
-  const Score = this.model('score')
-  const Warn = this.model('warn')
-  const Expulsion = this.model('expulsion')
-  const Attendance = this.model('attendance')
   const match = this
-  return Promise.all([
-    Score.find({ match: match._id }),
-    Warn.find({ match: match._id }),
-    Expulsion.find({ match: match._id }),
-    Attendance.find({ match: match._id }),
-  ]).then((data) => {
-    const promises = []
-    data[0].forEach((score) => promises.push(score.remove()))
-    data[1].forEach((warn) => promises.push(warn.remove()))
-    data[2].forEach((expulsion) => promises.push(expulsion.remove()))
-    data[3].forEach((attendance) => promises.push(attendance.remove()))
-    return Promise.all(promises)
-  })
+  return match.removeMatchData()
   .then(() => {
     return match.remove()
   })
