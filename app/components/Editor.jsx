@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setProjectTitle, setProjectDescription } from 'actions'
+import { setProjectTitle, setProjectDescription, setProjectData } from 'actions'
 import Box from 'Box'
 
 require('style!css!medium-editor/dist/css/medium-editor.css')
 require('style!css!medium-editor/dist/css/themes/default.css')
 
 const { Promise } = global
-let mediumEditorInstance
 
 //  Chunk Medium
 function getMediumeditor() {
@@ -21,25 +20,33 @@ function getMediumeditor() {
 class Editor extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      Medium: null,
+    }
   }
 
   componentDidMount() {
     getMediumeditor().then((Medium) => {
-      mediumEditorInstance = new Medium('#editor')
+      this.setState({
+        Medium: new Medium('#editor'),
+      })
     })
   }
 
   componentDidUpdate() {
     const { project } = this.props.project
-    if (mediumEditorInstance && project._id && !mediumEditorInstance.getContent().length) {
-      mediumEditorInstance.setContent(project.description)
+    const { projectId } = this.props
+    const { Medium } = this.state
+    if (Medium && projectId && !Medium.getContent().length) {
+      Medium.setContent(project.description)
       this.titleInput.value = project.title
-
     }
   }
 
   componentWillUnmount() {
-    mediumEditorInstance.destroy()
+    const { Medium } = this.state
+    this.props.dispatch(setProjectData())
+    Medium.destroy()
   }
 
   getTitle() {
@@ -50,8 +57,8 @@ class Editor extends React.Component {
 
   getDescription() {
     const { dispatch } = this.props
-    const description = mediumEditorInstance.getContent()
-
+    const { Medium } = this.state
+    const description = Medium.getContent()
     //  TODO validation
     dispatch(setProjectDescription(description))
   }
