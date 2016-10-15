@@ -78,11 +78,7 @@ module.exports = (express, app) => {
 
   app.use('/api', api)
 
-  app.get(/^\/(login|join)/, (req, res) => {
-    return res.sendFile(path.join(__dirname, '../public/admin.html'))
-  })
-
-  app.get(/\/admin/, (req, res) => {
+  app.get(/^\/(login|join|admin)/, (req, res) => {
     return res.sendFile(path.join(__dirname, '../public/admin.html'))
   })
 

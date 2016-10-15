@@ -1,21 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { loadMedium } from 'ChunkLoader'
 import { setProjectTitle, setProjectDescription, setProjectData } from 'actions'
 import Box from 'Box'
-
-require('style!css!medium-editor/dist/css/medium-editor.css')
-require('style!css!medium-editor/dist/css/themes/default.css')
-
-const { Promise } = global
-
-//  Chunk Medium
-function getMediumeditor() {
-  return new Promise(resolve => {
-    require.ensure([], () => {
-      resolve(require('medium-editor/dist/js/medium-editor.min.js'))
-    }, 'medium-editor')
-  })
-}
 
 class Editor extends React.Component {
   constructor(props) {
@@ -25,11 +12,26 @@ class Editor extends React.Component {
     }
   }
 
-  componentDidMount() {
-    getMediumeditor().then((Medium) => {
+  componentWillMount() {
+    loadMedium().then((Medium) => {
       this.setState({
-        Medium: new Medium('#editor'),
+        Medium: new Medium('#editor', {
+          autoLink: true,
+          targetBlank: true,
+        }),
       })
+    }).then(() => {
+      const { Medium } = this.state
+      /**
+       * Input Listener
+       */
+      if (Medium) {
+        Medium.on(
+          document.getElementById('editor'),
+          'input',
+          this.getDescription.bind(this)
+        )
+      }
     })
   }
 
@@ -46,6 +48,7 @@ class Editor extends React.Component {
   componentWillUnmount() {
     const { Medium } = this.state
     this.props.dispatch(setProjectData())
+    Medium.off(document.getElementById('editor'), 'input', this.getDescription.bind(this))
     Medium.destroy()
   }
 
@@ -70,13 +73,14 @@ class Editor extends React.Component {
         <div id="project-editor">
           <input
             id="project-title"
+            className="form-control"
             ref={(c) => { this.titleInput = c }}
             type="text"
             placeholder="Project Title"
             style={{ boxShadow: 'none' }}
             onKeyUp={() => this.getTitle()}
           />
-          <div id="editor" onKeyUp={() => this.getDescription()}></div>
+          <div id="editor"></div>
         </div>
       </Box>
     )

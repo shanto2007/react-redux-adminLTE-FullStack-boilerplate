@@ -23,7 +23,18 @@ module.exports = {
   },
 
   entry: {
-    vendors: [
+
+    'public.vendors': [
+      'react',
+      'react-dom',
+      'react-router',
+      'redux',
+      'react-redux',
+      'script!jquery/dist/jquery.min.js',
+      // 'lodash.omit',
+    ],
+
+    'admin.vendors': [
       'react',
       'react-dom',
       'react-router',
@@ -35,7 +46,7 @@ module.exports = {
 
     public: [
       // 'script!foundation-sites/dist/foundation.min.js',
-      './app/app.jsx'
+      './app/public.jsx'
     ],
 
     admin: [
@@ -54,8 +65,15 @@ module.exports = {
       dry: false,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: 'vendors.bundle.js',
+      name: 'admin.vendors',
+      filename: 'admin.vendors.bundle.js',
+      chunks: ['admin'],
+      minChunks: Infinity,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'public.vendors',
+      filename: 'public.vendors.bundle.js',
+      chunks: ['public'],
       minChunks: Infinity,
     }),
     new webpack.ProvidePlugin({
@@ -99,13 +117,14 @@ module.exports = {
       './app/reducers',
       './app/actions',
       './app/components',
-      './app/components/admin',
+      './app/admin',
+      './app/public',
     ],
     alias:{
+      PublicRoutes:      'app/PublicRoutes.jsx',
+      AdminRoutes:       'app/AdminRoutes.jsx',
       applicationStyles: 'app/styles/app.scss',
-      PublicRoutes: 'app/PublicRoutes.jsx',
-      AdminRoutes: 'app/AdminRoutes.jsx',
-      dbIconFont: 'src/db-font/styles.css',
+      dbIconFont:        'src/db-font/styles.css',
     },
     extensions: ['','.js','.jsx']
   },

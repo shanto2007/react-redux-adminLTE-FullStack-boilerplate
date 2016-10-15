@@ -5,7 +5,6 @@ import { render } from 'react-dom'
  * ROUTES
  */
 import AdminRoutes from 'AdminRoutes'
-
 /**
  * REDUX
  */

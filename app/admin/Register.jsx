@@ -2,9 +2,21 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import { loadAdminStaticAssets } from 'ChunkLoaders'
 import { validPassword, validPasswordCheck, signinPasswordError, checkUserExist, startSignin } from 'actions'
 
 class Register extends React.Component {
+  componentDidMount() {
+    loadAdminStaticAssets()
+    .then(() => {
+      const $app = document.getElementById('app')
+      const $loaderWrapper = document.getElementById('loader-wrapper')
+      const $body = document.body
+      $body.className = $body.className.replace('app-loading', '')
+      $loaderWrapper.className = 'hide'
+      $app.className = $app.className.replace('hide', '')
+    })
+  }
   componentDidUpdate() {
     const { signin } = this.props
     if (signin.username_exist) {

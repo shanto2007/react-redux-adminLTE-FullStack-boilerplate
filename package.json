@@ -8,6 +8,7 @@
     "test:server": "PORT=8282 NODE_ENV=test mocha test/test",
     "test:app": "NODE_ENV=test karma start",
     "start": "node server.js",
+    "start:dev": "nodemon -w server -w server.js server.js",
     "build": "NODE_ENV=dev webpack -p",
     "build:dev": "NODE_ENV=dev webpack -w",
     "build:prod": "NODE_ENV=production webpack -p",

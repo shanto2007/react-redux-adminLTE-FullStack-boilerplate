@@ -1,11 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
+import { loadAdminStaticAssets } from 'ChunkLoaders'
 import { login, loginFormError } from 'actions'
 
 class Login extends React.Component {
   constructor(props) {
     super(props)
+  }
+  componentDidMount() {
+    loadAdminStaticAssets()
+    .then(() => {
+      const $app = document.getElementById('app')
+      const $loaderWrapper = document.getElementById('loader-wrapper')
+      const $body = document.body
+      $body.className = $body.className.replace('app-loading', '')
+      $loaderWrapper.className = 'hide'
+      $app.className = $app.className.replace('hide', '')
+    })
   }
   formErrorHandler() {
     let label;
