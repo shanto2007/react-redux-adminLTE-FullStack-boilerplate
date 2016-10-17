@@ -90,7 +90,7 @@ Views are rendered by the server using PUG (former Jade), the folder is in **ser
 
 Admin dashboard is a SPA and it's rendered by calling 'admin' (views/admin.pug) using the template in views/templates/dashboard.pug, routes catch for admin Views:
 
-    /^\/(admin|login|register)/
+    /^\/(admin|login|join)/
 
 Public views template server/views/templates/main.pug, called by render('home') or watherver your page is, there is an error.pug for displaying server errors to the enduser
 
