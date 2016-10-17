@@ -9,8 +9,8 @@
     "test:app": "NODE_ENV=test karma start",
     "start": "node server.js",
     "start:dev": "nodemon -w server -w server.js server.js",
-    "build": "NODE_ENV=dev webpack -p",
-    "build:dev": "NODE_ENV=dev webpack -w",
+    "build:dev": "NODE_ENV=dev webpack -p",
+    "build:watch": "NODE_ENV=dev webpack -w",
     "build:prod": "NODE_ENV=production webpack -p",
     "build:stats": "NODE_ENV=production webpack --profile --json > stats.json"
   },
@@ -38,6 +38,7 @@
     "multer": "^1.1.0",
     "nodemailer": "^2.5.0",
     "nodemailer-sendmail-transport": "^1.0.0",
+    "pug": "^2.0.0-beta6",
     "react": "^15.0.2",
     "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.0.2",

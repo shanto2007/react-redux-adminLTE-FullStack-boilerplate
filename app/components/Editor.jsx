@@ -1,9 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loadMedium } from 'ChunkLoader'
-import { setProjectTitle, setProjectDescription, setProjectData } from 'actions'
+import { setEditorData, clearEditorData } from 'actions'
 import Box from 'Box'
 
+/**
+ * FIXME: project from connect is a placeholder from the fork I've imported it. Change for whatever
+ * type of data you will need.
+ */
 class Editor extends React.Component {
   constructor(props) {
     super(props)
@@ -47,15 +51,9 @@ class Editor extends React.Component {
 
   componentWillUnmount() {
     const { Medium } = this.state
-    this.props.dispatch(setProjectData())
+    this.props.dispatch(clearEditorData())
     Medium.off(document.getElementById('editor'), 'input', this.getDescription.bind(this))
     Medium.destroy()
-  }
-
-  getTitle() {
-    const { dispatch } = this.props
-    const title = this.titleInput.value
-    dispatch(setProjectTitle(title))
   }
 
   getDescription() {
@@ -63,25 +61,14 @@ class Editor extends React.Component {
     const { Medium } = this.state
     const description = Medium.getContent()
     //  TODO validation
-    dispatch(setProjectDescription(description))
+    dispatch(setEditorData(description))
   }
 
   render() {
     const { loading } = this.props
     return (
       <Box title="Project Content" loading={loading}>
-        <div id="project-editor">
-          <input
-            id="project-title"
-            className="form-control"
-            ref={(c) => { this.titleInput = c }}
-            type="text"
-            placeholder="Project Title"
-            style={{ boxShadow: 'none' }}
-            onKeyUp={() => this.getTitle()}
-          />
-          <div id="editor"></div>
-        </div>
+        <div id="editor"></div>
       </Box>
     )
   }

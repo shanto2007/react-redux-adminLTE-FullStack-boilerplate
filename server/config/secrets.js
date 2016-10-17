@@ -8,4 +8,6 @@ module.exports = {
 
   UPLOAD_DIRNAME: process.env.UPLOAD_DIRNAME,
 
+  APP_NAME: process.env.APP_NAME,
+
 }

@@ -9,57 +9,62 @@ import {
 
 import Box from 'Box'
 
-let mediaUploader;
-
+/**
+ * FIXME: project from connect is a placeholder from the fork I've imported it. Change for whatever
+ * type of data you will need.
+ */
 class ProjectMediaUploader extends React.Component {
   constructor(props) {
     super(props)
   }
 
   componentDidMount() {
-    const { dispatch, projectId } = this.props;
-
+    const { dispatch, projectId } = this.props
+    const that = this
     loadDropzone().then((Dropzone) => {
-      Dropzone.autoDiscover = false;
-      mediaUploader = new Dropzone('#project-media-upload', {
+      Dropzone.autoDiscover = false
+      let mediaUploader = new Dropzone('#project-media-upload', {
         url: '/api/media/upload',
         paramName: 'media', // The name that will be used to transfer the file
         maxFilesize: 2, // MB
         headers: { Authorization: this.props.authToken },
-      });
+      })
 
       mediaUploader.on('sending', (file, xhr, formData) => {
-        formData.append('projectId', projectId);
-      });
+        formData.append('projectId', projectId)
+      })
 
       mediaUploader.on('success', (file, res) => {
         if (res.success) {
-          const id = res.media._id;
-          file.id = id;
-          dispatch(setProjectImages(id));
+          const id = res.media._id
+          file.id = id
+          dispatch(setProjectImages(id))
           if (projectId) {
             dispatch(startEditingProject(projectId)).then(() => {
-              dispatch(getProjectData(projectId));
-            });
+              dispatch(getProjectData(projectId))
+            })
           }
         }
-      });
+      })
+      that.setState({
+        Dropzone: mediaUploader,
+      })
     })
   }
 
   componentWillUnmount() {
-    mediaUploader.destroy();
+    this.state.Dropzone.destroy()
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading } = this.props
     return (
       <div>
         <Box title="Upload Project's Images" loading={loading}>
           <form className="dropzone" id="project-media-upload"></form>
         </Box>
       </div>
-    );
+    )
   }
 }
 

@@ -25,13 +25,7 @@ module.exports = {
   entry: {
 
     'public.vendors': [
-      'react',
-      'react-dom',
-      'react-router',
-      'redux',
-      'react-redux',
       'script!jquery/dist/jquery.min.js',
-      // 'lodash.omit',
     ],
 
     'admin.vendors': [

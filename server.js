@@ -38,13 +38,26 @@ app.use((req, res, next) => {
   }
 })
 
-app.use(express.static(path.join(__dirname, 'public/')))
+/**
+ * TEMPALTE ENGINE
+ */
+app.set('views', path.join(__dirname, './server/views'))
+app.set('view engine', 'pug');
 
+/**
+ * STATICS
+ */
+app.use(express.static(path.join(__dirname, 'public/')))
 app.use(`/${secrets.UPLOAD_DIRNAME}`, express.static(`${secrets.UPLOAD_DIRNAME}/`))
 
-
+/**
+ * ROUTER
+ */
 routes(express, app)
 
 app.listen(PORT, () => console.log('Server started on ' + PORT))
 
+/**
+ * TESTS
+ */
 module.exports = app

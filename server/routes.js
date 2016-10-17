@@ -9,6 +9,7 @@ const multer = require('multer')
 const UserCtrl = require('./controllers/user.controller')
 const MediaCtrl = require('./controllers/media.controller')
 const SettingCtrl = require('./controllers/setting.controller')
+const PublicCtrl = require('./controllers/public.controller')
 const EmailCtrl = require('./controllers/email.controller')
 
 /**
@@ -78,11 +79,19 @@ module.exports = (express, app) => {
 
   app.use('/api', api)
 
-  app.get(/^\/(login|join|admin)/, (req, res) => {
-    return res.sendFile(path.join(__dirname, '../public/admin.html'))
-  })
+  /**
+   * ADMIN SPA
+   */
+  app.get(/^\/(login|join|admin)/, (req, res) => res.render('admin'))
 
+  /**
+   * PUBLIC ROUTES
+   */
+  app.get('/', PublicCtrl.homeRender)
   app.get('*', (req, res) => {
-    return res.sendFile(path.join(__dirname, '../public/index.html'))
+    return res.render('errors', {
+      status: 404,
+      message: 'The resource your are looking don\'t exist!',
+    })
   })
 }

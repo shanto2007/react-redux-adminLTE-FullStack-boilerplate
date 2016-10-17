@@ -8,6 +8,9 @@ const masonryOptions = {
   transitionDuration: 0,
 };
 
+/**
+ * FIXME: There are placeholder from a preview project, change accordingly to your need.
+ */
 class Gallery extends React.Component {
   constructor(props) {
     super(props)

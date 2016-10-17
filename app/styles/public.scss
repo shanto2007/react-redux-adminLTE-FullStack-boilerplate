@@ -3,12 +3,20 @@
 @import 'base/mixins';
 @import 'base/breakpoints';
 
+//  Foundation
+@import 'base/foundation-settings';
+@import 'foundation';
+@include foundation-everything;
+
 //  Components
 @import 'components/admin-wrapper';
 @import 'components/editor';
+@import 'components/home';
 @import 'components/project-media-preview';
+@import 'components/public-nav';
+@import 'components/contact-form';
 @import 'components/gallery';
-
+@import 'components/single-project';
 
 body,html{
   height:100% !important;
