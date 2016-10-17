@@ -1,60 +1,114 @@
-##Project and Portfolio webapp React/Redux Boilerplate
+##React/Redux FullStack Boilerplate
 
 #### What's inside
-- FrontEnd
+
+- Dashboard FrontEnd
   - React
   - Redux
   - ES6
   - Sass
-  - Foundation
   - AdminLTE
   - jQuery (if you really need it)
   - Moment.js
   - DropZone.js
   - Dragula.js
-  - Medium Editor
+  - Medium.js Editor
   - Font Awesome
-  - Toastr
+  - Toastr.js
+
+- Dashboard FrontEnd
+  - Foundation
+  - WebFontLoader ready
+  - ES6 Workflow
+  - so... import the module you want/need :)
+
 - BackEnd
   - Express.js
+  - body-parser
+  - morgan
+  - DotEnv
   - JWT Auth
+  - Multer
+  - bcrypt-nodejs
+  - Bluebird
   - MongoDB
+    - Mongoose
+    - mongoose-url-slugs
+  - Nodemailer
+    - Nodemailer for postfix
+  - ... add/remove what you need then
+
 - Tools
   - Webpack
+  - Gulp
   - eslint
+
 - Tests
-  - Karma
   - Mocha/Chai
+  - Karma (If you want to test dashboard)
   - React TestUtils
 
-install
 
+
+### Server
+------
+
+**INSTALL**
+
+    git clone https://github.com/Kirkhammetz/react-redux-adminlte-boilerplate
     npm install
 
-start server
+**START** using node
 
     npm start
 
-build (local dev optimized using .env variables)
+**START** nodemon for dev
+
+    npm install -g nodemon
+    npm start:dev
+
+
+
+####Server use different ENV file for NODE_ENV production/dev
+
+
+  - test/dev > .env
+  - production > .env.production
+
+__NB__ *change variables accordingly*
+
+__NB.2__ _Don't forget_ to generate a different app secrets every project.
+You can do by yourself or use openssl if you have it installed
+
+    openssl rand -base64 32
+
+### Assets build
+------
+
+Assets build use different settings and ENV variables for local and production,
+change them accordingly
+
+**BUILD** (local dev optimized using .env variables)
 
     npm run build
 
-build:dev (develop build with watcher on filechange)
+**BUILD** develop (develop build with watcher on filechange)
 
     npm run build:dev
 
-build:prod (production optimized using .env.production variables)
+**BUILD** production (production optimized using .env.production variables)
 
     npm run build:dev
 
-build:stats (production build output stats to use with webpack analizer tools)
+**BUILD** statics for webpack analizer (production build output stats to use with webpack analizer tools)
 
     npm run build:stats
 
 
-Webpack use ESLint, it won't interrupt build if errors but you can change that in webpack.config
+**NB** Webpack use ESLint, it won't interrupt build if errors but you can change that in webpack.config.js
 
-####Tests
+###Tests
+--------
 
 Test with karma for React, Chrome browser used.
 Testing with Mocha/Chai/Expect for Express.
@@ -64,11 +118,14 @@ Testing database different from production one, you can specify it in .env
 Mocha will run with NODE_ENV=test, you can use it if you need to split things inside you server app.
 Mocha run the app on a different port so you can have your server up and running and still launch tests.
 
-start tests
+**TEST** Server
+
+    npm test:server
+
+**TEST** React
+
+    npm run test:app
+
+**TEST** Both
 
     npm test
-
-Single Tests
-
-    npm run test:server
-    npm run test:app
