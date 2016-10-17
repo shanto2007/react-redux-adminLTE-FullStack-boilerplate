@@ -16,7 +16,7 @@
   - Font Awesome
   - Toastr.js
 
-- Dashboard FrontEnd
+- Public FrontEnd
   - Foundation
   - WebFontLoader ready
   - ES6 Workflow
@@ -81,6 +81,18 @@ __NB.2__ _Don't forget_ to generate a different app secrets every project.
 You can do by yourself or use openssl if you have it installed
 
     openssl rand -base64 32
+
+### Views
+------
+
+**NEW**
+Views are rendered by the server using PUG (former Jade), the folder is in **server/views**
+
+Admin dashboard is a SPA and it's rendered by calling 'admin' (views/admin.pug) using the template in views/templates/dashboard.pug, routes catch for admin Views:
+
+    /^\/(admin|login|register)/
+
+Public views template server/views/templates/main.pug, called by render('home') or watherver your page is, there is an error.pug for displaying server errors to the enduser
 
 ### Assets build
 ------
