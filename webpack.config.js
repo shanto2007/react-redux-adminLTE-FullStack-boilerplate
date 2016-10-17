@@ -24,10 +24,6 @@ module.exports = {
 
   entry: {
 
-    'public.vendors': [
-      'script!jquery/dist/jquery.min.js',
-    ],
-
     'admin.vendors': [
       'react',
       'react-dom',
@@ -38,14 +34,19 @@ module.exports = {
       // 'lodash.omit',
     ],
 
-    public: [
-      // 'script!foundation-sites/dist/foundation.min.js',
-      './app/public.jsx'
-    ],
-
     admin: [
       './app/admin.jsx'
     ],
+
+    'public.vendors': [
+      'script!jquery/dist/jquery.min.js',
+    ],
+
+    /**
+     * PUBLIC BUNDLES
+     */
+    'public.main': 'src/js/main.js',
+    // .......
   },
 
   externals:{
@@ -67,8 +68,8 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'public.vendors',
       filename: 'public.vendors.bundle.js',
-      chunks: ['public'],
-      minChunks: Infinity,
+      chunks: ['public.main'], // << add more public chunks here to get common chunks
+      minChunks: Infinity, // << may change for 2-3 depend on the project, you chose
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -106,19 +107,14 @@ module.exports = {
       'node_modules',
       './app/shared',
       './app/store',
-      './app/views',
-      './app/api',
       './app/reducers',
       './app/actions',
       './app/components',
       './app/admin',
-      './app/public',
     ],
     alias:{
-      PublicRoutes:      'app/PublicRoutes.jsx',
       AdminRoutes:       'app/AdminRoutes.jsx',
       applicationStyles: 'app/styles/app.scss',
-      dbIconFont:        'src/db-font/styles.css',
     },
     extensions: ['','.js','.jsx']
   },

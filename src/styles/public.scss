@@ -1,0 +1,28 @@
+//  Base
+@import 'partials/variables';
+@import 'partials/mixins';
+@import 'partials/breakpoints';
+
+//  Components
+
+body,html {
+  height:100%;
+  font-size: 16px;
+  background: #fafafa;
+  @media #{$sm} {
+    font-size: 14px;
+  }
+}
+
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+.wellcome{
+  font-weight: 300;
+  text-align: center;
+  color: #444;
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+}
