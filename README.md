@@ -94,7 +94,7 @@ change them accordingly
 
 **BUILD** develop (develop build with watcher on filechange)
 
-    npm run build:dev
+    npm run build:watch
 
 **BUILD** production (production optimized using .env.production variables)
 
