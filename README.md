@@ -1,6 +1,19 @@
 ##React/Redux FullStack Boilerplate
 
-#### What's inside
+### Changelog
+
+    - Only the admin Dashboard is the S.P.A. having all its assets in app/**
+    - Using PUG (former Jade) to render views both admin/public
+    - Admin view is only one, React-Router it's in charge of the routing.
+    - Public views are rendered for better SEO
+      - React is not used anymore on Frontend, too big just to do some XHTMLrequest, using vanilla JS or jQuery if you want.
+      - You can still do standalone component, maybe using React-lite for performance, you choose.
+    - Split the public assets sources, src/ have styles and JS
+    - Public JS is processed using webpack too, there is a bundle for vendors and common chunks
+      - You can create small bundle for each page or a main one using requires, size matters, you choose.
+    - Public SCSS processed by gulp
+
+### What's inside
 
 - Dashboard FrontEnd
   - React
@@ -18,6 +31,7 @@
 
 - Public FrontEnd
   - Foundation
+  - jQuery (you can remove it in webpack public.vendors.bundle)
   - WebFontLoader ready
   - ES6 Workflow
   - so... import the module you want/need :)
