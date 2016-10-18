@@ -3,7 +3,7 @@ import Box from 'Box'
 import RoundMediaUploader from 'RoundMediaUploader'
 import { startGetAdminRounds, startDeleteRound, clearAdminRounds, startDeleteAdminRoundMedia } from 'actions'
 
-require('!style!css!sass!app/styles/admin/rounds-list.scss')
+require('!style!css!sass!../styles/admin/rounds-list.scss')
 
 class RoundsList extends React.Component {
   constructor(props) {

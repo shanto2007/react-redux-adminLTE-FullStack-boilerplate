@@ -62,7 +62,7 @@ store.dispatch(setAuthToken(authTokenLocalStorage.getTokenFromStorage()))
 
 // Styles
 require.ensure([], require => {
-  require('style!css!sass!adminStyles')
+  require('style!css!sass!./styles/admin.scss')
 }, 'app-styles')
 
 require.ensure([], require => {

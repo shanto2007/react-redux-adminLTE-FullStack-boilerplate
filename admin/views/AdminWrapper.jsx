@@ -4,7 +4,7 @@ import { getAdminStaticAssets } from 'ChunkLoaders'
 import AdminNav from 'AdminNav'
 import { getUserData, startGetAdminSeasons, startGetCurrentSeason, startGetAdminRounds } from 'actions'
 
-require('!style!css!sass!app/styles/admin/admin-nav.scss')
+require('!style!css!sass!../styles/admin/admin-nav.scss')
 
 class AdminWrapper extends React.Component {
   componentWillMount() {

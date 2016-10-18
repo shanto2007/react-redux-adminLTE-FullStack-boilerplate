@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { startLogout, openToastr, setAdminViewedSeason } from 'actions'
 
-require('!style!css!sass!app/styles/admin/admin-nav.scss')
+require('!style!css!sass!../styles/admin/admin-nav.scss')
 
 class AdminNav extends React.Component {
 

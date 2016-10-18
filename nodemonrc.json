@@ -1,3 +1,3 @@
 {
-  "ignore": ["app/", "tests/"]
+  "ignore": ["admin/", "tests/", "public/assets"]
 }

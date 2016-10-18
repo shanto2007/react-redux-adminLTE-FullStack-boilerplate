@@ -13,7 +13,7 @@ import TeamInfo from 'TeamInfo'
 import TeamPlayerCreate from 'TeamPlayerCreate'
 import TeamSinglePlayer from 'TeamSinglePlayer'
 
-require('!style!css!sass!app/styles/admin/single-team.scss')
+require('!style!css!sass!../styles/admin/single-team.scss')
 
 class AdminTeam extends React.Component {
   constructor(props) {

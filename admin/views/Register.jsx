@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { validPassword, validPasswordCheck, signinPasswordError, checkUserExist, startSignin } from 'actions'
 
-require('style!css!sass!app/styles/views/register.scss')
+require('style!css!sass!../styles/views/register.scss')
 
 class Register extends React.Component {
 

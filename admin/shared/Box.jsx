@@ -1,6 +1,6 @@
 import React from 'react'
 
-require('!style!css!sass!app/styles/admin/box.scss')
+require('!style!css!sass!../styles/admin/box.scss')
 
 const Box = function Box(props) {
   let LoadingOverlay

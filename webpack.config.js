@@ -37,7 +37,7 @@ module.exports = {
     ],
 
     admin: [
-      './app/admin.jsx'
+      './admin/admin.jsx'
     ],
 
     /**
@@ -101,20 +101,17 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
-      './app/routes',
-      './app/utils',
-      './app/store',
-      './app/components',
-      './app/shared',
-      './app/actions',
-      './app/reducers',
-      './app/views',
+      './admin/routes',
+      './admin/utils',
+      './admin/store',
+      './admin/components',
+      './admin/shared',
+      './admin/actions',
+      './admin/reducers',
+      './admin/views',
     ],
-    alias:{
-      publicStyles: 'app/styles/public.scss',
-      adminStyles: 'app/styles/admin.scss',
-      dbIconFont: 'src/db-font/styles.css',
-    },
+    alias:{},
+
     extensions: ['','.js','.jsx']
   },
 

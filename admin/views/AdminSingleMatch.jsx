@@ -11,7 +11,7 @@ import Box from 'Box'
 
 const blackBase64Gif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
 
-require('!style!css!sass!app/styles/admin/match-edit.scss')
+require('!style!css!sass!../styles/admin/match-edit.scss')
 
 class AdminSingleMatch extends React.Component {
   constructor(props) {
