@@ -118,6 +118,36 @@ export const startEditAdminMatch = (matchId, matchData) => {
   }
 }
 
+export const startEditMatchDate = (matchId, newDate) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(adminMatchLoading(true))
+    return Api.patch(`/admin/match/${matchId}/date`, {
+      date: newDate
+    }, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      const { match } = res.data
+      dispatch(startGetAdminSingleMatch(match._id))
+      dispatch(adminMatchSuccess(true))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('success', 'Match Date Updated!'))
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      dispatch(adminMatchFail(err))
+      dispatch(adminMatchLoading(false))
+      dispatch(openToastr('error', err.message || 'Error editing match date!'))
+      return err
+    })
+  }
+}
+
 export const startResetAdminMatch = (matchId) => {
   return (dispatch, getState) => {
     const store = getState()

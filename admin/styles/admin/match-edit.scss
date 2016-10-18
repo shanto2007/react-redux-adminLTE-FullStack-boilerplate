@@ -1,8 +1,12 @@
 @import '../base/variables';
+@import '../base/breakpoints';
 
 #admin-single-match{
 
   .match-overview{
+    .description-block{
+      margin: 15px 0 !important;
+    }
     .match-team-avatar{
       div{
         border-radius: 50%;
@@ -38,5 +42,6 @@
       margin: auto;
     }
   }
+
 
 }

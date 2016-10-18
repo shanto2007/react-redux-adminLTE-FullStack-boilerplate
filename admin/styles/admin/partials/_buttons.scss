@@ -8,3 +8,41 @@
     display: block;
   }
 }
+
+.btn.btn-floating{
+  position:fixed;
+  right: 15px;
+  bottom: 15px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+  z-index: 99999;
+
+  &, &:focus, &:hover{
+    outline: none !important;
+  }
+
+  &:after{
+    font-family: 'FontAwesome';
+    color: $white;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+  &.btn-save:after{
+    content: '\f0c7';
+  }
+  &.btn-saved:after{
+    content: '\f00c';
+  }
+  &.btn-edit:after{
+    content: '\f040';
+  }
+  &.btn-remove:after{
+    content: '\f00d';
+  }
+
+}

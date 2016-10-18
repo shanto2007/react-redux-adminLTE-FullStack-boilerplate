@@ -5,6 +5,7 @@ import {
   startGetAdminSingleMatch,
   startEditAdminMatch,
   startResetAdminMatch,
+  startEditMatchDate,
 } from 'actions'
 
 import Box from 'Box'
@@ -16,7 +17,10 @@ require('!style!css!sass!../styles/admin/match-edit.scss')
 class AdminSingleMatch extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      ChangeDate: false,
+      NewDate: null,
+    }
   }
 
   componentWillMount() {
@@ -132,7 +136,11 @@ class AdminSingleMatch extends React.Component {
      * - Filter to get an array of keys without Moment constructor that's get loaded async
      * - Finally get an array of a data that the server can digest.
      */
-    const matchData = Object.keys(this.state).filter(key => key !== 'Moment').map((key) => this.state[key])
+    const matchData = Object
+                        .keys(this.state)
+                        .filter(key => key !== 'Moment' && key !== 'ChangeDate' && key !== 'NewDate')
+                        .map((key) => this.state[key])
+
     if (matchData.length) {
       dispatch(startEditAdminMatch(match._id, matchData))
     }
@@ -198,12 +206,70 @@ class AdminSingleMatch extends React.Component {
     return null
   }
 
+  onDateChangeMarkupChange(e) {
+    e.stopPropagation()
+    this.setState({
+      ChangeDate: true,
+    })
+  }
+
+  onDatePickerChange(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    const { Moment } = this.state
+    if (e.target.value && e.target.value.length) {
+      this.setState({
+        NewDate: Moment(e.target.value),
+      })
+    } else if (!e.target.value.length) {
+      this.setState({
+        NewDate: null,
+      })
+    }
+  }
+
+  onDateChange(e) {
+    e.stopPropagation()
+    e.preventDefault()
+    const { NewDate } = this.state
+    const { match, dispatch } = this.props
+    if (NewDate) {
+      dispatch(startEditMatchDate(match._id, NewDate))
+    }
+    this.setState({
+      NewDate: null,
+      ChangeDate: false,
+    })
+  }
+
   render() {
     const { match } = this.props
     const { Moment } = this.state
     if (match._id && Moment) {
       const teamHomePlayers = match.teamHome.players
       const teamAwayPlayers = match.teamAway.players
+      let changeMatchDateMarkup = (
+        <div className="description-block">
+          <h5 className="description-header">
+            <i
+              className="fa fa-cog pointer fa-2x"
+              style={{ marginRight: '10px' }}
+              onClick={(e) => this.onDateChangeMarkupChange(e)}
+            >
+            </i>
+            {Moment(match.date).format('lll')}
+          </h5>
+        </div>
+      )
+      if (this.state.ChangeDate) {
+        changeMatchDateMarkup = (
+          <div>
+            <label htmlFor="match-date">Select a date and time</label>
+            <input name="match-date" className="form-control" type="datetime-local" onChange={(e) => this.onDatePickerChange(e)} />
+            <button className="btn btn-success btn-block" onClick={(e) => this.onDateChange(e)}>Update Date</button>
+          </div>
+        )
+      }
       return (
         <div id="admin-single-match">
           <Box title="Match Overview">
@@ -221,16 +287,18 @@ class AdminSingleMatch extends React.Component {
               <div className="box-footer">
                 <div className="row">
                   <div className="col-sm-12 col-md-6 border-right">
-                    <div className="description-block">
-                      <h5 className="description-header">{Moment(match.date).format('lll')}</h5>
-                      <span className="description-text">
-                        <i className="fa fa-cog pointer fa-2x"></i>
-                      </span>
-                    </div>
+                    {changeMatchDateMarkup}
                   </div>
                   <div className="col-sm-12 col-md-6 border-right">
                     <div className="description-block">
-                      <button className="btn btn-flat btn-danger reset-button" onClick={(e) => this.onMatchReset(e)}>Reset</button>
+                      <label htmlFor="match-reset">Reset the match to its unplayed status.</label>
+                      <button
+                        name="match-reset"
+                        className="btn btn-flat btn-block btn-danger reset-button"
+                        onClick={(e) => this.onMatchReset(e)}
+                      >
+                        Reset
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -252,7 +320,7 @@ class AdminSingleMatch extends React.Component {
             </Box>
           </div>
           <div className="clearfix"></div>
-          <button className="btn btn-primary btn-block" onClick={(e) => this.onMatchSave(e)}>Save</button>
+          <button className="btn btn-floating btn-save btn-success" onClick={(e) => this.onMatchSave(e)}></button>
         </div>
       )
     }
