@@ -2,65 +2,43 @@ require('dotenv').config()
 global.Promise = require('bluebird')
 
 process.title = `node.${process.env.NODE_TITLE}`
+global.__root = __dirname
 
-const path = require('path')
+const PORT = process.env.PORT || 3000
 const express = require('express')
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const secrets = require('./server/config/secrets')
 const routes = require('./server/routes')
 const fork = require('./server/fork/fork.handlers')
+const globalMiddlewares = require('./server/middlewares/global.middleware')
+
+const app = express()
 
 /**
  * BOOTSTRAP CHILD PROCESS FOR DB TASK UNDER THE HOOD
  */
 fork.ForkChildBootstrap()
 
-const app = express()
-
-const parseSettings = require('./server/middlewares/settings.middleware')(app)
-
-const PORT = process.env.PORT || 3000
-
-if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') {
-  app.use(morgan('dev'))
-} else {
-  // const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-  // app.use(morgan('combined', { stream: accessLogStream }))
-}
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-app.use(parseSettings)
+/**
+ * GLOBAL MIDDLEWARES
+ */
+globalMiddlewares(express, app)
 
 /**
- * HEROKU IF NEEDE
+ * ROUTE HANDLERS
  */
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] === 'https') {
-    res.redirect(`http://${req.hostname}${req.url}`)
-  } else {
-    next()
-  }
-})
-
-app.use(express.static(path.join(__dirname, 'public/')))
-
-app.use(`/${secrets.UPLOAD_DIRNAME}`, express.static(`${secrets.UPLOAD_DIRNAME}/`))
-
-
 routes(express, app)
 
+/**
+ * START
+ */
 app.listen(PORT, () => {
+  /* eslint no-console: off */
   console.log(`Server started on ${PORT}`)
   console.log(`Node App process named: ${process.title}`);
 })
 
-
 /**
- * CLEANUP FORK CHILD BEFORE EXITs
+ * CLEANUP FORK CHILD BEFORE EXITs/CRASHES
  */
-
 process.on('exit', (code) => {
   fork.ForkChildKiller()
   process.exit(code)

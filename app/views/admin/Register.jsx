@@ -10,10 +10,11 @@ class Register extends React.Component {
 
   componentDidMount() {
     const $app = document.getElementById('app')
-    const $loader = document.getElementById('app-loader')
+    const $loaderWrapper = document.getElementById('loader-wrapper')
+    const $body = document.body
+    $body.className = $body.className.replace('app-loading', '')
+    $loaderWrapper.className = 'hide'
     $app.className = $app.className.replace('hide', '')
-    document.body.className = document.body.className.replace('app-loading', '')
-    $loader.className = 'hide'
   }
 
   componentDidUpdate() {

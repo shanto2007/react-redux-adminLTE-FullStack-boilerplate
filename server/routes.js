@@ -186,11 +186,19 @@ module.exports = (express, app) => {
 
   app.use('/api', api)
 
-  app.get(/^\/(login|join|admin)/, (req, res) => {
-    return res.sendFile(path.join(__dirname, '../public/admin.html'))
-  })
+  /**
+   * ADMIN SPA
+   */
+  app.get(/^\/(login|join|admin)/, (req, res) => res.render('dashboard'))
 
+  /**
+   * PUBLIC ROUTES
+   */
+  app.get('/', (req, res) => res.render('home'))
   app.get('*', (req, res) => {
-    return res.sendFile(path.join(__dirname, '../public/index.html'))
+    return res.render('errors', {
+      status: 404,
+      message: 'The resource your are looking don\'t exist!',
+    })
   })
 }

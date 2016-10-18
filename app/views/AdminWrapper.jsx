@@ -13,11 +13,12 @@ class AdminWrapper extends React.Component {
      */
     getAdminStaticAssets()
       .then(() => {
-        document.body.className = 'skin-blue sidebar-mini'
         const $app = document.getElementById('app')
-        const $loader = document.getElementById('app-loader')
+        const $loaderWrapper = document.getElementById('loader-wrapper')
+        const $body = document.body
+        $body.className = $body.className.replace('app-loading', '')
+        $loaderWrapper.className = 'hide'
         $app.className = $app.className.replace('hide', '')
-        $loader.className = 'hide'
       })
   }
   componentDidMount() {
