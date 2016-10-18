@@ -23,7 +23,10 @@ module.exports = {
   },
 
   entry: {
-    vendors: [
+    /**
+     * ADMIN SPA BUNDLES
+     */
+    'admin.vendors': [
       'react',
       'react-dom',
       'react-router',
@@ -33,14 +36,19 @@ module.exports = {
       // 'lodash.omit',
     ],
 
-    public: [
-      // 'script!foundation-sites/dist/foundation.min.js',
-      './app/app.jsx'
-    ],
-
     admin: [
       './app/admin.jsx'
     ],
+
+    /**
+     * PUBLIC VENDORS
+     */
+    'public.vendors': [
+      'script!jquery/dist/jquery.min.js',
+    ],
+    // public standalone scripts
+    // ..... one day
+
   },
 
   externals:{
@@ -54,8 +62,9 @@ module.exports = {
       dry: false,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: 'vendors.bundle.js',
+      name: 'admin.vendors',
+      filename: 'admin.vendors.bundle.js',
+      chunbk: ['admin'],
       minChunks: Infinity,
     }),
     new webpack.ProvidePlugin({
@@ -92,19 +101,14 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
-      './app/shared',
-      './app/store',
-      './app/api',
-      './app/reducers',
-      './app/actions',
       './app/routes',
+      './app/utils',
+      './app/store',
       './app/components',
-      './app/components/admin',
-      './app/components/public',
-      './app/components/shared',
+      './app/shared',
+      './app/actions',
+      './app/reducers',
       './app/views',
-      './app/views/admin',
-      './app/views/public',
     ],
     alias:{
       publicStyles: 'app/styles/public.scss',

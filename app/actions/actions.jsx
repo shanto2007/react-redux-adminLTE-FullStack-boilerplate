@@ -1,23 +1,23 @@
-export * from 'admin/router.action'
-export * from 'admin/account.action'
-export * from 'admin/auth.action'
-export * from 'admin/users.action'
-export * from 'admin/signin.action'
-export * from 'admin/settings.action'
-export * from 'admin/mail.action'
-export * from 'admin/toastr.action'
+export * from 'router.action'
+export * from 'account.action'
+export * from 'auth.action'
+export * from 'users.action'
+export * from 'signin.action'
+export * from 'settings.action'
+export * from 'mail.action'
+export * from 'toastr.action'
 
 /**
  * ADMIN MANAGEMENT ACTIONS
  */
-export * from 'admin/season.action'
+export * from 'season.action'
 
-export * from 'admin/round.action'
+export * from 'round.action'
 
-export * from 'admin/day.action'
+export * from 'day.action'
 
-export * from 'admin/teams.action'
-export * from 'admin/team.action'
+export * from 'teams.action'
+export * from 'team.action'
 
-export * from 'admin/match.action'
-export * from 'admin/matches.action'
+export * from 'match.action'
+export * from 'matches.action'
