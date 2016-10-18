@@ -1,0 +1,1 @@
+.uppercase{text-transform:uppercase}.lowercase{text-transform:lowercase}.regular{font-weight:400}.bold{font-weight:700}body,html{height:100%;font-size:16px;background:#fafafa}@media screen and (max-width:39.9375em){body,html{font-size:14px}}*{font-family:Lato,sans-serif}.wellcome{font-weight:300;text-align:center;color:#444;position:relative;top:50%;transform:translateY(-50%)}

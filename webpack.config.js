@@ -46,6 +46,7 @@ module.exports = {
     'public.vendors': [
       'script!jquery/dist/jquery.min.js',
     ],
+    'main.public': 'src/js/main.js'
     // public standalone scripts
     // ..... one day
 
@@ -64,7 +65,13 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'admin.vendors',
       filename: 'admin.vendors.bundle.js',
-      chunbk: ['admin'],
+      chunks: ['admin'],
+      minChunks: Infinity,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'public.vendors',
+      filename: 'public.vendors.bundle.js',
+      chunks: ['public.vendors', 'main.public'],
       minChunks: Infinity,
     }),
     new webpack.ProvidePlugin({
