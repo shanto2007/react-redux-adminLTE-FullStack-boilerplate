@@ -64,6 +64,9 @@ require('./expulsion/expulsion.model.test.js')
 require('./attendance/attendance.model.test.js')
 // require('./attendance/attendance.api.test.js')
 
+require('./post/post.model.test.js')
+require('./post/post.api.test.js')
+
 /**
  * CLEANUPS
  */

@@ -16,6 +16,7 @@ const DayCtrl = require('./controllers/day.controller')
 const TeamCtrl = require('./controllers/team.controller')
 const PlayerCtrl = require('./controllers/player.controller')
 const MatchCtrl = require('./controllers/match.controller')
+const PostCtrl = require('./controllers/post.controller')
 
 
 /**
@@ -154,6 +155,16 @@ module.exports = (express, app) => {
   api.patch('/admin/match/:id/date', AuthRequired(), MatchCtrl.changeDate)
   api.delete('/admin/match/:id', AuthRequired(), MatchCtrl.delete)
   //  public
+
+  /**
+   * POSTS
+   */
+  api.get('/admin/posts', AuthRequired(), PostCtrl.index)
+  api.post('/admin/post', AuthRequired(), PostCtrl.create)
+  api.patch('/admin/post/:id', AuthRequired(), PostCtrl.edit)
+  api.delete('/admin/post/:id', AuthRequired(), PostCtrl.delete)
+  api.post('/admin/post/:id/featured', AuthRequired(), upload.single('postFeatured'), PostCtrl.uploadFeatured)
+  api.delete('/admin/post/:id/featured', AuthRequired(), PostCtrl.postMediaRemove)
 
   /**
    * ACCOUNT
