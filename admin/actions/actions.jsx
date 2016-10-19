@@ -21,3 +21,5 @@ export * from 'team.action'
 
 export * from 'match.action'
 export * from 'matches.action'
+
+export * from 'posts.action'

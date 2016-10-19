@@ -21,3 +21,5 @@ export * from 'team.reducer'
 
 export * from 'match.reducer'
 export * from 'matches.reducer'
+
+export * from 'posts.reducer'
