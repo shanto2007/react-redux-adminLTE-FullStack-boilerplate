@@ -11,7 +11,6 @@ class AdminNav extends React.Component {
     const { dispatch } = this.props;
     dispatch(startLogout())
     .then((res) => {
-      console.log(res);
       if (res.success) {
         dispatch(openToastr('success', 'Logged off!'));
         window.location.replace('/')
@@ -177,6 +176,23 @@ class AdminNav extends React.Component {
                   </li>
                   <li className={this.isActiveNavItem('/admin/matches')}>
                     <Link to="/admin/matches"><i className="fa fa-futbol-o"></i> Matches List</Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li className="active treeview">
+                <a>
+                  <i className="fa fa-edit"></i> <span>Posts</span>
+                  <span className="pull-right-container">
+                    <i className="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul className="treeview-menu">
+                  <li className={this.isActiveNavItem('/admin/posts')}>
+                    <Link to="/admin/posts"><i className="fa fa-list"></i> Posts List</Link>
+                  </li>
+                  <li className={this.isActiveNavItem('/admin/posts/create')}>
+                    <Link to="/admin/post/create"><i className="fa fa-plus"></i> Create Post</Link>
                   </li>
                 </ul>
               </li>

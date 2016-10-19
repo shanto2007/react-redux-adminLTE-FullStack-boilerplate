@@ -43,6 +43,7 @@ export const startGetPosts = () => {
     .then((res) => {
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
+      console.log(res)
       dispatch(setPosts(res.data.posts))
       return res;
     })

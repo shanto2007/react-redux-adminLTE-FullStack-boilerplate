@@ -61,6 +61,18 @@ const genRoutes = (adminRoutes) => {
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminMatchCreate').default)),
         },
         {
+          path: 'posts',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminPostsList').default)),
+        },
+        {
+          path: 'post/create',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminPostCreate').default)),
+        },
+        {
+          path: 'post/:id',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminSinglePost').default)),
+        },
+        {
           path: 'match/:id',
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminSingleMatch').default)),
         },
