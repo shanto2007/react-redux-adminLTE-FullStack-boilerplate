@@ -1,75 +1,91 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { setProjectTitle, setProjectDescription } from 'actions'
+import { MediumLoader } from 'ChunkLoaders'
 import Box from 'Box'
-
-require('style!css!medium-editor/dist/css/medium-editor.css')
-require('style!css!medium-editor/dist/css/themes/default.css')
-
-const { Promise } = global
-let mediumEditorInstance
-
-//  Chunk Medium
-function getMediumeditor() {
-  return new Promise(resolve => {
-    require.ensure([], () => {
-      resolve(require('medium-editor/dist/js/medium-editor.min.js'))
-    }, 'medium-editor')
-  })
-}
 
 class Editor extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  componentDidMount() {
-    getMediumeditor().then((Medium) => {
-      mediumEditorInstance = new Medium('#editor')
-    })
-  }
-
-  componentDidUpdate() {
-    const { project } = this.props.project
-    if (mediumEditorInstance && project._id && !mediumEditorInstance.getContent().length) {
-      mediumEditorInstance.setContent(project.description)
-      this.titleInput.value = project.title
-
+    this.state = {
+      Medium: null,
+      title: null,
+      body: null,
     }
   }
 
+  componentWillMount() {
+    MediumLoader().then((Medium) => {
+      this.setState({
+        Medium: new Medium('#editor', {
+          autoLink: true,
+          targetBlank: true,
+        }),
+      })
+    }).then(() => {
+      const { Medium } = this.state
+      /**
+       * Input Listener
+       */
+      if (Medium) {
+        Medium.subscribe('editableInput', this.getDescription.bind(this))
+      }
+    })
+  }
+
+  // componentDidUpdate() {
+  //   const { post } = this.props.post
+  //   const { postId } = this.props
+  //   const { Medium } = this.state
+  //   if (Medium && postId && !Medium.getContent().length) {
+  //     Medium.setContent(post.description)
+  //     this.titleInput.value = post.title
+  //   }
+  // }
+
   componentWillUnmount() {
-    mediumEditorInstance.destroy()
+    const { Medium } = this.state
+    Medium.unsubscribe('editableInput', this.getDescription.bind(this))
+    Medium.destroy()
   }
 
   getTitle() {
-    const { dispatch } = this.props
     const title = this.titleInput.value
-    dispatch(setProjectTitle(title))
+    this.setState({ title })
   }
 
   getDescription() {
-    const { dispatch } = this.props
-    const description = mediumEditorInstance.getContent()
+    const { Medium } = this.state
+    const body = Medium.getContent()
+    this.setState({ body })
+  }
 
-    //  TODO validation
-    dispatch(setProjectDescription(description))
+  getData(callback) {
+    return callback({
+      title: this.state.title,
+      body: this.state.body,
+    })
   }
 
   render() {
-    const { loading } = this.props
+    const { loading, getDataHandler } = this.props
     return (
-      <Box title="Project Content" loading={loading}>
-        <div id="project-editor">
+      <Box title="Post Content" loading={loading}>
+        <div id="post-editor">
           <input
-            id="project-title"
+            id="post-title"
+            className="form-control"
             ref={(c) => { this.titleInput = c }}
             type="text"
             placeholder="Project Title"
             style={{ boxShadow: 'none' }}
             onKeyUp={() => this.getTitle()}
           />
-          <div id="editor" onKeyUp={() => this.getDescription()}></div>
+          <div id="editor"></div>
+          <button
+            className="btn btn-block btn-primary"
+            onClick={() => this.getData(getDataHandler)}
+          >
+            Save
+          </button>
         </div>
       </Box>
     )
@@ -78,14 +94,9 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
-  projectId: React.PropTypes.string,
-  project: React.PropTypes.object,
-  params: React.PropTypes.object,
-  dispatch: React.PropTypes.func.isRequired,
+  getDataHandler: React.PropTypes.func.isRequired,
+  post: React.PropTypes.object,
   loading: React.PropTypes.bool,
 }
 
-export default connect((state) => ({
-  project: state.project,
-  loading: state.project.saving,
-}))(Editor)
+export default Editor

@@ -28,6 +28,29 @@ module.exports = {
       })
     })
   },
+  getSingle: (req, res) => {
+    const postId = req.params.id
+    return Post.findById(postId)
+    .then((post) => {
+      if (!post) {
+        return Promise.reject({
+          status: 404,
+          message: 'Post not found',
+        })
+      }
+      return res.json({
+        success: true,
+        action: 'get',
+        post,
+      })
+    })
+    .catch((err) => {
+      return res.status(err.status ? err.status : 500).json({
+        success: false,
+        message: err.message ? err.message : err,
+      })
+    })
+  },
   create: (req, res) => {
     const { title, body, type } = req.body
     if (!title || !title.length) {

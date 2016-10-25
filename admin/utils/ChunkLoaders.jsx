@@ -1,5 +1,9 @@
+const { Promise } = global
+
+/**
+ * MOMENTJS CHUNK
+ */
 export function MomentLoader() {
-  const { Promise } = global
   return new Promise(resolve => {
     require.ensure([], () => {
       resolve({
@@ -9,8 +13,10 @@ export function MomentLoader() {
   })
 }
 
+/**
+ * DROPZONE CHUNK
+ */
 export function DropzoneLoader() {
-  const { Promise } = global
   return new Promise(resolve => {
     require.ensure([], () => {
       require('style!css!dropzone/dist/dropzone.css')
@@ -29,7 +35,6 @@ export function DropzoneLoader() {
  * font-awesome
  */
 export function getAdminStaticAssets() {
-  const { Promise } = global
   return new Promise(resolve => {
     require.ensure([], () => {
       /**
@@ -47,5 +52,18 @@ export function getAdminStaticAssets() {
 
       resolve({ loaded: true })
     }, 'admin-static-assets')
+  })
+}
+
+/**
+ * MEDIUM CHUNK
+ */
+export const MediumLoader = function MediumLoader() {
+  return new Promise(resolve => {
+    require.ensure([], () => {
+      require('style!css!medium-editor/dist/css/medium-editor.css')
+      require('style!css!medium-editor/dist/css/themes/default.css')
+      resolve(require('medium-editor/dist/js/medium-editor.min.js'))
+    }, 'medium-editor')
   })
 }

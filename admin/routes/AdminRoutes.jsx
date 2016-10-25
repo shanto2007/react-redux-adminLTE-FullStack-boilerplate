@@ -70,7 +70,7 @@ const genRoutes = (adminRoutes) => {
         },
         {
           path: 'post/:id',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminSinglePost').default)),
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminPostSingle').default)),
         },
         {
           path: 'match/:id',

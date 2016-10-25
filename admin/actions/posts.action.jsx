@@ -1,4 +1,5 @@
 import Api from 'Http'
+import { openToastr } from 'toastr.action'
 
 export const postLoading = (loading = false) => ({
   type: 'POST_LOADING',
@@ -25,7 +26,12 @@ export const clearPosts = (posts = []) => ({
   posts,
 })
 
-export const setSingleMail = (post = {}) => ({
+export const setSinglePost = (post = {}) => ({
+  type: 'SET_SINGLE_POST',
+  post,
+})
+
+export const clearSinglePost = (post = {}) => ({
   type: 'SET_SINGLE_POST',
   post,
 })
@@ -43,26 +49,23 @@ export const startGetPosts = () => {
     .then((res) => {
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
-      console.log(res)
       dispatch(setPosts(res.data.posts))
-      return res;
+      return res
     })
     .catch((err) => {
-      console.error(err)
       dispatch(postLoading(false))
       dispatch(postFail(true))
-      return err;
+      return err.response
     })
   }
 }
 
-export const startSavePost = () => {
+export const startGetSinglePost = (postId) => {
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
-    const { post } = store.posts
     dispatch(postLoading(true))
-    return Api.post('/admin/post', post, {
+    return Api.get(`/admin/post/${postId}`, {
       headers: {
         Authorization: authToken,
       },
@@ -70,14 +73,39 @@ export const startSavePost = () => {
     .then((res) => {
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
-      dispatch(setSingleMail(res.data.post))
-      return res;
+      dispatch(setSinglePost(res.data.post))
+      return res
     })
     .catch((err) => {
-      console.error(err)
       dispatch(postLoading(false))
       dispatch(postFail(true))
-      return err;
+      return err.response
+    })
+  }
+}
+
+export const startSavePost = (post) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(postLoading(true))
+    return Api.post('/admin/post', post, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(openToastr('success', 'Post saved!'))
+      dispatch(postLoading(false))
+      dispatch(postSuccess(true))
+      return res
+    })
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Some error occured.'))
+      dispatch(postLoading(false))
+      dispatch(postFail(true))
+      return err.response
     })
   }
 }
@@ -95,14 +123,12 @@ export const startDeletePost = (postId) => {
     .then((res) => {
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
-      dispatch(setSingleMail(res.data.post))
-      return res;
+      return res
     })
     .catch((err) => {
-      console.error(err)
       dispatch(postLoading(false))
       dispatch(postFail(true))
-      return err;
+      return err.response
     })
   }
 }
