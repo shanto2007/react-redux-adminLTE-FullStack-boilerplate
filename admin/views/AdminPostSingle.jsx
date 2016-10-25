@@ -47,7 +47,6 @@ class AdminPostSingle extends React.Component {
   render() {
     const { loading, dispatch, post } = this.props
     if (post._id) {
-      console.log(post)
       let FeaturedImage = <PostFeaturedUploader post={post} />
       if (post.media) {
         FeaturedImage = (
@@ -59,7 +58,7 @@ class AdminPostSingle extends React.Component {
               title="Remove Media"
             >
             </i>
-            <img className="img-responsive" src={post.media.path} />
+            <img className="img-responsive" src={post.media.path} role="presentation" />
           </div>
         )
       }

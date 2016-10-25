@@ -44,7 +44,7 @@ export const getUserData = () => {
       dispatch(accountSetData(res.data.user))
       return res
     })
-    .catch((res) => {
+    .catch((err) => {
       // dispatch(accountLoading(false))
       dispatch(accountFail(true))
       dispatch(setAuthToken(''))

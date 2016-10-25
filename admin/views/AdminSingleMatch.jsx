@@ -155,6 +155,42 @@ class AdminSingleMatch extends React.Component {
     }
   }
 
+  onDateChangeMarkupChange(e) {
+    e.stopPropagation()
+    this.setState({
+      ChangeDate: true,
+    })
+  }
+
+  onDatePickerChange(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    const { Moment } = this.state
+    if (e.target.value && e.target.value.length) {
+      this.setState({
+        NewDate: Moment(e.target.value),
+      })
+    } else if (!e.target.value.length) {
+      this.setState({
+        NewDate: null,
+      })
+    }
+  }
+
+  onDateChange(e) {
+    e.stopPropagation()
+    e.preventDefault()
+    const { NewDate } = this.state
+    const { match, dispatch } = this.props
+    if (NewDate) {
+      dispatch(startEditMatchDate(match._id, NewDate))
+    }
+    this.setState({
+      NewDate: null,
+      ChangeDate: false,
+    })
+  }
+
   defaultPenaltySelection(player) {
     if (player.warned) return 'warned'
     if (player.expelled) return 'expelled'
@@ -204,42 +240,6 @@ class AdminSingleMatch extends React.Component {
       })
     }
     return null
-  }
-
-  onDateChangeMarkupChange(e) {
-    e.stopPropagation()
-    this.setState({
-      ChangeDate: true,
-    })
-  }
-
-  onDatePickerChange(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    const { Moment } = this.state
-    if (e.target.value && e.target.value.length) {
-      this.setState({
-        NewDate: Moment(e.target.value),
-      })
-    } else if (!e.target.value.length) {
-      this.setState({
-        NewDate: null,
-      })
-    }
-  }
-
-  onDateChange(e) {
-    e.stopPropagation()
-    e.preventDefault()
-    const { NewDate } = this.state
-    const { match, dispatch } = this.props
-    if (NewDate) {
-      dispatch(startEditMatchDate(match._id, NewDate))
-    }
-    this.setState({
-      NewDate: null,
-      ChangeDate: false,
-    })
   }
 
   render() {
