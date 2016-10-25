@@ -1,9 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { clearPost, startGetSinglePost, startEditPost } from 'actions'
+import {
+  clearPost,
+  startGetSinglePost,
+  startEditPost,
+  startDeletePostFeaturedImage,
+} from 'actions'
 
 import Editor from 'Editor'
 import Box from 'Box'
+import PostFeaturedUploader from 'PostFeaturedUploader'
+
+require('!style!css!sass!../styles/admin/post-single.scss')
 
 class AdminPostSingle extends React.Component {
   constructor(props) {
@@ -27,11 +35,36 @@ class AdminPostSingle extends React.Component {
     dispatch(startEditPost())
   }
 
+  onDeletePostFeatured(e, post) {
+    e.stopPropagation()
+    e.preventDefault()
+    const { dispatch } = this.props
+    if (post && confirm('Do you want to remove the featured image?')) {
+      dispatch(startDeletePostFeaturedImage(post._id))
+    }
+  }
+
   render() {
     const { loading, dispatch, post } = this.props
     if (post._id) {
+      console.log(post)
+      let FeaturedImage = <PostFeaturedUploader post={post} />
+      if (post.media) {
+        FeaturedImage = (
+          <div className="post-image-wrapper">
+            <i
+              className="fa fa-remove pointer remove-button"
+              onClick={(e) => this.onDeletePostFeatured(e, post)}
+              data-toggle="tooltip"
+              title="Remove Media"
+            >
+            </i>
+            <img className="img-responsive" src={post.media.path} />
+          </div>
+        )
+      }
       return (
-        <div id="admin-posts-create" className="container-fluid">
+        <div id="admin-posts-edit" className="container-fluid">
           <div className="col-sm-12 col-md-9">
             <Editor dispatch={dispatch} loading={loading} post={post} />
           </div>
@@ -43,6 +76,9 @@ class AdminPostSingle extends React.Component {
               >
                 <i className="fa fa-pencil"></i> Edit
               </button>
+            </Box>
+            <Box title="Featured Image">
+              {FeaturedImage}
             </Box>
           </div>
           <div className="clearfix"></div>

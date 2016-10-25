@@ -30,7 +30,7 @@ module.exports = {
   },
   getSingle: (req, res) => {
     const postId = req.params.id
-    return Post.findById(postId)
+    return Post.findById(postId).populate('media')
     .then((post) => {
       if (!post) {
         return Promise.reject({

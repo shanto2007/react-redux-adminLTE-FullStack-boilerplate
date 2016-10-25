@@ -175,3 +175,27 @@ export const startDeletePost = (postId) => {
     })
   }
 }
+
+export const startDeletePostFeaturedImage = (postId) => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    dispatch(postLoading(true))
+    return Api.delete(`/admin/post/${postId}/featured`, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(startGetSinglePost(res.data.post._id))
+      dispatch(postLoading(false))
+      dispatch(postSuccess(true))
+      return res
+    })
+    .catch((err) => {
+      dispatch(postLoading(false))
+      dispatch(postFail(true))
+      return err.response
+    })
+  }
+}
