@@ -1,35 +1,67 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { clearPost, startGetSinglePost, startEditPost } from 'actions'
+
+import Editor from 'Editor'
 import Box from 'Box'
-// import { startGetSinglePost, clearPost } from 'actions'
 
 class AdminPostSingle extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  // componentWillUnmount() {
-  //   const { dispatch } = this.props
-  //   dispatch(clearPost())
-  // }
+  componentWillMount() {
+    const { dispatch, params } = this.props
+    dispatch(startGetSinglePost(params.id))
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    dispatch(clearPost())
+  }
+
+  onEdit(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    const { dispatch } = this.props
+    dispatch(startEditPost())
+  }
 
   render() {
-    return (
-      <div id="admin-posts-single" className="container-fluid">
-        <Box title="Create EDIT SINGLE I HAVE TO SEE">
-
-        </Box>
-      </div>
-    )
+    const { loading, dispatch, post } = this.props
+    if (post._id) {
+      return (
+        <div id="admin-posts-create" className="container-fluid">
+          <div className="col-sm-12 col-md-9">
+            <Editor dispatch={dispatch} loading={loading} post={post} />
+          </div>
+          <div className="col-sm-12 col-md-3">
+            <Box title="Post Controls">
+              <button
+                className="btn btn-block btn-warning"
+                onClick={(e) => this.onEdit(e)}
+              >
+                <i className="fa fa-pencil"></i> Edit
+              </button>
+            </Box>
+          </div>
+          <div className="clearfix"></div>
+        </div>
+      )
+    }
+    return null
   }
 }
 
 AdminPostSingle.propTypes = {
+  params: React.PropTypes.object,
   dispatch: React.PropTypes.func,
   post: React.PropTypes.object,
+  loading: React.PropTypes.bool,
 }
 
 
 export default connect((state) => ({
-  posts: state.posts.post,
+  loading: state.posts.loading,
+  post: state.posts.post,
 }))(AdminPostSingle)

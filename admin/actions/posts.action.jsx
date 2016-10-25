@@ -21,14 +21,27 @@ export const setPosts = (posts = []) => ({
   posts,
 })
 
-export const clearPosts = (posts = []) => ({
+export const clearPosts = () => ({
   type: 'CLEAR_POSTS',
-  posts,
+})
+
+export const clearPost = () => ({
+  type: 'CLEAR_POST',
 })
 
 export const setSinglePost = (post = {}) => ({
   type: 'SET_SINGLE_POST',
   post,
+})
+
+export const setSinglePostTitle = (title) => ({
+  type: 'SET_SINGLE_POST_TITLE',
+  title,
+})
+
+export const setSinglePostBody = (body) => ({
+  type: 'SET_SINGLE_POST_BODY',
+  body,
 })
 
 export const clearSinglePost = (post = {}) => ({
@@ -84,10 +97,11 @@ export const startGetSinglePost = (postId) => {
   }
 }
 
-export const startSavePost = (post) => {
+export const startSavePost = () => {
   return (dispatch, getState) => {
     const store = getState()
     const authToken = store.account.authToken
+    const { post } = store.posts
     dispatch(postLoading(true))
     return Api.post('/admin/post', post, {
       headers: {
@@ -96,6 +110,33 @@ export const startSavePost = (post) => {
     })
     .then((res) => {
       dispatch(openToastr('success', 'Post saved!'))
+      dispatch(postLoading(false))
+      dispatch(postSuccess(true))
+      return res
+    })
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Some error occured.'))
+      dispatch(postLoading(false))
+      dispatch(postFail(true))
+      return err.response
+    })
+  }
+}
+
+export const startEditPost = () => {
+  return (dispatch, getState) => {
+    const store = getState()
+    const authToken = store.account.authToken
+    const { post } = store.posts
+    dispatch(postLoading(true))
+    return Api.patch(`/admin/post/${post._id}`, post, {
+      headers: {
+        Authorization: authToken,
+      },
+    })
+    .then((res) => {
+      dispatch(openToastr('success', 'Post edited!'))
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
       return res

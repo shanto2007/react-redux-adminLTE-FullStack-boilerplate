@@ -1,5 +1,9 @@
 import React from 'react'
 import { MediumLoader } from 'ChunkLoaders'
+import {
+  setSinglePostTitle,
+  setSinglePostBody,
+} from 'actions'
 import Box from 'Box'
 
 class Editor extends React.Component {
@@ -31,15 +35,14 @@ class Editor extends React.Component {
     })
   }
 
-  // componentDidUpdate() {
-  //   const { post } = this.props.post
-  //   const { postId } = this.props
-  //   const { Medium } = this.state
-  //   if (Medium && postId && !Medium.getContent().length) {
-  //     Medium.setContent(post.description)
-  //     this.titleInput.value = post.title
-  //   }
-  // }
+  componentDidUpdate() {
+    const { post } = this.props
+    const { Medium } = this.state
+    if (Medium && post && !Medium.getContent().length) {
+      Medium.setContent(post.body)
+      this.titleInput.value = post.title
+    }
+  }
 
   componentWillUnmount() {
     const { Medium } = this.state
@@ -48,25 +51,20 @@ class Editor extends React.Component {
   }
 
   getTitle() {
+    const { dispatch } = this.props
     const title = this.titleInput.value
-    this.setState({ title })
+    dispatch(setSinglePostTitle(title))
   }
 
   getDescription() {
+    const { dispatch } = this.props
     const { Medium } = this.state
     const body = Medium.getContent()
-    this.setState({ body })
-  }
-
-  getData(callback) {
-    return callback({
-      title: this.state.title,
-      body: this.state.body,
-    })
+    dispatch(setSinglePostBody(body))
   }
 
   render() {
-    const { loading, getDataHandler } = this.props
+    const { loading } = this.props
     return (
       <Box title="Post Content" loading={loading}>
         <div id="post-editor">
@@ -77,15 +75,9 @@ class Editor extends React.Component {
             type="text"
             placeholder="Project Title"
             style={{ boxShadow: 'none' }}
-            onKeyUp={() => this.getTitle()}
+            onChange={() => this.getTitle()}
           />
           <div id="editor"></div>
-          <button
-            className="btn btn-block btn-primary"
-            onClick={() => this.getData(getDataHandler)}
-          >
-            Save
-          </button>
         </div>
       </Box>
     )
@@ -94,7 +86,7 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
-  getDataHandler: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func,
   post: React.PropTypes.object,
   loading: React.PropTypes.bool,
 }

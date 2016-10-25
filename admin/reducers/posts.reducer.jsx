@@ -16,12 +16,33 @@ export const posts = (state = defaultPostState, action) => {
     case 'CLEAR_POSTS':
       return {
         ...state,
-        posts: action.posts,
+        posts: [],
+      }
+    case 'CLEAR_POST':
+      return {
+        ...state,
+        post: {},
       }
     case 'SET_SINGLE_POST':
       return {
         ...state,
         post: action.post,
+      }
+    case 'SET_SINGLE_POST_TITLE':
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          title: action.title,
+        },
+      }
+    case 'SET_SINGLE_POST_BODY':
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          body: action.body,
+        },
       }
     case 'POST_LOADING':
       return {

@@ -1,7 +1,10 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import Editor from 'Editor'
 import { startSavePost, clearPost } from 'actions'
+
+import Editor from 'Editor'
+import Box from 'Box'
 
 class AdminPostCreate extends React.Component {
   constructor(props) {
@@ -13,22 +16,34 @@ class AdminPostCreate extends React.Component {
     dispatch(clearPost())
   }
 
-  getDataHandler(data) {
+  onSave(e) {
+    e.preventDefault()
+    e.stopPropagation()
     const { dispatch } = this.props
-    dispatch(startSavePost(data))
-    .then((res) => {
-      console.log('>>>', res)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    dispatch(startSavePost())
+      .then((res) => {
+        browserHistory.push(`/admin/post/${res.data.post._id}`)
+      })
   }
 
   render() {
-    const { loading, post } = this.props
+    const { loading, dispatch } = this.props
     return (
       <div id="admin-posts-create" className="container-fluid">
-        <Editor getDataHandler={(data) => this.getDataHandler(data)} loading={loading} post={post.title ? post : null} />
+        <div className="col-sm-12 col-md-9">
+          <Editor dispatch={dispatch} loading={loading} />
+        </div>
+        <div className="col-sm-12 col-md-3">
+          <Box title="Post Controls">
+            <button
+              className="btn btn-block btn-primary"
+              onClick={(e) => this.onSave(e)}
+            >
+              <i className="fa fa-save"></i> Save
+            </button>
+          </Box>
+        </div>
+        <div className="clearfix"></div>
       </div>
     )
   }
@@ -42,6 +57,5 @@ AdminPostCreate.propTypes = {
 
 
 export default connect((state) => ({
-  post: state.posts.post,
   loading: state.posts.loading,
 }))(AdminPostCreate)
