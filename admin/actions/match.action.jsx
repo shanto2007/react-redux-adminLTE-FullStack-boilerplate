@@ -54,11 +54,11 @@ export const startCreateNewMatch = (match) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminMatchFail(err))
+      const { data } = err.response
+      dispatch(adminMatchFail(data))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.data.message || 'Error creating match!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error creating match!'))
+      return data
     })
   }
 }
@@ -81,11 +81,11 @@ export const startGetAdminSingleMatch = (matchId) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminMatchFail(err))
+      const { data } = err.response
+      dispatch(adminMatchFail(data))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.data.message || 'Error fetching match!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error fetching match!'))
+      return data
     })
   }
 }
@@ -109,11 +109,11 @@ export const startEditAdminMatch = (matchId, matchData) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminMatchFail(err))
+      const { data } = err.response
+      dispatch(adminMatchFail(data))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.message || 'Error editing match!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error editing match!'))
+      return data
     })
   }
 }
@@ -124,7 +124,7 @@ export const startEditMatchDate = (matchId, newDate) => {
     const authToken = store.account.authToken
     dispatch(adminMatchLoading(true))
     return Api.patch(`/admin/match/${matchId}/date`, {
-      date: newDate
+      date: newDate,
     }, {
       headers: {
         Authorization: authToken,
@@ -139,11 +139,11 @@ export const startEditMatchDate = (matchId, newDate) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminMatchFail(err))
+      const { data } = err.response
+      dispatch(adminMatchFail(data))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.message || 'Error editing match date!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error editing match date!'))
+      return data
     })
   }
 }
@@ -167,10 +167,11 @@ export const startResetAdminMatch = (matchId) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminMatchFail(err))
+      const { data } = err.response
+      dispatch(adminMatchFail(data))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.message || 'Error resetting match data!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error resetting match data!'))
+      return data
     })
   }
 }
@@ -194,10 +195,11 @@ export const startDeleteMatch = (matchId) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminMatchFail(err))
+      const { data } = err.response
+      dispatch(adminMatchFail(data))
       dispatch(adminMatchLoading(false))
-      dispatch(openToastr('error', err.message || 'Error deleting player!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error deleting player!'))
+      return data
     })
   }
 }

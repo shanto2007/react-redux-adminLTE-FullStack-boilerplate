@@ -31,13 +31,12 @@ export const startSendMail = (config) => {
     .then((res) => {
       dispatch(mailLoading(false))
       dispatch(mailSuccess(true))
-      return res;
+      return res
     })
     .catch((err) => {
-      console.error(err)
       dispatch(mailLoading(false))
       dispatch(mailFail(true))
-      return err;
+      return err.response
     })
   }
 }

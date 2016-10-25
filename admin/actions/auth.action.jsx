@@ -33,10 +33,10 @@ export const login = (username = '', password = '') => {
       return res
     })
     .catch((err) => {
-      const { data } = err
+      const { data } = err.response
       dispatch(authLoading(false))
       dispatch(loginFormError(data.message))
-      return err
+      return err.response
     })
   }
 }

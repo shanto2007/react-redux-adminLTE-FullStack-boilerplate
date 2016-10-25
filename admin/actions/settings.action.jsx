@@ -16,7 +16,7 @@ export const setSettings = (settings = {}) => {
 }
 export const startGetSettings = () => {
   return (dispatch, getState) => {
-    const state = getState();
+    const state = getState()
     dispatch(settingsFetching(true))
     return Api.get('/setting', {
       headers: {
@@ -26,17 +26,20 @@ export const startGetSettings = () => {
     .then((res) => {
       dispatch(settingsFetching(false))
       dispatch(setSettings(res.data.settings))
+      return res
     })
-    .catch((res) => {
+    .catch((err) => {
+      const { data } = err.response
+      console.error(data)
       dispatch(settingsFetching(false))
-      console.error(res)
+      return data
     })
   }
 }
 
 export const startSaveSettings = () => {
   return (dispatch, getState) => {
-    const state = getState();
+    const state = getState()
     dispatch(settingsFetching(true))
     return Api.patch('/setting', { ...state.settings.settings }, {
       headers: {
@@ -45,15 +48,16 @@ export const startSaveSettings = () => {
     })
     .then((res) => {
       dispatch(settingsFetching(false))
-      dispatch(setSettings(res.data.settings));
+      dispatch(setSettings(res.data.settings))
       dispatch(openToastr('success', 'Setting changed!'))
-      return res;
+      return res
     })
-    .catch((res) => {
+    .catch((err) => {
+      const { data } = err.response
+      console.error(data)
       dispatch(settingsFetching(false))
       dispatch(openToastr('error', 'Error saving settings!'))
-      console.error(res)
-      return res;
+      return data
     })
   }
 }

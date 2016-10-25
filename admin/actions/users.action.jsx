@@ -45,10 +45,10 @@ export const startGetUsersList = () => {
       return res
     })
     .catch((err) => {
+      const { data } = err.response
       dispatch(usersLoading(false))
       dispatch(usersFail(true))
-      console.error(err)
-      return err
+      return data
     })
   }
 }
@@ -63,21 +63,20 @@ export const startDeleteUser = (userId) => {
       },
     })
     .then((res) => {
-      console.log(res);
       dispatch(openToastr('success', 'User deleted!'))
       dispatch(usersLoading(false))
       dispatch(startGetUsersList())
       return res
     })
     .catch((err) => {
-      if (err.status === 403) {
+      const { data } = err.response
+      if (data.status === 403) {
         dispatch(openToastr('error', 'Deleting admin not allowed!'))
       } else {
         dispatch(openToastr('error', 'Error deleting user!'))
       }
       dispatch(usersLoading(false))
-      console.error(err)
-      return err
+      return data
     })
   }
 }

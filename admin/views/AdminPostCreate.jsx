@@ -17,7 +17,7 @@ class AdminPostCreate extends React.Component {
     const { dispatch } = this.props
     dispatch(startSavePost(data))
     .then((res) => {
-      console.log(">>>", res)
+      console.log('>>>', res)
     })
     .catch((err) => {
       console.log(err)

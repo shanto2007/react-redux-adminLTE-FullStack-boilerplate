@@ -48,8 +48,7 @@ export const getUserData = () => {
       // dispatch(accountLoading(false))
       dispatch(accountFail(true))
       dispatch(setAuthToken(''))
-      console.error(res)
-      return res
+      return err.response
     })
   }
 }

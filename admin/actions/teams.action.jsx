@@ -54,10 +54,11 @@ export const startGetAdminTeams = (round) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminTeamsFail(err))
+      const { data } = err.response
+      dispatch(adminTeamsFail(data))
       dispatch(adminTeamsLoading(false))
-      dispatch(openToastr('error', err.message || 'Error getting teams!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error getting teams!'))
+      return data
     })
   }
 }
@@ -88,13 +89,12 @@ export const startCreateNewTeam = (newTeam) => {
       dispatch(startGetAdminTeams(res.data.team.round))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      console.log(err)
-      dispatch(openToastr('error', err.message || 'Error creating a season!'))
-      dispatch(adminTeamsFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error creating a season!'))
+      dispatch(adminTeamsFail(data))
       dispatch(adminTeamsLoading(false))
-      return res
+      return data
     })
   }
 }
@@ -116,12 +116,12 @@ export const startDeleteTeam = (teamId) => {
       dispatch(startGetAdminTeams(res.data.team.round))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error removing the team!'))
-      dispatch(adminTeamsFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error removing the team!'))
+      dispatch(adminTeamsFail(data))
       dispatch(adminTeamsLoading(false))
-      return res
+      return data
     })
   }
 }

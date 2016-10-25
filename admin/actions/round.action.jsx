@@ -74,10 +74,11 @@ export const startGetAdminRounds = (season) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminRoundsFail(err))
+      const { data } = err.response
+      dispatch(adminRoundsFail(data))
       dispatch(adminRoundsLoading(false))
-      dispatch(openToastr('error', err.message || 'Error getting rounds!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error getting rounds!'))
+      return data
     })
   }
 }
@@ -102,12 +103,12 @@ export const startCreateNewRounds = (newRound) => {
       dispatch(startGetAdminRounds(res.data.round.season))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error creating a season!'))
-      dispatch(adminRoundsFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error creating a season!'))
+      dispatch(adminRoundsFail(data))
       dispatch(adminRoundsLoading(false))
-      return res
+      return data
     })
   }
 }
@@ -129,12 +130,12 @@ export const startDeleteAdminRoundMedia = (roundId) => {
       dispatch(startGetAdminRounds(res.data.round.season))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error removing the round media!'))
-      dispatch(adminRoundsFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error removing the round media!'))
+      dispatch(adminRoundsFail(data))
       dispatch(adminRoundsLoading(false))
-      return res
+      return data
     })
   }
 }
@@ -156,13 +157,12 @@ export const startDeleteRound = (roundId) => {
       dispatch(startGetAdminRounds(res.data.round.season))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      console.log(res.data)
-      dispatch(openToastr('error', err.message || 'Error removing the round!'))
-      dispatch(adminRoundsFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error removing the round!'))
+      dispatch(adminRoundsFail(data))
       dispatch(adminRoundsLoading(false))
-      return res
+      return data
     })
   }
 }

@@ -60,12 +60,12 @@ export const startGetCurrentSeason = () => {
       dispatch(adminSeasonLoading(false))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error getting season as current!'))
-      dispatch(adminSeasonFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error getting season as current!'))
+      dispatch(adminSeasonFail(data))
       dispatch(adminSeasonLoading(false))
-      return res
+      return data
     })
   }
 }
@@ -89,9 +89,10 @@ export const startGetAdminSeasons = () => {
       return res
     })
     .catch((err) => {
-      dispatch(adminSeasonFail(err))
+      const { data } = err.response
+      dispatch(adminSeasonFail(data))
       dispatch(adminSeasonLoading(false))
-      return err
+      return data
     })
   }
 }
@@ -114,12 +115,12 @@ export const startCreateNewSeason = (year) => {
       dispatch(startGetCurrentSeason())
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error creating a season!'))
-      dispatch(adminSeasonFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error creating a season!'))
+      dispatch(adminSeasonFail(data))
       dispatch(adminSeasonLoading(false))
-      return res
+      return data
     })
   }
 }
@@ -142,12 +143,12 @@ export const startDeleteSeason = (seasonId) => {
       dispatch(startGetCurrentSeason())
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error removing season!'))
-      dispatch(adminSeasonFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error removing season!'))
+      dispatch(adminSeasonFail(data))
       dispatch(adminSeasonLoading(false))
-      return res
+      return data
     })
   }
 }
@@ -171,12 +172,12 @@ export const startSetCurrentSeason = (seasonId) => {
       dispatch(startGetCurrentSeason())
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error setting season as current!'))
-      dispatch(adminSeasonFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error setting season as current!'))
+      dispatch(adminSeasonFail(data))
       dispatch(adminSeasonLoading(false))
-      return res
+      return data
     })
   }
 }

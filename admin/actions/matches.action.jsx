@@ -54,11 +54,11 @@ export const startGetAdminMatches = (roundId) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminMatchesFail(err))
+      const { data } = err.response
+      dispatch(adminMatchesFail(data))
       dispatch(adminMatchesLoading(false))
-      dispatch(openToastr('error', err.data.message || 'Error creating matches!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error creating matches!'))
+      return data
     })
   }
 }

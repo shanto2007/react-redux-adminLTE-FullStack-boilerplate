@@ -50,11 +50,10 @@ export const checkUserExist = (username = '') => {
         return res
       })
       .catch((err) => {
-        const { data } = err
+        const { data } = err.response
         dispatch(usernameExist(data.exist))
         dispatch(signinUsernameError('Username exist'))
-        console.error(err)
-        return err
+        return data
       })
   }
 }
@@ -73,12 +72,12 @@ export const startSignin = (username, password) => {
       return res
     })
     .catch((err) => {
-      console.error(err.data)
+      const { data } = err.response
       dispatch(signinFetching(false))
-      dispatch(openToastr('error', err.data.message))
-      dispatch(signinUsernameError(err.data.message))
+      dispatch(openToastr('error', data.message))
+      dispatch(signinUsernameError(data.message))
       dispatch(signInSuccess(false))
-      return err
+      return data
     })
   }
 }

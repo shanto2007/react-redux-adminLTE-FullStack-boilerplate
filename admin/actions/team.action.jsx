@@ -54,10 +54,11 @@ export const startGetAdminSingleTeam = (teamId) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminTeamFail(err))
+      const { data } = err.response
+      dispatch(adminTeamFail(data))
       dispatch(adminTeamLoading(false))
-      dispatch(openToastr('error', err.message || 'Error getting team!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error getting team!'))
+      return data
     })
   }
 }
@@ -83,10 +84,11 @@ export const startEditAdminSingleTeamName = (teamId, newName) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminTeamFail(err))
+      const { data } = err.response
+      dispatch(adminTeamFail(data))
       dispatch(adminTeamLoading(false))
-      dispatch(openToastr('error', err.data.message || 'Error editing team name!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error editing team name!'))
+      return data
     })
   }
 }
@@ -109,11 +111,11 @@ export const startCreateNewPlayer = (player) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminTeamFail(err))
+      const { data } = err.response
+      dispatch(adminTeamFail(data))
       dispatch(adminTeamLoading(false))
-      dispatch(openToastr('error', err.message || 'Error creating player!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error creating player!'))
+      return data
     })
   }
 }
@@ -137,11 +139,11 @@ export const startEditPlayer = (playerId, player) => {
       return res
     })
     .catch((err) => {
-      console.error(err)
-      dispatch(adminTeamFail(err))
+      const { data } = err.response
+      dispatch(adminTeamFail(data))
       dispatch(adminTeamLoading(false))
-      dispatch(openToastr('error', err.message || 'Error editing player!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error editing player!'))
+      return data
     })
   }
 }
@@ -164,10 +166,11 @@ export const startDeletePlayer = (playerId) => {
       return res
     })
     .catch((err) => {
-      dispatch(adminTeamFail(err))
+      const { data } = err.response
+      dispatch(adminTeamFail(data))
       dispatch(adminTeamLoading(false))
-      dispatch(openToastr('error', err.message || 'Error deleting player!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error deleting player!'))
+      return data
     })
   }
 }

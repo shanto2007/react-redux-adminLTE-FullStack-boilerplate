@@ -54,10 +54,11 @@ export const startGetAdminDays = (round) => {
       return res
     })
     .catch((err) => {
+      const { data } = err.response
       dispatch(adminDaysFail(err))
       dispatch(adminDaysLoading(false))
-      dispatch(openToastr('error', err.message || 'Error getting days!'))
-      return err
+      dispatch(openToastr('error', data.message || 'Error getting days!'))
+      return err.response
     })
   }
 }
@@ -85,12 +86,12 @@ export const startCreateNewDay = (newDay) => {
       dispatch(startGetAdminDays(res.data.day.round))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error creating a season!'))
-      dispatch(adminDaysFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error creating a season!'))
+      dispatch(adminDaysFail(data))
       dispatch(adminDaysLoading(false))
-      return res
+      return err.response
     })
   }
 }
@@ -109,16 +110,15 @@ export const startDeleteDay = (dayId) => {
       dispatch(openToastr('success', 'Day removed!'))
       dispatch(adminDaysSuccess(true))
       dispatch(adminDaysLoading(false))
-      console.log(res.data)
       dispatch(startGetAdminDays(res.data.day.round))
       return res
     })
-    .catch((res) => {
-      const err = res.data
-      dispatch(openToastr('error', err.message || 'Error removing the day!'))
-      dispatch(adminDaysFail(err))
+    .catch((err) => {
+      const { data } = err.response
+      dispatch(openToastr('error', data.message || 'Error removing the day!'))
+      dispatch(adminDaysFail(data))
       dispatch(adminDaysLoading(false))
-      return res
+      return err.response
     })
   }
 }
