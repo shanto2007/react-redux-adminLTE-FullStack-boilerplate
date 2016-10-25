@@ -60,6 +60,7 @@ export const startGetPosts = () => {
       },
     })
     .then((res) => {
+      console.log(res.data)
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
       dispatch(setPosts(res.data.posts))
@@ -162,6 +163,7 @@ export const startDeletePost = (postId) => {
       },
     })
     .then((res) => {
+      dispatch(startGetPosts())
       dispatch(postLoading(false))
       dispatch(postSuccess(true))
       return res
