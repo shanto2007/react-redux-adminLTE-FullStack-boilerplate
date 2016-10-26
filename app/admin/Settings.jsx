@@ -4,54 +4,78 @@ import { setSettings, startSaveSettings, startGetSettings } from 'actions'
 import Box from 'Box'
 
 class Settings extends React.Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
+  constructor(props) {
+    super(props)
+    this.state = {
+      sitename: undefined,
+      mailContact: undefined,
+      joinAllowed: undefined,
+    }
+  }
+  componentWillMount() {
+    const { dispatch } = this.props
     dispatch(startGetSettings())
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps(nextProps) {
     const { settings } = this.props.settings
-    this.sitenameInput.value = settings.sitename
-    this.mailContactInput.value = settings.mailContact
-    this.joinAllowedInput.checked = settings.joinAllowed
+    const newSettings = nextProps.settings.settings
+    if (newSettings && newSettings !== settings) {
+      const { sitename, mailContact, joinAllowed } = newSettings
+      this.setState({
+        sitename,
+        mailContact,
+        joinAllowed,
+      })
+    }
   }
 
   saveSettings() {
-    const { dispatch } = this.props;
-    const sitename = this.sitenameInput.value
-    const mailContact = this.mailContactInput.value
-    const joinAllowed = this.joinAllowedInput.checked
+    const { sitename, mailContact, joinAllowed } = this.state
+    const { dispatch } = this.props
     dispatch(setSettings({ sitename, mailContact, joinAllowed }))
     dispatch(startSaveSettings())
   }
 
-
   render() {
-    return (
-      <Box title="Settings" loading={this.props.settings.loading}>
-        <div id="settings-box">
-          <input
-            ref={(c) => { this.sitenameInput = c }}
-            type="text"
-            placeholder="Name of the website"
-          />
-          <input
-            ref={(c) => { this.mailContactInput = c }}
-            type="text"
-            placeholder="email"
-          />
-          <label htmlFor="userJoin">
+    const { sitename, mailContact, joinAllowed } = this.state
+    if (typeof sitename !== 'undefined' && typeof mailContact !== 'undefined' && typeof joinAllowed !== 'undefined') {
+      return (
+        <Box title="Settings" loading={this.props.settings.loading}>
+          <div id="settings-box">
             <input
-              ref={(c) => { this.joinAllowedInput = c }}
-              id="userjoin"
-              type="checkbox"
+              type="text"
+              className="form-control"
+              placeholder="Name of the website"
+              value={sitename || ''}
+              onChange={(e) => this.setState({ sitename: e.target.value })}
             />
-            Can New User join?
-          </label>
-          <button className="btn btn-primary pull-right" onClick={() => this.saveSettings()}>Save</button>
-        </div>
-      </Box>
-    )
+            <input
+              type="text"
+              className="form-control"
+              placeholder="email"
+              value={mailContact || ''}
+              onChange={(e) => this.setState({ mailContact: e.target.value })}
+            />
+            <label htmlFor="userJoin">
+              Enable new user registration?
+              <select
+                className="form-control"
+                name="user-join"
+                defaultValue={joinAllowed}
+                onChange={(e) => this.setState({ joinAllowed: (e.target.value === 'true') })}
+              >
+                <option value="undefined" disabled>Select an option</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </label>
+            <button className="btn btn-primary pull-right" onClick={() => this.saveSettings()}>Save</button>
+          </div>
+        </Box>
+      )
+    }
+    return null
   }
 }
 
