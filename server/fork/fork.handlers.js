@@ -1,16 +1,17 @@
+const path = require('path')
 const fork = require('child_process').fork
 
 const Childs = {
   'thumb.generator': {
-    path: 'server/fork/thumb.generator',
+    path: path.join(__dirname, 'thumb.generator'),
     instance: undefined,
   },
   'team.stats': {
-    path: 'server/fork/team.stats',
+    path: path.join(__dirname, 'team.stats'),
     instance: undefined,
   },
   'player.stats': {
-    path: 'server/fork/player.stats',
+    path: path.join(__dirname, 'player.stats'),
     instance: undefined,
   },
 }
