@@ -43,7 +43,7 @@ module.exports = MediaCtrl = {
 
   create: (req, res) => {
     const filename = req.body.filename || req.file.filename
-    const type = req.body.type
+    const { type, metadata } = req.body
     if (!filename) {
       return res.status(400).json({
         success: false,
@@ -54,6 +54,7 @@ module.exports = MediaCtrl = {
     return new Media({
       filename,
       type,
+      metadata,
     }).save((err, media) => {
       if (err) {
         return res.status(500).json({

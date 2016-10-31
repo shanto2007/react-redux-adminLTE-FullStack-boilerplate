@@ -12,7 +12,7 @@ chai.use(chaiHttp)
 /**
  * API
  */
-describe('Media - API', () => {
+describe.only('Media - API', () => {
   let mediaId, userAuthToken, storedMediaPath, storedThumbPath, preUploadMediaStat
 
   // generate a auth dummy token
@@ -77,6 +77,33 @@ describe('Media - API', () => {
     fs.stat(filePath, (err, stat) => {
       expect(stat).toExist()
       expect(stat.size).toEqual(preUploadMediaStat.size)
+      done()
+    })
+  })
+
+  it('should upload a media with metadata', (done) => {
+    let mediaFile = path.join( __dirname, './media/test.jpeg' )
+    chai.request(app)
+    .post('/api/media/upload')
+    .set('Authorization', userAuthToken)
+    .field('type', 'MyCustomType')
+    .field('metadata', JSON.stringify({ title: 'MyCustomTitle' }))
+    .attach('media', fs.readFileSync(mediaFile), 'test.jpeg')
+    .end((err, res) => {
+      if (err) throw err
+      let {body} = res
+      expect(res.status).toBe(200)
+      expect(body.success).toBe(true)
+      expect(body.media).toExist()
+      expect(body.media.metadata).toExist()
+      let metadata
+      try {
+        metadata = JSON.parse(body.media.metadata)
+      } catch (e) {
+        done(e)
+      } finally {
+        expect(metadata).toBeA('object')
+      }
       done()
     })
   })

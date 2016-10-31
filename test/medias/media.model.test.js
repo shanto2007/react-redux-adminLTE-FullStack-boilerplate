@@ -5,7 +5,7 @@ const path     = require('path')
 const chai     = require('chai')
 const expect   = require('expect')
 
-describe.only('Media - Model', () => {
+describe('Media - Model', () => {
  let dummyMedia
 
  before(() => {
@@ -35,14 +35,14 @@ describe.only('Media - Model', () => {
    .then((media) => {
      expect(media).toExist()
      expect(media.metadata).toExist()
-     expect(typeof media.metadata).toBeA('string')
+     expect(media.metadata).toBeA('string')
      try {
        metadata = JSON.parse(media.metadata)
      } catch (e) {
        done(e)
      } finally {
       expect(metadata).toExist()
-      expect(typeof metadata).toBeA('object')
+      expect(metadata).toBeA('object')
      }
      done()
    })
