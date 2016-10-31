@@ -35,6 +35,15 @@ describe.only('Media - Model', () => {
    .then((media) => {
      expect(media).toExist()
      expect(media.metadata).toExist()
+     expect(typeof media.metadata).toBeA('string')
+     try {
+       metadata = JSON.parse(media.metadata)
+     } catch (e) {
+       done(e)
+     } finally {
+      expect(metadata).toExist()
+      expect(typeof metadata).toBeA('object')
+     }
      done()
    })
    .catch(done)
