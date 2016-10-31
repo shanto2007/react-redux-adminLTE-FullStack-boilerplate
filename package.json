@@ -1,6 +1,6 @@
 {
   "name": "soccer-tournament-manager",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "WIP: Api for regional soccer torunaments' management, using express, mongo, React/Redux ",
   "main": "server.js",
   "repository": "https://github.com/Kirkhammetz/soccer-tournament-manager",
