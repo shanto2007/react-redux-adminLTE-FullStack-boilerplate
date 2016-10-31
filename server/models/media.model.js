@@ -8,6 +8,7 @@ const MediaSchema = mongoose.Schema({
   filename: { type: String },
   path: { type: String },
   type: { type: String, default: null },
+  metadata: { type: mongoose.Schema.Types.Mixed },
 })
 
 MediaSchema.set('toObject', { virtuals: true });
@@ -15,6 +16,18 @@ MediaSchema.set('toJSON', { virtuals: true });
 
 MediaSchema.virtual('thumbnail').get(function mediaThumbPathVirtual() {
   return `/${secrets.UPLOAD_DIRNAME}/thumbnail/${this.filename}`
+})
+
+MediaSchema.pre('validate', function preValidateMedia(next) {
+  const media = this
+  if (media.isModified('metadata') && typeof media.metadata !== 'string') {
+    try {
+      media.metadata = JSON.stringify(media.metadata)
+    } catch (e) {
+      next(e)
+    }
+  }
+  next()
 })
 
 MediaSchema.pre('save', function preSave(done) {

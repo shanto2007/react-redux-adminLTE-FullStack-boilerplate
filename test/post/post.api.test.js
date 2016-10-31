@@ -11,7 +11,7 @@ const jwt      = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 
-describe.only('Post - API', () => {
+describe('Post - API', () => {
   let userAuthToken, postId
 
   before(() => {

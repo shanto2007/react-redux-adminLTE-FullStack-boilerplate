@@ -5,7 +5,7 @@ const path     = require('path')
 const chai     = require('chai')
 const expect   = require('expect')
 
-describe('Media - Model', () => {
+describe.only('Media - Model', () => {
  let dummyMedia
 
  before(() => {
@@ -19,6 +19,22 @@ describe('Media - Model', () => {
    .then((media) => {
      expect(media).toExist()
      dummyMedia = media
+     done()
+   })
+   .catch(done)
+ })
+
+ it('should create a media with metadata', (done) => {
+   Media.create({
+     filename: 'mymedia.jpg',
+     metadata: {
+       title: 'MyTitle',
+       description: 'MyDescription'
+     }
+   })
+   .then((media) => {
+     expect(media).toExist()
+     expect(media.metadata).toExist()
      done()
    })
    .catch(done)
