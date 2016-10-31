@@ -11,7 +11,7 @@ const jwt      = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 
-describe('Post - API', () => {
+describe.only('Post - API', () => {
   let userAuthToken, postId
 
   before(() => {
@@ -83,6 +83,29 @@ describe('Post - API', () => {
         done()
       })
     })
+
+    it('should create a post with METADAT', (done) => {
+      return chai.request(app)
+      .post('/api/admin/post')
+      .set('Authorization', userAuthToken)
+      .send({
+        title: 'MyFirstPost',
+        body: 'MyBody!',
+        metadata: {
+          eventDate: new Date(),
+          location: 'Some Location',
+        }
+      })
+      .end((err, res) => {
+        console.log(res.body)
+        expect(res.status).toBe(200)
+        expect(res.body.post).toExist()
+        expect(res.body.post.metadata).toExist()
+        expect(typeof res.body.post.metadata).toBeA('string')
+        done()
+      })
+    })
+
   })
 
   describe('Edit', () => {

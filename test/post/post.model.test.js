@@ -70,6 +70,19 @@ describe('Post - Model', () => {
       })
   })
 
+  it('should save metadata', (done) => {
+    const title = 'RandomTitle'
+    const body = 'RandomBody'
+    const metadata = { eventData: new Date(), location: '0.1233 -0.1232121' }
+    Post.create({ title, body, metadata })
+    .then((post) => {
+      expect(post).toExist()
+      expect(post.metadata).toExist()
+      expect(typeof post.metadata).toBe('string')
+      done()
+    }).catch(done)
+  })
+
   after((done) => {
     return Post.remove({}).exec().then(done())
   })

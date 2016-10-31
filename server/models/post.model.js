@@ -18,6 +18,19 @@ const postSchema = mongoose.Schema({
   type: { type: String, default: 'post' },
   media: { type: mongoose.Schema.ObjectId, ref: 'media' },
   created: { type: Date, default: Date.now() },
+  metadata: { type: mongoose.Schema.Types.Mixed },
+})
+
+postSchema.pre('validate', function preValidatePost(next) {
+  const post = this
+  if (post.isModified('metadata') && typeof this.metadata !== 'string') {
+    try {
+      this.metadata = JSON.stringify(this.metadata)
+    } catch (e) {
+      next(e)
+    }
+  }
+  next()
 })
 
 postSchema.pre('save', function preSavePost(next) {

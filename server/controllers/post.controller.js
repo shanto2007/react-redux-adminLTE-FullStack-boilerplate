@@ -52,7 +52,7 @@ module.exports = {
     })
   },
   create: (req, res) => {
-    const { title, body, type } = req.body
+    const { title, body, type, metadata } = req.body
     if (!title || !title.length) {
       return res.status(400).json({
         success: false,
@@ -71,6 +71,7 @@ module.exports = {
       title,
       body,
       type,
+      metadata,
     })
     .then((post) => {
       return res.json({
@@ -89,7 +90,7 @@ module.exports = {
   },
   edit: (req, res) => {
     const { id } = req.params
-    const { title, body, type } = req.body
+    const { title, body, type, metadata } = req.body
     return Post.findById(id)
     .then((post) => {
       if (!post) {
@@ -101,6 +102,7 @@ module.exports = {
       if (title) post.title = title
       if (body) post.body = body
       if (type) post.type = type
+      if (metadata) post.metadata = metadata
 
       return post.save()
     })
