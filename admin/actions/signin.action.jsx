@@ -1,6 +1,6 @@
-import Api from 'Http'
-import { setAuthToken } from 'account.action'
-import { openToastr } from 'toastr.action'
+import Api from 'lib/Http'
+import { setAuthToken } from './account.action'
+import { openToastr } from './toastr.action'
 
 /**
  * SIGNIN ACTIONS

@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setSettings, startSaveSettings, startGetSettings } from 'actions'
-import Box from 'Box'
+
+import { setSettings, startSaveSettings, startGetSettings } from 'actions/actions'
+import Box from 'shared/Box'
 
 class Settings extends React.Component {
   constructor(props) {

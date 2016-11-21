@@ -4,7 +4,7 @@
 const defaultEditorState = {
   data: null,
 }
-export const account = (state = defaultEditorState, action) => {
+export const editor = (state = defaultEditorState, action) => {
   switch (action.type) {
     case 'SET_EDITOR_DATA':
       return {

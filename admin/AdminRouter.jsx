@@ -1,36 +1,36 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
-import { getUserData, setAuthToken } from 'actions'
+import { getUserData, setAuthToken } from 'actions/actions'
 
-import AdminWrapper from 'AdminWrapper'
+import MainWrapper from 'views/MainWrapper'
 
-const genRoutes = (adminRoutes) => {
+const genRoutes = (AdminRouter) => {
   const routes = [
     {
       path: '/login',
-      getComponents: (a, cb) => require.ensure([], () => cb(null, require('Login').default)),
-      onEnter: adminRoutes.redirectIfLoggedIn.bind(adminRoutes),
+      getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/auth/Login').default)),
+      onEnter: AdminRouter.redirectIfLoggedIn.bind(AdminRouter),
     },
     {
-      path: '/join',
-      getComponents: (a, cb) => require.ensure([], require => { cb(null, require('Register').default) }),
+      path: '/register',
+      getComponents: (a, cb) => require.ensure([], require => { cb(null, require('views/auth/Register').default) }),
     },
     {
       path: '/admin',
-      component: AdminWrapper,
+      component: MainWrapper,
       indexRoute: {
-        getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUserList').default)),
+        getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/users/List').default)),
       },
-      onEnter: adminRoutes.requireAuth.bind(adminRoutes),
+      onEnter: AdminRouter.requireAuth.bind(AdminRouter),
       childRoutes: [
         {
           path: 'users',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('AdminUserList').default)),
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/users/List').default)),
         },
         {
           path: 'settings',
-          getComponents: (a, cb) => require.ensure([], () => cb(null, require('Settings').default)),
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/settings/Settings').default)),
         },
       ],
     },
@@ -38,7 +38,7 @@ const genRoutes = (adminRoutes) => {
   return routes
 }
 
-export class AdminRoutes extends React.Component {
+export class AdminRouter extends React.Component {
   requireAuth(nextState, replace, next) {
     const { dispatch } = this.props
     const { store } = this.props
@@ -78,9 +78,9 @@ export class AdminRoutes extends React.Component {
   }
 }
 
-AdminRoutes.propTypes = {
+AdminRouter.propTypes = {
   dispatch: React.PropTypes.func,
   store: React.PropTypes.object,
 };
 
-export default connect()(AdminRoutes);
+export default connect()(AdminRouter);

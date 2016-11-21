@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { startLogout, openToastr } from 'actions'
 
-class AdminNav extends React.Component {
+import { startLogout, openToastr } from 'actions/actions'
+
+class Navigation extends React.Component {
   onLogout() {
     const { dispatch } = this.props;
     dispatch(startLogout())
@@ -92,11 +93,11 @@ class AdminNav extends React.Component {
   }
 }
 
-AdminNav.propTypes = {
+Navigation.propTypes = {
   account: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 }
 
 export default connect((state) => ({
   account: state.account,
-}))(AdminNav)
+}))(Navigation)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { startGetUsersList, startDeleteUser } from 'actions'
+
+import { startGetUsersList, startDeleteUser } from 'actions/actions'
 
 class AdminUserList extends React.Component {
   constructor(props) {

@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
-import { loadAdminStaticAssets } from 'ChunkLoaders'
-import { login, loginFormError } from 'actions'
+
+import { loadAdminStaticAssets } from 'lib/ChunkLoaders'
+import { login, loginFormError } from 'actions/actions'
 
 class Login extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class Login extends React.Component {
           </form>
           <p className="sign-in">
             Don't you have an account?
-            <Link to="/join">sign in</Link>
+            <Link to="/register">sign in</Link>
           </p>
         </div>
       </div>

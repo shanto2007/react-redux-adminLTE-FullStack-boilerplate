@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loadAdminStaticAssets } from 'ChunkLoaders'
-import AdminNav from 'AdminNav'
+
+import { loadAdminStaticAssets } from 'lib/ChunkLoaders'
+import Navigation from 'components/Navigation'
 
 
-class AdminWrapper extends React.Component {
+class MainWrapper extends React.Component {
   componentDidMount() {
     loadAdminStaticAssets()
     .then(() => {
@@ -19,7 +20,7 @@ class AdminWrapper extends React.Component {
   render() {
     return (
       <div id="admin-app-wrapper" className="wrapper">
-        <AdminNav />
+        <Navigation />
         <div className="content-wrapper">
           <section className="content">
             {this.props.children}
@@ -30,8 +31,8 @@ class AdminWrapper extends React.Component {
   }
 }
 
-AdminWrapper.propTypes = {
+MainWrapper.propTypes = {
   children: React.PropTypes.node,
 }
 
-export default connect()(AdminWrapper);
+export default connect()(MainWrapper);

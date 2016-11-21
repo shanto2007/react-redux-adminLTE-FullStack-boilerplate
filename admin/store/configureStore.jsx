@@ -1,6 +1,7 @@
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux'
-import * as reducers from 'reducers'
 import thunk from 'redux-thunk'
+
+import * as reducers from 'reducers/reducers'
 
 const configureStore = (initialState = {}) => {
   const reducer = combineReducers({

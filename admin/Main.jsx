@@ -1,26 +1,27 @@
 import React from 'react'
 import { render } from 'react-dom'
+import Toastr from 'toastr'
+
+/**
+* REDUX
+*/
+import configureStore from 'store/configureStore'
+
+import {
+  setAuthToken,
+  closeToastr,
+} from 'actions/actions'
+
+/**
+* HELPERs
+*/
+import * as authTokenLocalStorage from 'lib/authtoken.localstorage'
 
 /**
  * ROUTES
  */
-import AdminRoutes from 'AdminRoutes'
-/**
- * REDUX
- */
-import configureStore from 'configureStore'
-import {
-  setAuthToken,
-  closeToastr,
-} from 'actions'
+import AdminRouter from './AdminRouter'
 
-/**
- * HELPERs
- */
-import * as authTokenLocalStorage from 'authtoken.localstorage'
-
-//  Toaster
-import Toastr from 'toastr'
 
 const store = configureStore()
 let currentToastrType
@@ -42,13 +43,13 @@ store.dispatch(setAuthToken(authTokenLocalStorage.getTokenFromStorage()))
 
 // Styles
 require.ensure([], require => {
-  require('style!css!sass!applicationStyles')
+  require('style!css!sass!styles/app.scss')
 }, 'app-styles')
 
 require('style!css!toastr/build/toastr.css')
 
 
 render(
-  <AdminRoutes store={store} />,
+  <AdminRouter store={store} />,
   document.getElementById('app')
 )

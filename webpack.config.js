@@ -35,7 +35,7 @@ module.exports = {
     ],
 
     admin: [
-      './app/admin.jsx'
+      'Main.jsx'
     ],
 
     'public.vendors': [
@@ -45,7 +45,7 @@ module.exports = {
     /**
      * PUBLIC BUNDLES
      */
-    'public.main': 'src/js/main.js',
+    'main.public': 'main.public.js',
     // .......
   },
 
@@ -68,7 +68,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'public.vendors',
       filename: 'public.vendors.bundle.js',
-      chunks: ['public.main'], // << add more public chunks here to get common chunks
+      chunks: ['main.public'], // << add more public chunks here to get common chunks
       minChunks: Infinity, // << may change for 2-3 depend on the project, you chose
     }),
     new webpack.ProvidePlugin({
@@ -102,20 +102,10 @@ module.exports = {
   },
 
   resolve:{
-    root: __dirname,
-    modulesDirectories: [
-      'node_modules',
-      './app/shared',
-      './app/store',
-      './app/reducers',
-      './app/actions',
-      './app/components',
-      './app/admin',
+    root: [
+      path.resolve(__dirname, 'admin'),
+      path.resolve(__dirname, 'src/js'),
     ],
-    alias:{
-      AdminRoutes:       'app/AdminRoutes.jsx',
-      applicationStyles: 'app/styles/app.scss',
-    },
     extensions: ['','.js','.jsx']
   },
 

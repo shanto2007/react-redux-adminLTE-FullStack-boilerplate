@@ -1,5 +1,5 @@
-import Api from 'Http'
-import { openToastr } from 'toastr.action'
+import Api from 'lib/Http'
+import { openToastr } from './toastr.action'
 
 export const usersLoading = (loading = false) => {
   return {

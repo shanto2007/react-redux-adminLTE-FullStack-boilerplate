@@ -2,8 +2,9 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { loadAdminStaticAssets } from 'ChunkLoaders'
-import { validPassword, validPasswordCheck, signinPasswordError, checkUserExist, startSignin } from 'actions'
+
+import { loadAdminStaticAssets } from 'lib/ChunkLoaders'
+import { validPassword, validPasswordCheck, signinPasswordError, checkUserExist, startSignin } from 'actions/actions'
 
 class Register extends React.Component {
   componentDidMount() {

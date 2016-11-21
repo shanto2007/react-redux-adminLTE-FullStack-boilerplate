@@ -1,5 +1,5 @@
-import Api from 'Http'
-import { accountSetData, setAuthToken } from 'actions'
+import Api from 'lib/Http'
+import { accountSetData, setAuthToken } from './actions'
 
 /**
  * AUTH ACTIONS
