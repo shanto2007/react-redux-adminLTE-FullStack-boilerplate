@@ -5,5 +5,6 @@ export * from './signin.reducer'
 export * from './settings.reducer'
 export * from './mail.reducer'
 export * from './toastr.reducer'
-export * from './editor.reducer'
 export * from './router.reducer'
+
+export * from './posts.reducer'

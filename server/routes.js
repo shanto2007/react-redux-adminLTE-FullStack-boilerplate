@@ -11,6 +11,7 @@ const MediaCtrl = require('./controllers/media.controller')
 const SettingCtrl = require('./controllers/setting.controller')
 const PublicCtrl = require('./controllers/public.controller')
 const EmailCtrl = require('./controllers/email.controller')
+const PostCtrl = require('./controllers/post.controller')
 
 /**
  * middleware
@@ -63,6 +64,19 @@ module.exports = (express, app) => {
   api.patch('/media/:id?', AuthRequired(), MediaCtrl.edit)
   api.delete('/media/:id?', AuthRequired(), MediaCtrl.delete)
   api.post('/media/upload', AuthRequired(), upload.single('media'), MediaCtrl.upload)
+
+  /**
+   * POSTS
+   */
+  api.get('/admin/posts', AuthRequired(), PostCtrl.index)
+
+  api.get('/admin/post/:id', AuthRequired(), PostCtrl.getSingle)
+
+  api.post('/admin/post', AuthRequired(), PostCtrl.create)
+  api.patch('/admin/post/:id', AuthRequired(), PostCtrl.edit)
+  api.delete('/admin/post/:id', AuthRequired(), PostCtrl.delete)
+  api.post('/admin/post/:id/featured', AuthRequired(), upload.single('postFeatured'), PostCtrl.uploadFeatured)
+  api.delete('/admin/post/:id/featured', AuthRequired(), PostCtrl.postMediaRemove)
 
   /**
    * ACCOUNT

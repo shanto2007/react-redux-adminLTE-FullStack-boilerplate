@@ -1,27 +1,30 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { loadMedium } from 'ChunkLoader'
-import { setEditorData, clearEditorData } from 'actions'
-import Box from 'Box'
+import { MediumLoader } from 'utils/ChunkLoaders'
+import {
+  setSinglePostTitle,
+  setSinglePostBody,
+} from 'actions/actions'
+import Box from 'shared/Box'
 
-/**
- * FIXME: project from connect is a placeholder from the fork I've imported it. Change for whatever
- * type of data you will need.
- */
 class Editor extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       Medium: null,
+      title: null,
+      body: null,
     }
   }
 
   componentWillMount() {
-    loadMedium().then((Medium) => {
+    MediumLoader().then((Medium) => {
       this.setState({
         Medium: new Medium('#editor', {
           autoLink: true,
           targetBlank: true,
+          toolbar: {
+            buttons: ['orderedlist', 'unorderedlist', 'bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'h4', 'h5', 'h6', 'quote'],
+          },
         }),
       })
     }).then(() => {
@@ -30,45 +33,59 @@ class Editor extends React.Component {
        * Input Listener
        */
       if (Medium) {
-        Medium.on(
-          document.getElementById('editor'),
-          'input',
-          this.getDescription.bind(this)
-        )
+        Medium.subscribe('editableInput', this.getDescription.bind(this))
       }
     })
   }
 
   componentDidUpdate() {
-    const { project } = this.props.project
-    const { projectId } = this.props
+    const { post } = this.props
     const { Medium } = this.state
-    if (Medium && projectId && !Medium.getContent().length) {
-      Medium.setContent(project.description)
-      this.titleInput.value = project.title
+    if (Medium && post && !Medium.getContent().length) {
+      Medium.setContent(post.body || '')
+      this.titleInput.value = post.title || ''
     }
   }
 
   componentWillUnmount() {
     const { Medium } = this.state
-    this.props.dispatch(clearEditorData())
-    Medium.off(document.getElementById('editor'), 'input', this.getDescription.bind(this))
+    Medium.unsubscribe('editableInput', this.getDescription.bind(this))
     Medium.destroy()
+  }
+
+  getTitle() {
+    const { dispatch } = this.props
+    const title = this.titleInput.value
+    dispatch(setSinglePostTitle(title))
   }
 
   getDescription() {
     const { dispatch } = this.props
     const { Medium } = this.state
-    const description = Medium.getContent()
-    //  TODO validation
-    dispatch(setEditorData(description))
+    const body = Medium.getContent()
+    dispatch(setSinglePostBody(body))
   }
 
   render() {
     const { loading } = this.props
     return (
-      <Box title="Project Content" loading={loading}>
-        <div id="editor"></div>
+      <Box title="Post Content" loading={loading}>
+        <div id="post-editor">
+          <div className="form-group">
+            <label htmlFor="post-title">Title</label>
+            <input
+              id="post-title"
+              name="post-title"
+              className="form-control"
+              ref={(c) => { this.titleInput = c }}
+              type="text"
+              placeholder="Project Title"
+              style={{ boxShadow: 'none' }}
+              onChange={() => this.getTitle()}
+            />
+          </div>
+          <div id="editor"></div>
+        </div>
       </Box>
     )
   }
@@ -76,14 +93,9 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
-  projectId: React.PropTypes.string,
-  project: React.PropTypes.object,
-  params: React.PropTypes.object,
-  dispatch: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func,
+  post: React.PropTypes.object,
   loading: React.PropTypes.bool,
 }
 
-export default connect((state) => ({
-  project: state.project,
-  loading: state.project.saving,
-}))(Editor)
+export default Editor

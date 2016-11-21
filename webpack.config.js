@@ -84,6 +84,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify(NODE_ENV),
       }
     }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /it|en/), // ADD OR REMOVE LOCALE YOU WANT TO KEEP
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({

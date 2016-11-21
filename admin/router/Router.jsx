@@ -25,6 +25,18 @@ const genRoutes = (AdminRouter) => {
       onEnter: AdminRouter.requireAuth.bind(AdminRouter),
       childRoutes: [
         {
+          path: 'posts',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/posts/List').default)),
+        },
+        {
+          path: 'post/create',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/posts/Create').default)),
+        },
+        {
+          path: 'post/:id',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/posts/Edit').default)),
+        },
+        {
           path: 'users',
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/users/List').default)),
         },

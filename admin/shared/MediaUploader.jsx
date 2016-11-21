@@ -1,18 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { loadDropzone } from 'ChunkLoaders'
+import { DropzoneLoader } from 'utils/ChunkLoaders'
 import {
   setProjectImages,
   startEditingProject,
   getProjectData,
-} from 'actions'
+} from 'actions/actions'
 
-import Box from 'Box'
+import Box from 'shared/Box'
 
-/**
- * FIXME: project from connect is a placeholder from the fork I've imported it. Change for whatever
- * type of data you will need.
- */
+let mediaUploader
+
 class ProjectMediaUploader extends React.Component {
   constructor(props) {
     super(props)
@@ -20,10 +18,11 @@ class ProjectMediaUploader extends React.Component {
 
   componentDidMount() {
     const { dispatch, projectId } = this.props
-    const that = this
-    loadDropzone().then((Dropzone) => {
+
+    DropzoneLoader().then((modules) => {
+      const { Dropzone } = modules
       Dropzone.autoDiscover = false
-      let mediaUploader = new Dropzone('#project-media-upload', {
+      mediaUploader = new Dropzone('#project-media-upload', {
         url: '/api/media/upload',
         paramName: 'media', // The name that will be used to transfer the file
         maxFilesize: 2, // MB
@@ -46,14 +45,11 @@ class ProjectMediaUploader extends React.Component {
           }
         }
       })
-      that.setState({
-        Dropzone: mediaUploader,
-      })
     })
   }
 
   componentWillUnmount() {
-    this.state.Dropzone.destroy()
+    mediaUploader.destroy()
   }
 
   render() {
