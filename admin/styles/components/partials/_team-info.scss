@@ -1,0 +1,28 @@
+@import '../base/variables';
+
+
+.team-name-editor{
+  position: relative;
+  .save-icon{
+    position: absolute;
+    font-size: 2rem;
+    top: 1rem;
+    left: 5px;
+  }
+
+  .edit-team-name{
+    border: 0px !important;
+    outline: 0px !important;
+    border-bottom: 1px solid white !important;
+    margin-bottom: 10px;
+    background: transparent !important;
+    color: $white !important;
+    transition: all ease-out .25s !important;
+    padding-bottom: 0 !important;
+    padding-left: 40px !important;
+    &:focus{
+      padding-bottom: 10px !important;
+      border-bottom: 2px solid white !important;
+    }
+  }
+}

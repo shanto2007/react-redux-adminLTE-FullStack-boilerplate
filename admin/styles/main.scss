@@ -3,15 +3,16 @@
 @import 'base/mixins';
 @import 'base/breakpoints';
 
+//  Management Component
+@import 'components/partials/editor';
+@import 'components/partials/buttons';
+@import 'components/partials/uploaders';
+
 //  Components
-@import 'components/admin-wrapper';
-@import 'components/editor';
-@import 'components/project-media-preview';
-@import 'components/gallery';
 
 
 body,html{
-  height:100% !important;
+  height:100%;
   font-size: 16px;
   @media #{$sm}{
     font-size: 14px;
@@ -33,4 +34,17 @@ body{
 
 *{
   font-family: 'Roboto';
+}
+
+.fa-1.5x{
+  font-size: 1.5rem !important;
+}
+.fa-2x{
+  font-size: 2rem !important;
+}
+.fa-3x{
+  font-size: 3rem !important;
+}
+.fa-4x{
+  font-size: 4rem !important;
 }

@@ -8,8 +8,11 @@ const defaultSigninState = {
   username: undefined,
   password: undefined,
   usernameExist: false,
+  emailExist: false,
   validPassword: null,
   validPasswordCheck: null,
+  passwordError: null,
+  passwordCheckError: null,
   success: null,
 }
 export const signin = (state = defaultSigninState, action) => {
@@ -19,10 +22,20 @@ export const signin = (state = defaultSigninState, action) => {
         ...state,
         usernameError: action.error,
       }
+    case 'SIGNIN_EMAIL_ERROR':
+      return {
+        ...state,
+        emailError: action.error,
+      }
     case 'SIGNIN_PASSWORD_ERROR':
       return {
         ...state,
         passwordError: action.error,
+      }
+    case 'SIGNIN_PASSWORD_CHECK_ERROR':
+      return {
+        ...state,
+        passwordCheckError: action.error,
       }
     case 'SIGNIN_FETCHING':
       return {
@@ -39,6 +52,11 @@ export const signin = (state = defaultSigninState, action) => {
       return {
         ...state,
         usernameExist: action.exist,
+      }
+    case 'NEW_USERNAME_EMAIL_EXIST':
+      return {
+        ...state,
+        emailExist: action.exist,
       }
     case 'VALID_PASSWORD':
       return {

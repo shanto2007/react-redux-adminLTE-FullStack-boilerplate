@@ -1,4 +1,4 @@
-import Api from 'lib/Http'
+import Api from 'utils/Http'
 
 export const mailLoading = (loading = false) => ({
   type: 'MAIL_LOADING',

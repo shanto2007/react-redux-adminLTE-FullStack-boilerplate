@@ -15,13 +15,12 @@ import {
 /**
 * HELPERs
 */
-import * as authTokenLocalStorage from 'lib/authtoken.localstorage'
+import * as authTokenLocalStorage from 'utils/authtoken.localstorage'
 
 /**
  * ROUTES
  */
-import AdminRouter from './AdminRouter'
-
+import Router from 'router/Router'
 
 const store = configureStore()
 let currentToastrType
@@ -43,13 +42,14 @@ store.dispatch(setAuthToken(authTokenLocalStorage.getTokenFromStorage()))
 
 // Styles
 require.ensure([], require => {
-  require('style!css!sass!styles/app.scss')
+  require('style!css!sass!styles/main.scss')
 }, 'app-styles')
 
-require('style!css!toastr/build/toastr.css')
-
+require.ensure([], require => {
+  require('style!css!toastr/build/toastr.css')
+}, 'admin-static-assets-styles')
 
 render(
-  <AdminRouter store={store} />,
+  <Router store={store} />,
   document.getElementById('app')
 )

@@ -1,0 +1,53 @@
+#admin-single-team{
+  .box-widget-player-single{
+    position: relative;
+    .player-remove-button, .player-back-button{
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 2rem;
+      color: white;
+      opacity: .75;
+      z-index: 999;
+    }
+    .team-header{
+      position: relative;
+    }
+    .avatar-upload-icon{
+      cursor: pointer;
+      position: relative;
+      top: 7px;
+      left: -50%;
+      color: white;
+      font-size: 2em;
+      opacity: .5;
+    }
+  }
+}
+
+.player-name-editor, .player-surname-editor{
+  position: relative;
+  .save-icon{
+    position: absolute;
+    font-size: 2rem;
+    top: 1rem;
+    left: 5px;
+  }
+
+  .edit-player-name, .edit-player-surname{
+    border: 0px !important;
+    outline: 0px !important;
+    border-bottom: 1px solid white !important;
+    margin-bottom: 10px;
+    background: transparent !important;
+    color: $white !important;
+    transition: all ease-out .25s !important;
+    padding-bottom: 0 !important;
+    padding-left: 40px !important;
+    &:focus{
+      padding-bottom: 10px !important;
+      border-bottom: 2px solid white !important;
+    }
+  }
+}

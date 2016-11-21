@@ -1,5 +1,5 @@
-import Api from 'lib/Http'
-import { accountSetData, setAuthToken } from './actions'
+import Api from 'utils/Http'
+import { accountSetData, setAuthToken } from './account.action'
 
 /**
  * AUTH ACTIONS
@@ -18,11 +18,11 @@ export const logout = () => ({
   type: 'AUTH:LOGOUT',
 })
 
-export const login = (username = '', password = '') => {
+export const login = (email = '', password = '') => {
   return (dispatch) => {
     dispatch(authLoading(true))
     return Api.post('/user/auth', {
-      username,
+      email,
       password,
     })
     .then((res) => {
@@ -33,10 +33,10 @@ export const login = (username = '', password = '') => {
       return res
     })
     .catch((err) => {
-      const { data } = err
+      const { data } = err.response
       dispatch(authLoading(false))
       dispatch(loginFormError(data.message))
-      return err
+      return err.response
     })
   }
 }

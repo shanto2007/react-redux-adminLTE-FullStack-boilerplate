@@ -1,0 +1,76 @@
+@import '../base/variables';
+@import '../base/spinners';
+
+body{
+  background: $primary;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+
+  #login-form{
+    background: $primary-dark;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 30px 15px;
+    text-align: center;
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+
+    .register-logo{
+      max-width: 75%;
+      height: auto;
+    }
+    .title{
+      margin: 15px auto;
+      padding: 0;
+      color: $white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: normal;
+    }
+    input[type="text"], input[type="email"], input[type="password"]{
+      display: block;
+      margin: 15px auto;
+      border: 0px;
+      outline: 0px;
+      padding: 10px 5px;
+      width: 250px;
+    }
+    #username-input{}
+    #password-input{}
+    .login-button{
+      display: block;
+      margin: 15px auto;
+      border: 0px;
+      outline: 0px;
+      padding: 10px 0px;
+      width: 260px;
+      background: $yellow;
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: $black;
+      cursor: pointer;
+      transition: all ease-out .25s;
+      &:hover{
+        background: $white;
+      }
+    }
+    .login-form-error{
+      color: $white;
+    }
+    .sign-in-cta{
+      font-size: .95rem;
+      color: $white;
+      font-weight: lighter;
+      a{
+        color: $white;
+        font-weight: normal;
+        text-decoration: underline;
+      }
+    }
+  }
+}

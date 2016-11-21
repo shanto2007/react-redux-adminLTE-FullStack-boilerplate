@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { loadAdminStaticAssets } from 'lib/ChunkLoaders'
+import { loadAdminStaticAssets } from 'utils/ChunkLoaders'
 import Navigation from 'components/Navigation'
 
 

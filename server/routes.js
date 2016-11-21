@@ -45,7 +45,12 @@ module.exports = (express, app) => {
    */
   api.post('/user/auth', UserCtrl.auth)
   api.post('/user', UserCtrl.create)
+  api.post('/user/:id/check-password', AuthRequired(), UserCtrl.checkPassword)
+  api.post('/user/:id/change-password', AuthRequired(), UserCtrl.changePassword)
+  api.post('/user/:id/change-email', AuthRequired(), UserCtrl.changeEmail)
   api.get('/user/:username/exist', UserCtrl.exist)
+  api.get('/user/username/:username/exist', UserCtrl.usernameExist)
+  api.get('/user/email/:email/exist', UserCtrl.userEmailExist)
   api.get('/users', AuthRequired('admin'), UserCtrl.index)
   api.delete('/user/:id', AuthRequired('admin'), UserCtrl.adminDelete)
 
@@ -82,7 +87,7 @@ module.exports = (express, app) => {
   /**
    * ADMIN SPA
    */
-  app.get(/^\/(login|join|admin)/, (req, res) => res.render('admin'))
+  app.get(/^\/(login|register|admin)/, (req, res) => res.render('admin'))
 
   /**
    * PUBLIC ROUTES

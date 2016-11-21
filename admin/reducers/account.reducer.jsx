@@ -4,6 +4,8 @@
 
 const defaultAccountState = {
   authToken: null,
+  checkPassword: null,
+  checkEmailExist: null,
   user: {
     username: null,
     id: null,
@@ -38,6 +40,16 @@ export const account = (state = defaultAccountState, action) => {
       return {
         ...state,
         user: action.user,
+      }
+    case 'ACCOUNT_CHECK_PASSWORD':
+      return {
+        ...state,
+        checkPassword: action.check,
+      }
+    case 'ACCOUNT_CHECK_EMAIL_EXIST':
+      return {
+        ...state,
+        checkEmailExist: action.check,
       }
     default:
       return state

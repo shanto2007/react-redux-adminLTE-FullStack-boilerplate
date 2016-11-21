@@ -3,10 +3,21 @@ const mongoose = require('../config/database')
 const jwt = require('jsonwebtoken')
 const secrets = require('../config/secrets')
 const bcrypt = require('bcrypt-nodejs')
+const validator = require('validator')
 
 const UserSchema = mongoose.Schema({
+  oid: { type: Number },
+  email: {
+    type: String,
+    validate: {
+      validator: (v) => validator.isEmail(v),
+      message: 'Insert a valid valid email.',
+    },
+    required: [true, 'Email is required!'],
+    unique: true,
+  },
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: [true, 'Password is required.'] },
   created: { type: Date, default: Date.now() },
   admin: { type: Boolean, default: false },
 })
@@ -20,6 +31,13 @@ UserSchema.pre('save', function userPreSave(next) {
   next()
 })
 
+UserSchema.statics.userExist = function userExist(field, check) {
+  let query = {}
+  if (field === 'username') query = { username: check }
+  if (field === 'email') query = { email: check }
+  if (!field) return Promise.reject('No Data Provided')
+  return this.findOne(query)
+}
 
 UserSchema.methods.checkPassword = function checkPassword(hash) {
   const { password } = this
@@ -37,6 +55,7 @@ UserSchema.methods.auth = function auth() {
     const token = jwt.sign({
       _id: usr._id,
       username: usr.username,
+      email: usr.email,
       admin: usr.admin,
     }, secrets.APP_KEY)
     return resolve({

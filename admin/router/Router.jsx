@@ -20,7 +20,7 @@ const genRoutes = (AdminRouter) => {
       path: '/admin',
       component: MainWrapper,
       indexRoute: {
-        getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/users/List').default)),
+        getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/dashboard/Dashboard').default)),
       },
       onEnter: AdminRouter.requireAuth.bind(AdminRouter),
       childRoutes: [
@@ -29,8 +29,16 @@ const genRoutes = (AdminRouter) => {
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/users/List').default)),
         },
         {
+          path: 'me',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/users/Me').default)),
+        },
+        {
           path: 'settings',
           getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/settings/Settings').default)),
+        },
+        {
+          path: '*',
+          getComponents: (a, cb) => require.ensure([], () => cb(null, require('views/errors/NotFound').default)),
         },
       ],
     },
