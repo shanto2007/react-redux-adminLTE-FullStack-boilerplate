@@ -58,11 +58,12 @@ module.exports = (express, app) => {
   /**
    * MEDIAS
    */
-  api.get('/medias', MediaCtrl.index)
-  api.get('/media/:id?', MediaCtrl.get)
+  api.get('/medias', AuthRequired(), MediaCtrl.index)
+  api.get('/medias/:type', AuthRequired(), MediaCtrl.indexByType)
+  api.get('/media/:id', MediaCtrl.get)
   api.post('/media', AuthRequired(), MediaCtrl.create)
-  api.patch('/media/:id?', AuthRequired(), MediaCtrl.edit)
-  api.delete('/media/:id?', AuthRequired(), MediaCtrl.delete)
+  api.patch('/media/:id/metadata', AuthRequired(), MediaCtrl.edit)
+  api.delete('/media/:id', AuthRequired(), MediaCtrl.delete)
   api.post('/media/upload', AuthRequired(), upload.single('media'), MediaCtrl.upload)
 
   /**
@@ -95,6 +96,14 @@ module.exports = (express, app) => {
    */
 
   api.post('/email', EmailCtrl.send)
+
+  api.all('*', (req, res) => {
+    return res.status(404).json({
+      success: false,
+      status: 404,
+      error: 'The route your are looking for doesn\'t exist!',
+    })
+  })
 
   app.use('/api', api)
 

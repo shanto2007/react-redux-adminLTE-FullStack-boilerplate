@@ -10,62 +10,36 @@ if (process.env.NODE_ENV === 'production') {
 global.Promise = require('bluebird')
 
 process.title = `node.${process.env.NODE_TITLE}`
+global.__root = __dirname
 
-const path = require('path')
+const PORT = process.env.PORT || 3000
+const moment = require('moment')
 const express = require('express')
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const secrets = require('./server/config/secrets')
 const routes = require('./server/routes')
+const globalMiddlewares = require('./server/middlewares/global.middleware')
 
 const app = express()
 
-const parseSettings = require('./server/middlewares/settings.middleware')(app)
-
-const PORT = process.env.PORT || 3000
-
-if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') {
-  app.use(morgan('dev'))
-} else {
-  // const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-  // app.use(morgan('combined', { stream: accessLogStream }))
-}
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-app.use(parseSettings)
+moment.locale('it')
+app.locals.moment = moment
 
 /**
- * HEROKU
+ * GLOBAL MIDDLEWARES
  */
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] === 'https') {
-    res.redirect(`http://${req.hostname}${req.url}`)
-  } else {
-    next()
-  }
-})
+globalMiddlewares(express, app)
 
 /**
- * TEMPALTE ENGINE
- */
-app.set('views', path.join(__dirname, './server/views'))
-app.set('view engine', 'pug');
-
-/**
- * STATICS
- */
-app.use(express.static(path.join(__dirname, 'public/')))
-app.use(`/${secrets.UPLOAD_DIRNAME}`, express.static(`${secrets.UPLOAD_DIRNAME}/`))
-
-/**
- * ROUTER
+ * ROUTE HANDLERS
  */
 routes(express, app)
 
-app.listen(PORT, () => console.log('Server started on ' + PORT))
-
 /**
- * TESTS
+ * START
  */
+app.listen(PORT, () => {
+  /* eslint no-console: off */
+  console.log(`Server started on ${PORT}`)
+  console.log(`Node App process named: ${process.title}`);
+})
+
 module.exports = app
