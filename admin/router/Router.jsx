@@ -68,12 +68,12 @@ export class AdminRouter extends React.Component {
     })
   }
   redirectIfLoggedIn(nextState, replace, next) {
-    const state = this.props.store.getState();
-    const { account } = state;
+    const state = this.props.store.getState()
+    const { account } = state
     if (account.authToken) {
       browserHistory.push('/admin')
     } else {
-      next();
+      next()
     }
   }
 
@@ -89,6 +89,6 @@ export class AdminRouter extends React.Component {
 AdminRouter.propTypes = {
   dispatch: React.PropTypes.func,
   store: React.PropTypes.object,
-};
+}
 
-export default connect()(AdminRouter);
+export default connect()(AdminRouter)
