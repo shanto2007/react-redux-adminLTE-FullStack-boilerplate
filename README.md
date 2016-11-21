@@ -30,29 +30,36 @@
   - Toastr.js
 
 - Public FrontEnd
-  - Foundation
+  - Foundation (I like it more)
   - jQuery (you can remove it in webpack public.vendors.bundle)
-  - WebFontLoader ready
+  - WebFontLoader Ready
   - ES6 Workflow
   - so... import the module you want/need :)
 
 - BackEnd
   - Express.js
   - body-parser
-  - morgan
+  - PUG engine
+  - Morgan/Winston (change what you need/want)
   - DotEnv
-  - JWT Auth
+  - JWT Auth ready (jsonwebtoken)
   - Multer
+  - Jimp (to manipulate media uploaded)
   - bcrypt-nodejs
   - Bluebird
+  - sanitize-html
+  - shortid
+  - validator
   - MongoDB
     - Mongoose
     - mongoose-url-slugs
   - Nodemailer
     - Nodemailer for postfix
+  - DotEnv
   - ... add/remove what you need then
 
 - Tools
+  - Yarn (yarn is used for a better depency management)
   - Webpack
   - Gulp
   - eslint
@@ -71,6 +78,12 @@
 
     git clone https://github.com/Kirkhammetz/react-redux-adminlte-boilerplate
     npm install
+
+**YARN**
+I've started using yarn to have a better depency management, is doing well so far, you can still use NPM but if you want to use yarn simply:
+
+    npm install -g yarn
+    yarn install
 
 **START** using node
 
@@ -104,7 +117,7 @@ Views are rendered by the server using PUG (former Jade), the folder is in **ser
 
 Admin dashboard is a SPA and it's rendered by calling 'admin' (views/admin.pug) using the template in views/templates/dashboard.pug, routes catch for admin Views:
 
-    /^\/(admin|login|join)/
+    /^\/(admin|login|register)/
 
 Public views template server/views/templates/main.pug, called by render('home') or watherver your page is, there is an error.pug for displaying server errors to the enduser
 
