@@ -1,6 +1,6 @@
 {
   "name": "react-redux-adminlte-boilerplate",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Simple react/redux Portfolio webapp Boilerplate",
   "main": "server.js",
   "scripts": {
