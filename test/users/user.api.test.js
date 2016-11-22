@@ -192,6 +192,16 @@ describe('User - API', () => {
         done()
       })
     })
+    it('should NOT get restricted route', (done) => {
+      chai.request(app)
+      .get('/api/users')
+      .set('Authorization', user_token)
+      .end((err, res) => {
+        expect(res.status).toBe(401)
+        expect(res.status).toNotBe(200)
+        done()
+      })
+    })
   })
 
   describe('Delete users', () => {

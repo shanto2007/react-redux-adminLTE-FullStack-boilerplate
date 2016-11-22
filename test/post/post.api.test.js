@@ -5,6 +5,7 @@ const app      = require(testenv.app)
 const chai     = require('chai')
 const chaiHttp = require('chai-http')
 const expect   = require('expect')
+const User     = require(testenv.serverdir + 'models/user.model')
 const Post     = require(testenv.serverdir + 'models/post.model')
 const Media     = require(testenv.serverdir + 'models/media.model')
 const jwt      = require('jsonwebtoken')
@@ -14,12 +15,22 @@ chai.use(chaiHttp)
 describe('Post - API', () => {
   let userAuthToken, postId
 
-  before(() => {
-    userAuthToken = jwt.sign({
-      username: 'admin',
+  before((done) => {
+    return User.create({
       admin: true,
-    }, process.env.APP_KEY )
+      username: 'admin',
+      password: 'admin',
+      email: 'test@example.com',
+    })
+    .then((user) => {
+      userAuthToken = jwt.sign(user.toJSON(), process.env.APP_KEY)
+      done()
+    })
+    .catch((err) => {
+      done(err)
+    })
   })
+
 
   describe('Creation', () => {
     it('should return error without acesss token', (done) => {
@@ -217,7 +228,7 @@ describe('Post - API', () => {
     Promise.all([
       Post.remove({}),
       Media.remove({}),
-      // ...
+      User.remove({}),
     ]).then(done()).catch(done)
   })
 })

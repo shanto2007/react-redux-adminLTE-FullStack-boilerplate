@@ -51,13 +51,8 @@ UserSchema.methods.checkPassword = function checkPassword(hash) {
 
 UserSchema.methods.auth = function auth() {
   return new Promise((resolve) => {
-    const usr = this
-    const token = jwt.sign({
-      _id: usr._id,
-      username: usr.username,
-      email: usr.email,
-      admin: usr.admin,
-    }, secrets.APP_KEY)
+    const usr = this.toJSON()
+    const token = jwt.sign(usr, secrets.APP_KEY)
     return resolve({
       message: 'Authorization token',
       success: true,

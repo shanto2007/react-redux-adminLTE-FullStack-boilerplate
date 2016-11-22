@@ -1,21 +1,31 @@
 const { testenv } = global
-const app = require(testenv.app)
-const Setting = require(testenv.serverdir + 'models/setting.model')
-const chai = require('chai')
+const app      = require(testenv.app)
+const Setting  = require(testenv.serverdir + 'models/setting.model')
+const User     = require(testenv.serverdir + 'models/user.model')
+const chai     = require('chai')
 const chaiHttp = require('chai-http')
-const expect = require('expect')
-const jwt = require('jsonwebtoken')
+const expect   = require('expect')
+const jwt      = require('jsonwebtoken')
 
 chai.use(chaiHttp)
 
 describe('Setting - API', () => {
   let userAuthToken
 
-  before(() => {
-    userAuthToken = jwt.sign({
+  before((done) => {
+    return User.create({
+      admin: true,
       username: 'admin',
-      admin: 'admin',
-    }, process.env.APP_KEY )
+      password: 'admin',
+      email: 'test@example.com',
+    })
+    .then((user) => {
+      userAuthToken = jwt.sign(user.toJSON(), process.env.APP_KEY)
+      done()
+    })
+    .catch((err) => {
+      done(err)
+    })
   })
 
   it('should create the setting', (done) => {
@@ -73,9 +83,9 @@ describe('Setting - API', () => {
 
 
   after((done) => {
-    Promise
-      .resolve(Setting.remove({}))
-      .then(done())
-      .catch(done)
+    return Promise.all([
+      Setting.remove({}),
+      User.remove({}),
+    ]).then(done()).catch(done)
   })
 })

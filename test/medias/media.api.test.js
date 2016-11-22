@@ -1,6 +1,7 @@
 const { testenv } = global
 const app         = require(testenv.app)
 const Media       = require(testenv.serverdir + 'models/media.model')
+const User       = require(testenv.serverdir + 'models/user.model')
 const fs          = require('fs')
 const path        = require('path')
 const chai        = require('chai')
@@ -15,12 +16,21 @@ chai.use(chaiHttp)
 describe('Media - API', () => {
   let mediaId, userAuthToken, storedMediaPath, storedThumbPath, preUploadMediaStat, mediaWithMetaId
 
-  // generate a auth dummy token
-  before(() => {
-    userAuthToken = jwt.sign({
+  // Generate User and AuthToken
+  before((done) => {
+    return User.create({
+      admin: true,
       username: 'admin',
-      admin: 'admin',
-    }, process.env.APP_KEY )
+      password: 'admin',
+      email: 'test@example.com',
+    })
+    .then((user) => {
+      userAuthToken = jwt.sign(user.toJSON(), process.env.APP_KEY)
+      done()
+    })
+    .catch((err) => {
+      done(err)
+    })
   })
 
   it('should NOT upload a media without an authToken', (done) => {
@@ -246,6 +256,9 @@ describe('Media - API', () => {
   })
 
   after((done) => {
-    Media.remove({}).then(done()).catch(done)
+    Promise.all([
+      Media.remove({}),
+      User.remove({}),
+    ]).then(done()).catch(done)
   })
 })
