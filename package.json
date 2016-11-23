@@ -12,9 +12,9 @@
     "build:dev": "NODE_ENV=dev webpack -p",
     "build:watch": "NODE_ENV=dev webpack -w",
     "build:prod": "NODE_ENV=production webpack -p && gulp",
+    "build:stats": "NODE_ENV=production webpack --profile --json > stats.json",
     "assets": "gulp",
-    "assets:watch": "gulp watch",
-    "build:stats": "NODE_ENV=production webpack --profile --json > stats.json"
+    "assets:watch": "gulp watch"
   },
   "author": "",
   "license": "ISC",
