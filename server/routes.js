@@ -69,15 +69,15 @@ module.exports = (express, app) => {
   /**
    * POSTS
    */
-  api.get('/admin/posts', AuthRequired(), PostCtrl.index)
+  api.get('/posts', AuthRequired(), PostCtrl.index)
 
-  api.get('/admin/post/:id', AuthRequired(), PostCtrl.getSingle)
+  api.get('/post/:id', AuthRequired(), PostCtrl.getSingle)
 
-  api.post('/admin/post', AuthRequired(), PostCtrl.create)
-  api.patch('/admin/post/:id', AuthRequired(), PostCtrl.edit)
-  api.delete('/admin/post/:id', AuthRequired(), PostCtrl.delete)
-  api.post('/admin/post/:id/featured', AuthRequired(), upload.single('postFeatured'), PostCtrl.uploadFeatured)
-  api.delete('/admin/post/:id/featured', AuthRequired(), PostCtrl.postMediaRemove)
+  api.post('/post', AuthRequired(), PostCtrl.create)
+  api.patch('/post/:id', AuthRequired(), PostCtrl.edit)
+  api.delete('/post/:id', AuthRequired(), PostCtrl.delete)
+  api.post('/post/:id/featured', AuthRequired(), upload.single('postFeatured'), PostCtrl.uploadFeatured)
+  api.delete('/post/:id/featured', AuthRequired(), PostCtrl.postMediaRemove)
 
   /**
    * ACCOUNT

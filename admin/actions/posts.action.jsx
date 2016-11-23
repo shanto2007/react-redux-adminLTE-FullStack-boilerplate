@@ -54,7 +54,7 @@ export const startGetPosts = () => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(postLoading(true))
-    return Api.get('/admin/posts', {
+    return Api.get('/posts', {
       headers: {
         Authorization: authToken,
       },
@@ -79,7 +79,7 @@ export const startGetSinglePost = (postId) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(postLoading(true))
-    return Api.get(`/admin/post/${postId}`, {
+    return Api.get(`/post/${postId}`, {
       headers: {
         Authorization: authToken,
       },
@@ -103,7 +103,7 @@ export const startGetTypePost = (type) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(postLoading(true))
-    return Api.get(`/admin/post/${type}`, {
+    return Api.get(`/post/${type}`, {
       headers: {
         Authorization: authToken,
       },
@@ -128,7 +128,7 @@ export const startEditTypePost = (type) => {
     const authToken = store.account.authToken
     const { post } = store.posts
     dispatch(postLoading(true))
-    return Api.post(`/admin/post/${type}`, post, {
+    return Api.post(`/post/${type}`, post, {
       headers: {
         Authorization: authToken,
       },
@@ -155,7 +155,7 @@ export const startSavePost = () => {
     const authToken = store.account.authToken
     const { post } = store.posts
     dispatch(postLoading(true))
-    return Api.post('/admin/post', post, {
+    return Api.post('/post', post, {
       headers: {
         Authorization: authToken,
       },
@@ -182,7 +182,7 @@ export const startEditPost = () => {
     const authToken = store.account.authToken
     const { post } = store.posts
     dispatch(postLoading(true))
-    return Api.patch(`/admin/post/${post._id}`, post, {
+    return Api.patch(`/post/${post._id}`, post, {
       headers: {
         Authorization: authToken,
       },
@@ -208,7 +208,7 @@ export const startDeletePost = (postId) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(postLoading(true))
-    return Api.delete(`/admin/post/${postId}`, {
+    return Api.delete(`/post/${postId}`, {
       headers: {
         Authorization: authToken,
       },
@@ -232,7 +232,7 @@ export const startDeletePostFeaturedImage = (postId) => {
     const store = getState()
     const authToken = store.account.authToken
     dispatch(postLoading(true))
-    return Api.delete(`/admin/post/${postId}/featured`, {
+    return Api.delete(`/post/${postId}/featured`, {
       headers: {
         Authorization: authToken,
       },

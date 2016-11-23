@@ -35,7 +35,7 @@ describe('Post - API', () => {
   describe('Creation', () => {
     it('should return error without acesss token', (done) => {
       return chai.request(app)
-      .post('/api/admin/post')
+      .post('/api/post')
       .end((err, res) => {
         expect(res.status).toBe(400)
         done()
@@ -43,7 +43,7 @@ describe('Post - API', () => {
     })
     it('should return validation error if title is not passed', (done) => {
       return chai.request(app)
-      .post('/api/admin/post')
+      .post('/api/post')
       .set('Authorization', userAuthToken)
       .send({})
       .end((err, res) => {
@@ -53,7 +53,7 @@ describe('Post - API', () => {
     })
     it('should return validation error if body is not passed', (done) => {
       return chai.request(app)
-      .post('/api/admin/post')
+      .post('/api/post')
       .set('Authorization', userAuthToken)
       .send({
         title: 'MyFirstPost',
@@ -65,7 +65,7 @@ describe('Post - API', () => {
     })
     it('should create a post', (done) => {
       return chai.request(app)
-      .post('/api/admin/post')
+      .post('/api/post')
       .set('Authorization', userAuthToken)
       .send({
         title: 'MyFirstPost',
@@ -80,7 +80,7 @@ describe('Post - API', () => {
     })
     it('should sanitize the inputs', (done) => {
       return chai.request(app)
-      .post('/api/admin/post')
+      .post('/api/post')
       .set('Authorization', userAuthToken)
       .send({
         title: '<h1>MyUnsanitizedPost</h1>',
@@ -97,7 +97,7 @@ describe('Post - API', () => {
 
     it('should create a post with METADAT', (done) => {
       return chai.request(app)
-      .post('/api/admin/post')
+      .post('/api/post')
       .set('Authorization', userAuthToken)
       .send({
         title: 'MyFirstPost',
@@ -121,7 +121,7 @@ describe('Post - API', () => {
   describe('Edit', () => {
     it('should return error without acesss token', (done) => {
       return chai.request(app)
-      .patch(`/api/admin/post/${postId}`)
+      .patch(`/api/post/${postId}`)
       .end((err, res) => {
         expect(res.status).toBe(400)
         done()
@@ -129,7 +129,7 @@ describe('Post - API', () => {
     })
     it('should return 404 if no ID is passed', (done) => {
       return chai.request(app)
-      .patch('/api/admin/post')
+      .patch('/api/post')
       .set('Authorization', userAuthToken)
       .send({})
       .end((err, res) => {
@@ -139,7 +139,7 @@ describe('Post - API', () => {
     })
     it('should edit the post', (done) => {
       return chai.request(app)
-      .patch(`/api/admin/post/${postId}`)
+      .patch(`/api/post/${postId}`)
       .set('Authorization', userAuthToken)
       .send({
         title: 'MyEditedTitle',
@@ -156,7 +156,7 @@ describe('Post - API', () => {
   describe('Post Media', () => {
     it('should NOT upload without access token', (done) => {
       return chai.request(app)
-        .post(`/api/admin/post/${postId}/featured`)
+        .post(`/api/post/${postId}/featured`)
         .end((err, res) => {
           expect(res.status).toBe(400)
           done()
@@ -164,7 +164,7 @@ describe('Post - API', () => {
     })
     it('should NOT upload without post ID', (done) => {
       return chai.request(app)
-        .post(`/api/admin/post/undefined/featured`)
+        .post(`/api/post/undefined/featured`)
         .end((err, res) => {
           expect(res.status).toBe(400)
           done()
@@ -173,7 +173,7 @@ describe('Post - API', () => {
     it('should upload featured image', (done) => {
       let mediaFile = path.join( __dirname, './media/test.jpeg' )
       return chai.request(app)
-      .post(`/api/admin/post/${postId}/featured`)
+      .post(`/api/post/${postId}/featured`)
       .set('Authorization', userAuthToken)
       .attach('postFeatured', fs.readFileSync(mediaFile), 'test.jpeg')
       .end((err, res) => {
@@ -185,7 +185,7 @@ describe('Post - API', () => {
 
     it('should REMOVE featured image', (done) => {
       return chai.request(app)
-      .delete(`/api/admin/post/${postId}/featured`)
+      .delete(`/api/post/${postId}/featured`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toBe(200)
@@ -199,7 +199,7 @@ describe('Post - API', () => {
   describe('Delete', () => {
     it('should NOT delete without access token', (done) => {
       return chai.request(app)
-      .delete(`/api/admin/post/${postId}`)
+      .delete(`/api/post/${postId}`)
       .end((err, res) => {
         expect(res.status).toBe(400)
         done()
@@ -207,7 +207,7 @@ describe('Post - API', () => {
     })
     it('should NOT delete without an ID', (done) => {
       return chai.request(app)
-      .delete(`/api/admin/post/`)
+      .delete(`/api/post/`)
       .end((err, res) => {
         expect(res.status).toBe(404)
         done()
@@ -215,7 +215,7 @@ describe('Post - API', () => {
     })
     it('should delete', (done) => {
       return chai.request(app)
-      .delete(`/api/admin/post/${postId}`)
+      .delete(`/api/post/${postId}`)
       .set('Authorization', userAuthToken)
       .end((err, res) => {
         expect(res.status).toBe(200)
