@@ -118,19 +118,17 @@ openssl rand -base64 32
 
 ## <a name="4"></a> Route Structure
 
-  | restriction | Context | Routes |
-  |---|---|---|
-  | public  | api welcome routes | /api |
-  | auth or public  | api welcome routes | /api/[resource]/ |
-  | public | api 404 catch-all | api/* |
-  | auth | Dashboard Render views | /admin/[route] |
-  | public | Register View | /register|
-  | public | Login View | /login|
-  | public | Home View | /|
-  | public | All your Views | /... |
-  | public | catch-all 404 | * |
-
-
+| restriction | Context | Routes |
+|---|---|---|
+| public | api welcome routes | /api |
+| auth or public | api welcome routes | /api/[resource]/ |
+| public | api 404 catch-all | api/* |
+| auth | Dashboard Render views | /admin/[route] |
+| public | Register View | /register|
+| public | Login View | /login|
+| public | Home View | / |
+| public | All your Views | /[yourviews] |
+| public | catch-all 404 | /[*] |
 
 ## <a name="5"></a> Views Structure
 
