@@ -16,7 +16,6 @@ const titleSanitize = {
 
 const postSchema = mongoose.Schema({
   shortId: { type: String, default: shortid.generate },
-  oid: { type: Number },
   title: { type: String, required: [true, 'Post title not provided'] },
   slug: { type: String },
   body: { type: String, required: [true, 'Post body not provided'] },

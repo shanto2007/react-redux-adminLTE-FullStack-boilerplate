@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt-nodejs')
 const validator = require('validator')
 
 const UserSchema = mongoose.Schema({
-  oid: { type: Number },
   email: {
     type: String,
     validate: {
