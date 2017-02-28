@@ -40,5 +40,6 @@ module.exports = {
     "react/require-extension": ["off"],
     "global-require": ["off"],
     "new-cap": ['off'],
+    'jsx-a11y/anchor-has-content': ['off']
   },
 }
