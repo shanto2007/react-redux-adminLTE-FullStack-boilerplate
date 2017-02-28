@@ -18,10 +18,6 @@ const PORT         = process.env.PORT
 const TEST_PORT    = process.env.TEST_PORT
 
 module.exports = {
-  eslint:{
-    quiet: true,
-  },
-
   entry: {
 
     'admin.vendors': [
@@ -30,7 +26,7 @@ module.exports = {
       'react-router',
       'redux',
       'react-redux',
-      'script!jquery/dist/jquery.min.js',
+      'script-loader!jquery/dist/jquery.min.js',
       // 'lodash.omit',
     ],
 
@@ -39,7 +35,7 @@ module.exports = {
     ],
 
     'public.vendors': [
-      'script!jquery/dist/jquery.min.js',
+      'script-loader!jquery/dist/jquery.min.js',
     ],
 
     /**
@@ -85,13 +81,9 @@ module.exports = {
       }
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /it|en/), // ADD OR REMOVE LOCALE YOU WANT TO KEEP
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
-      comments: false,
-      mangle: true,
-      minimize: true,
+      sourceMap: true,
     }),
   ],
 
@@ -103,25 +95,33 @@ module.exports = {
   },
 
   resolve:{
-    root: [
+    modules: [
       path.resolve(__dirname, 'admin'),
       path.resolve(__dirname, 'src/js'),
+      'node_modules',
     ],
-    extensions: ['','.js','.jsx']
+    extensions: ['.js','.jsx']
   },
 
   module:{
-    preLoaders: [{
-        test: /\.jsx$/,
-        loader: "eslint-loader",
-        exclude: /(bower_components|node_modules)/
-    }],
-    loaders:[{
+    rules: [{
+      // EsLint
+      test: /\.jsx$/,
+      enforce: 'pre',
+      loader: "eslint-loader",
+      exclude: /(bower_components|node_modules)/
+    },{
+      // Babel
+      test: /\.jsx?$/,
       loader: 'babel-loader',
       query: {
-        presets: ['react', 'es2015', 'stage-0']
+        presets: [
+          'react',
+          // ['es2015', { modules: false }],
+          'es2017',
+          'stage-0',
+        ],
       },
-      test: /\.jsx?$/,
       exclude: /(bower_components|node_modules)/
     }, {
       // Images And Fonts
@@ -130,14 +130,34 @@ module.exports = {
       query: {
         name: 'statics/[hash].[ext]'
       },
-    },]
+    },{
+      test: /\.(scss|sass)$/,
+      exclude: /(bower_components|node_modules)/,
+      use: [
+        'style-loader',
+        'css-loader',
+        'sass-loader',
+      ]
+    },{
+      test: /\.css$/,
+      use: [
+       'style-loader',
+       'css-loader',
+     ]
+    },{
+      test: /\.min\.css$/,
+      loader: 'style-loader',
+    }],
   },
 
-  sassLoader: {
-    includePaths: [
-      path.resolve(__dirname, './node_modules/foundation-sites/scss')
-    ]
-  },
+  // sassLoader: {
+  //   includePaths: [
+  //     path.resolve(__dirname, './node_modules/foundation-sites/scss')
+  //   ]
+  // },
+  // eslint:{
+  //   quiet: true,
+  // },
 
   devtool: NODE_ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 }

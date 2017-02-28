@@ -11,7 +11,7 @@ import Editor from 'shared/Editor'
 import Box from 'shared/Box'
 import PostFeaturedUploader from 'components/PostFeaturedUploader'
 
-require('!style!css!sass!styles/components/post-single.scss')
+require('styles/components/post-single.scss')
 
 class PostEdit extends React.Component {
   constructor(props) {

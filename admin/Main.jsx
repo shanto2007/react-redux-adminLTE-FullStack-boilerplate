@@ -42,11 +42,11 @@ store.dispatch(setAuthToken(authTokenLocalStorage.getTokenFromStorage()))
 
 // Styles
 require.ensure([], require => {
-  require('style!css!sass!styles/main.scss')
+  require('styles/main.scss')
 }, 'app-styles')
 
 require.ensure([], require => {
-  require('style!css!toastr/build/toastr.css')
+  require('toastr/build/toastr.css')
 }, 'admin-static-assets-styles')
 
 render(

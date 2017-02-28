@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
 import { login, loginFormError } from 'actions/actions'
 
-require('style!css!sass!styles/views/login.scss')
+require('styles/views/login.scss')
 
 class Login extends React.Component {
   constructor(props) {

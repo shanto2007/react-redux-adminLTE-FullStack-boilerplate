@@ -19,7 +19,7 @@ export function MomentLoader() {
 export function DropzoneLoader() {
   return new Promise(resolve => {
     require.ensure([], () => {
-      require('style!css!dropzone/dist/dropzone.css')
+      require('dropzone/dist/dropzone.css')
 
       resolve({
         Dropzone: require('dropzone'),
@@ -43,12 +43,12 @@ export function getAdminStaticAssets() {
       global.AdminLTEOptions = {
         enableBSToppltip: true,
       }
-      require('!style!css!admin-lte/bootstrap/css/bootstrap.min.css')
-      require('!style!css!admin-lte/dist/css/AdminLTE.min.css')
-      require('!style!css!admin-lte/dist/css/skins/skin-blue.min.css')
-      require('!style!css!font-awesome/css/font-awesome.min.css')
-      require('!script!admin-lte/bootstrap/js/bootstrap.min.js')
-      require('!script!admin-lte/dist/js/app.min.js')
+      require('admin-lte/bootstrap/css/bootstrap.css')
+      require('admin-lte/dist/css/AdminLTE.css')
+      require('admin-lte/dist/css/skins/skin-blue.css')
+      require('font-awesome/css/font-awesome.css')
+      require('!script-loader!admin-lte/bootstrap/js/bootstrap.js')
+      require('!script-loader!admin-lte/dist/js/app.min.js')
 
       resolve({ loaded: true })
     }, 'admin-static-assets')
@@ -61,8 +61,8 @@ export function getAdminStaticAssets() {
 export const MediumLoader = function MediumLoader() {
   return new Promise(resolve => {
     require.ensure([], () => {
-      require('style!css!medium-editor/dist/css/medium-editor.css')
-      require('style!css!medium-editor/dist/css/themes/default.css')
+      require('medium-editor/dist/css/medium-editor.css')
+      require('medium-editor/dist/css/themes/default.css')
       resolve(require('medium-editor/dist/js/medium-editor.min.js'))
     }, 'medium-editor')
   })

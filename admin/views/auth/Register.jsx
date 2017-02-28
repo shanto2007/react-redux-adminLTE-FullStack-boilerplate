@@ -14,7 +14,7 @@ import {
   startSignin,
 } from 'actions/actions'
 
-require('style!css!sass!styles/views/register.scss')
+require('styles/views/register.scss')
 
 class Register extends React.Component {
 

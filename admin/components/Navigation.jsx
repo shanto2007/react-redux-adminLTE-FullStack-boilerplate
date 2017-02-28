@@ -6,7 +6,7 @@ import {
   openToastr,
 } from 'actions/actions'
 
-require('!style!css!sass!styles/components/admin-nav.scss')
+require('styles/components/admin-nav.scss')
 
 class Navigation extends React.Component {
 
