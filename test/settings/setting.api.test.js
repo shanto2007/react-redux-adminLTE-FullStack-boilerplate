@@ -13,7 +13,7 @@ describe('Setting - API', () => {
   let userAuthToken
 
   before((done) => {
-    return User.create({
+    User.create({
       admin: true,
       username: 'admin',
       password: 'admin',

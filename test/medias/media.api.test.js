@@ -18,7 +18,7 @@ describe('Media - API', () => {
 
   // Generate User and AuthToken
   before((done) => {
-    return User.create({
+    User.create({
       admin: true,
       username: 'admin',
       password: 'admin',
