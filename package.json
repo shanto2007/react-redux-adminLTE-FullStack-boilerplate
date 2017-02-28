@@ -1,6 +1,6 @@
 {
   "name": "react-redux-adminlte-boilerplate",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "React/Redux + AdminLTE Full Stack Boilerplate",
   "main": "server.js",
   "scripts": {
