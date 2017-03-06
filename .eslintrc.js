@@ -40,6 +40,19 @@ module.exports = {
     "react/require-extension": ["off"],
     "global-require": ["off"],
     "new-cap": ['off'],
-    'jsx-a11y/anchor-has-content': ['off']
+    'jsx-a11y/anchor-has-content': ['off'],
+    'import/extensions': ['off'],
+    'react/require-default-props': ['off'],
+    'react/forbid-prop-types': ['off'],
+    'react/no-unused-prop-types': ['off'],
+    'jsx-a11y/no-static-element-interactions': ['off'],
+    'import/no-webpack-loader-syntax': ['off'],
+    "comma-dangle": ["error", {
+       "arrays": "always-multiline",
+       "objects": "always-multiline",
+       "imports": "always-multiline",
+       "exports": "always-multiline",
+       "functions": "ignore",
+   }]
   },
 }

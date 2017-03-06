@@ -49,14 +49,14 @@ class Settings extends React.Component {
               className="form-control"
               placeholder="Name of the website"
               value={sitename || ''}
-              onChange={(e) => this.setState({ sitename: e.target.value })}
+              onChange={e => this.setState({ sitename: e.target.value })}
             />
             <input
               type="text"
               className="form-control"
               placeholder="email"
               value={mailContact || ''}
-              onChange={(e) => this.setState({ mailContact: e.target.value })}
+              onChange={e => this.setState({ mailContact: e.target.value })}
             />
             <label htmlFor="userJoin">
               Enable new user registration?
@@ -64,7 +64,7 @@ class Settings extends React.Component {
                 className="form-control"
                 name="user-join"
                 defaultValue={joinAllowed}
-                onChange={(e) => this.setState({ joinAllowed: (e.target.value === 'true') })}
+                onChange={e => this.setState({ joinAllowed: (e.target.value === 'true') })}
               >
                 <option value="undefined" disabled>Select an option</option>
                 <option value="true">Yes</option>
@@ -85,6 +85,6 @@ Settings.propTypes = {
   settings: React.PropTypes.object,
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   settings: state.settings,
 }))(Settings)

@@ -163,7 +163,7 @@ class Register extends React.Component {
     return (
       <div id="signin-form">
         <h1 className="title">Register</h1>
-        <img className="register-logo" title="Globus Cup Register" src="//:0" role="presentation" />
+        <img className="register-logo" title="Globus Cup Register" src="//:0" alt="presentation" />
         <form>
           <input
             ref={(c) => { this.usernameInput = c }}
@@ -202,7 +202,7 @@ class Register extends React.Component {
           />
           {this.formPasswordCheckErrorHandler()}
           <div>
-            <button className="register-button" onClick={(e) => this.onRegister(e)}>
+            <button className="register-button" onClick={e => this.onRegister(e)}>
               {this.registerButtonHtml()}
             </button>
           </div>
@@ -217,6 +217,6 @@ Register.propTypes = {
   dispatch: React.PropTypes.func,
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   signin: state.signin,
 }))(Register)

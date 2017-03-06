@@ -5,12 +5,12 @@ export const mailLoading = (loading = false) => ({
   loading,
 })
 
-export const mailSuccess = (success) => ({
+export const mailSuccess = success => ({
   type: 'MAIL_SUCCESS',
   success,
 })
 
-export const mailFail = (fail) => ({
+export const mailFail = fail => ({
   type: 'MAIL_FAIL',
   fail,
 })

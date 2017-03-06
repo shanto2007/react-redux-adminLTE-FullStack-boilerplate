@@ -44,7 +44,7 @@ class PostList extends React.Component {
     if (posts) {
       return posts.map((post, i) => {
         return (
-          <tr key={i}>
+          <tr key={post._id}>
             <td>
               <Link to={`/admin/post/${post._id}`}><i className="fa fa-pencil fa-2x pointer"></i></Link>
             </td>
@@ -52,7 +52,7 @@ class PostList extends React.Component {
             <td>{post.type}</td>
             <td>{Moment(post.date).format('lll')}</td>
             <th>
-              <i className="fa fa-remove pointer fa-2x" onClick={(e) => this.onPostRemove(e, post)}></i>
+              <i className="fa fa-remove pointer fa-2x" onClick={e => this.onPostRemove(e, post)}></i>
             </th>
           </tr>
         )
@@ -95,6 +95,6 @@ PostList.propTypes = {
 }
 
 
-export default connect((state) => ({
+export default connect(state => ({
   posts: state.posts,
 }))(PostList)

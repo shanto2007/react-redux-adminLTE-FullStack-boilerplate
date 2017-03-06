@@ -62,17 +62,17 @@ class Login extends React.Component {
     return (
       <div id="login-form">
         <h1 className="title">Login</h1>
-        <img className="register-logo" title="Globus Cup Register" src="//:0" role="presentation" />
+        <img className="register-logo" title="Globus Cup Register" src="//:0" alt="presentation" />
         <form>
           <input className="form-control" id="username-input" type="email" ref={(c) => { this.userEmail = c }} placeholder="email" />
           <input className="form-control" id="password-input" type="password" ref={(c) => { this.passwordInput = c }} placeholder="password" />
-          <button className="login-button" onClick={(e) => this.loginHandler(e)}>
+          <button className="login-button" onClick={e => this.loginHandler(e)}>
             {this.loadingHandler()}
           </button>
         </form>
         {this.formErrorHandler()}
         <p className="sign-in-cta">
-          Don't you have an account? &nbsp;
+          Don&apos;t you have an account? &nbsp;
           <Link to="/register">sign in</Link>
         </p>
       </div>

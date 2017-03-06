@@ -11,4 +11,4 @@ export const authTokenStorageHandler = (authToken) => {
 
 export const getTokenFromStorage = () => window.localStorage.getItem('bt');
 
-export const setTokenFromStorage = (authToken) => window.localStorage.setItem('bt', authToken);
+export const setTokenFromStorage = authToken => window.localStorage.setItem('bt', authToken);

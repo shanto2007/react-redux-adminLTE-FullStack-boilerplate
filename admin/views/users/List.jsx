@@ -25,7 +25,7 @@ class AdminUserList extends React.Component {
     const { users } = this.props
     if (users) {
       return users.map((user, i) => (
-        <tr key={i}>
+        <tr key={user._id}>
           <td style={{ cursor: 'pointer' }} onClick={() => this.onDeleteUser(user)}> <i className="fa fa-remove"></i> </td>
           <td>{ user.username }</td>
           <td>{ user.admin ? 'admin' : 'normal' }</td>
@@ -60,6 +60,6 @@ AdminUserList.propTypes = {
   users: React.PropTypes.array,
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   users: state.users.users,
 }))(AdminUserList)

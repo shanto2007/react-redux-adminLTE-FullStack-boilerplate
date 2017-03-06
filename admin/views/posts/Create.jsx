@@ -38,7 +38,7 @@ class PostCreate extends React.Component {
           <Box title="Post Controls">
             <button
               className="btn btn-block btn-primary"
-              onClick={(e) => this.onSave(e)}
+              onClick={e => this.onSave(e)}
             >
               <i className="fa fa-save"></i> Save
             </button>
@@ -57,6 +57,6 @@ PostCreate.propTypes = {
 }
 
 
-export default connect((state) => ({
+export default connect(state => ({
   loading: state.posts.loading,
 }))(PostCreate)

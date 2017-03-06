@@ -5,27 +5,27 @@ import { openToastr } from './toastr.action'
 /**
  * SIGNIN ACTIONS
  */
-export const signinFetching = (fetching) => ({
+export const signinFetching = fetching => ({
   type: 'SIGNIN_FETCHING',
   fetching,
 })
 
-export const usernameExist = (exist) => ({
+export const usernameExist = exist => ({
   type: 'NEW_USERNAME_EXIST',
   exist,
 })
 
-export const emailExist = (exist) => ({
+export const emailExist = exist => ({
   type: 'NEW_USERNAME_EMAIL_EXIST',
   exist,
 })
 
-export const validPassword = (valid) => ({
+export const validPassword = valid => ({
   type: 'VALID_PASSWORD',
   valid,
 })
 
-export const validPasswordCheck = (valid) => ({
+export const validPasswordCheck = valid => ({
   type: 'VALID_PASSWORD_CHECK',
   valid,
 })
@@ -40,17 +40,17 @@ export const signinEmailError = (error = null) => ({
   error,
 })
 
-export const signinPasswordError = (error) => ({
+export const signinPasswordError = error => ({
   type: 'SIGNIN_PASSWORD_ERROR',
   error,
 })
 
-export const signinPasswordCheckError = (error) => ({
+export const signinPasswordCheckError = error => ({
   type: 'SIGNIN_PASSWORD_CHECK_ERROR',
   error,
 })
 
-export const signInSuccess = (success) => ({
+export const signInSuccess = success => ({
   type: 'SIGNIN_SUCCESSFUL',
   success,
 })

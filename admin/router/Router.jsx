@@ -14,7 +14,7 @@ const genRoutes = (AdminRouter) => {
     },
     {
       path: '/register',
-      getComponents: (a, cb) => require.ensure([], require => { cb(null, require('views/auth/Register').default) }),
+      getComponents: (a, cb) => require.ensure([], (require) => { cb(null, require('views/auth/Register').default) }),
     },
     {
       path: '/admin',

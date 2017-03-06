@@ -188,7 +188,7 @@ class AdminUserPage extends React.Component {
               </span>
             </div>
             <button
-              className="btn btn-primary pull-right" onClick={(e) => this.onEmailChange(e)}
+              className="btn btn-primary pull-right" onClick={e => this.onEmailChange(e)}
               disabled={!this.state.newEmail.length || !newEmailValid || account.checkEmailExist}
             >
               CHANGE EMAIL
@@ -204,7 +204,7 @@ class AdminUserPage extends React.Component {
                 name="current-password"
                 type="password"
                 ref={(c) => { this.currentPasswordInput = c }}
-                onChange={(e) => this.onPasswordCheck(e)}
+                onChange={e => this.onPasswordCheck(e)}
               />
               <span className={`help-block ${!account.checkPassword ? '' : 'hide'}`}> Invalid Password </span>
               <span className="help-block">
@@ -218,7 +218,7 @@ class AdminUserPage extends React.Component {
                 name="new-password"
                 type="password"
                 ref={(c) => { this.newPasswordInput = c }}
-                onChange={(e) => this.onNewPasswordInput(e)}
+                onChange={e => this.onNewPasswordInput(e)}
               />
               <span className={`help-block ${!newPasswordValid ? '' : 'hide'}`}> { this.state.newPasswordError} </span>
               <span className="help-block">
@@ -232,7 +232,7 @@ class AdminUserPage extends React.Component {
                 className="form-control"
                 name="retype-new-password"
                 type="password"
-                onChange={(e) => this.onNewPasswordCheckInput(e)}
+                onChange={e => this.onNewPasswordCheckInput(e)}
               />
               <span className={`help-block ${!newPasswordCheckValid ? '' : 'hide'}`}> { this.state.newPasswordCheckError} </span>
               <span className="help-block">
@@ -240,7 +240,7 @@ class AdminUserPage extends React.Component {
               </span>
             </div>
             <button
-              className="btn btn-primary pull-right" onClick={(e) => this.onPasswordChange(e)}
+              className="btn btn-primary pull-right" onClick={e => this.onPasswordChange(e)}
               disabled={!newPasswordValid || !newPasswordCheckValid || !account.checkPassword}
             >
               CHANGE PASSWORD
@@ -260,7 +260,7 @@ AdminUserPage.propTypes = {
   account: React.PropTypes.object,
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   user: state.account.user,
   account: state.account,
 }))(AdminUserPage)

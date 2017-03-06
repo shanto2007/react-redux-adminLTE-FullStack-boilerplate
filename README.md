@@ -276,9 +276,17 @@ npm test
 
 ## <a name="9"></a> Changelogs
 
+**FIX 0.6.0**
+
+- Moved to webpack2
+  - Fixed compatibility issue
+- Upgraded packages to latest version
+  - Fixed generated errors
+
 **FIX 0.5.1**
-  - api routes prepended with admin as /api/**admin**/somethingelse REMOVED, old Boilerplate used React both for public and admin dashboard, it was usefull splitting route per context, but is the case nomore.
-  - Better ReadMe :)
+
+- api routes prepended with admin as /api/**admin**/somethingelse REMOVED, old Boilerplate used React both for public and admin dashboard, it was usefull splitting route per context, but is the case nomore.
+- Better ReadMe :)
 
 **NEW 0.5**
 

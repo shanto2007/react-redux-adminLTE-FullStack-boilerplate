@@ -53,12 +53,12 @@ class PostEdit extends React.Component {
           <div className="post-image-wrapper">
             <i
               className="fa fa-remove pointer remove-button"
-              onClick={(e) => this.onDeletePostFeatured(e, post)}
+              onClick={e => this.onDeletePostFeatured(e, post)}
               data-toggle="tooltip"
               title="Remove Media"
             >
             </i>
-            <img className="img-responsive" src={post.media.path} role="presentation" />
+            <img className="img-responsive" src={post.media.path} alt="presentation" />
           </div>
         )
       }
@@ -71,7 +71,7 @@ class PostEdit extends React.Component {
             <Box title="Post Controls">
               <button
                 className="btn btn-block btn-warning"
-                onClick={(e) => this.onEdit(e)}
+                onClick={e => this.onEdit(e)}
               >
                 <i className="fa fa-pencil"></i> Edit
               </button>
@@ -96,7 +96,7 @@ PostEdit.propTypes = {
 }
 
 
-export default connect((state) => ({
+export default connect(state => ({
   loading: state.posts.loading,
   post: state.posts.post,
 }))(PostEdit)

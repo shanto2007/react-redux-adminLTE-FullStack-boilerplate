@@ -128,7 +128,7 @@ Navigation.propTypes = {
   dispatch: React.PropTypes.func,
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   account: state.account,
   seasons: state.seasons,
   router: state.router,

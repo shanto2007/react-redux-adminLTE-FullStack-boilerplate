@@ -41,15 +41,15 @@ store.subscribe(() => {
 store.dispatch(setAuthToken(authTokenLocalStorage.getTokenFromStorage()))
 
 // Styles
-require.ensure([], require => {
+require.ensure([], (require) => {
   require('styles/main.scss')
 }, 'app-styles')
 
-require.ensure([], require => {
+require.ensure([], (require) => {
   require('toastr/build/toastr.css')
 }, 'admin-static-assets-styles')
 
 render(
   <Router store={store} />,
-  document.getElementById('app')
+  document.getElementById('app'),
 )

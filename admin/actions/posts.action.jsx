@@ -6,12 +6,12 @@ export const postLoading = (loading = false) => ({
   loading,
 })
 
-export const postSuccess = (success) => ({
+export const postSuccess = success => ({
   type: 'POST_SUCCESS',
   success,
 })
 
-export const postFail = (fail) => ({
+export const postFail = fail => ({
   type: 'POST_FAIL',
   fail,
 })
@@ -34,12 +34,12 @@ export const setSinglePost = (post = {}) => ({
   post,
 })
 
-export const setSinglePostTitle = (title) => ({
+export const setSinglePostTitle = title => ({
   type: 'SET_SINGLE_POST_TITLE',
   title,
 })
 
-export const setSinglePostBody = (body) => ({
+export const setSinglePostBody = body => ({
   type: 'SET_SINGLE_POST_BODY',
   body,
 })
